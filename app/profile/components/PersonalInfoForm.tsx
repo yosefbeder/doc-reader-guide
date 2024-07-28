@@ -1,42 +1,41 @@
 "use client";
 
 import { useFormState } from "react-dom";
-import Link from "next/link";
 
-import { signup } from "@/lib/actions";
+import { updatePersonalInfo } from "@/lib/actions";
 
-export default function SignupPage() {
-  const [formState, formAction] = useFormState(signup, {});
+export default function PersonalInfoForm({ user }: { user: any }) {
+  const [fromState, formAction] = useFormState(updatePersonalInfo, {});
 
   return (
-    <main>
-      {formState.message && <p>{formState.message}</p>}
+    <>
+      {fromState?.message && <p>{fromState.message}</p>}
       <form action={formAction}>
         <label htmlFor="name">اسم المستخدم</label>
-        <input type="text" name="name" id="name" required />
+        <input type="text" name="name" id="name" defaultValue={user.name} />
         <label htmlFor="email">البريد الإلكتروني</label>
-        <input type="email" name="email" id="email" required />
-        <label htmlFor="password">كلمة المرور</label>
-        <input type="password" name="password" id="password" required />
+        <input type="email" name="email" id="email" defaultValue={user.email} />
+        <button type="submit">تعديل</button>
         <label htmlFor="faculty">الكلية</label>
-        <select name="faculty" id="faculty" required>
+        <select
+          name="faculty"
+          id="faculty"
+          disabled
+          defaultValue={user.facultyId}
+        >
           <option value={1}>كلية الطب جامعة الأزهر دمياط الجديدة</option>
           <option value={2}>القصر العيني جامعة القاهرة</option>
           <option value={3}>كلية الطب جامعة عين شمس</option>
         </select>
         <label htmlFor="year">السنة الدراسية</label>
-        <select name="year" id="year" required>
+        <select name="year" id="year" disabled defaultValue={user.yearId}>
           <option value={1}>الأولى</option>
           <option value={2}>الثانية</option>
           <option value={3}>الثالثة</option>
           <option value={4}>الرابعة</option>
           <option value={5}>الخامسة</option>
         </select>
-        <div>
-          <button type="submit">إنشاء حساب جديد</button>
-          <Link href="/login">تسجيل الدخول</Link>
-        </div>
       </form>
-    </main>
+    </>
   );
 }

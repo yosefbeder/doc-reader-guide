@@ -9,7 +9,7 @@ export async function login(
   _prevState: FormState,
   formData: FormData
 ): Promise<FormState> {
-  const loginData = {
+  const data = {
     email: formData.get("email"),
     password: formData.get("password"),
   };
@@ -19,7 +19,7 @@ export async function login(
     headers: {
       "content-type": "application/json;charset=UTF-8",
     },
-    body: JSON.stringify(loginData),
+    body: JSON.stringify(data),
   });
 
   const json = await res.json();
@@ -28,7 +28,7 @@ export async function login(
     cookies().set("jwt", json.data.token);
     redirect("/");
   } else {
-    return { errorMessage: json.message };
+    return { message: json.message };
   }
 }
 
@@ -36,7 +36,7 @@ export async function signup(
   _prevState: FormState,
   formData: FormData
 ): Promise<FormState> {
-  const signupData = {
+  const data = {
     name: formData.get("name"),
     email: formData.get("email"),
     password: formData.get("password"),
@@ -49,7 +49,7 @@ export async function signup(
     headers: {
       "content-type": "application/json;charset=UTF-8",
     },
-    body: JSON.stringify(signupData),
+    body: JSON.stringify(data),
   });
 
   const json = await res.json();
@@ -58,6 +58,53 @@ export async function signup(
     cookies().set("jwt", json.data.token);
     redirect("/");
   } else {
-    return { errorMessage: json.message };
+    return { message: json.message };
   }
+}
+
+export async function updatePersonalInfo(
+  _prevState: FormState,
+  formData: FormData
+): Promise<FormState> {
+  const data = {
+    name: formData.get("name"),
+    email: formData.get("email"),
+  };
+
+  const res = await fetch(`${process.env.API_URL}/user/update`, {
+    method: "PATCH",
+    headers: {
+      "content-type": "application/json;charset=UTF-8",
+      authorization: `Bearer ${cookies().get("jwt")!.value}`,
+    },
+    body: JSON.stringify(data),
+  });
+
+  const json = await res.json();
+
+  return { message: json.message };
+}
+
+export async function updatePassword(
+  _prevState: FormState,
+  formData: FormData
+): Promise<FormState> {
+  const data = {
+    currentPassword: formData.get("current-password"),
+    newPassword: formData.get("new-password"),
+    confirmationPassword: formData.get("new-password"), // TO BE REMOVED
+  };
+
+  const res = await fetch(`${process.env.API_URL}/user/change-password`, {
+    method: "POST",
+    headers: {
+      "content-type": "application/json;charset=UTF-8",
+      authorization: `Bearer ${cookies().get("jwt")!.value}`,
+    },
+    body: JSON.stringify(data),
+  });
+
+  const json = await res.json();
+
+  return { message: json.message };
 }

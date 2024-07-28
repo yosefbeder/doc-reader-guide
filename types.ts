@@ -1,3 +1,3 @@
 export interface FormState {
-  errorMessage?: string;
+  message?: string;
 }

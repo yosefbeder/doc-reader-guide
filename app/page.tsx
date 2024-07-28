@@ -1,19 +1,10 @@
-"use client";
+import Link from "next/link";
 
-import Cookies from "js-cookie";
-import { useRouter } from "next/navigation";
-
-export default function Home() {
-  const router = useRouter();
-
+export default function HomePage() {
   return (
-    <button
-      onClick={() => {
-        Cookies.remove("jwt");
-        router.replace("/login");
-      }}
-    >
-      تسجيل الخروج
-    </button>
+    <main>
+      <h1>الصفحة الرئيسية</h1>
+      <Link href="/profile">البيانات الشخصية</Link>
+    </main>
   );
 }

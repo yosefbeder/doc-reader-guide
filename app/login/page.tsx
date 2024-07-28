@@ -10,7 +10,7 @@ export default function LoginPage() {
 
   return (
     <main>
-      {formState && <p>{formState.errorMessage}</p>}
+      {formState && <p>{formState.message}</p>}
       <form action={formAction}>
         <label htmlFor="email">البريد الإلكتروني</label>
         <input type="email" name="email" id="email" required />
