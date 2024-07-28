@@ -4,6 +4,7 @@ import { useFormState } from "react-dom";
 import Link from "next/link";
 
 import { signup } from "@/lib/actions";
+import SubmitButton from "@/components/SubmitButton";
 
 export default function SignupPage() {
   const [formState, formAction] = useFormState(signup, {});
@@ -33,7 +34,7 @@ export default function SignupPage() {
           <option value={5}>الخامسة</option>
         </select>
         <div>
-          <button type="submit">إنشاء حساب جديد</button>
+          <SubmitButton>إنشاء حساب جديد</SubmitButton>
           <Link href="/login">تسجيل الدخول</Link>
         </div>
       </form>

@@ -4,6 +4,7 @@ import { useFormState } from "react-dom";
 import Link from "next/link";
 
 import { login } from "@/lib/actions";
+import SubmitButton from "@/components/SubmitButton";
 
 export default function LoginPage() {
   const [formState, formAction] = useFormState(login, {});
@@ -16,7 +17,7 @@ export default function LoginPage() {
         <input type="email" name="email" id="email" required />
         <label htmlFor="password">كلمة المرور</label>
         <input type="password" name="password" id="password" required />
-        <button type="submit">تسجيل الدخول</button>
+        <SubmitButton>تسجيل الدخول</SubmitButton>
         <Link href="/signup">إنشاء حساب جديد</Link>
       </form>
     </main>
