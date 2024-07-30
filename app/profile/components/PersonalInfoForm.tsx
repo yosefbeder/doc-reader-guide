@@ -4,8 +4,9 @@ import { useFormState } from "react-dom";
 
 import { updatePersonalInfo } from "@/lib/actions";
 import SubmitButton from "@/components/SubmitButton";
+import { User } from "@/types";
 
-export default function PersonalInfoForm({ user }: { user: any }) {
+export default function PersonalInfoForm({ user }: { user: User }) {
   const [fromState, formAction] = useFormState(updatePersonalInfo, {});
 
   return (
