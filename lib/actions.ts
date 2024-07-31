@@ -40,6 +40,7 @@ export async function signup(
     name: formData.get("name"),
     email: formData.get("email"),
     password: formData.get("password"),
+    confirmationPassword: formData.get("confirmation-password"),
     facultyId: Number.parseInt(formData.get("faculty") as string),
     yearId: Number.parseInt(formData.get("year") as string),
   };
@@ -92,7 +93,7 @@ export async function updatePassword(
   const data = {
     currentPassword: formData.get("current-password"),
     newPassword: formData.get("new-password"),
-    confirmationPassword: formData.get("new-password"), // TO BE REMOVED
+    confirmationPassword: formData.get("confirmation-password"),
   };
 
   const res = await fetch(`${process.env.API_URL}/user/change-password`, {

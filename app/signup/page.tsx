@@ -19,6 +19,13 @@ export default function SignupPage() {
         <input type="email" name="email" id="email" required />
         <label htmlFor="password">كلمة المرور</label>
         <input type="password" name="password" id="password" required />
+        <label htmlFor="confirmation-password">تأكيد كلمة المرور</label>
+        <input
+          type="password"
+          name="confirmation-password"
+          id="confirmation-password"
+          required
+        />
         <label htmlFor="faculty">الكلية</label>
         <select name="faculty" id="faculty" required>
           <option value={1}>كلية الطب جامعة الأزهر دمياط الجديدة</option>

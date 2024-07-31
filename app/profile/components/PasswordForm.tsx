@@ -16,6 +16,12 @@ export default function PasswordForm(user: any) {
         <input type="password" name="current-password" id="current-password" />
         <label htmlFor="new-password">كلمة المرور الجديدة</label>
         <input type="password" name="new-password" id="new-password" />
+        <label htmlFor="confirmation-password">تأكيد كلمة المرور الجديدة</label>
+        <input
+          type="password"
+          name="confirmation-password"
+          id="confirmation-password"
+        />
         <SubmitButton>تعديل</SubmitButton>
       </form>
     </>
