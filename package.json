@@ -11,7 +11,6 @@
   "dependencies": {
     "js-cookie": "^3.0.5",
     "jsonwebtoken": "^9.0.2",
-    "modern-normalize": "^2.0.0",
     "next": "14.2.5",
     "react": "^18",
     "react-dom": "^18"
@@ -22,8 +21,11 @@
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "autoprefixer": "^10.4.19",
     "eslint": "^8",
     "eslint-config-next": "14.2.5",
+    "postcss": "^8.4.40",
+    "tailwindcss": "^3.4.7",
     "typescript": "^5"
   }
 }

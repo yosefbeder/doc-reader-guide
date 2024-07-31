@@ -1,12 +1,3 @@
-body {
-  padding: 1rem;
-}
-
-form label,
-form input,
-form select,
-form button,
-form a {
-  display: block;
-  margin-bottom: 0.5rem;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
