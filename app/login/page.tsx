@@ -2,24 +2,55 @@
 
 import { useFormState } from "react-dom";
 import Link from "next/link";
+import Image from "next/image";
+import { useState } from "react";
 
 import { login } from "@/lib/actions";
-import SubmitButton from "@/components/SubmitButton";
+import Logo from "@/public/logo.png";
+import ErrorViewer from "@/components/ErrorViewer";
+import ButtonSubmit from "@/components/ButtonSubmit";
+import Input from "@/components/Input";
 
 export default function LoginPage() {
   const [formState, formAction] = useFormState(login, {});
+  const [hover, setHover] = useState(false);
 
   return (
-    <main>
-      {formState && <p>{formState.message}</p>}
-      <form action={formAction}>
-        <label htmlFor="email">البريد الإلكتروني</label>
-        <input type="email" name="email" id="email" required />
-        <label htmlFor="password">كلمة المرور</label>
-        <input type="password" name="password" id="password" required />
-        <SubmitButton>تسجيل الدخول</SubmitButton>
-        <Link href="/signup">إنشاء حساب جديد</Link>
+    <main
+      className={`card flex flex-col items-center gap-4 ${hover && "hover"}`}
+    >
+      <Image src={Logo} width={128} alt="Logo" />
+      <h1>دوكريدر جايد</h1>
+      <form action={formAction} className="w-full">
+        <Input
+          label="البريد الإلكتروني"
+          icon="envelope"
+          type="email"
+          name="email"
+          id="email"
+          required
+          className="mb-4"
+        />
+        <Input
+          label="كلمة المرور"
+          icon="eye-slash"
+          type="password"
+          name="password"
+          id="password"
+          required
+          className="mb-4"
+        />
+        {formState.message && (
+          <ErrorViewer className="mb-4">{formState.message}</ErrorViewer>
+        )}
+        <ButtonSubmit
+          onMouseEnter={() => setHover(true)}
+          onMouseLeave={() => setHover(false)}
+        >
+          تسجيل الدخول
+        </ButtonSubmit>
       </form>
+      <Link href="/signup">إنشاء حساب جديد</Link>
     </main>
   );
 }

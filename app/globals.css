@@ -1,3 +1,29 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  body {
+    @apply text-lg text-slate-700;
+  }
+}
+
+@layer components {
+  h1 {
+    @apply text-4xl font-black text-slate-900;
+  }
+
+  a {
+    @apply underline text-blue-600 hover:text-blue-700 active:text-blue-800 transition-colors;
+  }
+}
+
+@layer utilities {
+  .card {
+    @apply max-w-lg mx-auto my-8 p-8 rounded-xl bg-[length:auto_200%] bg-top bg-gradient-to-t from-blue-50 to-slate-50 to-15% border-2 border-slate-200 transition-[background-position];
+  }
+
+  .card.hover {
+    @apply bg-bottom;
+  }
+}

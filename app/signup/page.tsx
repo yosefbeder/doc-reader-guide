@@ -1,50 +1,103 @@
 "use client";
 
+import { useState } from "react";
 import { useFormState } from "react-dom";
 import Link from "next/link";
+import Image from "next/image";
 
 import { signup } from "@/lib/actions";
-import SubmitButton from "@/components/SubmitButton";
+import ButtonSubmit from "@/components/ButtonSubmit";
+import Logo from "@/public/logo.png";
+import ErrorViewer from "@/components/ErrorViewer";
+import Input from "@/components/Input";
+import Select from "@/components/Select";
 
 export default function SignupPage() {
   const [formState, formAction] = useFormState(signup, {});
+  const [hover, setHover] = useState(false);
 
   return (
-    <main>
-      {formState.message && <p>{formState.message}</p>}
-      <form action={formAction}>
-        <label htmlFor="name">اسم المستخدم</label>
-        <input type="text" name="name" id="name" required />
-        <label htmlFor="email">البريد الإلكتروني</label>
-        <input type="email" name="email" id="email" required />
-        <label htmlFor="password">كلمة المرور</label>
-        <input type="password" name="password" id="password" required />
-        <label htmlFor="confirmation-password">تأكيد كلمة المرور</label>
-        <input
+    <main
+      className={`card flex flex-col items-center gap-4 ${hover && "hover"}`}
+    >
+      <Image src={Logo} width={128} alt="Logo" />
+      <h1>دوكريدر جايد</h1>
+      <form action={formAction} className="w-full">
+        <Input
+          label="اسم المستخدم"
+          icon="user"
+          type="text"
+          name="name"
+          id="name"
+          required
+          className="mb-4"
+        />
+        <Input
+          label="البريد الإلكتروني"
+          icon="envelope"
+          type="email"
+          name="email"
+          id="email"
+          required
+          className="mb-4"
+        />
+        <Input
+          label="كلمة المرور"
+          icon="eye-slash"
+          type="password"
+          name="password"
+          id="password"
+          required
+          className="mb-4"
+        />
+        <Input
+          label="تأكيد كلمة المرور"
+          icon="eye-slash"
           type="password"
           name="confirmation-password"
           id="confirmation-password"
           required
+          className="mb-4"
         />
-        <label htmlFor="faculty">الكلية</label>
-        <select name="faculty" id="faculty" required>
-          <option value={1}>كلية الطب جامعة الأزهر دمياط الجديدة</option>
-          <option value={2}>القصر العيني جامعة القاهرة</option>
-          <option value={3}>كلية الطب جامعة عين شمس</option>
-        </select>
-        <label htmlFor="year">السنة الدراسية</label>
-        <select name="year" id="year" required>
-          <option value={1}>الأولى</option>
-          <option value={2}>الثانية</option>
-          <option value={3}>الثالثة</option>
-          <option value={4}>الرابعة</option>
-          <option value={5}>الخامسة</option>
-        </select>
-        <div>
-          <SubmitButton>إنشاء حساب جديد</SubmitButton>
-          <Link href="/login">تسجيل الدخول</Link>
-        </div>
+        <Select
+          label="الكلية"
+          icon="building-library"
+          options={[
+            { value: 1, label: "كلية الطب جامعة الأزهر دمياط الجديدة" },
+            { value: 2, label: "القصر العيني جامعة القاهرة" },
+            { value: 3, label: "كلية الطب جامعة عين شمس" },
+          ]}
+          name="faculty"
+          id="faculty"
+          required
+          className="mb-4"
+        />
+        <Select
+          label="السنة الدراسية"
+          icon="calendar"
+          options={[
+            { value: 1, label: "الأولى" },
+            { value: 2, label: "الثاني" },
+            { value: 3, label: "الثالث" },
+            { value: 4, label: "الرابع" },
+            { value: 5, label: "الخامس" },
+          ]}
+          name="year"
+          id="year"
+          required
+          className="mb-4"
+        />
+        {formState.message && (
+          <ErrorViewer className="mb-4">{formState.message}</ErrorViewer>
+        )}
+        <ButtonSubmit
+          onMouseEnter={() => setHover(true)}
+          onMouseLeave={() => setHover(false)}
+        >
+          إنشاء حساب جديد
+        </ButtonSubmit>
       </form>
+      <Link href="/login">تسجيل الدخول</Link>
     </main>
   );
 }

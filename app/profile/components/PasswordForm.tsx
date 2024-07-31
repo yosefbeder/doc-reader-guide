@@ -3,7 +3,7 @@
 import { useFormState } from "react-dom";
 
 import { updatePassword } from "@/lib/actions";
-import SubmitButton from "@/components/SubmitButton";
+import ButtonSubmit from "@/components/ButtonSubmit";
 
 export default function PasswordForm(user: any) {
   const [fromState, formAction] = useFormState(updatePassword, {});
@@ -22,7 +22,7 @@ export default function PasswordForm(user: any) {
           name="confirmation-password"
           id="confirmation-password"
         />
-        <SubmitButton>تعديل</SubmitButton>
+        <ButtonSubmit>تعديل</ButtonSubmit>
       </form>
     </>
   );

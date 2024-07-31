@@ -3,7 +3,7 @@
 import { useFormState } from "react-dom";
 
 import { updatePersonalInfo } from "@/lib/actions";
-import SubmitButton from "@/components/SubmitButton";
+import ButtonSubmit from "@/components/ButtonSubmit";
 import { User } from "@/types";
 
 export default function PersonalInfoForm({ user }: { user: User }) {
@@ -17,7 +17,7 @@ export default function PersonalInfoForm({ user }: { user: User }) {
         <input type="text" name="name" id="name" defaultValue={user.name} />
         <label htmlFor="email">البريد الإلكتروني</label>
         <input type="email" name="email" id="email" defaultValue={user.email} />
-        <SubmitButton>تعديل</SubmitButton>
+        <ButtonSubmit>تعديل</ButtonSubmit>
         <label htmlFor="faculty">الكلية</label>
         <select
           name="faculty"
