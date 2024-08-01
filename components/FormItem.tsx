@@ -17,18 +17,16 @@ export default function FormItem({
   children: React.ReactNode;
 }) {
   return (
-    <>
-      <label htmlFor={id} className="block mb-2">
-        {label}
-      </label>
+    <label htmlFor={id}>
+      <span className="block mb-2">{label}</span>
       <div
         className={`flex items-center gap-2 rounded-md p-2 border-2 bg-white transition-colors ${
           focus ? "border-blue-600" : "border-slate-200"
         } ${className}`}
       >
-        <label htmlFor={id}>{icons[icon]}</label>
+        {icons[icon]}
         {children}
       </div>
-    </>
+    </label>
   );
 }
