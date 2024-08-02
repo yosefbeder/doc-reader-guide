@@ -8,7 +8,7 @@ import Image from "next/image";
 import { signup } from "@/lib/actions";
 import ButtonSubmit from "@/components/ButtonSubmit";
 import Logo from "@/public/logo.png";
-import ErrorViewer from "@/components/ErrorViewer";
+import Message from "@/components/Message";
 import Input from "@/components/Input";
 import Select from "@/components/Select";
 
@@ -87,10 +87,13 @@ export default function SignupPage() {
           required
           className="mb-4"
         />
-        {formState.message && (
-          <ErrorViewer className="mb-4">{formState.message}</ErrorViewer>
+        {formState.message && formState.type && (
+          <Message type={formState.type} className="mb-4">
+            {formState.message}
+          </Message>
         )}
         <ButtonSubmit
+          fullWidth
           onMouseEnter={() => setHover(true)}
           onMouseLeave={() => setHover(false)}
         >

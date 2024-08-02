@@ -1,4 +1,5 @@
 import React from "react";
+
 import { Icon, icons } from "./icons";
 
 export default function FormItem({
@@ -7,6 +8,7 @@ export default function FormItem({
   icon,
   focus,
   className,
+  disabled,
   children,
 }: {
   label: string;
@@ -14,6 +16,7 @@ export default function FormItem({
   focus: boolean;
   id?: string;
   className?: string;
+  disabled?: boolean;
   children: React.ReactNode;
 }) {
   return (
@@ -22,7 +25,7 @@ export default function FormItem({
       <div
         className={`flex items-center gap-2 rounded-md p-2 border-2 bg-white transition-colors ${
           focus ? "border-blue-600" : "border-slate-200"
-        } ${className}`}
+        } ${disabled && "text-slate-400 cursor-not-allowed"} ${className}`}
       >
         {icons[icon]}
         {children}

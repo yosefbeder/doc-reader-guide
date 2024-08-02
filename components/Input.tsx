@@ -17,6 +17,7 @@ export default function Input({
   className,
   onFocus,
   onBlur,
+  disabled,
   ...props
 }: InputProps) {
   const [focus, setFocus] = useState(false);
@@ -28,10 +29,11 @@ export default function Input({
       focus={focus}
       id={id}
       className={className}
+      disabled={disabled}
     >
       <input
         id={id}
-        className="grow focus:outline-none"
+        className="grow disabled:pointer-events-none focus:outline-none"
         onFocus={(e) => {
           setFocus(true);
           if (onFocus) onFocus(e);
@@ -40,6 +42,7 @@ export default function Input({
           setFocus(false);
           if (onBlur) onBlur(e);
         }}
+        disabled={disabled}
         {...props}
       />
     </FormItem>

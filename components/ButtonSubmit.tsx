@@ -1,15 +1,15 @@
 "use client";
 
-import React from "react";
-import Button from "./Button";
 import { useFormStatus } from "react-dom";
+
+import Button, { ButtonProps } from "./Button";
 
 export default function ButtonSubmit({
   type: _type,
   disabled: _disabled,
   children,
   ...props
-}: React.ComponentProps<"button">) {
+}: ButtonProps) {
   const { pending } = useFormStatus();
 
   return (

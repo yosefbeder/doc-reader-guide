@@ -5,39 +5,73 @@ import { useFormState } from "react-dom";
 import { updatePersonalInfo } from "@/lib/actions";
 import ButtonSubmit from "@/components/ButtonSubmit";
 import { User } from "@/types";
+import Input from "@/components/Input";
+import Message from "@/components/Message";
+import Select from "@/components/Select";
 
 export default function PersonalInfoForm({ user }: { user: User }) {
-  const [fromState, formAction] = useFormState(updatePersonalInfo, {});
+  const [formState, formAction] = useFormState(updatePersonalInfo, {});
 
   return (
-    <>
-      {fromState?.message && <p>{fromState.message}</p>}
-      <form action={formAction}>
-        <label htmlFor="name">اسم المستخدم</label>
-        <input type="text" name="name" id="name" defaultValue={user.name} />
-        <label htmlFor="email">البريد الإلكتروني</label>
-        <input type="email" name="email" id="email" defaultValue={user.email} />
-        <ButtonSubmit>تعديل</ButtonSubmit>
-        <label htmlFor="faculty">الكلية</label>
-        <select
-          name="faculty"
-          id="faculty"
-          disabled
-          defaultValue={user.facultyId}
-        >
-          <option value={1}>كلية الطب جامعة الأزهر دمياط الجديدة</option>
-          <option value={2}>القصر العيني جامعة القاهرة</option>
-          <option value={3}>كلية الطب جامعة عين شمس</option>
-        </select>
-        <label htmlFor="year">السنة الدراسية</label>
-        <select name="year" id="year" disabled defaultValue={user.yearId}>
-          <option value={1}>الأولى</option>
-          <option value={2}>الثانية</option>
-          <option value={3}>الثالثة</option>
-          <option value={4}>الرابعة</option>
-          <option value={5}>الخامسة</option>
-        </select>
-      </form>
-    </>
+    <form action={formAction} className="max-w-lg">
+      <Input
+        label="اسم المستخدم"
+        icon="user"
+        type="text"
+        name="name"
+        id="name"
+        required
+        defaultValue={user.name}
+        className="mb-4"
+      />
+      <Input
+        label="البريد الإلكتروني"
+        icon="envelope"
+        type="email"
+        name="email"
+        id="email"
+        required
+        defaultValue={user.email}
+        className="mb-4"
+      />
+      {formState.message && formState.type && (
+        <Message type={formState.type} className="mb-4">
+          {formState.message}
+        </Message>
+      )}
+      <ButtonSubmit className="w-max px-4 mb-4">تعديل</ButtonSubmit>
+      <Select
+        label="الكلية"
+        icon="building-library"
+        options={[
+          { value: 1, label: "كلية الطب جامعة الأزهر دمياط الجديدة" },
+          { value: 2, label: "القصر العيني جامعة القاهرة" },
+          { value: 3, label: "كلية الطب جامعة عين شمس" },
+        ]}
+        name="faculty"
+        id="faculty"
+        required
+        defaultValue={user.facultyId}
+        disabled
+        className="mb-4"
+      />
+      <Select
+        label="السنة الدراسية"
+        icon="calendar"
+        options={[
+          { value: 1, label: "الأولى" },
+          { value: 2, label: "الثاني" },
+          { value: 3, label: "الثالث" },
+          { value: 4, label: "الرابع" },
+          { value: 5, label: "الخامس" },
+        ]}
+        name="year"
+        id="year"
+        required
+        defaultValue={user.yearId}
+        disabled
+        className="mb-4"
+      />
+    </form>
   );
 }

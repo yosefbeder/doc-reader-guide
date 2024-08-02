@@ -17,6 +17,7 @@ export default function Select({
   options,
   id,
   className,
+  disabled,
   onFocus,
   onBlur,
   ...props
@@ -30,10 +31,11 @@ export default function Select({
       focus={focus}
       id={id}
       className={className}
+      disabled={disabled}
     >
       <select
         id={id}
-        className="grow focus:outline-none"
+        className="grow disabled:pointer-events-none focus:outline-none"
         onFocus={(e) => {
           setFocus(true);
           if (onFocus) onFocus(e);
@@ -42,6 +44,7 @@ export default function Select({
           setFocus(false);
           if (onBlur) onBlur(e);
         }}
+        disabled={disabled}
         {...props}
       >
         {options.map(({ label, value }) => (

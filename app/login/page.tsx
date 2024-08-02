@@ -7,7 +7,7 @@ import { useState } from "react";
 
 import { login } from "@/lib/actions";
 import Logo from "@/public/logo.png";
-import ErrorViewer from "@/components/ErrorViewer";
+import Message from "@/components/Message";
 import ButtonSubmit from "@/components/ButtonSubmit";
 import Input from "@/components/Input";
 
@@ -40,10 +40,13 @@ export default function LoginPage() {
           required
           className="mb-4"
         />
-        {formState.message && (
-          <ErrorViewer className="mb-4">{formState.message}</ErrorViewer>
+        {formState.message && formState.type && (
+          <Message type={formState.type} className="mb-4">
+            {formState.message}
+          </Message>
         )}
         <ButtonSubmit
+          fullWidth
           onMouseEnter={() => setHover(true)}
           onMouseLeave={() => setHover(false)}
         >

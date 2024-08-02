@@ -1,10 +1,9 @@
-import Link from "next/link";
+import { cookies } from "next/headers";
+
+import Nav from "@/components/Nav";
+import { getUser } from "@/utils";
 
 export default async function HomePage() {
-  return (
-    <main>
-      <h1>الصفحة الرئيسية</h1>
-      <Link href="/profile">البيانات الشخصية</Link>
-    </main>
-  );
+  const { name } = getUser(cookies().get("jwt")!.value);
+  return <Nav title="الموديولات" name={name} />;
 }

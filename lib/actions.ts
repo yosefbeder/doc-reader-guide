@@ -28,7 +28,7 @@ export async function login(
     cookies().set("jwt", json.data.token);
     redirect("/");
   } else {
-    return { message: json.message };
+    return { type: "fail", message: json.message };
   }
 }
 
@@ -59,7 +59,7 @@ export async function signup(
     cookies().set("jwt", json.data.token);
     redirect("/");
   } else {
-    return { message: json.message };
+    return { type: "fail", message: json.message };
   }
 }
 
@@ -83,7 +83,7 @@ export async function updatePersonalInfo(
 
   const json = await res.json();
 
-  return { message: json.message };
+  return { type: res.ok ? "success" : "fail", message: json.message };
 }
 
 export async function updatePassword(
@@ -107,5 +107,5 @@ export async function updatePassword(
 
   const json = await res.json();
 
-  return { message: json.message };
+  return { type: res.ok ? "success" : "fail", message: json.message };
 }

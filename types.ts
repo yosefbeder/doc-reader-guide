@@ -1,4 +1,7 @@
+export type FormStateType = "fail" | "success";
+
 export interface FormState {
+  type?: FormStateType;
   message?: string;
 }
 
