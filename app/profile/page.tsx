@@ -1,4 +1,3 @@
-import { cookies } from "next/headers";
 import { Metadata } from "next";
 
 import LogoutButton from "./components/LogoutButton";
@@ -12,8 +11,8 @@ export const metadata: Metadata = {
   description: "عرض وتغيير البيانات العامة وتغيير الباسورد وتسجيل الخروج",
 };
 
-export default function ProfilePage() {
-  const user = getUser(cookies().get("jwt")!.value);
+export default async function ProfilePage() {
+  const user = await getUser();
 
   return (
     <>

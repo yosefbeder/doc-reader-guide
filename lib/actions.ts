@@ -2,6 +2,7 @@
 
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 
 import { FormState } from "@/types";
 
@@ -82,6 +83,8 @@ export async function updatePersonalInfo(
   });
 
   const json = await res.json();
+
+  revalidatePath("/", "layout");
 
   return { type: res.ok ? "success" : "fail", message: json.message };
 }

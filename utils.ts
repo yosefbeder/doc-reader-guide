@@ -1,10 +1,18 @@
 import { decode } from "jsonwebtoken";
 import { User } from "./types";
+import { cookies } from "next/headers";
 
-export function getUser(jwt: string): User {
-  const { payload } = decode(jwt, { complete: true }) as { payload: any };
-  delete payload.iat;
-  payload.createdAt = new Date(payload.createdAt);
-  payload.updatedAt = new Date(payload.updatedAt);
-  return payload;
+export async function getUser(): Promise<User> {
+  const jwt = cookies().get("jwt")!.value;
+  const res = await fetch(`${process.env.API_URL}/user`, {
+    headers: {
+      authorization: `Bearer ${jwt}`,
+    },
+  });
+  const json = await res.json();
+  if (!res.ok) throw new Error();
+  const user = json.data;
+  delete user.faculty;
+  delete user.year;
+  return user;
 }
