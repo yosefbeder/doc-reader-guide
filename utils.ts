@@ -1,6 +1,6 @@
-import { decode } from "jsonwebtoken";
-import { User } from "./types";
 import { cookies } from "next/headers";
+
+import { Faculty, User } from "./types";
 
 export async function getUser(): Promise<User> {
   const jwt = cookies().get("jwt")!.value;

@@ -35,7 +35,7 @@ export default function Select({
     >
       <select
         id={id}
-        className="grow disabled:pointer-events-none focus:outline-none"
+        className="grow disabled:pointer-events-none focus:outline-none disabled:bg-transparent"
         onFocus={(e) => {
           setFocus(true);
           if (onFocus) onFocus(e);
@@ -48,7 +48,9 @@ export default function Select({
         {...props}
       >
         {options.map(({ label, value }) => (
-          <option value={value}>{label}</option>
+          <option key={value} value={value}>
+            {label}
+          </option>
         ))}
       </select>
     </FormItem>

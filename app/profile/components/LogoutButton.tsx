@@ -3,16 +3,18 @@
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 
-import Button from "@/components/Button";
+import Button, { ButtonProps } from "@/components/Button";
 
-export default function LogoutButton() {
+export default function LogoutButton({ onClick, ...props }: ButtonProps) {
   const router = useRouter();
   return (
     <Button
-      onClick={() => {
+      onClick={(e) => {
         Cookies.remove("jwt");
         router.replace("/login");
+        if (onClick) onClick(e);
       }}
+      {...props}
     >
       تسجيل الخروج
     </Button>

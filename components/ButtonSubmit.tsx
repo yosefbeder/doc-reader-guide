@@ -6,15 +6,15 @@ import Button, { ButtonProps } from "./Button";
 
 export default function ButtonSubmit({
   type: _type,
-  disabled: _disabled,
+  disabled,
   children,
   ...props
 }: ButtonProps) {
   const { pending } = useFormStatus();
 
   return (
-    <Button type="submit" disabled={pending} {...props}>
-      {pending ? "تحميل..." : children}
+    <Button type="submit" disabled={pending || disabled} {...props}>
+      {pending || disabled ? "تحميل..." : children}
     </Button>
   );
 }

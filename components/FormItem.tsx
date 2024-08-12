@@ -25,7 +25,9 @@ export default function FormItem({
       <div
         className={`flex items-center gap-2 rounded-md p-2 border-2 bg-white transition-colors ${
           focus ? "border-blue-600" : "border-slate-200"
-        } ${disabled && "text-slate-400 cursor-not-allowed"} ${className}`}
+        } ${
+          disabled && "text-slate-400 bg-slate-50 cursor-not-allowed"
+        } ${className}`}
       >
         {icons[icon]}
         {children}

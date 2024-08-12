@@ -30,6 +30,17 @@ export interface User extends DatabaseTable {
   yearId: number;
 }
 
+export interface Faculty extends DatabaseTable {
+  name: string;
+  city: string;
+  years: Year[];
+}
+
+export interface Year extends DatabaseTable {
+  title: string;
+  facultyId: number;
+}
+
 export interface Module extends DatabaseTable {
   name: string;
   icon: string;

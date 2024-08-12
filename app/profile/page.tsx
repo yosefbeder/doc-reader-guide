@@ -19,12 +19,12 @@ export default async function ProfilePage() {
       <Nav title="البيانات الشخصية" name={user.name} />
       <main className="max-w-screen-md mx-auto px-2 py-4">
         <div className="max-w-md">
+          <h2 className="mb-4">تسجيل الخروج</h2>
+          <LogoutButton className="mb-4" />
           <h2 className="mb-4">البيانات العامة</h2>
           <PersonalInfoForm user={user} />
           <h2 className="mb-4">تغيير كلمة المرور</h2>
           <PasswordForm />
-          <h2 className="mb-4">تسجيل الخروج</h2>
-          <LogoutButton />
         </div>
       </main>
     </>

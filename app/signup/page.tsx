@@ -10,11 +10,12 @@ import ButtonSubmit from "@/components/ButtonSubmit";
 import Logo from "@/public/logo.png";
 import Message from "@/components/Message";
 import Input from "@/components/Input";
-import Select from "@/components/Select";
+import SelectFacultyYear from "@/components/SelectFacultyYear";
 
 export default function SignupPage() {
   const [formState, formAction] = useFormState(signup, {});
   const [hover, setHover] = useState(false);
+  const [fetching, setFetching] = useState(true);
 
   return (
     <main
@@ -59,34 +60,7 @@ export default function SignupPage() {
           required
           className="mb-4"
         />
-        <Select
-          label="الكلية"
-          icon="building-library"
-          options={[
-            { value: 1, label: "كلية الطب جامعة الأزهر دمياط الجديدة" },
-            { value: 2, label: "القصر العيني جامعة القاهرة" },
-            { value: 3, label: "كلية الطب جامعة عين شمس" },
-          ]}
-          name="faculty"
-          id="faculty"
-          required
-          className="mb-4"
-        />
-        <Select
-          label="السنة الدراسية"
-          icon="calendar"
-          options={[
-            { value: 1, label: "الأولى" },
-            { value: 2, label: "الثاني" },
-            { value: 3, label: "الثالث" },
-            { value: 4, label: "الرابع" },
-            { value: 5, label: "الخامس" },
-          ]}
-          name="year"
-          id="year"
-          required
-          className="mb-4"
-        />
+        <SelectFacultyYear fetching={fetching} setFetching={setFetching} />
         {formState.message && formState.type && (
           <Message type={formState.type} className="mb-4">
             {formState.message}
@@ -94,6 +68,7 @@ export default function SignupPage() {
         )}
         <ButtonSubmit
           fullWidth
+          disabled={fetching}
           onMouseEnter={() => setHover(true)}
           onMouseLeave={() => setHover(false)}
         >

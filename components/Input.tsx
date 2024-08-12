@@ -33,7 +33,7 @@ export default function Input({
     >
       <input
         id={id}
-        className="grow disabled:pointer-events-none focus:outline-none"
+        className="grow disabled:pointer-events-none focus:outline-none disabled:bg-transparent"
         onFocus={(e) => {
           setFocus(true);
           if (onFocus) onFocus(e);
