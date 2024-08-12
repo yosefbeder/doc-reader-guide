@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 
 import { FormState } from "@/types";
+import { API_URL } from "@/constants";
 
 export async function login(
   _prevState: FormState,
@@ -15,7 +16,7 @@ export async function login(
     password: formData.get("password"),
   };
 
-  const res = await fetch(`${process.env.API_URL}/login`, {
+  const res = await fetch(`${API_URL}/login`, {
     method: "POST",
     headers: {
       "content-type": "application/json;charset=UTF-8",
@@ -46,7 +47,7 @@ export async function signup(
     yearId: +(formData.get("yearId") as string),
   };
 
-  const res = await fetch(`${process.env.API_URL}/register`, {
+  const res = await fetch(`${API_URL}/register`, {
     method: "POST",
     headers: {
       "content-type": "application/json;charset=UTF-8",
@@ -74,7 +75,7 @@ export async function updatePersonalInfo(
     yearId: +(formData.get("yearId") as string),
   };
 
-  const res = await fetch(`${process.env.API_URL}/user/update`, {
+  const res = await fetch(`${API_URL}/user/update`, {
     method: "PATCH",
     headers: {
       "content-type": "application/json;charset=UTF-8",
@@ -100,7 +101,7 @@ export async function updatePassword(
     confirmationPassword: formData.get("confirmation-password"),
   };
 
-  const res = await fetch(`${process.env.API_URL}/user/change-password`, {
+  const res = await fetch(`${API_URL}/user/change-password`, {
     method: "POST",
     headers: {
       "content-type": "application/json;charset=UTF-8",

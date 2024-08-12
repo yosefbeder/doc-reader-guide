@@ -3,14 +3,13 @@
 import { useState } from "react";
 import { useFormState } from "react-dom";
 import Link from "next/link";
-import Image from "next/image";
 
 import { signup } from "@/lib/actions";
 import ButtonSubmit from "@/components/ButtonSubmit";
-import Logo from "@/public/logo.png";
 import Message from "@/components/Message";
 import Input from "@/components/Input";
 import SelectFacultyYear from "@/components/SelectFacultyYear";
+import AuthCard from "../components/AuthCard";
 
 export default function SignupPage() {
   const [formState, formAction] = useFormState(signup, {});
@@ -18,11 +17,7 @@ export default function SignupPage() {
   const [fetching, setFetching] = useState(true);
 
   return (
-    <main
-      className={`card flex flex-col items-center gap-4 ${hover && "hover"}`}
-    >
-      <Image src={Logo} width={128} alt="Logo" />
-      <h1>دوكريدر جايد</h1>
+    <AuthCard hover={hover}>
       <form action={formAction} className="w-full">
         <Input
           label="اسم المستخدم"
@@ -76,6 +71,6 @@ export default function SignupPage() {
         </ButtonSubmit>
       </form>
       <Link href="/login">تسجيل الدخول</Link>
-    </main>
+    </AuthCard>
   );
 }

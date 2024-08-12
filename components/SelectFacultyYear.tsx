@@ -4,20 +4,17 @@ import React, { useEffect, useState } from "react";
 
 import Select from "./Select";
 import { Faculty, Year } from "@/types";
+import { API_URL } from "@/constants";
 
 async function getYears(facultyId: number): Promise<Year[]> {
-  const res = await fetch(
-    `https://nodejs-omar-doc-reader-production.up.railway.app/api/v1/faculties/${facultyId}/years`
-  );
+  const res = await fetch(`${API_URL}/faculties/${facultyId}/years`);
   if (!res.ok) throw new Error();
   const json = await res.json();
   return json.data;
 }
 
 async function getFaculties(): Promise<Faculty[]> {
-  const res = await fetch(
-    `https://nodejs-omar-doc-reader-production.up.railway.app/api/v1/faculties`
-  );
+  const res = await fetch(`${API_URL}/faculties`);
   if (!res.ok) throw new Error();
   const json = await res.json();
   return await Promise.all(

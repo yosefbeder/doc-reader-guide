@@ -1,10 +1,11 @@
 import { cookies } from "next/headers";
 
-import { Faculty, User } from "./types";
+import { User } from "./types";
+import { API_URL } from "./constants";
 
 export async function getUser(): Promise<User> {
   const jwt = cookies().get("jwt")!.value;
-  const res = await fetch(`${process.env.API_URL}/user`, {
+  const res = await fetch(`${API_URL}/user`, {
     headers: {
       authorization: `Bearer ${jwt}`,
     },

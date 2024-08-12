@@ -2,25 +2,20 @@
 
 import { useFormState } from "react-dom";
 import Link from "next/link";
-import Image from "next/image";
 import { useState } from "react";
 
 import { login } from "@/lib/actions";
-import Logo from "@/public/logo.png";
 import Message from "@/components/Message";
 import ButtonSubmit from "@/components/ButtonSubmit";
 import Input from "@/components/Input";
+import AuthCard from "../components/AuthCard";
 
 export default function LoginPage() {
   const [formState, formAction] = useFormState(login, {});
   const [hover, setHover] = useState(false);
 
   return (
-    <main
-      className={`card flex flex-col items-center gap-4 ${hover && "hover"}`}
-    >
-      <Image src={Logo} width={128} alt="Logo" />
-      <h1>دوكريدر جايد</h1>
+    <AuthCard hover={hover}>
       <form action={formAction} className="w-full">
         <Input
           label="البريد الإلكتروني"
@@ -54,6 +49,6 @@ export default function LoginPage() {
         </ButtonSubmit>
       </form>
       <Link href="/signup">إنشاء حساب جديد</Link>
-    </main>
+    </AuthCard>
   );
 }
