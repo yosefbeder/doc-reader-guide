@@ -26,6 +26,7 @@ export default function Nav() {
 
   if (pathname === "/") title = "الموديولات";
   else if (pathname === "/profile") title = "البيانات الشخصية";
+  else if (pathname.startsWith("/modules")) title = "المواد";
 
   if (error) throw new Error();
 

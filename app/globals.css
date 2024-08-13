@@ -20,14 +20,22 @@
   a {
     @apply underline text-blue-600 hover:text-blue-700 active:text-blue-800 transition-colors;
   }
+
+  summary > * {
+    @apply inline;
+  }
+
+  details > summary {
+    @apply cursor-pointer;
+  }
 }
 
 @layer utilities {
   .card {
-    @apply max-w-lg mx-auto my-8 p-8 rounded-xl bg-[length:auto_200%] bg-top bg-gradient-to-t from-blue-50 to-slate-50 to-15% border-2 border-slate-200 transition-[background-position];
+    @apply flex flex-col items-center p-4 gap-4 no-underline w-60 bg-slate-50 hover:bg-slate-100 rounded-xl text-center text-inherit hover:text-inherit transition-colors border-2 border-slate-200;
   }
 
-  .card.hover {
-    @apply bg-bottom;
+  .main {
+    @apply max-w-screen-md mx-auto px-2 py-4;
   }
 }

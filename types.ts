@@ -7,8 +7,8 @@ export interface FormState {
 
 interface DatabaseTable {
   id: number;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface Faculty extends DatabaseTable {
@@ -48,4 +48,33 @@ export interface Module extends DatabaseTable {
   _count: {
     subjects: number;
   };
+}
+
+export interface Module extends DatabaseTable {
+  name: string;
+  icon: string;
+  yearId: number;
+  semesterName: number;
+}
+
+export interface Subject extends DatabaseTable {
+  name: string;
+  icon: string;
+  moduleId: number;
+}
+
+export interface Lecture extends DatabaseTable {
+  title: string;
+  subTitle: string;
+  subjectId: number;
+  date: string;
+}
+
+export interface Link extends DatabaseTable {
+  title: string;
+  subTitle: string;
+  url: string;
+  type: "Video" | "Record" | "PDF" | "Data";
+  category: "Data" | "College" | "Summary";
+  lectureId: number;
 }

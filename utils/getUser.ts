@@ -1,9 +1,9 @@
 import { cookies } from "next/headers";
 
-import { User } from "./types";
-import { API_URL } from "./constants";
+import { User } from "@/types";
+import { API_URL } from "@/constants";
 
-export async function getUser(): Promise<User> {
+export default async function getUser(): Promise<User> {
   const jwt = cookies().get("jwt")!.value;
   const res = await fetch(`${API_URL}/user`, {
     headers: {
