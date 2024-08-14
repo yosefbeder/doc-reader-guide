@@ -11,7 +11,7 @@ export default function Button({
 }: ButtonProps) {
   return (
     <button
-      className={`py-2 rounded-md transition-colors text-white bg-blue-600 hover:bg-blue-700 active:bg-blue-800 disabled:bg-slate-600 disabled:hover:bg-slate-700 disabled:cursor-not-allowed ${
+      className={`py-2 rounded-md transition-colors text-white bg-cyan-600 hover:bg-cyan-700 active:bg-cyan-800 disabled:bg-slate-600 disabled:hover:bg-slate-700 disabled:cursor-not-allowed ${
         fullWidth ? "w-full" : "px-4"
       } ${className}`}
       {...props}

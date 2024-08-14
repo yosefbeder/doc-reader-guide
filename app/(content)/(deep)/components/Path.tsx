@@ -3,7 +3,7 @@ import React from "react";
 export default function Path({ children }: { children: React.ReactNode }) {
   return (
     <div
-      className="bg-blue-600 text-white text-sm font-bold "
+      className="bg-cyan-600 text-white text-sm font-bold "
       lang="en"
       dir="ltr"
     >
