@@ -47,7 +47,7 @@ export default function Nav() {
         href="/"
         className="flex items-center gap-2 no-underline text-inherit hover:text-inherit ml-auto"
       >
-        <Image src={Logo} className="w-12" alt="Logo" />
+        <Image src={Logo} className="w-8" alt="Logo" />
         <span className="text-xl font-bold">دوكريدر جايد</span>
       </Link>
       <h1 className="ml-auto">{title}</h1>
