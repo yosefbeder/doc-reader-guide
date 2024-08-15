@@ -10,7 +10,7 @@
 
 @layer components {
   h1 {
-    @apply text-4xl font-black text-slate-900;
+    @apply text-3xl font-black text-slate-900;
   }
 
   h2 {
@@ -36,6 +36,6 @@
   }
 
   .main {
-    @apply max-w-screen-md mx-auto px-2 py-4;
+    @apply max-w-screen-lg mx-auto px-2 py-4;
   }
 }

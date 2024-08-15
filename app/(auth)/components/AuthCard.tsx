@@ -15,7 +15,7 @@ export default function AuthCard({ hover, children }: AuthCardProps) {
       }`}
     >
       <Image src={Logo} width={128} alt="Logo" />
-      <h1>دوكريدر جايد</h1>
+      <span className="text-4xl font-black text-cyan-700">دوكريدر جايد</span>
       {children}
     </main>
   );

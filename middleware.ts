@@ -18,7 +18,9 @@ export async function middleware(req: NextRequest): Promise<NextResponse> {
   if (!jwt && !toLogin && !toSignup)
     return NextResponse.redirect(new URL("/login", req.url));
 
-  return NextResponse.next();
+  const reqHeaders = new Headers(req.headers);
+  reqHeaders.set("x-pathname", req.nextUrl.pathname);
+  return NextResponse.next({ request: { headers: reqHeaders } });
 }
 
 export const config = {
