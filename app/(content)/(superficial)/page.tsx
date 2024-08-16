@@ -1,22 +1,9 @@
-import { cookies } from "next/headers";
 import Image from "next/image";
 import Link from "next/link";
 
-import { Module } from "@/types";
 import getUser from "@/utils/getUser";
 import getPrefix from "@/utils/getPrefix";
-import { API_URL } from "@/constants";
-
-async function getModules(yearId: number): Promise<Module[]> {
-  const jwt = cookies().get("jwt")!.value;
-  const res = await fetch(`${API_URL}/modules/${yearId}`, {
-    headers: {
-      authorization: `Bearer ${jwt}`,
-    },
-  });
-  const json = await res.json();
-  return json.data;
-}
+import getModules from "@/utils/getModules";
 
 export default async function HomePage() {
   const { yearId } = await getUser();

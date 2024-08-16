@@ -28,6 +28,15 @@
   details > summary {
     @apply cursor-pointer;
   }
+
+  thead {
+    @apply bg-slate-50;
+  }
+
+  th,
+  td {
+    @apply p-2 border border-slate-200;
+  }
 }
 
 @layer utilities {

@@ -4,7 +4,8 @@ import React, { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 
 function pathnameToTitle(pathname: string): string {
-  if (pathname === "/") return "الموديولات";
+  if (pathname === "/" || pathname.startsWith("/dashboard/modules"))
+    return "الموديولات";
   else if (pathname === "/profile") return "البيانات الشخصية";
   else if (pathname === "/dashboard") return "لوحة التحكم";
   else if (

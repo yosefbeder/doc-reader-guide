@@ -114,3 +114,92 @@ export async function updatePassword(
 
   return { type: res.ok ? "success" : "fail", message: json.message };
 }
+
+export async function addModule(
+  _prevState: FormState,
+  formData: FormData
+): Promise<FormState> {
+  const data = {
+    icon: formData.get("icon"),
+    name: formData.get("name"),
+    semesterName: +(formData.get("semester-name") as string),
+  };
+
+  const res = await fetch(
+    `${API_URL}/modules/${formData.get("year-id")}/create`,
+    {
+      method: "POST",
+      headers: {
+        "content-type": "application/json;charset=UTF-8",
+        authorization: `Bearer ${cookies().get("jwt")!.value}`,
+      },
+      body: JSON.stringify(data),
+    }
+  );
+
+  const json = await res.json();
+
+  revalidatePath("/dashboard/modules", "page");
+  revalidatePath("/modules", "page");
+
+  return { type: res.ok ? "success" : "fail", message: json.message };
+}
+
+export async function updateModule(
+  _prevState: FormState,
+  formData: FormData
+): Promise<FormState> {
+  const data = {
+    icon: formData.get("icon"),
+    name: formData.get("name"),
+    semesterName: +(formData.get("semester-name") as string),
+  };
+
+  const res = await fetch(
+    `${API_URL}/modules/${formData.get("year-id")}/${formData.get(
+      "id"
+    )}/update`,
+    {
+      method: "PATCH",
+      headers: {
+        "content-type": "application/json;charset=UTF-8",
+        authorization: `Bearer ${cookies().get("jwt")!.value}`,
+      },
+      body: JSON.stringify(data),
+    }
+  );
+
+  const json = await res.json();
+
+  revalidatePath("/dashboard/modules", "page");
+  revalidatePath("/modules", "page");
+
+  return { type: res.ok ? "success" : "fail", message: json.message };
+}
+
+export async function deleteModule(
+  _prevState: FormState,
+  formData: FormData
+): Promise<FormState> {
+  const res = await fetch(
+    `${API_URL}/modules/${formData.get("year-id")}/${formData.get(
+      "id"
+    )}/delete`,
+    {
+      method: "DELETE",
+      headers: {
+        "content-type": "application/json;charset=UTF-8",
+        authorization: `Bearer ${cookies().get("jwt")!.value}`,
+      },
+    }
+  );
+
+  const json = await res.json();
+
+  if (!res.ok) return { type: "fail", message: json.message };
+
+  revalidatePath("/dashboard/modules", "page");
+  revalidatePath("/modules", "page");
+
+  return {};
+}
