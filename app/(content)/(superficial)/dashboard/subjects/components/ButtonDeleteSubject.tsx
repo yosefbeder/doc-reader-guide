@@ -4,16 +4,16 @@ import { useEffect } from "react";
 import { useFormState } from "react-dom";
 
 import ButtonSubmit from "@/components/ButtonSubmit";
-import { deleteModule } from "@/lib/actions";
+import { deleteSubject } from "@/lib/actions";
 
-export default function ButtonDeleteModule({
+export default function ButtonDeleteSubject({
   yearId,
-  moduleId,
+  subjectId,
 }: {
   yearId: number;
-  moduleId: number;
+  subjectId: number;
 }) {
-  const [formState, formAction] = useFormState(deleteModule, {});
+  const [formState, formAction] = useFormState(deleteSubject, {});
 
   useEffect(() => {
     if (formState.message) alert(formState.message);
@@ -30,10 +30,10 @@ export default function ButtonDeleteModule({
       />
       <input
         type="number"
-        name="module-id"
-        id="module-id"
+        name="subject-id"
+        id="subject-id"
         className="hidden"
-        defaultValue={moduleId}
+        defaultValue={subjectId}
       />
       <ButtonSubmit color="rose">حذف</ButtonSubmit>
     </form>

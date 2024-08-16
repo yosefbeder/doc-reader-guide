@@ -1,6 +1,6 @@
 import Input from "@/components/Input";
 
-export default function ModuleFields({
+export default function SubjectFields({
   yearId,
   defaultValues,
 }: {
@@ -9,15 +9,15 @@ export default function ModuleFields({
     id: number;
     icon: string;
     name: string;
-    semesterName: number;
+    moduleId: number;
   };
 }) {
   return (
     <>
       {defaultValues && (
         <input
-          name="module-id"
-          id="module-id"
+          name="subject-id"
+          id="subject-id"
           className="hidden"
           defaultValue={defaultValues.id}
         />
@@ -43,12 +43,12 @@ export default function ModuleFields({
         className="mb-4"
       />
       <Input
-        label="الفصل الدراسي"
+        label="الرقم التعريفي للموديول"
         icon="academic-cap"
         type="number"
-        name="semester-name"
-        id="semester-name"
-        defaultValue={defaultValues?.semesterName || 1}
+        name="module-id"
+        id="module-id"
+        defaultValue={defaultValues?.moduleId}
         required
         className="mb-4"
       />

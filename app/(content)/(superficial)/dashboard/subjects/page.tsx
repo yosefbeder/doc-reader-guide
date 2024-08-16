@@ -1,44 +1,49 @@
-import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-import getModules from "@/utils/getModules";
-import getUser from "@/utils/getUser";
 import Button from "@/components/Button";
-import AddModuleForm from "./components/AddModuleForm";
-import ButtonDeleteModule from "./components/ButtonDeleteModule";
+import getModules from "@/utils/getModules";
+import getSubjects from "@/utils/getSubjects";
+import getUser from "@/utils/getUser";
+import ButtonDeleteSubject from "./components/ButtonDeleteSubject";
+import AddSubjectForm from "./components/AddSubjectForm";
 
-export default async function ModulesPage() {
+export default async function SubjectsPage() {
   const { yearId } = await getUser();
   const modules = await getModules(yearId);
+  const subjects = (
+    await Promise.all(
+      modules.map(async (module) => await getSubjects(yearId, module.id))
+    )
+  ).flat();
 
   return (
     <>
-      <h2 className="mb-4">إضافة موديول</h2>
-      <AddModuleForm yearId={yearId} />
-      <h2 className="mb-4">عرض الموديولات</h2>
+      <h2 className="mb-4">إضافة مادة</h2>
+      <AddSubjectForm yearId={yearId} />
+      <h2 className="mb-4">عرض المواد</h2>
       <table>
         <thead>
           <tr>
             <th>الرقم التعريفي</th>
             <th>الأيقونة</th>
             <th>الاسم</th>
-            <th>الفصل الدراسي</th>
+            <th>الرقم التعريفي للموديول</th>
             <th>الإجراءات</th>
           </tr>
         </thead>
         <tbody>
-          {modules.map(({ id, icon, name, semesterName }) => (
+          {subjects.map(({ id, icon, name, moduleId }) => (
             <tr key={id}>
               <td>{id}</td>
               <td>
                 <Image src={icon} alt={name} width={48} height={48} />
               </td>
               <td>{name}</td>
-              <td>{semesterName}</td>
+              <td>{moduleId}</td>
               <td>
                 <Link
-                  href={`/dashboard/modules/${id}`}
+                  href={`/dashboard/subjects/${id}`}
                   passHref
                   className="text-inherit hover:text-inherit"
                 >
@@ -46,7 +51,7 @@ export default async function ModulesPage() {
                     تعديل
                   </Button>
                 </Link>
-                <ButtonDeleteModule yearId={yearId} moduleId={id} />
+                <ButtonDeleteSubject yearId={yearId} subjectId={id} />
               </td>
             </tr>
           ))}

@@ -15,7 +15,11 @@ function pathnameToTitle(pathname: string): string {
   )
     return "المصادر";
   else if (pathname.match(/\/modules\/\d+\/subjects\/\d+/g)) return "المحاضرات";
-  else if (pathname.startsWith("/modules")) return "المواد";
+  else if (
+    pathname.startsWith("/modules") ||
+    pathname.startsWith("/dashboard/subjects")
+  )
+    return "المواد";
   throw new Error();
 }
 

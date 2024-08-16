@@ -157,7 +157,7 @@ export async function updateModule(
 
   const res = await fetch(
     `${API_URL}/modules/${formData.get("year-id")}/${formData.get(
-      "id"
+      "module-id"
     )}/update`,
     {
       method: "PATCH",
@@ -183,7 +183,7 @@ export async function deleteModule(
 ): Promise<FormState> {
   const res = await fetch(
     `${API_URL}/modules/${formData.get("year-id")}/${formData.get(
-      "id"
+      "module-id"
     )}/delete`,
     {
       method: "DELETE",
@@ -200,6 +200,94 @@ export async function deleteModule(
 
   revalidatePath("/dashboard/modules", "page");
   revalidatePath("/modules", "page");
+
+  return {};
+}
+
+export async function addSubject(
+  _prevState: FormState,
+  formData: FormData
+): Promise<FormState> {
+  const yearId = formData.get("year-id");
+  const moduleId = formData.get("module-id");
+  const data = {
+    icon: formData.get("icon"),
+    name: formData.get("name"),
+  };
+
+  const res = await fetch(
+    `${API_URL}/modules/${yearId}/${moduleId}/subjects/create`,
+    {
+      method: "POST",
+      headers: {
+        "content-type": "application/json;charset=UTF-8",
+        authorization: `Bearer ${cookies().get("jwt")!.value}`,
+      },
+      body: JSON.stringify(data),
+    }
+  );
+
+  const json = await res.json();
+
+  revalidatePath("/dashboard/subjects", "page");
+  revalidatePath(`/modules/${moduleId}`, "page");
+
+  return { type: res.ok ? "success" : "fail", message: json.message };
+}
+
+export async function updateSubject(
+  _prevState: FormState,
+  formData: FormData
+): Promise<FormState> {
+  const moduleId = formData.get("module-id");
+  const data = {
+    icon: formData.get("icon"),
+    name: formData.get("name"),
+    moduleId,
+  };
+
+  const res = await fetch(
+    `${API_URL}/subjects/${formData.get("subject-id")}/update`,
+    {
+      method: "PATCH",
+      headers: {
+        "content-type": "application/json;charset=UTF-8",
+        authorization: `Bearer ${cookies().get("jwt")!.value}`,
+      },
+      body: JSON.stringify(data),
+    }
+  );
+
+  const json = await res.json();
+
+  revalidatePath("/dashboard/subjects", "page");
+  revalidatePath(`/modules/${moduleId}`, "page");
+
+  return { type: res.ok ? "success" : "fail", message: json.message };
+}
+
+export async function deleteSubject(
+  _prevState: FormState,
+  formData: FormData
+): Promise<FormState> {
+  const moduleId = formData.get("module-id");
+  const res = await fetch(
+    `${API_URL}/subjects/${formData.get("subject-id")}/delete`,
+    {
+      method: "DELETE",
+      headers: {
+        "content-type": "application/json;charset=UTF-8",
+        authorization: `Bearer ${cookies().get("jwt")!.value}`,
+      },
+    }
+  );
+
+  const json = await res.json();
+
+  if (!res.ok) return { type: "fail", message: json.message };
+
+  revalidatePath("/dashboard/subjects", "page");
+  revalidatePath(`/modules/${moduleId}`, "page");
 
   return {};
 }

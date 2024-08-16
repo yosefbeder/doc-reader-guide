@@ -26,7 +26,7 @@ export default async function SubjectPage({
       </Path>
       <main className="main">
         <ul className="flex flex-wrap gap-4">
-          {lectures.map(({ id, title, date }, index) => (
+          {lectures.map(({ id, title, updatedAt }, index) => (
             <li key={index}>
               <Link
                 href={`/modules/${moduleId}/subjects/${subjectId}/${
@@ -35,8 +35,8 @@ export default async function SubjectPage({
                 className="card"
               >
                 <h2>{title}</h2>
-                <time dateTime={new Date(date).toISOString()}>
-                  {new Date(date).toDateString()}
+                <time dateTime={new Date(updatedAt).toISOString()}>
+                  {new Date(updatedAt).toDateString()}
                 </time>
               </Link>
             </li>
