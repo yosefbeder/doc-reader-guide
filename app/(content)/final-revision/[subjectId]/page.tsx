@@ -1,21 +1,23 @@
-import Path from "@/app/(content)/(deep)/components/Path";
-import getLecture, { getLectureLinks } from "@/utils/getLecture";
+import Path from "@/components/Path";
 import getModule from "@/utils/getModule";
 import getPrefix from "@/utils/getPrefix";
 import getSubject from "@/utils/getSubject";
 import getUser from "@/utils/getUser";
-import Links from "../../components/Links";
+import Links from "@/components/Links";
+import getFinalRevision, {
+  getFinalRevisionLinks,
+} from "@/utils/getFinalRevision";
 
-export default async function LecturePage({
-  params: { moduleId, subjectId, lectureId },
+export default async function PracticalPage({
+  params: { subjectId },
 }: {
-  params: { moduleId: string; subjectId: string; lectureId: string };
+  params: { subjectId: string };
 }) {
   const { yearId } = await getUser();
-  const module = await getModule(yearId, +moduleId);
   const subject = await getSubject(+subjectId);
-  const lecture = await getLecture(+lectureId);
-  const links = await getLectureLinks(+lectureId);
+  const module = await getModule(yearId, subject.moduleId);
+  const lecture = await getFinalRevision(+subjectId);
+  const links = await getFinalRevisionLinks(+subjectId);
 
   return (
     <>

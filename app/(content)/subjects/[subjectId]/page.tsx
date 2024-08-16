@@ -1,21 +1,27 @@
 import Link from "next/link";
 
-import Path from "@/app/(content)/(deep)/components/Path";
+import Path from "@/components/Path";
 import { getLectures } from "@/utils/getLectures";
 import getModule from "@/utils/getModule";
 import getPrefix from "@/utils/getPrefix";
 import getSubject from "@/utils/getSubject";
 import getUser from "@/utils/getUser";
+import getPractical from "@/utils/getPractical";
+import getFinalRevision from "@/utils/getFinalRevision";
 
-export default async function SubjectPage({
-  params: { moduleId, subjectId },
+export default async function LecturesPage({
+  params: { subjectId },
 }: {
-  params: { moduleId: string; subjectId: string };
+  params: { subjectId: string };
 }) {
   const { yearId } = await getUser();
-  const module = await getModule(yearId, +moduleId);
   const subject = await getSubject(+subjectId);
-  const lectures = await getLectures(+subjectId);
+  const module = await getModule(yearId, +subject.moduleId);
+  const lectures = [
+    await getPractical(+subjectId),
+    await getFinalRevision(+subjectId),
+    ...(await getLectures(+subjectId)),
+  ];
 
   return (
     <>
@@ -29,9 +35,11 @@ export default async function SubjectPage({
           {lectures.map(({ id, title, updatedAt }, index) => (
             <li key={index}>
               <Link
-                href={`/modules/${moduleId}/subjects/${subjectId}/${
-                  ["practical", "final-revision"][index] || `lectures/${id}`
-                }`}
+                href={
+                  [`/practical/${subjectId}`, `/final-revision/${subjectId}`][
+                    index
+                  ] || `/lectures/${id}`
+                }
                 className="card"
               >
                 <h2>{title}</h2>

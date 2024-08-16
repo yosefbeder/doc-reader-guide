@@ -6,20 +6,23 @@ import { usePathname } from "next/navigation";
 function pathnameToTitle(pathname: string): string {
   if (pathname === "/" || pathname.startsWith("/dashboard/modules"))
     return "الموديولات";
-  else if (pathname === "/profile") return "البيانات الشخصية";
-  else if (pathname === "/dashboard") return "لوحة التحكم";
-  else if (
-    pathname.match(
-      /\/modules\/\d+\/subjects\/\d+\/(lectures\/\d+|practical|final-revision)/g
-    )
-  )
-    return "المصادر";
-  else if (pathname.match(/\/modules\/\d+\/subjects\/\d+/g)) return "المحاضرات";
-  else if (
+  if (pathname === "/profile") return "البيانات الشخصية";
+  if (pathname === "/dashboard") return "لوحة التحكم";
+  if (
     pathname.startsWith("/modules") ||
     pathname.startsWith("/dashboard/subjects")
   )
     return "المواد";
+  if (
+    pathname.startsWith("/subjects") ||
+    pathname.startsWith("/dashboard/lectures")
+  )
+    return "المحاضرات";
+  if (
+    pathname.match(/\/(lectures|practical|final-revision).*/g) ||
+    pathname.startsWith("/dashboard/links")
+  )
+    return "المصادر";
   throw new Error();
 }
 

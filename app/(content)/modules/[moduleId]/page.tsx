@@ -3,11 +3,11 @@ import Image from "next/image";
 
 import getUser from "@/utils/getUser";
 import getPrefix from "@/utils/getPrefix";
-import Path from "../../components/Path";
+import Path from "@/components/Path";
 import getModule from "@/utils/getModule";
 import getSubjects from "@/utils/getSubjects";
 
-export default async function ModulePage({
+export default async function SubjectsPage({
   params: { moduleId },
 }: {
   params: { moduleId: number };
@@ -25,10 +25,7 @@ export default async function ModulePage({
         <ul className="flex flex-wrap gap-4">
           {subjects.map(({ id, name, icon }, index) => (
             <li key={index}>
-              <Link
-                href={`/modules/${moduleId}/subjects/${id}`}
-                className="card"
-              >
+              <Link href={`/subjects/${id}`} className="card">
                 <span>
                   <Image src={icon} alt={name} width={48} height={48} />
                 </span>

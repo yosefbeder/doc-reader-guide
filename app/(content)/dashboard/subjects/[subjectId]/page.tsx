@@ -12,9 +12,9 @@ export default async function UpdateSubjectPage({
   const subject = await getSubject(+subjectId);
 
   return (
-    <>
+    <main className="main">
       <h2 className="mb-4">تعديل المادة {subject.id}</h2>
       <UpdateSubjectForm yearId={yearId} subject={subject} />
-    </>
+    </main>
   );
 }
