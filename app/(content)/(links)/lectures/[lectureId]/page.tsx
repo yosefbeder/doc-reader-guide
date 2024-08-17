@@ -1,10 +1,10 @@
-import Path from "@/components/Path";
-import getLecture, { getLectureLinks } from "@/utils/getLecture";
 import getModule from "@/utils/getModule";
-import getPrefix from "@/utils/getPrefix";
 import getSubject from "@/utils/getSubject";
 import getUser from "@/utils/getUser";
-import Links from "@/components/Links";
+import getLecture, { getLectureLinks } from "@/utils/getLecture";
+
+import Links from "../../components/Links";
+import Path from "../../components/Path";
 
 export default async function LinksPage({
   params: { lectureId },
@@ -19,11 +19,7 @@ export default async function LinksPage({
 
   return (
     <>
-      <Path>
-        {module.semesterName}
-        <sup>{getPrefix(module.semesterName)}</sup> Semester → {module.name} →{" "}
-        {subject.name} → {lecture.title}
-      </Path>
+      <Path subject={subject} module={module} lecture={lecture} />
       <main className="main">
         <Links links={links} />
       </main>

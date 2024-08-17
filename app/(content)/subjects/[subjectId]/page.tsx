@@ -27,8 +27,14 @@ export default async function LecturesPage({
     <>
       <Path>
         {module.semesterName}
-        <sup>{getPrefix(module.semesterName)}</sup> Semester → {module.name} →{" "}
-        {subject.name}
+        <sup>{getPrefix(module.semesterName)}</sup> Semester →{" "}
+        <Link
+          href={`/modules/${module.id}`}
+          className="text-inherit hover:text-white"
+        >
+          {module.name}
+        </Link>{" "}
+        → {subject.name}
       </Path>
       <main className="main">
         <ul className="card-container">

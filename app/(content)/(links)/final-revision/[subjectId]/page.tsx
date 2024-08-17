@@ -1,10 +1,12 @@
-import Path from "@/components/Path";
 import getModule from "@/utils/getModule";
-import getPrefix from "@/utils/getPrefix";
 import getSubject from "@/utils/getSubject";
 import getUser from "@/utils/getUser";
-import Links from "@/components/Links";
-import getPractical, { getPracticalLinks } from "@/utils/getPractical";
+import getFinalRevision, {
+  getFinalRevisionLinks,
+} from "@/utils/getFinalRevision";
+
+import Path from "../../components/Path";
+import Links from "../../components/Links";
 
 export default async function PracticalPage({
   params: { subjectId },
@@ -14,16 +16,12 @@ export default async function PracticalPage({
   const { yearId } = await getUser();
   const subject = await getSubject(+subjectId);
   const module = await getModule(yearId, subject.moduleId);
-  const lecture = await getPractical(+subjectId);
-  const links = await getPracticalLinks(+subjectId);
+  const lecture = await getFinalRevision(+subjectId);
+  const links = await getFinalRevisionLinks(+subjectId);
 
   return (
     <>
-      <Path>
-        {module.semesterName}
-        <sup>{getPrefix(module.semesterName)}</sup> Semester → {module.name} →{" "}
-        {subject.name} → {lecture.title}
-      </Path>
+      <Path subject={subject} module={module} lecture={lecture} />
       <main className="main">
         <Links links={links} />
       </main>
