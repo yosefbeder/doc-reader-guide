@@ -1,14 +1,14 @@
-import Image from "next/image";
 import Link from "next/link";
 
-import Button from "@/components/Button";
+import { getLectures } from "@/utils/getLectures";
 import getModules from "@/utils/getModules";
 import getSubjects from "@/utils/getSubjects";
 import getUser from "@/utils/getUser";
-import ButtonDeleteSubject from "./components/ButtonDeleteSubject";
-import AddSubjectForm from "./components/AddSubjectForm";
+import AddLectureForm from "./components/AddLectureForm";
+import Button from "@/components/Button";
+import ButtonDeleteLecture from "./components/ButtonDeleteLecture";
 
-export default async function SubjectsPage() {
+export default async function LecturesPage() {
   const { yearId } = await getUser();
   const modules = await getModules(yearId);
   const subjects = (
@@ -16,34 +16,37 @@ export default async function SubjectsPage() {
       modules.map(async (module) => await getSubjects(yearId, module.id))
     )
   ).flat();
+  const lectures = (
+    await Promise.all(
+      subjects.map(async (subject) => await getLectures(subject.id))
+    )
+  ).flat();
 
   return (
     <main className="main">
-      <h2 className="mb-4">إضافة مادة</h2>
-      <AddSubjectForm yearId={yearId} />
-      <h2 className="mb-4">عرض المواد</h2>
+      <h2 className="mb-4">إضافة محاضرة</h2>
+      <AddLectureForm />
+      <h2 className="mb-4">عرض المحاضرات</h2>
       <table>
         <thead>
           <tr>
             <th>الرقم التعريفي</th>
-            <th>الأيقونة</th>
-            <th>الاسم</th>
-            <th>الموديول</th>
+            <th>العنوان</th>
+            <th>المادة</th>
+            <th>التاريخ</th>
             <th>الإجراءات</th>
           </tr>
         </thead>
         <tbody>
-          {subjects.map(({ id, icon, name, moduleId }) => (
+          {lectures.map(({ id, title, subjectId, date }) => (
             <tr key={id}>
               <td>{id}</td>
-              <td>
-                <Image src={icon} alt={name} width={48} height={48} />
-              </td>
-              <td>{name}</td>
-              <td>{moduleId}</td>
+              <td className="max-w-80">{title}</td>
+              <td>{subjectId}</td>
+              <td>{new Date(date).toDateString()}</td>
               <td>
                 <Link
-                  href={`/dashboard/subjects/${id}`}
+                  href={`/dashboard/lectures/${id}`}
                   passHref
                   className="text-inherit hover:text-inherit"
                 >
@@ -51,7 +54,7 @@ export default async function SubjectsPage() {
                     تعديل
                   </Button>
                 </Link>
-                <ButtonDeleteSubject yearId={yearId} subjectId={id} />
+                <ButtonDeleteLecture lectureId={id} subjectId={subjectId} />
               </td>
             </tr>
           ))}

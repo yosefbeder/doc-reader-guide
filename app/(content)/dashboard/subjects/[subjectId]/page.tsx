@@ -1,4 +1,3 @@
-import React from "react";
 import UpdateSubjectForm from "../components/UpdateSubjectForm";
 import getUser from "@/utils/getUser";
 import getSubject from "@/utils/getSubject";

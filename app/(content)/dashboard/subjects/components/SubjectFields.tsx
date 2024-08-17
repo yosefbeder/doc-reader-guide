@@ -43,7 +43,7 @@ export default function SubjectFields({
         className="mb-4"
       />
       <Input
-        label="الرقم التعريفي للموديول"
+        label="الموديول"
         icon="academic-cap"
         type="number"
         name="module-id"

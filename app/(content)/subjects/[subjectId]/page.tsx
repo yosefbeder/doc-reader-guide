@@ -32,7 +32,7 @@ export default async function LecturesPage({
       </Path>
       <main className="main">
         <ul className="flex flex-wrap gap-4">
-          {lectures.map(({ id, title, updatedAt }, index) => (
+          {lectures.map(({ id, title, date, createdAt }, index) => (
             <li key={index}>
               <Link
                 href={
@@ -43,8 +43,8 @@ export default async function LecturesPage({
                 className="card"
               >
                 <h2>{title}</h2>
-                <time dateTime={new Date(updatedAt).toISOString()}>
-                  {new Date(updatedAt).toDateString()}
+                <time dateTime={new Date(date || createdAt).toISOString()}>
+                  {new Date(date || createdAt).toDateString()}
                 </time>
               </Link>
             </li>

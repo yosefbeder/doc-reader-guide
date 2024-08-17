@@ -140,7 +140,7 @@ export async function addModule(
   const json = await res.json();
 
   revalidatePath("/dashboard/modules", "page");
-  revalidatePath("/modules", "page");
+  revalidatePath("/", "page");
 
   return { type: res.ok ? "success" : "fail", message: json.message };
 }
@@ -172,7 +172,7 @@ export async function updateModule(
   const json = await res.json();
 
   revalidatePath("/dashboard/modules", "page");
-  revalidatePath("/modules", "page");
+  revalidatePath("/", "page");
 
   return { type: res.ok ? "success" : "fail", message: json.message };
 }
@@ -199,7 +199,7 @@ export async function deleteModule(
   if (!res.ok) return { type: "fail", message: json.message };
 
   revalidatePath("/dashboard/modules", "page");
-  revalidatePath("/modules", "page");
+  revalidatePath("/", "page");
 
   return {};
 }
@@ -288,6 +288,88 @@ export async function deleteSubject(
 
   revalidatePath("/dashboard/subjects", "page");
   revalidatePath(`/modules/${moduleId}`, "page");
+
+  return {};
+}
+
+export async function addLecture(
+  _prevState: FormState,
+  formData: FormData
+): Promise<FormState> {
+  const subjectId = formData.get("subject-id");
+  const data = {
+    title: formData.get("title"),
+    subTitle: " ",
+    date: formData.get("date"),
+  };
+
+  const res = await fetch(`${API_URL}/subjects/${subjectId}/create-lecture`, {
+    method: "POST",
+    headers: {
+      "content-type": "application/json;charset=UTF-8",
+      authorization: `Bearer ${cookies().get("jwt")!.value}`,
+    },
+    body: JSON.stringify(data),
+  });
+
+  const json = await res.json();
+
+  revalidatePath("/dashboard/lectures", "page");
+  revalidatePath(`/subjects/${subjectId}`, "page");
+
+  return { type: res.ok ? "success" : "fail", message: json.message };
+}
+
+export async function updateLecture(
+  _prevState: FormState,
+  formData: FormData
+): Promise<FormState> {
+  const lectureId = formData.get("lecture-id");
+  const subjectId = formData.get("subject-id");
+  const data = {
+    title: formData.get("title"),
+    subTitle: " ",
+    date: formData.get("date"),
+    subjectId,
+  };
+
+  const res = await fetch(`${API_URL}/lectures/${lectureId}/update`, {
+    method: "PATCH",
+    headers: {
+      "content-type": "application/json;charset=UTF-8",
+      authorization: `Bearer ${cookies().get("jwt")!.value}`,
+    },
+    body: JSON.stringify(data),
+  });
+
+  const json = await res.json();
+
+  revalidatePath("/dashboard/lectures", "page");
+  revalidatePath(`/subjects/${subjectId}`, "page");
+
+  return { type: res.ok ? "success" : "fail", message: json.message };
+}
+
+export async function deleteLecture(
+  _prevState: FormState,
+  formData: FormData
+): Promise<FormState> {
+  const lectureId = formData.get("lecture-id");
+  const subjectId = formData.get("subject-id");
+  const res = await fetch(`${API_URL}/lectures/${lectureId}/delete`, {
+    method: "DELETE",
+    headers: {
+      "content-type": "application/json;charset=UTF-8",
+      authorization: `Bearer ${cookies().get("jwt")!.value}`,
+    },
+  });
+
+  const json = await res.json();
+
+  if (!res.ok) return { type: "fail", message: json.message };
+
+  revalidatePath("/dashboard/lectures", "page");
+  revalidatePath(`/subjects/${subjectId}`, "page");
 
   return {};
 }

@@ -37,6 +37,10 @@
   td {
     @apply p-2 border border-slate-200;
   }
+
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    display: none;
+  }
 }
 
 @layer utilities {
