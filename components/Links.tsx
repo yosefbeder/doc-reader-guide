@@ -84,6 +84,7 @@ export default function Links({ links }: { links: Link[] }) {
               <li key={index}>
                 <a
                   className="flex gap-2 my-2 no-underline text-inherit hover:text-inherit"
+                  target="_blank"
                   href={url}
                 >
                   <span>{icons[type]}</span>
