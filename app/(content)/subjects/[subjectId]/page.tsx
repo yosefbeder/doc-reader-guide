@@ -31,7 +31,7 @@ export default async function LecturesPage({
         {subject.name}
       </Path>
       <main className="main">
-        <ul className="flex flex-wrap gap-4">
+        <ul className="card-container">
           {lectures.map(({ id, title, date, createdAt }, index) => (
             <li key={index}>
               <Link

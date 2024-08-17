@@ -11,7 +11,7 @@ export default async function ModulesPage() {
 
   return (
     <main className="main">
-      <ul className="flex flex-wrap gap-4">
+      <ul className="card-container">
         {modules.map(({ id, name, icon, semesterName }, index) => (
           <li key={index}>
             <Link href={`/modules/${id}`} className="card">

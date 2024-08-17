@@ -22,7 +22,7 @@ export default async function SubjectsPage({
         <sup>{getPrefix(module.semesterName)}</sup> Semester → {module.name}
       </Path>
       <main className="main">
-        <ul className="flex flex-wrap gap-4">
+        <ul className="card-container">
           {subjects.map(({ id, name, icon }, index) => (
             <li key={index}>
               <Link href={`/subjects/${id}`} className="card">

@@ -51,4 +51,8 @@
   .main {
     @apply max-w-screen-lg mx-auto px-2 py-4;
   }
+
+  .card-container {
+    @apply flex flex-wrap gap-4 max-lg:justify-center;
+  }
 }
