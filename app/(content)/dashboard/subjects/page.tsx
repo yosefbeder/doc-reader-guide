@@ -22,41 +22,44 @@ export default async function SubjectsPage() {
       <h2 className="mb-4">إضافة مادة</h2>
       <AddSubjectForm yearId={yearId} />
       <h2 className="mb-4">عرض المواد</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>الرقم التعريفي</th>
-            <th>الأيقونة</th>
-            <th>الاسم</th>
-            <th>الموديول</th>
-            <th>الإجراءات</th>
-          </tr>
-        </thead>
-        <tbody>
-          {subjects.map(({ id, icon, name, moduleId }) => (
-            <tr key={id}>
-              <td>{id}</td>
-              <td>
-                <Image src={icon} alt={name} width={48} height={48} />
-              </td>
-              <td>{name}</td>
-              <td>{moduleId}</td>
-              <td>
-                <Link
-                  href={`/dashboard/subjects/${id}`}
-                  passHref
-                  className="text-inherit hover:text-inherit"
-                >
-                  <Button color="yellow" className="ml-2">
-                    تعديل
-                  </Button>
-                </Link>
-                <ButtonDeleteSubject yearId={yearId} subjectId={id} />
-              </td>
+
+      <div className="overflow-y-scroll">
+        <table className="w-max">
+          <thead>
+            <tr>
+              <th>الرقم التعريفي</th>
+              <th>الأيقونة</th>
+              <th>الاسم</th>
+              <th>الموديول</th>
+              <th>الإجراءات</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {subjects.map(({ id, icon, name, moduleId }) => (
+              <tr key={id}>
+                <td>{id}</td>
+                <td>
+                  <Image src={icon} alt={name} width={48} height={48} />
+                </td>
+                <td>{name}</td>
+                <td>{moduleId}</td>
+                <td>
+                  <Link
+                    href={`/dashboard/subjects/${id}`}
+                    passHref
+                    className="text-inherit hover:text-inherit"
+                  >
+                    <Button color="yellow" className="ml-2">
+                      تعديل
+                    </Button>
+                  </Link>
+                  <ButtonDeleteSubject yearId={yearId} subjectId={id} />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </main>
   );
 }

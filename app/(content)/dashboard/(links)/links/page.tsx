@@ -53,143 +53,150 @@ export default async function LinksPage() {
       <h2 className="mb-4">إضافة مصدر</h2>
       <AddLinkForm />
       <h2 className="mb-4">عرض مصادر المحاضرات</h2>
-      <table className="mb-4">
-        <thead>
-          <tr>
-            <th>الرقم التعريفي</th>
-            <th>العنوان</th>
-            <th>تحت العنوان</th>
-            <th>الرابط</th>
-            <th>النوع</th>
-            <th>القسم</th>
-            <th>المحاضرة</th>
-            <th>الإجراءات</th>
-          </tr>
-        </thead>
-        <tbody>
-          {lectureLinks.map(
-            ({ id, title, subTitle, url, type, category, lectureId }) => (
-              <tr>
-                <td>{id}</td>
-                <td>{title}</td>
-                <td>{subTitle}</td>
-                <td>{url}</td>
-                <td>{type}</td>
-                <td>{category}</td>
-                <td>{lectureId}</td>
-                <td>
-                  <Link
-                    href={`/dashboard/lectures-links/${id}`}
-                    passHref
-                    className="text-inherit hover:text-inherit"
-                  >
-                    <Button color="yellow" className="ml-2">
-                      تعديل
-                    </Button>
-                  </Link>
-                  <ButtonDeleteLink
-                    linkId={id}
-                    place="lectures"
-                    id={lectureId}
-                  />
-                </td>
-              </tr>
-            )
-          )}
-        </tbody>
-      </table>
+      <div className="overflow-y-scroll mb-4">
+        <table className="w-max">
+          <thead>
+            <tr>
+              <th>الرقم التعريفي</th>
+              <th>العنوان</th>
+              <th>تحت العنوان</th>
+              <th>الرابط</th>
+              <th>النوع</th>
+              <th>القسم</th>
+              <th>المحاضرة</th>
+              <th>الإجراءات</th>
+            </tr>
+          </thead>
+          <tbody>
+            {lectureLinks.map(
+              ({ id, title, subTitle, url, type, category, lectureId }) => (
+                <tr>
+                  <td>{id}</td>
+                  <td>{title}</td>
+                  <td>{subTitle}</td>
+                  <td>{url}</td>
+                  <td>{type}</td>
+                  <td>{category}</td>
+                  <td>{lectureId}</td>
+                  <td>
+                    <Link
+                      href={`/dashboard/lectures-links/${id}`}
+                      passHref
+                      className="text-inherit hover:text-inherit"
+                    >
+                      <Button color="yellow" className="ml-2">
+                        تعديل
+                      </Button>
+                    </Link>
+                    <ButtonDeleteLink
+                      linkId={id}
+                      place="lectures"
+                      id={lectureId}
+                    />
+                  </td>
+                </tr>
+              )
+            )}
+          </tbody>
+        </table>
+      </div>
       <h2 className="mb-4">عرض مصادر العملي</h2>
-      <table className="mb-4">
-        <thead>
-          <tr>
-            <th>الرقم التعريفي</th>
-            <th>العنوان</th>
-            <th>تحت العنوان</th>
-            <th>الرابط</th>
-            <th>النوع</th>
-            <th>القسم</th>
-            <th>المادة</th>
-            <th>الإجراءات</th>
-          </tr>
-        </thead>
-        <tbody>
-          {practicalLinks.map(
-            ({ id, title, subTitle, url, type, category, subjectId }) => (
-              <tr>
-                <td>{id}</td>
-                <td>{title}</td>
-                <td>{subTitle}</td>
-                <td>{url}</td>
-                <td>{type}</td>
-                <td>{category}</td>
-                <td>{subjectId}</td>
-                <td>
-                  <Link
-                    href={`/dashboard/practical-links/${subjectId}`}
-                    passHref
-                    className="text-inherit hover:text-inherit"
-                  >
-                    <Button color="yellow" className="ml-2">
-                      تعديل
-                    </Button>
-                  </Link>
-                  <ButtonDeleteLink
-                    linkId={id}
-                    place="practical"
-                    id={subjectId}
-                  />
-                </td>
-              </tr>
-            )
-          )}
-        </tbody>
-      </table>
+
+      <div className="overflow-y-scroll mb-4">
+        <table className="w-max">
+          <thead>
+            <tr>
+              <th>الرقم التعريفي</th>
+              <th>العنوان</th>
+              <th>تحت العنوان</th>
+              <th>الرابط</th>
+              <th>النوع</th>
+              <th>القسم</th>
+              <th>المادة</th>
+              <th>الإجراءات</th>
+            </tr>
+          </thead>
+          <tbody>
+            {practicalLinks.map(
+              ({ id, title, subTitle, url, type, category, subjectId }) => (
+                <tr>
+                  <td>{id}</td>
+                  <td>{title}</td>
+                  <td>{subTitle}</td>
+                  <td>{url}</td>
+                  <td>{type}</td>
+                  <td>{category}</td>
+                  <td>{subjectId}</td>
+                  <td>
+                    <Link
+                      href={`/dashboard/practical-links/${subjectId}`}
+                      passHref
+                      className="text-inherit hover:text-inherit"
+                    >
+                      <Button color="yellow" className="ml-2">
+                        تعديل
+                      </Button>
+                    </Link>
+                    <ButtonDeleteLink
+                      linkId={id}
+                      place="practical"
+                      id={subjectId}
+                    />
+                  </td>
+                </tr>
+              )
+            )}
+          </tbody>
+        </table>
+      </div>
       <h2 className="mb-4">عرض مصادر المراجعة النهائية</h2>
-      <table className="mb-4">
-        <thead>
-          <tr>
-            <th>الرقم التعريفي</th>
-            <th>العنوان</th>
-            <th>تحت العنوان</th>
-            <th>الرابط</th>
-            <th>النوع</th>
-            <th>القسم</th>
-            <th>المادة</th>
-            <th>الإجراءات</th>
-          </tr>
-        </thead>
-        <tbody>
-          {finalRevisionLinks.map(
-            ({ id, title, subTitle, url, type, category, subjectId }) => (
-              <tr>
-                <td>{id}</td>
-                <td>{title}</td>
-                <td>{subTitle}</td>
-                <td>{url}</td>
-                <td>{type}</td>
-                <td>{category}</td>
-                <td>{subjectId}</td>
-                <td>
-                  <Link
-                    href={`/dashboard/final-revision-links/${subjectId}`}
-                    passHref
-                    className="text-inherit hover:text-inherit"
-                  >
-                    <Button color="yellow" className="ml-2">
-                      تعديل
-                    </Button>
-                  </Link>
-                  <ButtonDeleteLink
-                    linkId={id}
-                    place="final-revision"
-                    id={subjectId}
-                  />
-                </td>
-              </tr>
-            )
-          )}
-        </tbody>
-      </table>
+      <div className="overflow-y-scroll mb-4">
+        <table className="w-max">
+          <thead>
+            <tr>
+              <th>الرقم التعريفي</th>
+              <th>العنوان</th>
+              <th>تحت العنوان</th>
+              <th>الرابط</th>
+              <th>النوع</th>
+              <th>القسم</th>
+              <th>المادة</th>
+              <th>الإجراءات</th>
+            </tr>
+          </thead>
+          <tbody>
+            {finalRevisionLinks.map(
+              ({ id, title, subTitle, url, type, category, subjectId }) => (
+                <tr>
+                  <td>{id}</td>
+                  <td>{title}</td>
+                  <td>{subTitle}</td>
+                  <td>{url}</td>
+                  <td>{type}</td>
+                  <td>{category}</td>
+                  <td>{subjectId}</td>
+                  <td>
+                    <Link
+                      href={`/dashboard/final-revision-links/${subjectId}`}
+                      passHref
+                      className="text-inherit hover:text-inherit"
+                    >
+                      <Button color="yellow" className="ml-2">
+                        تعديل
+                      </Button>
+                    </Link>
+                    <ButtonDeleteLink
+                      linkId={id}
+                      place="final-revision"
+                      id={subjectId}
+                    />
+                  </td>
+                </tr>
+              )
+            )}
+          </tbody>
+        </table>
+      </div>
     </main>
   );
 }

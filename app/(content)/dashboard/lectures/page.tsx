@@ -27,39 +27,41 @@ export default async function LecturesPage() {
       <h2 className="mb-4">إضافة محاضرة</h2>
       <AddLectureForm />
       <h2 className="mb-4">عرض المحاضرات</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>الرقم التعريفي</th>
-            <th>العنوان</th>
-            <th>المادة</th>
-            <th>التاريخ</th>
-            <th>الإجراءات</th>
-          </tr>
-        </thead>
-        <tbody>
-          {lectures.map(({ id, title, subjectId, date }) => (
-            <tr key={id}>
-              <td>{id}</td>
-              <td className="max-w-80">{title}</td>
-              <td>{subjectId}</td>
-              <td>{new Date(date).toDateString()}</td>
-              <td>
-                <Link
-                  href={`/dashboard/lectures/${id}`}
-                  passHref
-                  className="text-inherit hover:text-inherit"
-                >
-                  <Button color="yellow" className="ml-2">
-                    تعديل
-                  </Button>
-                </Link>
-                <ButtonDeleteLecture lectureId={id} subjectId={subjectId} />
-              </td>
+      <div className="overflow-y-scroll">
+        <table className="w-max">
+          <thead>
+            <tr>
+              <th>الرقم التعريفي</th>
+              <th>العنوان</th>
+              <th>المادة</th>
+              <th>التاريخ</th>
+              <th>الإجراءات</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {lectures.map(({ id, title, subjectId, date }) => (
+              <tr key={id}>
+                <td>{id}</td>
+                <td>{title}</td>
+                <td>{subjectId}</td>
+                <td>{new Date(date).toDateString()}</td>
+                <td>
+                  <Link
+                    href={`/dashboard/lectures/${id}`}
+                    passHref
+                    className="text-inherit hover:text-inherit"
+                  >
+                    <Button color="yellow" className="ml-2">
+                      تعديل
+                    </Button>
+                  </Link>
+                  <ButtonDeleteLecture lectureId={id} subjectId={subjectId} />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </main>
   );
 }
