@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { getLectures } from "@/utils/getLectures";
+import getLectures from "@/utils/getLectures";
 import getModules from "@/utils/getModules";
 import getSubjects from "@/utils/getSubjects";
 import getUser from "@/utils/getUser";

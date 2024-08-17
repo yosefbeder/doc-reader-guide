@@ -373,3 +373,90 @@ export async function deleteLecture(
 
   return {};
 }
+
+export async function addLink(
+  _prevState: FormState,
+  formData: FormData
+): Promise<FormState> {
+  const place = formData.get("place");
+  let id = formData.get("id");
+  const data = {
+    title: formData.get("title"),
+    subTitle: formData.get("sub-title"),
+    url: formData.get("url"),
+    type: formData.get("type"),
+    category: formData.get("category"),
+  };
+
+  const res = await fetch(`${API_URL}/${place}/${id}/links/create`, {
+    method: "POST",
+    headers: {
+      "content-type": "application/json;charset=UTF-8",
+      authorization: `Bearer ${cookies().get("jwt")!.value}`,
+    },
+    body: JSON.stringify(data),
+  });
+
+  const json = await res.json();
+
+  revalidatePath("/dashboard/links", "page");
+  revalidatePath(`/${place}/${id}`, "page");
+
+  return { type: res.ok ? "success" : "fail", message: json.message };
+}
+
+export async function updateLink(
+  _prevState: FormState,
+  formData: FormData
+): Promise<FormState> {
+  const place = formData.get("place");
+  let id = formData.get("id");
+  const data = {
+    title: formData.get("title"),
+    subTitle: formData.get("sub-title"),
+    url: formData.get("url"),
+    type: formData.get("type"),
+    category: formData.get("category"),
+  };
+
+  const res = await fetch(`${API_URL}/${place}/${id}/links/update`, {
+    method: "PATCH",
+    headers: {
+      "content-type": "application/json;charset=UTF-8",
+      authorization: `Bearer ${cookies().get("jwt")!.value}`,
+    },
+    body: JSON.stringify(data),
+  });
+
+  const json = await res.json();
+
+  revalidatePath("/dashboard/links", "page");
+  revalidatePath(`/${place}/${id}`, "page");
+
+  return { type: res.ok ? "success" : "fail", message: json.message };
+}
+
+export async function deleteLink(
+  _prevState: FormState,
+  formData: FormData
+): Promise<FormState> {
+  const linkId = formData.get("link-id");
+  const place = formData.get("place");
+  const id = formData.get("id");
+  const res = await fetch(`${API_URL}/${place}/${id}/links/${linkId}/delete`, {
+    method: "DELETE",
+    headers: {
+      "content-type": "application/json;charset=UTF-8",
+      authorization: `Bearer ${cookies().get("jwt")!.value}`,
+    },
+  });
+
+  const json = await res.json();
+
+  if (!res.ok) return { type: "fail", message: json.message };
+
+  revalidatePath("/dashboard/links", "page");
+  revalidatePath(`/${place}/${id}`, "page");
+
+  return {};
+}

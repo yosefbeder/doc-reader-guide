@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 
 import { Icon } from "./icons";
 import FormItem from "./FormItem";
@@ -8,7 +8,7 @@ import FormItem from "./FormItem";
 interface SelectProps extends React.ComponentProps<"select"> {
   label: string;
   icon: Icon;
-  options: { label: string; value: number }[];
+  options: { label: string; value: number | string }[];
 }
 
 export default function Select({

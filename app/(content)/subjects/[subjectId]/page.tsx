@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 import Path from "@/components/Path";
-import { getLectures } from "@/utils/getLectures";
+import getLectures from "@/utils/getLectures";
 import getModule from "@/utils/getModule";
 import getPrefix from "@/utils/getPrefix";
 import getSubject from "@/utils/getSubject";
