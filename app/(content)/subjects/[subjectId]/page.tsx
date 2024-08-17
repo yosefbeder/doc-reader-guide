@@ -16,7 +16,7 @@ export default async function LecturesPage({
 }) {
   const { yearId } = await getUser();
   const subject = await getSubject(+subjectId);
-  const module = await getModule(yearId, +subject.moduleId);
+  const myModule = await getModule(yearId, +subject.moduleId);
   const lectures = [
     await getPractical(+subjectId),
     await getFinalRevision(+subjectId),
@@ -26,13 +26,13 @@ export default async function LecturesPage({
   return (
     <>
       <Path>
-        {module.semesterName}
-        <sup>{getPrefix(module.semesterName)}</sup> Semester →{" "}
+        {myModule.semesterName}
+        <sup>{getPrefix(myModule.semesterName)}</sup> Semester →{" "}
         <Link
-          href={`/modules/${module.id}`}
+          href={`/modules/${myModule.id}`}
           className="text-inherit hover:text-white"
         >
-          {module.name}
+          {myModule.name}
         </Link>{" "}
         → {subject.name}
       </Path>

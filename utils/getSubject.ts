@@ -11,6 +11,6 @@ export default async function getSubject(subjectId: number): Promise<Subject> {
     },
   });
   const json = await res.json();
-  console.log(json);
+  if (!res.ok) throw new Error();
   return json.data;
 }

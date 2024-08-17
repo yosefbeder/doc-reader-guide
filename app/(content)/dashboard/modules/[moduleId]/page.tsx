@@ -10,12 +10,12 @@ export default async function UpdateModulePage({
   params: { moduleId: string };
 }) {
   const { yearId } = await getUser();
-  const module = await getModule(yearId, +moduleId);
+  const myModule = await getModule(yearId, +moduleId);
 
   return (
     <main className="main">
-      <h2 className="mb-4">تعديل الموديول {module.id}</h2>
-      <UpdateModuleForm module={module} />
+      <h2 className="mb-4">تعديل الموديول {myModule.id}</h2>
+      <UpdateModuleForm myModule={myModule} />
     </main>
   );
 }

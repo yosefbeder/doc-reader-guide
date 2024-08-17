@@ -13,13 +13,13 @@ export default async function PracticalPage({
 }) {
   const { yearId } = await getUser();
   const subject = await getSubject(+subjectId);
-  const module = await getModule(yearId, subject.moduleId);
+  const myModule = await getModule(yearId, subject.moduleId);
   const lecture = await getPractical(+subjectId);
   const links = await getPracticalLinks(+subjectId);
 
   return (
     <>
-      <Path subject={subject} module={module} lecture={lecture} />
+      <Path subject={subject} myModule={myModule} lecture={lecture} />
       <main className="main">
         <Links links={links} />
       </main>

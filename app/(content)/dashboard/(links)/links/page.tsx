@@ -16,7 +16,7 @@ export default async function LinksPage() {
   const modules = await getModules(yearId);
   const subjects = (
     await Promise.all(
-      modules.map(async (module) => await getSubjects(yearId, module.id))
+      modules.map(async (myModule) => await getSubjects(yearId, myModule.id))
     )
   ).flat();
   const lectures = (
@@ -70,7 +70,7 @@ export default async function LinksPage() {
           <tbody>
             {lectureLinks.map(
               ({ id, title, subTitle, url, type, category, lectureId }) => (
-                <tr>
+                <tr key={id}>
                   <td>{id}</td>
                   <td>{title}</td>
                   <td>{subTitle}</td>
@@ -119,7 +119,7 @@ export default async function LinksPage() {
           <tbody>
             {practicalLinks.map(
               ({ id, title, subTitle, url, type, category, subjectId }) => (
-                <tr>
+                <tr key={id}>
                   <td>{id}</td>
                   <td>{title}</td>
                   <td>{subTitle}</td>
@@ -167,7 +167,7 @@ export default async function LinksPage() {
           <tbody>
             {finalRevisionLinks.map(
               ({ id, title, subTitle, url, type, category, subjectId }) => (
-                <tr>
+                <tr key={id}>
                   <td>{id}</td>
                   <td>{title}</td>
                   <td>{subTitle}</td>

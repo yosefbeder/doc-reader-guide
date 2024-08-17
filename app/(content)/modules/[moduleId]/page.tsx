@@ -13,13 +13,13 @@ export default async function SubjectsPage({
   params: { moduleId: number };
 }) {
   const { yearId } = await getUser();
-  const module = await getModule(yearId, moduleId);
+  const myModule = await getModule(yearId, moduleId);
   const subjects = await getSubjects(yearId, moduleId);
   return (
     <>
       <Path>
-        {module.semesterName}
-        <sup>{getPrefix(module.semesterName)}</sup> Semester → {module.name}
+        {myModule.semesterName}
+        <sup>{getPrefix(myModule.semesterName)}</sup> Semester → {myModule.name}
       </Path>
       <main className="main">
         <ul className="card-container">

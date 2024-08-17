@@ -5,23 +5,23 @@ import { Module, Lecture, Subject } from "@/types";
 import getPrefix from "@/utils/getPrefix";
 
 export default function Path({
-  module,
+  myModule,
   subject,
   lecture,
 }: {
-  module: Module;
+  myModule: Module;
   subject: Subject;
   lecture: Lecture;
 }) {
   return (
     <BasicPath>
-      {module.semesterName}
-      <sup>{getPrefix(module.semesterName)}</sup> Semester →{" "}
+      {myModule.semesterName}
+      <sup>{getPrefix(myModule.semesterName)}</sup> Semester →{" "}
       <Link
-        href={`/modules/${module.id}`}
+        href={`/modules/${myModule.id}`}
         className="text-inherit hover:text-white"
       >
-        {module.name}
+        {myModule.name}
       </Link>{" "}
       →{" "}
       <Link

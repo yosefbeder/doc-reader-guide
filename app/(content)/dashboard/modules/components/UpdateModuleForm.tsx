@@ -9,9 +9,9 @@ import { updateModule } from "@/lib/actions";
 import Message from "@/components/Message";
 
 export default function UpdateModuleForm({
-  module: { id, icon, name, semesterName, yearId },
+  myModule: { id, icon, name, semesterName, yearId },
 }: {
-  module: Module;
+  myModule: Module;
 }) {
   const [formState, formAction] = useFormState(updateModule, {});
 

@@ -13,7 +13,7 @@ export default async function SubjectsPage() {
   const modules = await getModules(yearId);
   const subjects = (
     await Promise.all(
-      modules.map(async (module) => await getSubjects(yearId, module.id))
+      modules.map(async (myModule) => await getSubjects(yearId, myModule.id))
     )
   ).flat();
 
