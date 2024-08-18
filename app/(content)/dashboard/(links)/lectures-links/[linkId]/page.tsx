@@ -1,7 +1,15 @@
-export default function LectureLinkUpdatePage({
-  params: { linkId: _linkId },
+import getLectureLink from "@/utils/getLectureLink";
+import UpdateLinkForm from "../../components/UpdateLinkForm";
+
+export default async function LectureLinkUpdatePage({
+  params: { linkId },
 }: {
   params: { linkId: string };
 }) {
-  return <main className="main">لم يتم تنفيذه بعد</main>;
+  const link = await getLectureLink(+linkId);
+  return (
+    <main className="main">
+      <UpdateLinkForm id={link.lectureId} place="lectures" link={link} />
+    </main>
+  );
 }

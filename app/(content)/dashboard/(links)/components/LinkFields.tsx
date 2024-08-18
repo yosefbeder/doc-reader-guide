@@ -22,11 +22,20 @@ export default function LinkFields({
   return (
     <>
       {defaultValues && (
-        <input
-          id="link-id"
-          name="link-id"
-          defaultValue={defaultValues.linkId}
-        />
+        <>
+          <input
+            id="link-id"
+            name="link-id"
+            className="hidden"
+            defaultValue={defaultValues.linkId}
+          />
+          <input
+            id="place"
+            name="place"
+            className="hidden"
+            defaultValue={place}
+          />
+        </>
       )}
       <Input
         label="العنوان"

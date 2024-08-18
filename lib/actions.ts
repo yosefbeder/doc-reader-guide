@@ -296,11 +296,12 @@ export async function addLecture(
   _prevState: FormState,
   formData: FormData
 ): Promise<FormState> {
-  const subjectId = formData.get("subject-id");
+  const subjectId = +(formData.get("subject-id") as string);
   const data = {
     title: formData.get("title"),
     subTitle: " ",
     date: formData.get("date"),
+    subjectId,
   };
 
   const res = await fetch(`${API_URL}/subjects/${subjectId}/create-lecture`, {
@@ -324,8 +325,8 @@ export async function updateLecture(
   _prevState: FormState,
   formData: FormData
 ): Promise<FormState> {
-  const lectureId = formData.get("lecture-id");
-  const subjectId = formData.get("subject-id");
+  const lectureId = +(formData.get("lecture-id") as string);
+  const subjectId = +(formData.get("subject-id") as string);
   const data = {
     title: formData.get("title"),
     subTitle: " ",
@@ -409,6 +410,7 @@ export async function updateLink(
   _prevState: FormState,
   formData: FormData
 ): Promise<FormState> {
+  const linkId = formData.get("link-id");
   const place = formData.get("place");
   let id = formData.get("id");
   const data = {
@@ -419,7 +421,7 @@ export async function updateLink(
     category: formData.get("category"),
   };
 
-  const res = await fetch(`${API_URL}/${place}/${id}/links/update`, {
+  const res = await fetch(`${API_URL}/${place}/${id}/links/${linkId}/update`, {
     method: "PATCH",
     headers: {
       "content-type": "application/json;charset=UTF-8",

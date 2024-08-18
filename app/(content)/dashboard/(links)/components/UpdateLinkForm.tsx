@@ -1,6 +1,9 @@
+"use client";
+
 import React from "react";
-import LinkFields, { LinkPlace } from "./LinkFields";
 import { useFormState } from "react-dom";
+
+import LinkFields, { LinkPlace } from "./LinkFields";
 import { updateLink } from "@/lib/actions";
 import Message from "@/components/Message";
 import ButtonSubmit from "@/components/ButtonSubmit";
