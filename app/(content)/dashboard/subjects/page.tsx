@@ -20,9 +20,8 @@ export default async function SubjectsPage() {
   return (
     <main className="main">
       <h2 className="mb-4">إضافة مادة</h2>
-      <AddSubjectForm yearId={yearId} />
+      <AddSubjectForm yearId={yearId} modules={modules} />
       <h2 className="mb-4">عرض المواد</h2>
-
       <div className="overflow-y-scroll">
         <table className="w-max">
           <thead>
@@ -42,7 +41,7 @@ export default async function SubjectsPage() {
                   <Image src={icon} alt={name} width={48} height={48} />
                 </td>
                 <td>{name}</td>
-                <td>{moduleId}</td>
+                <td>{modules.find(({ id }) => id === moduleId)!.name}</td>
                 <td>
                   <Link
                     href={`/dashboard/subjects/${id}`}

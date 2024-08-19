@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 
 import { API_URL } from "@/constants";
-import { Lecture, Link } from "@/types";
+import { Lecture, PracticalLink } from "@/types";
 
 export default async function getPractical(
   subjectId: number
@@ -17,7 +17,9 @@ export default async function getPractical(
   return json.data;
 }
 
-export async function getPracticalLinks(subjectId: number): Promise<Link[]> {
+export async function getPracticalLinks(
+  subjectId: number
+): Promise<PracticalLink[]> {
   const jwt = cookies().get("jwt")!.value;
   const res = await fetch(`${API_URL}/practical/${subjectId}/links`, {
     headers: {

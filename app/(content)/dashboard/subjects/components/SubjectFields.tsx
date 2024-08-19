@@ -1,10 +1,14 @@
 import Input from "@/components/Input";
+import Select from "@/components/Select";
+import { Module } from "@/types";
 
 export default function SubjectFields({
   yearId,
+  modules,
   defaultValues,
 }: {
   yearId: number;
+  modules: Module[];
   defaultValues?: {
     id: number;
     icon: string;
@@ -42,12 +46,15 @@ export default function SubjectFields({
         required
         className="mb-4"
       />
-      <Input
+      <Select
         label="الموديول"
         icon="academic-cap"
-        type="number"
         name="module-id"
         id="module-id"
+        options={modules.map(({ name, id }) => ({
+          label: name,
+          value: id,
+        }))}
         defaultValue={defaultValues?.moduleId}
         required
         className="mb-4"

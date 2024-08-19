@@ -1,11 +1,11 @@
 import { cookies } from "next/headers";
 
 import { API_URL } from "@/constants";
-import { Link } from "@/types";
+import { FinalRevisionLink } from "@/types";
 
 export default async function getFinalRevisionLink(
   linkId: number
-): Promise<Link> {
+): Promise<FinalRevisionLink> {
   const jwt = cookies().get("jwt")!.value;
   const res = await fetch(`${API_URL}/final-revision/links/${linkId}`, {
     headers: {

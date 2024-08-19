@@ -1,14 +1,15 @@
 import Input from "@/components/Input";
 import Select from "@/components/Select";
-import React from "react";
 
 export type LinkPlace = "lectures" | "practical" | "final-revision";
 
 export default function LinkFields({
   place,
+  selectOptions,
   defaultValues,
 }: {
   place: LinkPlace;
+  selectOptions: any[];
   defaultValues?: {
     linkId: number;
     title: string;
@@ -96,13 +97,17 @@ export default function LinkFields({
         defaultValue={defaultValues && defaultValues.category}
         className="mb-4"
       />
-      <Input
+      <Select
         label={place === "lectures" ? "المحاضرة" : "المادة"}
         icon="academic-cap"
         id="id"
         name="id"
-        required
+        options={selectOptions.map(({ id, name, title }) => ({
+          label: name || title,
+          value: id,
+        }))}
         defaultValue={defaultValues && defaultValues.id}
+        required
         className="mb-4"
       />
     </>

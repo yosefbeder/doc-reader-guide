@@ -51,7 +51,7 @@ export default async function LinksPage() {
   return (
     <main className="main">
       <h2 className="mb-4">إضافة مصدر</h2>
-      <AddLinkForm />
+      <AddLinkForm lectures={lectures} subjects={subjects} />
       <h2 className="mb-4">عرض مصادر المحاضرات</h2>
       <div className="overflow-y-scroll mb-4">
         <table className="w-max">
@@ -77,7 +77,7 @@ export default async function LinksPage() {
                   <td>{url}</td>
                   <td>{type}</td>
                   <td>{category}</td>
-                  <td>{lectureId}</td>
+                  <td>{lectures.find(({ id }) => id === lectureId)!.title}</td>
                   <td>
                     <Link
                       href={`/dashboard/lectures-links/${id}`}
@@ -126,10 +126,10 @@ export default async function LinksPage() {
                   <td>{url}</td>
                   <td>{type}</td>
                   <td>{category}</td>
-                  <td>{subjectId}</td>
+                  <td>{subjects.find(({ id }) => id === subjectId)!.name}</td>
                   <td>
                     <Link
-                      href={`/dashboard/practical-links/${subjectId}`}
+                      href={`/dashboard/practical-links/${id}`}
                       passHref
                       className="text-inherit hover:text-inherit"
                     >
@@ -174,10 +174,10 @@ export default async function LinksPage() {
                   <td>{url}</td>
                   <td>{type}</td>
                   <td>{category}</td>
-                  <td>{subjectId}</td>
+                  <td>{subjects.find(({ id }) => id === subjectId)!.name}</td>
                   <td>
                     <Link
-                      href={`/dashboard/final-revision-links/${subjectId}`}
+                      href={`/dashboard/final-revision-links/${id}`}
                       passHref
                       className="text-inherit hover:text-inherit"
                     >

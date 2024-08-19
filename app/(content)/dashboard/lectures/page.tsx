@@ -25,7 +25,7 @@ export default async function LecturesPage() {
   return (
     <main className="main">
       <h2 className="mb-4">إضافة محاضرة</h2>
-      <AddLectureForm />
+      <AddLectureForm subjects={subjects} />
       <h2 className="mb-4">عرض المحاضرات</h2>
       <div className="overflow-y-scroll">
         <table className="w-max">
@@ -43,7 +43,7 @@ export default async function LecturesPage() {
               <tr key={id}>
                 <td>{id}</td>
                 <td>{title}</td>
-                <td>{subjectId}</td>
+                <td>{subjects.find(({ id }) => id === subjectId)!.name}</td>
                 <td>{new Date(date).toDateString()}</td>
                 <td>
                   <Link

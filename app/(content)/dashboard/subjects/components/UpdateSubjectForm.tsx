@@ -4,15 +4,17 @@ import { useFormState } from "react-dom";
 
 import ButtonSubmit from "@/components/ButtonSubmit";
 import SubjectFields from "./SubjectFields";
-import { Subject } from "@/types";
+import { Module, Subject } from "@/types";
 import { updateSubject } from "@/lib/actions";
 import Message from "@/components/Message";
 
 export default function UpdateSubjectForm({
   yearId,
+  modules,
   subject: { id, icon, name, moduleId },
 }: {
   yearId: number;
+  modules: Module[];
   subject: Subject;
 }) {
   const [formState, formAction] = useFormState(updateSubject, {});
@@ -21,6 +23,7 @@ export default function UpdateSubjectForm({
     <form action={formAction} className="max-w-lg">
       <SubjectFields
         yearId={yearId}
+        modules={modules}
         defaultValues={{ id, icon, name, moduleId }}
       />
       {formState.message && formState.type && (

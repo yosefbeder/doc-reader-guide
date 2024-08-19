@@ -1,8 +1,12 @@
 import Input from "@/components/Input";
+import Select from "@/components/Select";
+import { Subject } from "@/types";
 
 export default function LectureFields({
+  subjects,
   defaultValues,
 }: {
+  subjects: Subject[];
   defaultValues?: {
     id: number;
     title: string;
@@ -30,12 +34,12 @@ export default function LectureFields({
         required
         className="mb-4"
       />
-      <Input
+      <Select
         label="المادة"
         icon="academic-cap"
-        type="number"
         name="subject-id"
         id="subject-id"
+        options={subjects.map(({ name, id }) => ({ label: name, value: id }))}
         defaultValue={defaultValues?.subjectId}
         required
         className="mb-4"

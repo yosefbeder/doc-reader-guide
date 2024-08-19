@@ -70,11 +70,22 @@ export interface Lecture extends DatabaseTable {
   date: string;
 }
 
-export interface Link extends DatabaseTable {
+interface Link extends DatabaseTable {
   title: string;
   subTitle: string;
   url: string;
   type: "Video" | "Record" | "PDF" | "Data";
   category: "Data" | "College" | "Summary";
+}
+
+export interface LectureLink extends Link {
   lectureId: number;
+}
+
+export interface FinalRevisionLink extends Link {
+  finalRevisionId: number;
+}
+
+export interface PracticalLink extends Link {
+  practicalId: number;
 }

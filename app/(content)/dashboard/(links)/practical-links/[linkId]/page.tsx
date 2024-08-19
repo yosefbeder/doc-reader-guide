@@ -1,4 +1,4 @@
-export default async function FinalRevisionLinkUpdatePage({
+export default async function PracticalLinkUpdatePage({
   params: { linkId: _linkId },
 }: {
   params: { linkId: string };

@@ -6,13 +6,14 @@ import ButtonSubmit from "@/components/ButtonSubmit";
 import LectureFields from "./LectureFields";
 import { addLecture } from "@/lib/actions";
 import Message from "@/components/Message";
+import { Subject } from "@/types";
 
-export default function AddLectureForm() {
+export default function AddLectureForm({ subjects }: { subjects: Subject[] }) {
   const [formState, formAction] = useFormState(addLecture, {});
 
   return (
     <form action={formAction} className="max-w-lg mb-4">
-      <LectureFields />
+      <LectureFields subjects={subjects} />
       {formState.message && formState.type && (
         <Message type={formState.type} className="mb-4">
           {formState.message}

@@ -1,9 +1,11 @@
 import { cookies } from "next/headers";
 
 import { API_URL } from "@/constants";
-import { Link } from "@/types";
+import { LectureLink } from "@/types";
 
-export default async function getLectureLink(linkId: number): Promise<Link> {
+export default async function getLectureLink(
+  linkId: number
+): Promise<LectureLink> {
   const jwt = cookies().get("jwt")!.value;
   const res = await fetch(`${API_URL}/lectures/links/${linkId}`, {
     headers: {

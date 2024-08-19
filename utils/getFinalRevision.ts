@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 
 import { API_URL } from "@/constants";
-import { Lecture, Link } from "@/types";
+import { FinalRevisionLink, Lecture } from "@/types";
 
 export default async function getFinalRevision(
   subjectId: number
@@ -19,7 +19,7 @@ export default async function getFinalRevision(
 
 export async function getFinalRevisionLinks(
   subjectId: number
-): Promise<Link[]> {
+): Promise<FinalRevisionLink[]> {
   const jwt = cookies().get("jwt")!.value;
   const res = await fetch(`${API_URL}/final-revision/${subjectId}/links`, {
     headers: {

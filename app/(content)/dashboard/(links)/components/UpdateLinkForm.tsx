@@ -1,6 +1,5 @@
 "use client";
 
-import React from "react";
 import { useFormState } from "react-dom";
 
 import LinkFields, { LinkPlace } from "./LinkFields";
@@ -11,10 +10,12 @@ import ButtonSubmit from "@/components/ButtonSubmit";
 export default function UpdateLinkForm({
   place,
   id,
+  selectOptions,
   link: { id: linkId, title, subTitle, url, type, category },
 }: {
   place: LinkPlace;
   id: number;
+  selectOptions: any[];
   link: any;
 }) {
   const [formState, formAction] = useFormState(updateLink, {});
@@ -23,6 +24,7 @@ export default function UpdateLinkForm({
     <form action={formAction} className="max-w-lg">
       <LinkFields
         place={place}
+        selectOptions={selectOptions}
         defaultValues={{ linkId, title, subTitle, url, type, category, id }}
       />
       {formState.message && formState.type && (
