@@ -70,7 +70,7 @@ export interface Lecture extends DatabaseTable {
   date: string;
 }
 
-interface Link extends DatabaseTable {
+export interface Link extends DatabaseTable {
   title: string;
   subTitle: string;
   url: string;
