@@ -1,4 +1,5 @@
 import { Link } from "@/types";
+import { LinkPlaceholder } from "../loading";
 
 const icons = {
   Video: (
@@ -75,7 +76,7 @@ export default function Links({ links }: { links: Link[] }) {
         links.filter(({ category }) => category === "College"),
         links.filter(({ category }) => category === "Summary"),
       ].map((links, index) => (
-        <details key={index} className="mb-4">
+        <details key={index} className="mb-4" open>
           <summary>
             <h2>{["مصادر خارجية", "الكلية", "الملخصات"][index]}</h2>
           </summary>

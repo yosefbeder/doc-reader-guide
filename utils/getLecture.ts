@@ -11,7 +11,6 @@ export default async function getLecture(lectureId: number): Promise<Lecture> {
     },
   });
   const json = await res.json();
-  console.log(json, lectureId);
   if (!res.ok) throw new Error();
   return json.data;
 }
