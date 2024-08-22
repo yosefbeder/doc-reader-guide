@@ -39,26 +39,28 @@ export default async function LecturesPage() {
             </tr>
           </thead>
           <tbody>
-            {lectures.map(({ id, title, subjectId, date }) => (
-              <tr key={id}>
-                <td>{id}</td>
-                <td>{title}</td>
-                <td>{subjects.find(({ id }) => id === subjectId)!.name}</td>
-                <td>{new Date(date).toDateString()}</td>
-                <td>
-                  <Link
-                    href={`/dashboard/lectures/${id}`}
-                    passHref
-                    className="text-inherit hover:text-inherit"
-                  >
-                    <Button color="yellow" className="ml-2">
-                      تعديل
-                    </Button>
-                  </Link>
-                  <ButtonDeleteLecture lectureId={id} subjectId={subjectId} />
-                </td>
-              </tr>
-            ))}
+            {lectures
+              .filter((lecture) => lecture.type === "Normal")
+              .map(({ id, title, subjectId, date }) => (
+                <tr key={id}>
+                  <td>{id}</td>
+                  <td>{title}</td>
+                  <td>{subjects.find(({ id }) => id === subjectId)!.name}</td>
+                  <td>{new Date(date).toDateString()}</td>
+                  <td>
+                    <Link
+                      href={`/dashboard/lectures/${id}`}
+                      passHref
+                      className="text-inherit hover:text-inherit"
+                    >
+                      <Button color="yellow" className="ml-2">
+                        تعديل
+                      </Button>
+                    </Link>
+                    <ButtonDeleteLecture lectureId={id} subjectId={subjectId} />
+                  </td>
+                </tr>
+              ))}
           </tbody>
         </table>
       </div>

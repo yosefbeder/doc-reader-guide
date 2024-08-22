@@ -299,6 +299,7 @@ export async function addLecture(
   const subjectId = +(formData.get("subject-id") as string);
   const data = {
     title: formData.get("title"),
+    type: "Normal",
     subTitle: " ",
     date: formData.get("date"),
     subjectId,
@@ -379,17 +380,17 @@ export async function addLink(
   _prevState: FormState,
   formData: FormData
 ): Promise<FormState> {
-  const place = formData.get("place");
-  let id = formData.get("id");
+  const lectureId = formData.get("lecture-id");
   const data = {
     title: formData.get("title"),
     subTitle: formData.get("sub-title"),
     url: formData.get("url"),
     type: formData.get("type"),
     category: formData.get("category"),
+    lectureId,
   };
 
-  const res = await fetch(`${API_URL}/${place}/${id}/links/create`, {
+  const res = await fetch(`${API_URL}/lectures/${lectureId}/links/create`, {
     method: "POST",
     headers: {
       "content-type": "application/json;charset=UTF-8",
@@ -401,7 +402,7 @@ export async function addLink(
   const json = await res.json();
 
   revalidatePath("/dashboard/links", "page");
-  revalidatePath(`/${place}/${id}`, "page");
+  revalidatePath(`/lectures/${lectureId}`, "page");
 
   return { type: res.ok ? "success" : "fail", message: json.message };
 }
@@ -411,17 +412,17 @@ export async function updateLink(
   formData: FormData
 ): Promise<FormState> {
   const linkId = formData.get("link-id");
-  const place = formData.get("place");
-  let id = formData.get("id");
+  const lectureId = formData.get("lecture-id");
   const data = {
     title: formData.get("title"),
     subTitle: formData.get("sub-title"),
     url: formData.get("url"),
     type: formData.get("type"),
     category: formData.get("category"),
+    lectureId,
   };
 
-  const res = await fetch(`${API_URL}/${place}/${id}/links/${linkId}/update`, {
+  const res = await fetch(`${API_URL}/links/${linkId}/update`, {
     method: "PATCH",
     headers: {
       "content-type": "application/json;charset=UTF-8",
@@ -433,7 +434,7 @@ export async function updateLink(
   const json = await res.json();
 
   revalidatePath("/dashboard/links", "page");
-  revalidatePath(`/${place}/${id}`, "page");
+  revalidatePath(`/lectures/${lectureId}`, "page");
 
   return { type: res.ok ? "success" : "fail", message: json.message };
 }
@@ -443,9 +444,7 @@ export async function deleteLink(
   formData: FormData
 ): Promise<FormState> {
   const linkId = formData.get("link-id");
-  const place = formData.get("place");
-  const id = formData.get("id");
-  const res = await fetch(`${API_URL}/${place}/${id}/links/${linkId}/delete`, {
+  const res = await fetch(`${API_URL}/links/${linkId}/delete`, {
     method: "DELETE",
     headers: {
       "content-type": "application/json;charset=UTF-8",
@@ -458,7 +457,7 @@ export async function deleteLink(
   if (!res.ok) return { type: "fail", message: json.message };
 
   revalidatePath("/dashboard/links", "page");
-  revalidatePath(`/${place}/${id}`, "page");
+  revalidatePath(`/lectures/${json.data.lectureId}`, "page");
 
   return {};
 }

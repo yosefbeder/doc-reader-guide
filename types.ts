@@ -65,6 +65,7 @@ export interface Subject extends DatabaseTable {
 
 export interface Lecture extends DatabaseTable {
   title: string;
+  type: "Normal" | "Practical" | "FinalRevision";
   subTitle: string;
   subjectId: number;
   date: string;
@@ -76,16 +77,5 @@ export interface Link extends DatabaseTable {
   url: string;
   type: "Video" | "Record" | "PDF" | "Data";
   category: "Data" | "College" | "Summary";
-}
-
-export interface LectureLink extends Link {
   lectureId: number;
-}
-
-export interface FinalRevisionLink extends Link {
-  finalRevisionId: number;
-}
-
-export interface PracticalLink extends Link {
-  practicalId: number;
 }
