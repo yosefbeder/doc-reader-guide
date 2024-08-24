@@ -2,18 +2,18 @@
 
 import { useFormState } from "react-dom";
 
-import LinkFields, { ModifiedLecture } from "./LinkFields";
+import LinkFields from "./LinkFields";
 import { updateLink } from "@/lib/actions";
 import Message from "@/components/Message";
 import ButtonSubmit from "@/components/ButtonSubmit";
-import { Link } from "@/types";
+import { Link, Lecture } from "@/types";
 
 export default function UpdateLinkForm({
   link,
   lectures,
 }: {
   link: Link;
-  lectures: ModifiedLecture[];
+  lectures: Lecture[];
 }) {
   const [formState, formAction] = useFormState(updateLink, {});
 

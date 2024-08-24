@@ -3,15 +3,12 @@
 import { useFormState } from "react-dom";
 
 import ButtonSubmit from "@/components/ButtonSubmit";
-import LinkFields, { ModifiedLecture } from "./LinkFields";
+import LinkFields from "./LinkFields";
 import { addLink } from "@/lib/actions";
 import Message from "@/components/Message";
+import { Lecture } from "@/types";
 
-export default function AddLinkForm({
-  lectures,
-}: {
-  lectures: ModifiedLecture[];
-}) {
+export default function AddLinkForm({ lectures }: { lectures: Lecture[] }) {
   const [formState, formAction] = useFormState(addLink, {});
 
   return (
