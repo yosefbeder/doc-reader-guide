@@ -1,21 +1,18 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import Button from "@/components/Button";
-import getModules from "@/utils/getModules";
-import getSubjects from "@/utils/getSubjects";
 import getUser from "@/utils/getUser";
-import ButtonDeleteSubject from "./components/ButtonDeleteSubject";
+import getModules from "@/utils/getModules";
+import getAllSubjects from "@/utils/getAllSubjects";
+
 import AddSubjectForm from "./components/AddSubjectForm";
+import Button from "@/components/Button";
+import ButtonDeleteSubject from "./components/ButtonDeleteSubject";
 
 export default async function SubjectsPage() {
   const { yearId } = await getUser();
   const modules = await getModules(yearId);
-  const subjects = (
-    await Promise.all(
-      modules.map(async (myModule) => await getSubjects(yearId, myModule.id))
-    )
-  ).flat();
+  const subjects = await getAllSubjects(yearId);
 
   return (
     <main className="main">

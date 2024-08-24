@@ -2,6 +2,7 @@ import React from "react";
 
 import getModule from "@/utils/getModule";
 import getUser from "@/utils/getUser";
+
 import UpdateModuleForm from "../components/UpdateModuleForm";
 
 export default async function UpdateModulePage({
@@ -9,6 +10,7 @@ export default async function UpdateModulePage({
 }: {
   params: { moduleId: string };
 }) {
+  return <main className="main">🧑‍💻: تحت الصيانة...</main>;
   const { yearId } = await getUser();
   const myModule = await getModule(yearId, +moduleId);
 

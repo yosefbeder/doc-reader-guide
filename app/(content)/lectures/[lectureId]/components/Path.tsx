@@ -2,34 +2,29 @@ import Link from "next/link";
 
 import BasePath from "@/components/Path";
 import getLecture from "@/utils/getLecture";
-import getModule from "@/utils/getModule";
 import getPrefix from "@/utils/getPrefix";
-import getSubject from "@/utils/getSubject";
-import getUser from "@/utils/getUser";
 
-export default async function BPath({ lectureId }: { lectureId: number }) {
-  const { yearId } = await getUser();
-  const lecture = await getLecture(+lectureId);
-  const subject = await getSubject(+lecture.subjectId);
-  const myModule = await getModule(yearId, +subject.moduleId);
+export default async function Path({ lectureId }: { lectureId: number }) {
+  const { semesterName, moduleId, moduleName, subjectId, subjectName, title } =
+    await getLecture(+lectureId);
   return (
     <BasePath>
-      {myModule.semesterName}
-      <sup>{getPrefix(myModule.semesterName)}</sup> Semester →{" "}
+      {semesterName}
+      <sup>{getPrefix(semesterName)}</sup> Semester →{" "}
       <Link
-        href={`/modules/${myModule.id}`}
+        href={`/modules/${moduleId}`}
         className="text-inherit hover:text-white"
       >
-        {myModule.name}
+        {moduleName}
       </Link>{" "}
       →{" "}
       <Link
-        href={`/subjects/${subject.id}`}
+        href={`/subjects/${subjectId}`}
         className="text-inherit hover:text-white"
       >
-        {subject.name}
+        {subjectName}
       </Link>{" "}
-      → {lecture.title}
+      → {title}
     </BasePath>
   );
 }

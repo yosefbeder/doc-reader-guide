@@ -1,13 +1,15 @@
-import UpdateSubjectForm from "../components/UpdateSubjectForm";
 import getUser from "@/utils/getUser";
 import getSubject from "@/utils/getSubject";
 import getModules from "@/utils/getModules";
+
+import UpdateSubjectForm from "../components/UpdateSubjectForm";
 
 export default async function UpdateSubjectPage({
   params: { subjectId },
 }: {
   params: { subjectId: string };
 }) {
+  return <main className="main">🧑‍💻: تحت الصيانة...</main>;
   const { yearId } = await getUser();
   const modules = await getModules(yearId);
   const subject = await getSubject(+subjectId);

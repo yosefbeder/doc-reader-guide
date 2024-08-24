@@ -1,35 +1,17 @@
 import getLink from "@/utils/getLink";
-import UpdateLinkForm from "../components/UpdateLinkForm";
 import getUser from "@/utils/getUser";
-import getModules from "@/utils/getModules";
-import getSubjects from "@/utils/getSubjects";
-import getLectures from "@/utils/getLectures";
+import getAllLectures from "@/utils/getAllLectures";
+
+import UpdateLinkForm from "../components/UpdateLinkForm";
 
 export default async function LectureLinkUpdatePage({
   params: { linkId },
 }: {
   params: { linkId: string };
 }) {
+  return <main className="main">🧑‍💻: تحت الصيانة...</main>;
   const { yearId } = await getUser();
-  const modules = await getModules(yearId);
-  const subjects = (
-    await Promise.all(
-      modules.map(async (myModule) =>
-        (
-          await getSubjects(yearId, myModule.id)
-        ).map((subject) => ({ ...subject, myModule }))
-      )
-    )
-  ).flat();
-  const lectures = (
-    await Promise.all(
-      subjects.map(async (subject) =>
-        (
-          await getLectures(subject.id)
-        ).map((lecture) => ({ ...lecture, subject }))
-      )
-    )
-  ).flat();
+  const lectures = await getAllLectures(yearId);
   const link = await getLink(+linkId);
   return (
     <main className="main">

@@ -1,20 +1,12 @@
 import Input from "@/components/Input";
 import Select from "@/components/Select";
-import { Lecture, Link, Module, Subject } from "@/types";
-
-export interface ModifiedSubject extends Subject {
-  myModule: Module;
-}
-
-export interface ModifiedLecture extends Lecture {
-  subject: ModifiedSubject;
-}
+import { Lecture, Link } from "@/types";
 
 export default function LinkFields({
   lectures,
   defaultValues,
 }: {
-  lectures: ModifiedLecture[];
+  lectures: Lecture[];
   defaultValues?: Link;
 }) {
   return (
@@ -91,13 +83,15 @@ export default function LinkFields({
         icon="academic-cap"
         id="lecture-id"
         name="lecture-id"
-        options={lectures.map(({ id, title, type, subject }) => ({
-          label:
-            type == "Normal"
-              ? title
-              : `${subject.myModule.name} → ${subject.name} → ${title}`,
-          value: id,
-        }))}
+        options={lectures.map(
+          ({ id, title, type, moduleName, subjectName }) => ({
+            label:
+              type == "Normal"
+                ? title
+                : `${moduleName} → ${subjectName} → ${title}`,
+            value: id,
+          })
+        )}
         defaultValue={defaultValues?.lectureId}
         required
         className="mb-4"

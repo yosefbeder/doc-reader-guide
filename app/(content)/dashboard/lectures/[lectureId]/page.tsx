@@ -1,21 +1,17 @@
 import getUser from "@/utils/getUser";
-import UpdateLectureForm from "../components/UpdateLectureForm";
 import getLecture from "@/utils/getLecture";
-import getModules from "@/utils/getModules";
-import getSubjects from "@/utils/getSubjects";
+import getAllSubjects from "@/utils/getAllSubjects";
+
+import UpdateLectureForm from "../components/UpdateLectureForm";
 
 export default async function UpdateLecturePage({
   params: { lectureId },
 }: {
   params: { lectureId: string };
 }) {
+  return <main className="main">🧑‍💻: تحت الصيانة...</main>;
   const { yearId } = await getUser();
-  const modules = await getModules(yearId);
-  const subjects = (
-    await Promise.all(
-      modules.map(async (myModule) => await getSubjects(yearId, myModule.id))
-    )
-  ).flat();
+  const subjects = await getAllSubjects(yearId);
   const lecture = await getLecture(+lectureId);
 
   return (

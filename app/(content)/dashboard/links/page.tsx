@@ -1,40 +1,17 @@
 import Link from "next/link";
 
-import getLectures from "@/utils/getLectures";
-import getModules from "@/utils/getModules";
-import getSubjects from "@/utils/getSubjects";
 import getUser from "@/utils/getUser";
+import getAllLectures from "@/utils/getAllLectures";
+import getAllLinks from "@/utils/getAllLinks";
+
 import Button from "@/components/Button";
-import { getLectureLinks } from "@/utils/getLecture";
 import AddLinkForm from "./components/AddLinkForm";
 import ButtonDeleteLink from "./components/ButtonDeleteLink";
 
 export default async function LinksPage() {
   const { yearId } = await getUser();
-  const modules = await getModules(yearId);
-  const subjects = (
-    await Promise.all(
-      modules.map(async (myModule) =>
-        (
-          await getSubjects(yearId, myModule.id)
-        ).map((subject) => ({ ...subject, myModule }))
-      )
-    )
-  ).flat();
-  const lectures = (
-    await Promise.all(
-      subjects.map(async (subject) =>
-        (
-          await getLectures(subject.id)
-        ).map((lecture) => ({ ...lecture, subject }))
-      )
-    )
-  ).flat();
-  const lectureLinks = (
-    await Promise.all(
-      lectures.map(async (lecture) => await getLectureLinks(lecture.id))
-    )
-  ).flat();
+  const lectures = await getAllLectures(yearId);
+  const links = await getAllLinks(yearId);
 
   return (
     <main className="main">
@@ -56,8 +33,19 @@ export default async function LinksPage() {
             </tr>
           </thead>
           <tbody>
-            {lectureLinks.map(
-              ({ id, title, subTitle, url, type, category, lectureId }) => (
+            {links.map(
+              ({
+                id,
+                title,
+                subTitle,
+                url,
+                type,
+                category,
+                moduleName,
+                subjectName,
+                lectureId,
+                lectureTitle,
+              }) => (
                 <tr key={id}>
                   <td>{id}</td>
                   <td>{title}</td>
@@ -66,14 +54,10 @@ export default async function LinksPage() {
                   <td>{type}</td>
                   <td>{category}</td>
                   <td>
-                    {(function () {
-                      const { title, type, subject } = lectures.find(
-                        (lecture) => lecture.id === lectureId
-                      )!;
-                      return type == "Normal"
-                        ? title
-                        : `${subject.myModule.name} → ${subject.name} → ${title}`;
-                    })()}
+                    {lectures.find((lecture) => lecture.id == lectureId)!
+                      .type !== "Normal" &&
+                      `${moduleName} → ${subjectName} →`}{" "}
+                    {lectureTitle}
                   </td>
                   <td>
                     <Link

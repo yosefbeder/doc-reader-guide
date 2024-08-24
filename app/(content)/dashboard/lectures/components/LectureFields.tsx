@@ -39,7 +39,10 @@ export default function LectureFields({
         icon="academic-cap"
         name="subject-id"
         id="subject-id"
-        options={subjects.map(({ name, id }) => ({ label: name, value: id }))}
+        options={subjects.map(({ name, id, moduleName }) => ({
+          label: `${moduleName} → ${name}`,
+          value: id,
+        }))}
         defaultValue={defaultValues?.subjectId}
         required
         className="mb-4"

@@ -1,26 +1,17 @@
 import Link from "next/link";
 
-import getLectures from "@/utils/getLectures";
-import getModules from "@/utils/getModules";
-import getSubjects from "@/utils/getSubjects";
 import getUser from "@/utils/getUser";
+import getAllSubjects from "@/utils/getAllSubjects";
+import getAllLectures from "@/utils/getAllLectures";
+
+import ButtonDeleteLecture from "./components/ButtonDeleteLecture";
 import AddLectureForm from "./components/AddLectureForm";
 import Button from "@/components/Button";
-import ButtonDeleteLecture from "./components/ButtonDeleteLecture";
 
 export default async function LecturesPage() {
   const { yearId } = await getUser();
-  const modules = await getModules(yearId);
-  const subjects = (
-    await Promise.all(
-      modules.map(async (myModule) => await getSubjects(yearId, myModule.id))
-    )
-  ).flat();
-  const lectures = (
-    await Promise.all(
-      subjects.map(async (subject) => await getLectures(subject.id))
-    )
-  ).flat();
+  const subjects = await getAllSubjects(yearId);
+  const lectures = await getAllLectures(yearId);
 
   return (
     <main className="main">
@@ -41,26 +32,33 @@ export default async function LecturesPage() {
           <tbody>
             {lectures
               .filter((lecture) => lecture.type === "Normal")
-              .map(({ id, title, subjectId, date }) => (
-                <tr key={id}>
-                  <td>{id}</td>
-                  <td>{title}</td>
-                  <td>{subjects.find(({ id }) => id === subjectId)!.name}</td>
-                  <td>{new Date(date).toDateString()}</td>
-                  <td>
-                    <Link
-                      href={`/dashboard/lectures/${id}`}
-                      passHref
-                      className="text-inherit hover:text-inherit"
-                    >
-                      <Button color="yellow" className="ml-2">
-                        تعديل
-                      </Button>
-                    </Link>
-                    <ButtonDeleteLecture lectureId={id} subjectId={subjectId} />
-                  </td>
-                </tr>
-              ))}
+              .map(
+                ({ id, title, subjectId, date, moduleName, subjectName }) => (
+                  <tr key={id}>
+                    <td>{id}</td>
+                    <td>{title}</td>
+                    <td>
+                      {moduleName} → {subjectName}
+                    </td>
+                    <td>{new Date(date).toDateString()}</td>
+                    <td>
+                      <Link
+                        href={`/dashboard/lectures/${id}`}
+                        passHref
+                        className="text-inherit hover:text-inherit"
+                      >
+                        <Button color="yellow" className="ml-2">
+                          تعديل
+                        </Button>
+                      </Link>
+                      <ButtonDeleteLecture
+                        lectureId={id}
+                        subjectId={subjectId}
+                      />
+                    </td>
+                  </tr>
+                )
+              )}
           </tbody>
         </table>
       </div>
