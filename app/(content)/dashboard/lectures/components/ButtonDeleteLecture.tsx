@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useFormState } from "react-dom";
 
-import ButtonSubmit from "@/components/ButtonSubmit";
 import { deleteLecture } from "@/lib/actions";
+import ButtonDelete from "@/components/ButtonDelete";
 
 export default function ButtonDeleteLecture({
   lectureId,
@@ -14,13 +14,14 @@ export default function ButtonDeleteLecture({
   subjectId: number;
 }) {
   const [formState, formAction] = useFormState(deleteLecture, {});
+  const formRef = useRef<HTMLFormElement>(null);
 
   useEffect(() => {
     if (formState.message) alert(formState.message);
   }, [formState]);
 
   return (
-    <form action={formAction} className="inline">
+    <form action={formAction} className="inline" ref={formRef}>
       <input
         type="number"
         name="lecture-id"
@@ -35,7 +36,7 @@ export default function ButtonDeleteLecture({
         className="hidden"
         defaultValue={subjectId}
       />
-      <ButtonSubmit color="rose">حذف</ButtonSubmit>
+      <ButtonDelete confirmationText={lectureId.toString()} formRef={formRef} />
     </form>
   );
 }

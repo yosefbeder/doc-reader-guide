@@ -1,20 +1,22 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useFormState } from "react-dom";
 
 import ButtonSubmit from "@/components/ButtonSubmit";
 import { deleteLink } from "@/lib/actions";
+import ButtonDelete from "@/components/ButtonDelete";
 
 export default function ButtonDeleteLink({ id }: { id: number }) {
   const [formState, formAction] = useFormState(deleteLink, {});
+  const formRef = useRef<HTMLFormElement>(null);
 
   useEffect(() => {
     if (formState.message) alert(formState.message);
   }, [formState]);
 
   return (
-    <form action={formAction} className="inline">
+    <form action={formAction} className="inline" ref={formRef}>
       <input
         type="number"
         name="link-id"
@@ -22,7 +24,7 @@ export default function ButtonDeleteLink({ id }: { id: number }) {
         className="hidden"
         defaultValue={id}
       />
-      <ButtonSubmit color="rose">حذف</ButtonSubmit>
+      <ButtonDelete confirmationText={id.toString()} formRef={formRef} />
     </form>
   );
 }

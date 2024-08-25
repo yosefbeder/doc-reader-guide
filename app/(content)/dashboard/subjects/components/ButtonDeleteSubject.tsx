@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useFormState } from "react-dom";
 
 import ButtonSubmit from "@/components/ButtonSubmit";
 import { deleteSubject } from "@/lib/actions";
+import ButtonDelete from "@/components/ButtonDelete";
 
 export default function ButtonDeleteSubject({
   yearId,
@@ -14,13 +15,14 @@ export default function ButtonDeleteSubject({
   subjectId: number;
 }) {
   const [formState, formAction] = useFormState(deleteSubject, {});
+  const formRef = useRef(null);
 
   useEffect(() => {
     if (formState.message) alert(formState.message);
   }, [formState]);
 
   return (
-    <form action={formAction} className="inline">
+    <form action={formAction} className="inline" ref={formRef}>
       <input
         type="number"
         name="year-id"
@@ -35,7 +37,7 @@ export default function ButtonDeleteSubject({
         className="hidden"
         defaultValue={subjectId}
       />
-      <ButtonSubmit color="rose">حذف</ButtonSubmit>
+      <ButtonDelete confirmationText={subjectId.toString()} formRef={formRef} />
     </form>
   );
 }
