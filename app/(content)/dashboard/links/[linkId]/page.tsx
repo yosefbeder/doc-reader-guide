@@ -9,7 +9,6 @@ export default async function LectureLinkUpdatePage({
 }: {
   params: { linkId: string };
 }) {
-  return <main className="main">🧑‍💻: تحت الصيانة...</main>;
   const { yearId } = await getUser();
   const lectures = await getAllLectures(yearId);
   const link = await getLink(+linkId);

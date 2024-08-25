@@ -9,7 +9,6 @@ export default async function UpdateLecturePage({
 }: {
   params: { lectureId: string };
 }) {
-  return <main className="main">🧑‍💻: تحت الصيانة...</main>;
   const { yearId } = await getUser();
   const subjects = await getAllSubjects(yearId);
   const lecture = await getLecture(+lectureId);

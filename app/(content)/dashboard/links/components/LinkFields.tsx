@@ -35,7 +35,6 @@ export default function LinkFields({
         type="text"
         id="sub-title"
         name="sub-title"
-        required
         defaultValue={defaultValues?.subTitle}
         className="mb-4"
       />

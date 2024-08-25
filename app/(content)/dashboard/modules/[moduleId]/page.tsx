@@ -10,7 +10,6 @@ export default async function UpdateModulePage({
 }: {
   params: { moduleId: string };
 }) {
-  return <main className="main">🧑‍💻: تحت الصيانة...</main>;
   const { yearId } = await getUser();
   const myModule = await getModule(yearId, +moduleId);
 

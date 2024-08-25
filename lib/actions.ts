@@ -6,6 +6,7 @@ import { revalidatePath } from "next/cache";
 
 import { FormState } from "@/types";
 import { API_URL } from "@/constants";
+import getNumber from "@/utils/getNumber";
 
 export async function login(
   _prevState: FormState,
@@ -43,8 +44,8 @@ export async function signup(
     email: formData.get("email"),
     password: formData.get("password"),
     confirmationPassword: formData.get("confirmation-password"),
-    facultyId: +(formData.get("facultyId") as string),
-    yearId: +(formData.get("yearId") as string),
+    facultyId: getNumber(formData, "facultyId"),
+    yearId: getNumber(formData, "yearId"),
   };
 
   const res = await fetch(`${API_URL}/register`, {
@@ -71,12 +72,12 @@ export async function updatePersonalInfo(
 ): Promise<FormState> {
   const data = {
     name: formData.get("name"),
-    facultyId: +(formData.get("facultyId") as string),
-    yearId: +(formData.get("yearId") as string),
+    facultyId: getNumber(formData, "facultyId"),
+    yearId: getNumber(formData, "yearId"),
   };
 
   const res = await fetch(`${API_URL}/user/update`, {
-    method: "PATCH",
+    method: "POST",
     headers: {
       "content-type": "application/json;charset=UTF-8",
       authorization: `Bearer ${cookies().get("jwt")!.value}`,
@@ -122,7 +123,7 @@ export async function addModule(
   const data = {
     icon: formData.get("icon"),
     name: formData.get("name"),
-    semesterName: +(formData.get("semester-name") as string),
+    semesterName: getNumber(formData, "semester-name"),
   };
 
   const res = await fetch(
@@ -152,7 +153,7 @@ export async function updateModule(
   const data = {
     icon: formData.get("icon"),
     name: formData.get("name"),
-    semesterName: +(formData.get("semester-name") as string),
+    semesterName: getNumber(formData, "semester-name"),
   };
 
   const res = await fetch(
@@ -160,7 +161,7 @@ export async function updateModule(
       "module-id"
     )}/update`,
     {
-      method: "PATCH",
+      method: "POST",
       headers: {
         "content-type": "application/json;charset=UTF-8",
         authorization: `Bearer ${cookies().get("jwt")!.value}`,
@@ -239,7 +240,7 @@ export async function updateSubject(
   _prevState: FormState,
   formData: FormData
 ): Promise<FormState> {
-  const moduleId = formData.get("module-id");
+  const moduleId = getNumber(formData, "module-id");
   const data = {
     icon: formData.get("icon"),
     name: formData.get("name"),
@@ -249,7 +250,7 @@ export async function updateSubject(
   const res = await fetch(
     `${API_URL}/subjects/${formData.get("subject-id")}/update`,
     {
-      method: "PATCH",
+      method: "POST",
       headers: {
         "content-type": "application/json;charset=UTF-8",
         authorization: `Bearer ${cookies().get("jwt")!.value}`,
@@ -296,11 +297,10 @@ export async function addLecture(
   _prevState: FormState,
   formData: FormData
 ): Promise<FormState> {
-  const subjectId = +(formData.get("subject-id") as string);
+  const subjectId = getNumber(formData, "subject-id");
   const data = {
     title: formData.get("title"),
     type: "Normal",
-    subTitle: " ",
     date: formData.get("date"),
     subjectId,
   };
@@ -326,17 +326,16 @@ export async function updateLecture(
   _prevState: FormState,
   formData: FormData
 ): Promise<FormState> {
-  const lectureId = +(formData.get("lecture-id") as string);
-  const subjectId = +(formData.get("subject-id") as string);
+  const lectureId = getNumber(formData, "lecture-id");
+  const subjectId = getNumber(formData, "subject-id");
   const data = {
     title: formData.get("title"),
-    subTitle: " ",
     date: formData.get("date"),
     subjectId,
   };
 
   const res = await fetch(`${API_URL}/lectures/${lectureId}/update`, {
-    method: "PATCH",
+    method: "POST",
     headers: {
       "content-type": "application/json;charset=UTF-8",
       authorization: `Bearer ${cookies().get("jwt")!.value}`,
@@ -411,8 +410,8 @@ export async function updateLink(
   _prevState: FormState,
   formData: FormData
 ): Promise<FormState> {
-  const linkId = formData.get("link-id");
-  const lectureId = formData.get("lecture-id");
+  const linkId = getNumber(formData, "link-id");
+  const lectureId = getNumber(formData, "lecture-id");
   const data = {
     title: formData.get("title"),
     subTitle: formData.get("sub-title"),
@@ -423,7 +422,7 @@ export async function updateLink(
   };
 
   const res = await fetch(`${API_URL}/links/${linkId}/update`, {
-    method: "PATCH",
+    method: "POST",
     headers: {
       "content-type": "application/json;charset=UTF-8",
       authorization: `Bearer ${cookies().get("jwt")!.value}`,
