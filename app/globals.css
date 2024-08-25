@@ -57,6 +57,6 @@
   }
 
   ul.card-container > li {
-    @apply flex-grow basis-0 min-w-60;
+    @apply w-[calc((100%-3rem)/4)] max-lg:w-[calc((100%-2rem)/3)] max-md:w-[calc((100%-1rem)/2)] max-[512px]:w-full;
   }
 }
