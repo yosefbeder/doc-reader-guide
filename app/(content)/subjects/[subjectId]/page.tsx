@@ -16,11 +16,9 @@ export default function LecturesPage({
         <Path subjectId={+subjectId} />
       </Suspense>
       <main className="main">
-        <ul className="card-container">
-          <Suspense fallback={<LecturesPlaceholder />}>
-            <Lectures subjectId={+subjectId} />
-          </Suspense>
-        </ul>
+        <Suspense fallback={<LecturesPlaceholder />}>
+          <Lectures subjectId={+subjectId} />
+        </Suspense>
       </main>
     </>
   );

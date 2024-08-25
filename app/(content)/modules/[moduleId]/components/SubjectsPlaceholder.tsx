@@ -3,9 +3,30 @@ import CardPlaceholder from "@/components/CardPlaceholder";
 export default function SubjectsPlaceholder() {
   return (
     <>
-      <CardPlaceholder type="subject" />
-      <CardPlaceholder type="subject" />
-      <CardPlaceholder type="subject" />
+      <li>
+        <CardPlaceholder type="subject" />
+      </li>
+      <li>
+        <CardPlaceholder type="subject" />
+      </li>
+      <li>
+        <CardPlaceholder type="subject" />
+      </li>
+      <li>
+        <CardPlaceholder type="subject" />
+      </li>
+      <li>
+        <CardPlaceholder type="subject" />
+      </li>
+      <li>
+        <CardPlaceholder type="subject" />
+      </li>
+      <li>
+        <CardPlaceholder type="subject" />
+      </li>
+      <li>
+        <CardPlaceholder type="subject" />
+      </li>
     </>
   );
 }

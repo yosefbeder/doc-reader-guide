@@ -2,10 +2,31 @@ import CardPlaceholder from "@/components/CardPlaceholder";
 
 export default function LecturesPlaceholder() {
   return (
-    <>
-      <CardPlaceholder type="lecture" />
-      <CardPlaceholder type="lecture" />
-      <CardPlaceholder type="lecture" />
-    </>
+    <ul className="card-container">
+      <li>
+        <CardPlaceholder type="lecture" />
+      </li>
+      <li>
+        <CardPlaceholder type="lecture" />
+      </li>
+      <li>
+        <CardPlaceholder type="lecture" />
+      </li>
+      <li>
+        <CardPlaceholder type="lecture" />
+      </li>
+      <li>
+        <CardPlaceholder type="lecture" />
+      </li>
+      <li>
+        <CardPlaceholder type="lecture" />
+      </li>
+      <li>
+        <CardPlaceholder type="lecture" />
+      </li>
+      <li>
+        <CardPlaceholder type="lecture" />
+      </li>
+    </ul>
   );
 }
