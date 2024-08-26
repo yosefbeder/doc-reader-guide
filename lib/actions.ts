@@ -28,7 +28,9 @@ export async function login(
   const json = await res.json();
 
   if (res.ok) {
-    cookies().set("jwt", json.data.token);
+    cookies().set("jwt", json.data.token, {
+      expires: Date.now() + 90 * 24 * 60 * 60 * 1000,
+    });
     redirect("/");
   } else {
     return { type: "fail", message: json.message };
