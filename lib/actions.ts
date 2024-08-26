@@ -382,7 +382,7 @@ export async function addLink(
   const lectureId = formData.get("lecture-id");
   const data = {
     title: formData.get("title"),
-    subTitle: formData.get("sub-title"),
+    subTitle: formData.get("sub-title") || undefined,
     url: formData.get("url"),
     type: formData.get("type"),
     category: formData.get("category"),
@@ -414,7 +414,7 @@ export async function updateLink(
   const lectureId = getNumber(formData, "lecture-id");
   const data = {
     title: formData.get("title"),
-    subTitle: formData.get("sub-title"),
+    subTitle: formData.get("sub-title") || undefined,
     url: formData.get("url"),
     type: formData.get("type"),
     category: formData.get("category"),
