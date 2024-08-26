@@ -1,63 +1,32 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 
 import Select from "./Select";
-import { Faculty, Year } from "@/types";
-import { API_URL } from "@/constants";
-
-async function getYears(facultyId: number): Promise<Year[]> {
-  const res = await fetch(`${API_URL}/faculties/${facultyId}/years`);
-  if (!res.ok) throw new Error();
-  const json = await res.json();
-  return json.data;
-}
-
-async function getFaculties(): Promise<Faculty[]> {
-  const res = await fetch(`${API_URL}/faculties`);
-  if (!res.ok) throw new Error();
-  const json = await res.json();
-  return await Promise.all(
-    json.data.map(async (faculty: any) => ({
-      ...faculty,
-      years: await getYears(faculty.id),
-    }))
-  );
-}
+import { Faculty } from "@/types";
 
 interface SelectFacultyYear {
-  fetching: boolean;
-  setFetching: React.Dispatch<React.SetStateAction<boolean>>;
+  faculties: Faculty[];
   defaultValues?: {
     facultyId: number;
     yearId: number;
   };
 }
 
+function getFaculty(faculties: Faculty[], facultyId: number): Faculty {
+  return faculties.find((faculty) => faculty.id === facultyId)!;
+}
+
 export default function SelectFacultyYear({
-  fetching,
-  setFetching,
+  faculties,
   defaultValues,
 }: SelectFacultyYear) {
-  const [faculties, setFaculties] = useState<Faculty[]>([]);
-  const [facultyId, setFacultyId] = useState<number>();
-  const [years, setYears] = useState<Year[]>([]);
-  const [yearId, setYearId] = useState<number>();
-
-  useEffect(() => {
-    (async () => {
-      const newFaculties = await getFaculties();
-      setFaculties(newFaculties);
-      setFetching(false);
-      const newFacultyId = defaultValues?.facultyId || newFaculties[0].id;
-      setFacultyId(newFacultyId);
-      const newYears = newFaculties.find(
-        ({ id }) => id === newFacultyId
-      )!.years;
-      setYears(newYears);
-      setYearId(defaultValues?.yearId || newYears[0].id);
-    })();
-  }, []);
+  const [facultyId, setFacultyId] = useState(
+    defaultValues?.facultyId || faculties[0].id
+  );
+  const [yearId, setYearId] = useState(
+    defaultValues?.yearId || getFaculty(faculties, facultyId).years[0].id
+  );
 
   return (
     <>
@@ -72,29 +41,28 @@ export default function SelectFacultyYear({
         onChange={(e) => {
           const newFacultyId = +e.target.value;
           setFacultyId(newFacultyId);
-          const newYears = faculties.find(
-            ({ id }) => id === newFacultyId
-          )!.years;
-          setYears(newYears);
-          setYearId(newYears[0].id);
+          setYearId(getFaculty(faculties, newFacultyId).years[0].id);
         }}
         name="facultyId"
         id="facultyId"
         required
         className="mb-4"
-        disabled={fetching}
       />
       <Select
         label="السنة الدراسية"
         icon="calendar"
-        options={years.map(({ id, title }) => ({ label: title, value: id }))}
+        options={getFaculty(faculties, facultyId).years.map(
+          ({ title, id }) => ({
+            label: title,
+            value: id,
+          })
+        )}
         value={yearId}
         onChange={(e) => setYearId(+e.target.value)}
         name="yearId"
         id="yearId"
         required
         className="mb-4"
-        disabled={fetching}
       />
     </>
   );

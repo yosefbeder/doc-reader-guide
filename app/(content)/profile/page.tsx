@@ -4,6 +4,7 @@ import LogoutButton from "./components/LogoutButton";
 import PersonalInfoForm from "./components/PersonalInfoForm";
 import PasswordForm from "./components/PasswordForm";
 import getUser from "@/utils/getUser";
+import getFaculties from "@/utils/getFaculties";
 
 export const metadata: Metadata = {
   title: "البيانات الشخصية | دوكريدر جايد",
@@ -12,6 +13,7 @@ export const metadata: Metadata = {
 
 export default async function ProfilePage() {
   const user = await getUser();
+  const faculties = await getFaculties();
 
   return (
     <main className="main">
@@ -19,7 +21,7 @@ export default async function ProfilePage() {
         <h2 className="mb-4">تسجيل الخروج</h2>
         <LogoutButton className="mb-4" />
         <h2 className="mb-4">البيانات العامة</h2>
-        <PersonalInfoForm user={user} />
+        <PersonalInfoForm faculties={faculties} user={user} />
         <h2 className="mb-4">تغيير كلمة المرور</h2>
         <PasswordForm />
       </div>

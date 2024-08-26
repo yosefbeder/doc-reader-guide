@@ -1,18 +1,22 @@
 "use client";
 
-import { useState } from "react";
 import { useFormState } from "react-dom";
 
 import { updatePersonalInfo } from "@/lib/actions";
 import ButtonSubmit from "@/components/ButtonSubmit";
-import { User } from "@/types";
+import { Faculty, User } from "@/types";
 import Input from "@/components/Input";
 import Message from "@/components/Message";
 import SelectFacultyYear from "@/components/SelectFacultyYear";
 
-export default function PersonalInfoForm({ user }: { user: User }) {
+export default function PersonalInfoForm({
+  user,
+  faculties,
+}: {
+  user: User;
+  faculties: Faculty[];
+}) {
   const [formState, formAction] = useFormState(updatePersonalInfo, {});
-  const [fetching, setFetching] = useState(true);
 
   return (
     <form action={formAction} className="max-w-lg">
@@ -38,8 +42,7 @@ export default function PersonalInfoForm({ user }: { user: User }) {
         disabled
       />
       <SelectFacultyYear
-        fetching={fetching}
-        setFetching={setFetching}
+        faculties={faculties}
         defaultValues={{ facultyId: user.facultyId, yearId: user.yearId }}
       />
       {formState.message && formState.type && (
@@ -47,9 +50,7 @@ export default function PersonalInfoForm({ user }: { user: User }) {
           {formState.message}
         </Message>
       )}
-      <ButtonSubmit disabled={fetching} className="w-max px-4 mb-4">
-        تعديل
-      </ButtonSubmit>
+      <ButtonSubmit className="w-max px-4 mb-4">تعديل</ButtonSubmit>
     </form>
   );
 }
