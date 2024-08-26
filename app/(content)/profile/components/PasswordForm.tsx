@@ -6,34 +6,29 @@ import { updatePassword } from "@/lib/actions";
 import ButtonSubmit from "@/components/ButtonSubmit";
 import Input from "@/components/Input";
 import Message from "@/components/Message";
+import InputPassword from "@/components/InputPassword";
 
 export default function PasswordForm(user: any) {
   const [formState, formAction] = useFormState(updatePassword, {});
 
   return (
     <form action={formAction} className="max-w-lg">
-      <Input
+      <InputPassword
         label="كلمة المرور الحالية"
-        icon="eye-slash"
-        type="password"
         name="current-password"
         id="current-password"
         required
         className="mb-4"
       />
-      <Input
+      <InputPassword
         label="كلمة المرور الجديدة"
-        icon="eye-slash"
-        type="password"
         name="new-password"
         id="new-password"
         required
         className="mb-4"
       />
-      <Input
+      <InputPassword
         label="تأكيد كلمة المرور الجديدة"
-        icon="eye-slash"
-        type="password"
         name="confirmation-password"
         id="confirmation-password"
         required

@@ -11,6 +11,7 @@ import Message from "@/components/Message";
 import ButtonSubmit from "@/components/ButtonSubmit";
 import { Faculty } from "@/types";
 import { signup } from "@/lib/actions";
+import InputPassword from "@/components/InputPassword";
 
 export default function SignupForm({ faculties }: { faculties: Faculty[] }) {
   const [formState, formAction] = useFormState(signup, {});
@@ -37,19 +38,15 @@ export default function SignupForm({ faculties }: { faculties: Faculty[] }) {
           required
           className="mb-4"
         />
-        <Input
+        <InputPassword
           label="كلمة المرور"
-          icon="eye-slash"
-          type="password"
           name="password"
           id="password"
           required
           className="mb-4"
         />
-        <Input
+        <InputPassword
           label="تأكيد كلمة المرور"
-          icon="eye-slash"
-          type="password"
           name="confirmation-password"
           id="confirmation-password"
           required

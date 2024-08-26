@@ -9,6 +9,7 @@ import Message from "@/components/Message";
 import ButtonSubmit from "@/components/ButtonSubmit";
 import Input from "@/components/Input";
 import AuthCard from "../components/AuthCard";
+import InputPassword from "@/components/InputPassword";
 
 export default function LoginPage() {
   const [formState, formAction] = useFormState(login, {});
@@ -26,10 +27,8 @@ export default function LoginPage() {
           required
           className="mb-4"
         />
-        <Input
+        <InputPassword
           label="كلمة المرور"
-          icon="eye-slash"
-          type="password"
           name="password"
           id="password"
           required
