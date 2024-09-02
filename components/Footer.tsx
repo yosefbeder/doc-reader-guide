@@ -1,3 +1,9 @@
+import YosefAvatar from "@/public/yosefbeder.jpg";
+import AbdulrahmanAvatar from "@/public/abdulrahmansaber.jpeg";
+import OmarAvatar from "@/public/omarabdelaleem.jpeg";
+import MohammedAvatar from "@/public/mohammedalzayat.jpeg";
+import Image from "next/image";
+
 const links = [
   {
     link: "https://www.facebook.com/profile.php?id=61564416632497&mibextid=ZbWKwL",
@@ -67,28 +73,25 @@ const links = [
 
 const contributers = [
   {
-    avatar: "https://avatars.githubusercontent.com/u/78495625?v=4",
+    avatar: YosefAvatar,
     name: "يوسف بدير",
     contribution: "مطور الواجهة الأمامية (الموقع)",
     profile: "https://yosefbeder.vercel.app/",
   },
   {
-    avatar:
-      "https://scontent.fcai21-3.fna.fbcdn.net/v/t39.30808-1/322563686_440006918204372_3302962800510212840_n.jpg?stp=c0.225.1536.1536a_dst-jpg_s480x480&_nc_cat=105&ccb=1-7&_nc_sid=0ecb9b&_nc_ohc=TBd0rqp1bssQ7kNvgGgUgqc&_nc_ht=scontent.fcai21-3.fna&oh=00_AYDx0fT6YvydmdtCc3UlK9ANF2EwpqstdR-EcKGTpabHSw&oe=66DB4552",
+    avatar: AbdulrahmanAvatar,
     name: "عبد الرحمن صابر",
     contribution: "مطور الواجهة الخلفية",
     profile: "https://www.facebook.com/asaber.25",
   },
   {
-    avatar:
-      "https://scontent.fcai21-2.fna.fbcdn.net/v/t39.30808-6/441171087_1153194885871815_3364829239074372854_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=1-o2auD9m48Q7kNvgGcCwZl&_nc_ht=scontent.fcai21-2.fna&oh=00_AYAOpqiqbsPSr2lXUYvCGs5k-P4C6FhBUTW6WtekejjxVw&oe=66DB39A9",
+    avatar: OmarAvatar,
     name: "عمر عبد العليم",
     contribution: "مطور تطبيق الجوال",
     profile: "https://www.facebook.com/omar.abdelaleem.144",
   },
   {
-    avatar:
-      "https://scontent.fcai21-3.fna.fbcdn.net/v/t39.30808-6/311142951_1304442093708206_4127600443543761107_n.jpg?stp=cp6_dst-jpg&_nc_cat=105&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=SZrAX-fPPCcQ7kNvgGiwzck&_nc_ht=scontent.fcai21-3.fna&oh=00_AYCwrZH3EBA3cUHbmQ_tmLL6Cr5kaabdPt3Oh4tfjIskug&oe=66DB437D",
+    avatar: MohammedAvatar,
     name: "محمد الزيات",
     contribution: "مصمم اللوجو وتجربة المستخدم",
     profile: "https://www.facebook.com/mohamedelzayat321",
@@ -115,10 +118,12 @@ export default function Footer() {
           {contributers.map(
             ({ avatar, name, contribution, profile }, index) => (
               <a key={index} href={profile} target="_blank">
-                <img
+                <Image
                   src={avatar}
+                  width={40}
+                  height={40}
                   alt={`${name} - ${contribution}`}
-                  className="size-10 border-2 border-white rounded-full"
+                  className="border-2 border-white rounded-full"
                 />
               </a>
             )
