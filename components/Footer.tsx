@@ -7,7 +7,7 @@ import Image from "next/image";
 const links = [
   {
     link: "https://www.facebook.com/profile.php?id=61564416632497&mibextid=ZbWKwL",
-    color: "#1877f2",
+    color: "hover:text-[#1877f2]",
     icon: (
       <svg
         className="size-10"
@@ -23,7 +23,7 @@ const links = [
   },
   {
     link: "https://t.me/DocReader_Guide_app",
-    color: "#0088cc",
+    color: "hover:text-[#0088cc]",
     icon: (
       <svg
         className="size-10"
@@ -39,7 +39,7 @@ const links = [
   },
   {
     link: "https://www.amazon.com/dp/B0DD8TJJ95/ref=apps_sf_sta",
-    color: "#ff9900",
+    color: "hover:text-[#ff9900]",
     icon: (
       <svg
         className="size-10"
@@ -55,7 +55,7 @@ const links = [
   },
   {
     link: "https://drive.google.com/file/d/1S00uQ0zyaRGQW76Du1tGMw8H_nxFvkLX/view?usp=share_link",
-    color: "#34A853",
+    color: "hover:text-[#34A853]",
     icon: (
       <svg
         className="size-10"
@@ -107,7 +107,7 @@ export default function Footer() {
             <a
               key={index}
               href={link}
-              className={`text-inherit hover:text-[${color}]`}
+              className={`text-inherit ${color}`}
               target="_blank"
             >
               {icon}
