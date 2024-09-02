@@ -48,7 +48,7 @@ const links = [
     ),
   },
   {
-    link: "https://t.me/DocReader_Guide_app/6",
+    link: "https://drive.google.com/file/d/1S00uQ0zyaRGQW76Du1tGMw8H_nxFvkLX/view?usp=share_link",
     color: "#34A853",
     icon: (
       <svg
