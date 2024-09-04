@@ -81,15 +81,22 @@ export default async function Links({ lectureId }: { lectureId: number }) {
             <h2>{["مصادر خارجية", "الكلية", "الملخصات"][index]}</h2>
           </summary>
           <ul>
-            {links.map(({ title, url, type }, index) => (
+            {links.map(({ title, subTitle, url, type }, index) => (
               <li key={index}>
                 <a
-                  className="flex gap-2 my-2 no-underline text-inherit hover:text-inherit"
+                  className="flex items-center gap-2 my-2 no-underline text-inherit hover:text-inherit"
                   target="_blank"
                   href={url}
                 >
                   <span>{icons[type]}</span>
-                  {title}
+                  {subTitle.trim() ? (
+                    <div>
+                      <div>{title}</div>
+                      <div className="text-sm text-slate-500">{subTitle}</div>
+                    </div>
+                  ) : (
+                    title
+                  )}
                 </a>
               </li>
             ))}
