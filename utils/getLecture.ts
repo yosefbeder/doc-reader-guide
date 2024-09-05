@@ -11,7 +11,7 @@ export default async function getLecture(lectureId: number): Promise<Lecture> {
     },
   });
   const json = await res.json();
-  if (!res.ok) throw new Error();
+  if (!res.ok) throw new Error(json.message);
   return json.data;
 }
 
@@ -23,6 +23,6 @@ export async function getLectureLinks(lectureId: number): Promise<Link[]> {
     },
   });
   const json = await res.json();
-  if (!res.ok) throw new Error();
+  if (!res.ok) throw new Error(json.message);
   return json.data;
 }

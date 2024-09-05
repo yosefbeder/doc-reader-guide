@@ -13,6 +13,6 @@ export default async function getAllSubjects(
     },
   });
   const json = await res.json();
-  if (!res.ok) throw new Error();
+  if (!res.ok) throw new Error(json.message);
   return json.data;
 }

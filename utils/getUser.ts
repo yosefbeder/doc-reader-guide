@@ -11,7 +11,7 @@ export default async function getUser(): Promise<User> {
     },
   });
   const json = await res.json();
-  if (!res.ok) throw new Error();
+  if (!res.ok) throw new Error(json.message);
   const user = json.data;
   delete user.faculty;
   delete user.year;

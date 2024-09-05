@@ -11,6 +11,6 @@ export default async function getLink(linkId: number): Promise<Link> {
     },
   });
   const json = await res.json();
-  if (!res.ok) throw new Error();
+  if (!res.ok) throw new Error(json.message);
   return json.data;
 }

@@ -14,6 +14,6 @@ export default async function getModule(
     },
   });
   const json = await res.json();
-  if (!res.ok) throw new Error();
+  if (!res.ok) throw new Error(json.message);
   return json.data;
 }
