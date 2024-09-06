@@ -1,6 +1,7 @@
 "use client";
 
 import { useFormState } from "react-dom";
+import { useSWRConfig } from "swr";
 
 import { updatePersonalInfo } from "@/lib/actions";
 import ButtonSubmit from "@/components/ButtonSubmit";
@@ -17,6 +18,7 @@ export default function PersonalInfoForm({
   faculties: Faculty[];
 }) {
   const [formState, formAction] = useFormState(updatePersonalInfo, {});
+  const { mutate } = useSWRConfig();
 
   return (
     <form action={formAction} className="max-w-lg">
@@ -50,7 +52,12 @@ export default function PersonalInfoForm({
           {formState.message}
         </Message>
       )}
-      <ButtonSubmit className="w-max px-4 mb-4">تعديل</ButtonSubmit>
+      <ButtonSubmit
+        className="w-max px-4 mb-4"
+        onClick={() => mutate(() => true, undefined, { revalidate: false })}
+      >
+        تعديل
+      </ButtonSubmit>
     </form>
   );
 }

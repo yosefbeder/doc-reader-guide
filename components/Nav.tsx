@@ -7,6 +7,7 @@ import { icons } from "./icons";
 import NavLink from "./NavLink";
 import getUser from "@/utils/getUser";
 import NavTitle from "./NavTitle";
+import Search from "./Search";
 
 export default async function Nav() {
   const user = await getUser();
@@ -26,6 +27,7 @@ export default async function Nav() {
           className="ml-auto max-sm:hidden"
           initPathname={initPathname}
         />
+        {<Search yearId={user.yearId} />}
         <NavLink href="/profile">
           {icons["user-circle"]} <span>{user.name}</span>
         </NavLink>
