@@ -37,6 +37,9 @@ export default function LecturesList({
   search: string;
   onClose: React.MouseEventHandler<HTMLAnchorElement>;
 }) {
+  if (lectures && lectures.length === 0)
+    return <p>لم يتم العثور على أي محاضرة </p>;
+
   return (
     <ul
       className="[&>li:not(:last-child)]:border-b h-max max-h-80 max-[512px]:max-h-none overflow-y-scroll max-[512px]:overflow-y-visible"

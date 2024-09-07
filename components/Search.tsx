@@ -59,7 +59,7 @@ export default function Search({ yearId }: { yearId: number }) {
             onChange={(e) => setSearch(e.target.value)}
             className="mb-2 max-[512px]:mb-4"
           />
-          {content}
+          <p>{content}</p>
         </SearchDialogue>
       )}
     </>
