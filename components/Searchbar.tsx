@@ -19,10 +19,12 @@ export default function Searchbar({
         focus ? "border-cyan-600 bg-white" : "border-slate-200 bg-slate-50"
       } ${className}`}
     >
-      <span className="p-2">{icons["magnifying-glass"]}</span>
+      <span className={`p-2 ${focus ? "text-inherit" : "text-slate-500"}`}>
+        {icons["magnifying-glass"]}
+      </span>
       <input
         type="text"
-        className="grow bg-transparent disabled:pointer-events-none focus:outline-none max-[512px]:placeholder-transparent"
+        className="grow bg-transparent disabled:pointer-events-none focus:outline-none placeholder:text-slate-500 max-[512px]:placeholder-transparent"
         onFocus={(e) => {
           setFocus(true);
           if (onFocus) onFocus(e);

@@ -24,21 +24,23 @@ export default async function Nav() {
           <span className="text-xl font-bold text-cyan-700">دوكريدر جايد</span>
         </Link>
         <NavTitle
-          className="ml-auto max-sm:hidden"
+          className="ml-auto max-md:hidden"
           initPathname={initPathname}
         />
         {<Search yearId={user.yearId} />}
         <NavLink href="/profile">
-          {icons["user-circle"]} <span>{user.name}</span>
+          {icons["user-circle"]}{" "}
+          <span className="max-sm:hidden">{user.name}</span>
         </NavLink>
         {user.role === "Admin" && (
           <NavLink href="/dashboard" className="mr-2">
-            {icons["squares-2x2"]} <span>لوحة التحكم</span>
+            {icons["squares-2x2"]}{" "}
+            <span className="max-sm:hidden">لوحة التحكم</span>
           </NavLink>
         )}
       </nav>
       <NavTitle
-        className="hidden bg-cyan-50 py-4 text-center max-sm:block"
+        className="hidden bg-cyan-50 py-4 text-center max-md:block"
         initPathname={initPathname}
       />
     </>
