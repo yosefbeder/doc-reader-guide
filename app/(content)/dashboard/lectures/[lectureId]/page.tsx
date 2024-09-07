@@ -1,8 +1,6 @@
 import getUser from "@/utils/getUser";
-import getLecture from "@/utils/getLecture";
-import getAllSubjects from "@/utils/getAllSubjects";
-
 import UpdateLectureForm from "../components/UpdateLectureForm";
+import getAllLectures from "@/utils/getAllLectures";
 
 export default async function UpdateLecturePage({
   params: { lectureId },
@@ -10,13 +8,12 @@ export default async function UpdateLecturePage({
   params: { lectureId: string };
 }) {
   const { yearId } = await getUser();
-  const subjects = await getAllSubjects(yearId);
-  const lecture = await getLecture(+lectureId);
+  const lectures = await getAllLectures(yearId);
 
   return (
     <main className="main">
-      <h2 className="mb-4">تعديل المحاضرة {lecture.id}</h2>
-      <UpdateLectureForm subjects={subjects} lecture={lecture} />
+      <h2 className="mb-4">تعديل المحاضرة {lectureId}</h2>
+      <UpdateLectureForm lectureId={+lectureId} lectures={lectures} />
     </main>
   );
 }

@@ -28,6 +28,8 @@ export default async function LinksPage() {
               <th>الرابط</th>
               <th>النوع</th>
               <th>القسم</th>
+              <th>الموديول</th>
+              <th>المادة</th>
               <th>المحاضرة</th>
               <th>الإجراءات</th>
             </tr>
@@ -43,7 +45,6 @@ export default async function LinksPage() {
                 category,
                 moduleName,
                 subjectName,
-                lectureId,
                 lectureTitle,
               }) => (
                 <tr key={id}>
@@ -53,12 +54,9 @@ export default async function LinksPage() {
                   <td>{url}</td>
                   <td>{type}</td>
                   <td>{category}</td>
-                  <td>
-                    {lectures.find((lecture) => lecture.id == lectureId)!
-                      .type !== "Normal" &&
-                      `${moduleName} → ${subjectName} →`}{" "}
-                    {lectureTitle}
-                  </td>
+                  <td>{moduleName}</td>
+                  <td>{subjectName}</td>
+                  <td>{lectureTitle}</td>
                   <td>
                     <Link
                       href={`/dashboard/links/${id}`}

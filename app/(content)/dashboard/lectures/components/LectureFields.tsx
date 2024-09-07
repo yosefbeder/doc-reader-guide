@@ -1,19 +1,48 @@
+"use client";
+
+import { useMemo, useState } from "react";
+
 import Input from "@/components/Input";
 import Select from "@/components/Select";
-import { Subject } from "@/types";
+import { Lecture } from "@/types";
+import getUniqueObjectsById from "@/utils/getUniqueObjectsById";
+import { getModuleIdSubjects } from "../../utils";
 
 export default function LectureFields({
-  subjects,
+  lectures,
   defaultValues,
 }: {
-  subjects: Subject[];
-  defaultValues?: {
-    id: number;
-    title: string;
-    date: string;
-    subjectId: number;
-  };
+  lectures: Lecture[];
+  defaultValues?: Lecture;
 }) {
+  const modules = useMemo(
+    () =>
+      getUniqueObjectsById(
+        lectures.map(({ moduleId, moduleName }) => ({
+          id: moduleId,
+          name: moduleName,
+        }))
+      ),
+    []
+  );
+  const [moduleId, setModuleId] = useState(
+    defaultValues?.moduleId || modules[0].id
+  );
+  const subjects = useMemo(
+    () =>
+      getUniqueObjectsById(
+        lectures.map(({ subjectId, subjectName, moduleId }) => ({
+          id: subjectId,
+          name: subjectName,
+          moduleId,
+        }))
+      ),
+    []
+  );
+  const [subjectId, setSubjectId] = useState(
+    defaultValues?.subjectId || getModuleIdSubjects(subjects, moduleId)[0].id
+  );
+
   return (
     <>
       {defaultValues && (
@@ -35,15 +64,34 @@ export default function LectureFields({
         className="mb-4"
       />
       <Select
+        label="الموديول"
+        icon="academic-cap"
+        options={modules.map(({ id, name }) => ({
+          label: name,
+          value: id,
+        }))}
+        value={moduleId}
+        onChange={(e) => {
+          const nextModuleId = +e.target.value;
+          setModuleId(nextModuleId);
+          setSubjectId(getModuleIdSubjects(subjects, nextModuleId)[0].id);
+        }}
+        required
+        className="mb-4"
+      />
+      <Select
         label="المادة"
         icon="academic-cap"
         name="subject-id"
         id="subject-id"
-        options={subjects.map(({ name, id, moduleName }) => ({
-          label: `${moduleName} → ${name}`,
-          value: id,
-        }))}
-        defaultValue={defaultValues?.subjectId}
+        options={getModuleIdSubjects(subjects, moduleId).map(
+          ({ id, name }) => ({
+            label: name,
+            value: id,
+          })
+        )}
+        value={subjectId}
+        onChange={(e) => setSubjectId(+e.target.value)}
         required
         className="mb-4"
       />
