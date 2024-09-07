@@ -1,4 +1,4 @@
-import YosefAvatar from "@/public/yosefbeder.jpg";
+import AnonymousAvatar from "@/public/anonymous.jpg";
 import AbdulrahmanAvatar from "@/public/abdulrahmansaber.jpeg";
 import OmarAvatar from "@/public/omarabdelaleem.jpeg";
 import MohammedAvatar from "@/public/mohammedalzayat.jpeg";
@@ -73,10 +73,9 @@ const links = [
 
 const contributers = [
   {
-    avatar: YosefAvatar,
-    name: "يوسف بدير",
+    avatar: AnonymousAvatar,
+    name: "مجهول",
     contribution: "مطور الواجهة الأمامية (الموقع)",
-    profile: "https://yosefbeder.vercel.app/",
   },
   {
     avatar: AbdulrahmanAvatar,
@@ -114,31 +113,28 @@ export default function Footer() {
             </a>
           ))}
         </div>
-        <div className="flex -space-x-4 rtl:space-x-reverse justify-center mb-4">
+        <div className="flex -space-x-4 rtl:space-x-reverse justify-center">
           {contributers.map(
-            ({ avatar, name, contribution, profile }, index) => (
-              <a key={index} href={profile} target="_blank">
+            ({ avatar, name, contribution, profile }, index) => {
+              const image = (
                 <Image
                   src={avatar}
                   width={40}
                   height={40}
                   alt={`${name} - ${contribution}`}
-                  className="border-2 border-white rounded-full"
+                  className="border-2 border-slate-50 rounded-full"
                 />
-              </a>
-            )
+              );
+              return profile ? (
+                <a key={index} href={profile} target="_blank">
+                  {image}
+                </a>
+              ) : (
+                image
+              );
+            }
           )}
         </div>
-        <p lang="en" dir="ltr" className="text-center">
-          This website is open source, licensed under an{" "}
-          <a
-            href="https://github.com/yosefbeder/doc-reader-guide/blob/main/LICENSE"
-            target="_blank"
-          >
-            MIT license
-          </a>
-          .
-        </p>
       </div>
     </footer>
   );
