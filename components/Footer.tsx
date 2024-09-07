@@ -1,8 +1,9 @@
+import Image from "next/image";
+
 import AnonymousAvatar from "@/public/anonymous.jpg";
 import AbdulrahmanAvatar from "@/public/abdulrahmansaber.jpeg";
 import OmarAvatar from "@/public/omarabdelaleem.jpeg";
 import MohammedAvatar from "@/public/mohammedalzayat.jpeg";
-import Image from "next/image";
 
 const links = [
   {
@@ -130,7 +131,7 @@ export default function Footer() {
                   {image}
                 </a>
               ) : (
-                image
+                <>{image}</>
               );
             }
           )}
