@@ -128,9 +128,9 @@ export default function Footer() {
                 />
               );
               return (
-                <Tooltip content={`${name} - ${contribution}`}>
+                <Tooltip key={index} content={`${name} - ${contribution}`}>
                   {profile ? (
-                    <a key={index} href={profile} target="_blank">
+                    <a href={profile} target="_blank">
                       {image}
                     </a>
                   ) : (
