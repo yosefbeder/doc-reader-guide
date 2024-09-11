@@ -4,6 +4,7 @@ import AnonymousAvatar from "@/public/anonymous.jpg";
 import AbdulrahmanAvatar from "@/public/abdulrahmansaber.jpeg";
 import OmarAvatar from "@/public/omarabdelaleem.jpeg";
 import MohammedAvatar from "@/public/mohammedalzayat.jpeg";
+import Tooltip from "./Tooltip";
 
 const links = [
   {
@@ -87,7 +88,7 @@ const contributers = [
   {
     avatar: OmarAvatar,
     name: "عمر عبد العليم",
-    contribution: "مطور تطبيق الجوال",
+    contribution: "مطور تطبيق الأندرويد",
     profile: "https://www.facebook.com/omar.abdelaleem.144",
   },
   {
@@ -122,16 +123,20 @@ export default function Footer() {
                   src={avatar}
                   width={40}
                   height={40}
-                  alt={`${name} - ${contribution}`}
+                  alt={name}
                   className="border-2 border-slate-50 rounded-full"
                 />
               );
-              return profile ? (
-                <a key={index} href={profile} target="_blank">
-                  {image}
-                </a>
-              ) : (
-                <>{image}</>
+              return (
+                <Tooltip content={`${name} - ${contribution}`}>
+                  {profile ? (
+                    <a key={index} href={profile} target="_blank">
+                      {image}
+                    </a>
+                  ) : (
+                    <>{image}</>
+                  )}
+                </Tooltip>
               );
             }
           )}
