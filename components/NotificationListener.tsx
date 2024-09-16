@@ -57,7 +57,7 @@ export default function NotificationListener() {
   }, []);
 
   return (
-    <ul className="fixed z-20 inset-0 my-2 mx-auto flex flex-col gap-2 max-w-96 h-max">
+    <ul className="fixed z-20 inset-0 my-2 mx-auto px-2 flex flex-col gap-2 max-w-96 h-max">
       {notifications.map(
         ({ id, title, body, closed }) =>
           !closed && (
