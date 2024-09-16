@@ -13,8 +13,7 @@ export default function SearchNavButton({
       {...props}
     >
       {icons["magnifying-glass"]}
-      <span className="hidden max-sm:inline">ابحث...</span>
-      <span className="max-sm:hidden">ابحث عن محاضرة</span>
+      ابحث...
     </button>
   );
 }

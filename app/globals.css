@@ -17,6 +17,10 @@
     @apply text-2xl font-bold text-slate-900;
   }
 
+  h3 {
+    @apply text-xl font-bold;
+  }
+
   a {
     @apply underline text-cyan-600 hover:text-cyan-700 active:text-cyan-800 transition-colors;
   }
@@ -40,6 +44,29 @@
 
   input[type="date"]::-webkit-calendar-picker-indicator {
     display: none;
+  }
+
+  .nav-link {
+    @apply p-2 rounded-md border-slate-700 flex items-center gap-2 no-underline text-inherit hover:text-inherit active:text-inherit transition-colors;
+  }
+
+  .nav-link.selected {
+    @apply bg-slate-100;
+  }
+
+  .nav-link.normal {
+    @apply hover:bg-slate-50 active:bg-slate-100;
+  }
+
+  .nav-link:not(.selected) {
+  }
+
+  .react-checkbox-tree {
+    @apply !text-lg;
+  }
+
+  .react-checkbox-tree label {
+    @apply hover:!bg-cyan-50 rounded-md p-0.5;
   }
 }
 

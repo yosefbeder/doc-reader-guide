@@ -15,10 +15,8 @@ export default function NavLink({
   return (
     <Link
       href={href}
-      className={`p-2 rounded-md border-slate-700 flex items-center gap-2 no-underline text-inherit hover:text-inherit active:text-inherit transition-colors ${
-        pathname.startsWith(href)
-          ? "bg-slate-100"
-          : "hover:bg-slate-50 active:bg-slate-100"
+      className={`nav-link ${
+        pathname.startsWith(href) ? "selected" : "normal"
       } ${className}`}
       {...props}
     >

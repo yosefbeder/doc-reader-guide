@@ -6,6 +6,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import "../globals.css";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
+import NotificationListener from "@/components/NotificationListener";
 
 const inter = Cairo({ subsets: ["arabic", "latin"], variable: "--font-cairo" });
 
@@ -25,6 +26,7 @@ export default function RootLayout({
         <Nav />
         {children}
         <Footer />
+        <NotificationListener />
         <Analytics />
         <SpeedInsights />
       </body>
