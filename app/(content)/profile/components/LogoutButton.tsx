@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useSWRConfig } from "swr";
+import Cookies from "js-cookie";
 
 import Button, { ButtonProps } from "@/components/Button";
 import disableNotifications from "@/utils/disableNotifications";
@@ -16,7 +17,7 @@ export default function LogoutButton({ onClick, ...props }: ButtonProps) {
           if (localStorage.getItem("notifications-status") === "allowed") {
             await disableNotifications();
           }
-          localStorage.removeItem("jwt");
+          Cookies.remove("jwt");
           await mutate(() => true, undefined, { revalidate: false });
           router.replace("/login");
         } catch (err) {
