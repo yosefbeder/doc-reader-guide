@@ -11,6 +11,7 @@ export default function ToggleNotifications() {
   const [isMounted, setIsMounted] = useState(false);
   const [isAllowed, setIsAllowed] = useState(false);
   const [isSupported, setIsSupported] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -31,7 +32,9 @@ export default function ToggleNotifications() {
     <>
       <Button
         color={isAllowed ? "rose" : "cyan"}
+        disabled={isLoading}
         onClick={async () => {
+          setIsLoading(true);
           try {
             if (isAllowed) {
               await disableNotifications();
@@ -51,9 +54,10 @@ export default function ToggleNotifications() {
           } catch (err) {
             setError((err as Error).message);
           }
+          setIsLoading(false);
         }}
       >
-        {isAllowed ? "تعطيل" : "تفعيل"}
+        {isLoading ? "تحميل..." : isAllowed ? "تعطيل" : "تفعيل"}
       </Button>
       {error && <Message type="fail">{error}</Message>}
     </>
