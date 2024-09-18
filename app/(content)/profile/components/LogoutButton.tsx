@@ -8,35 +8,19 @@ import { deleteToken, getMessaging, getToken } from "firebase/messaging";
 import Button, { ButtonProps } from "@/components/Button";
 import { API_URL, VAPID_KEY } from "@/constants";
 import { app } from "@/lib/firebase";
+import disableNotifications from "@/utils/disableNotifications";
 
 export default function LogoutButton({ onClick, ...props }: ButtonProps) {
   const router = useRouter();
   const { mutate } = useSWRConfig();
   return (
     <Button
-      onClick={async (e) => {
-        if (onClick) onClick(e);
+      onClick={async () => {
         try {
-          const jwt = Cookies.get("jwt");
-          Cookies.remove("jwt");
-          if (
-            "Notification" in window &&
-            Notification.permission === "granted"
-          ) {
-            const messaging = getMessaging(app);
-            const token = await getToken(messaging, { vapidKey: VAPID_KEY });
-            const res = await fetch(`${API_URL}/user/unregister-device`, {
-              method: "DELETE",
-              headers: {
-                authorization: `Bearer ${jwt}`,
-                "content-type": "application/json;charset=UTF-8",
-              },
-              body: JSON.stringify({ token }),
-            });
-            const json = await res.json();
-            await deleteToken(messaging);
-            if (!res.ok) throw new Error(json.message);
+          if (Cookies.get("notifications-status") === "allowed") {
+            await disableNotifications();
           }
+          Cookies.remove("jwt");
           await mutate(() => true, undefined, { revalidate: false });
           router.replace("/login");
         } catch (err) {
