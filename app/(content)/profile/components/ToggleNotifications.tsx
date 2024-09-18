@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Cookies from "js-cookie";
 
 import Button from "@/components/Button";
 import disableNotifications from "@/utils/disableNotifications";
@@ -20,7 +19,8 @@ export default function ToggleNotifications() {
       setIsSupported(false);
       return;
     }
-    if (Cookies.get("notifications-status") === "allowed") setIsAllowed(true);
+    if (localStorage.getItem("notifications-status") === "allowed")
+      setIsAllowed(true);
   }, []);
 
   if (!isMounted) return;

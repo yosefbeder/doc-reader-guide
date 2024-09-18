@@ -1,4 +1,4 @@
-import { getMessaging, getToken } from "firebase/messaging";
+import { deleteToken, getMessaging, getToken } from "firebase/messaging";
 import Cookies from "js-cookie";
 
 import { API_URL, VAPID_KEY } from "@/constants";
@@ -32,5 +32,5 @@ export default async function allowNotifications() {
   });
   const json = await res.json();
   if (!res.ok) throw new Error(json.message);
-  Cookies.set("notifications-status", "allowed");
+  localStorage.setItem("notifications-status", "allowed");
 }

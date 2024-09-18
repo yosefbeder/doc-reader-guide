@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Cookies from "js-cookie";
 import { getMessaging, onMessage } from "firebase/messaging";
 
 import ButtonIcon from "./ButtonIcon";
@@ -13,7 +12,7 @@ export default function NotificationListener() {
   >([]);
 
   useEffect(() => {
-    if (Cookies.get("notifications-status") === "allowed") {
+    if (localStorage.getItem("notifications-status") === "allowed") {
       const messaging = getMessaging(app);
 
       return onMessage(messaging, (payload) =>

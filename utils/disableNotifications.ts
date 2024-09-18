@@ -20,6 +20,6 @@ export default async function disableNotifications() {
     body: JSON.stringify({ token }),
   });
   const json = await res.json();
-  Cookies.set("notifications-status", "disabled");
+  localStorage.setItem("notifications-status", "disabled");
   if (!res.ok) throw new Error(json.message);
 }
