@@ -7,6 +7,7 @@ import { app } from "@/lib/firebase";
 export default async function allowNotifications() {
   const jwt = Cookies.get("jwt")!;
   const messaging = getMessaging(app);
+  await deleteToken(messaging);
   let retry = 0;
   let token;
   while (retry < 3) {
