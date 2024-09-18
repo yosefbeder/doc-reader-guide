@@ -47,6 +47,7 @@ export default function ToggleNotifications() {
               setIsAllowed(true);
             }
             setError("");
+            location.reload();
           } catch (err) {
             setError((err as Error).message);
           }
