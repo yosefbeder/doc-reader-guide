@@ -17,7 +17,7 @@ export default async function SubjectsPage() {
   return (
     <main className="main">
       <h2 className="mb-4">إضافة مادة</h2>
-      <AddSubjectForm yearId={yearId} modules={modules} />
+      <AddSubjectForm modules={modules} />
       <h2 className="mb-4">عرض المواد</h2>
       <div className="overflow-y-scroll">
         <table className="w-max">
@@ -49,7 +49,7 @@ export default async function SubjectsPage() {
                       تعديل
                     </Button>
                   </Link>
-                  <ButtonDeleteSubject yearId={yearId} subjectId={id} />
+                  <ButtonDeleteSubject subjectId={id} />
                 </td>
               </tr>
             ))}

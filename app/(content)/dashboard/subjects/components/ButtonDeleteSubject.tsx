@@ -8,10 +8,8 @@ import { deleteSubject } from "@/lib/actions";
 import ButtonDelete from "@/components/ButtonDelete";
 
 export default function ButtonDeleteSubject({
-  yearId,
   subjectId,
 }: {
-  yearId: number;
   subjectId: number;
 }) {
   const [formState, formAction] = useFormState(deleteSubject, {});
@@ -23,13 +21,6 @@ export default function ButtonDeleteSubject({
 
   return (
     <form action={formAction} className="inline" ref={formRef}>
-      <input
-        type="number"
-        name="year-id"
-        id="year-id"
-        className="hidden"
-        defaultValue={yearId}
-      />
       <input
         type="number"
         name="subject-id"

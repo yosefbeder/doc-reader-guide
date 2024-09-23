@@ -3,11 +3,9 @@ import Select from "@/components/Select";
 import { Module } from "@/types";
 
 export default function SubjectFields({
-  yearId,
   modules,
   defaultValues,
 }: {
-  yearId: number;
   modules: Module[];
   defaultValues?: {
     id: number;
@@ -58,13 +56,6 @@ export default function SubjectFields({
         defaultValue={defaultValues?.moduleId}
         required
         className="mb-4"
-      />
-      <input
-        type="number"
-        name="year-id"
-        id="year-id"
-        className="hidden"
-        defaultValue={yearId}
       />
     </>
   );

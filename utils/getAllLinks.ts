@@ -4,12 +4,7 @@ import { API_URL } from "@/constants";
 import { Link } from "@/types";
 
 export default async function getAllLinks(yearId: number): Promise<Link[]> {
-  const jwt = cookies().get("jwt")!.value;
-  const res = await fetch(`${API_URL}/years/${yearId}/links`, {
-    headers: {
-      authorization: `Bearer ${jwt}`,
-    },
-  });
+  const res = await fetch(`${API_URL}/years/${yearId}/links`);
   const json = await res.json();
   if (!res.ok) throw new Error(json.message);
   return json.data;

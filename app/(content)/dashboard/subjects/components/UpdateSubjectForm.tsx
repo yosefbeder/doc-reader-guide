@@ -9,11 +9,9 @@ import { updateSubject } from "@/lib/actions";
 import Message from "@/components/Message";
 
 export default function UpdateSubjectForm({
-  yearId,
   modules,
   subject: { id, icon, name, moduleId },
 }: {
-  yearId: number;
   modules: Module[];
   subject: Subject;
 }) {
@@ -22,7 +20,6 @@ export default function UpdateSubjectForm({
   return (
     <form action={formAction} className="max-w-lg">
       <SubjectFields
-        yearId={yearId}
         modules={modules}
         defaultValues={{ id, icon, name, moduleId }}
       />

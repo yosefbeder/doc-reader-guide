@@ -6,13 +6,7 @@ import { useFormState } from "react-dom";
 import { deleteModule } from "@/lib/actions";
 import ButtonDelete from "@/components/ButtonDelete";
 
-export default function ButtonDeleteModule({
-  yearId,
-  moduleId,
-}: {
-  yearId: number;
-  moduleId: number;
-}) {
+export default function ButtonDeleteModule({ moduleId }: { moduleId: number }) {
   const [formState, formAction] = useFormState(deleteModule, {});
   const formRef = useRef(null);
 
@@ -22,13 +16,6 @@ export default function ButtonDeleteModule({
 
   return (
     <form action={formAction} className="inline" ref={formRef}>
-      <input
-        type="number"
-        name="year-id"
-        id="year-id"
-        className="hidden"
-        defaultValue={yearId}
-      />
       <input
         type="number"
         name="module-id"

@@ -47,7 +47,7 @@ export default async function ModulesPage() {
                       تعديل
                     </Button>
                   </Link>
-                  <ButtonDeleteModule yearId={yearId} moduleId={id} />
+                  <ButtonDeleteModule moduleId={id} />
                 </td>
               </tr>
             ))}

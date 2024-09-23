@@ -1,17 +1,21 @@
-import React from "react";
-
 import getModule from "@/utils/getModule";
-import getUser from "@/utils/getUser";
-
 import UpdateModuleForm from "../components/UpdateModuleForm";
+import { API_URL } from "@/constants";
+
+export async function generateStaticParams() {
+  const res = await fetch(`${API_URL}/modules`);
+  const json = await res.json();
+  return json.data.map(({ id }: { id: number }) => ({
+    moduleId: id.toString(),
+  }));
+}
 
 export default async function UpdateModulePage({
   params: { moduleId },
 }: {
-  params: { moduleId: string };
+  params: { moduleId: number };
 }) {
-  const { yearId } = await getUser();
-  const myModule = await getModule(yearId, +moduleId);
+  const myModule = await getModule(moduleId);
 
   return (
     <main className="main">
