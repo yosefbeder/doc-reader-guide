@@ -72,6 +72,8 @@ const icons = {
   ),
 };
 
+export const dynamic = "force-static";
+
 export async function generateStaticParams() {
   const res = await fetch(`${API_URL}/lectures`);
   const json = await res.json();
