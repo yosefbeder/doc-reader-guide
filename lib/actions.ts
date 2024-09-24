@@ -141,7 +141,7 @@ export async function addModule(
   const json = await res.json();
 
   revalidatePath("/dashboard/modules", "page");
-  revalidatePath(`/dashboard/modules/${json.data.id}`, "page");
+  revalidatePath(`/dashboard/modules/${json.data.id}`);
   revalidatePath("/", "page");
 
   return { type: res.ok ? "success" : "fail", message: json.message };
@@ -170,7 +170,7 @@ export async function updateModule(
   const json = await res.json();
 
   revalidatePath("/dashboard/modules", "page");
-  revalidatePath(`/dashboard/modules/${moduleId}`, "page");
+  revalidatePath(`/dashboard/modules/${moduleId}`);
   revalidatePath("/", "page");
 
   return { type: res.ok ? "success" : "fail", message: json.message };
@@ -194,7 +194,7 @@ export async function deleteModule(
   if (!res.ok) return { type: "fail", message: json.message };
 
   revalidatePath("/dashboard/modules", "page");
-  revalidatePath(`/dashboard/modules/${moduleId}`, "page");
+  revalidatePath(`/dashboard/modules/${moduleId}`);
   revalidatePath("/", "page");
 
   return {};
@@ -222,8 +222,8 @@ export async function addSubject(
   const json = await res.json();
 
   revalidatePath("/dashboard/subjects", "page");
-  revalidatePath(`/dashboard/subjects/${json.data.id}`, "page");
-  revalidatePath(`/modules/${moduleId}`, "page");
+  revalidatePath(`/dashboard/subjects/${json.data.id}`);
+  revalidatePath(`/modules/${moduleId}`);
 
   return { type: res.ok ? "success" : "fail", message: json.message };
 }
@@ -252,8 +252,8 @@ export async function updateSubject(
   const json = await res.json();
 
   revalidatePath("/dashboard/subjects", "page");
-  revalidatePath(`/dashboard/subjects/${subjectId}`, "page");
-  revalidatePath(`/modules/${moduleId}`, "page");
+  revalidatePath(`/dashboard/subjects/${subjectId}`);
+  revalidatePath(`/modules/${moduleId}`);
 
   return { type: res.ok ? "success" : "fail", message: json.message };
 }
@@ -276,8 +276,8 @@ export async function deleteSubject(
   if (!res.ok) return { type: "fail", message: json.message };
 
   revalidatePath("/dashboard/subjects", "page");
-  revalidatePath(`/dashboard/subjects/${subjectId}`, "page");
-  revalidatePath(`/modules/${json.data.moduleId}`, "page");
+  revalidatePath(`/dashboard/subjects/${subjectId}`);
+  revalidatePath(`/modules/${json.data.moduleId}`);
 
   return {};
 }
@@ -306,8 +306,8 @@ export async function addLecture(
   const json = await res.json();
 
   revalidatePath("/dashboard/lectures", "page");
-  revalidatePath(`/dashboard/lectures/${json.data.id}`, "page");
-  revalidatePath(`/subjects/${subjectId}`, "page");
+  revalidatePath(`/dashboard/lectures/${json.data.id}`);
+  revalidatePath(`/subjects/${subjectId}`);
 
   return { type: res.ok ? "success" : "fail", message: json.message };
 }
@@ -336,8 +336,8 @@ export async function updateLecture(
   const json = await res.json();
 
   revalidatePath("/dashboard/lectures", "page");
-  revalidatePath(`/dashboard/lectures/${lectureId}`, "page");
-  revalidatePath(`/subjects/${subjectId}`, "page");
+  revalidatePath(`/dashboard/lectures/${lectureId}`);
+  revalidatePath(`/subjects/${subjectId}`);
 
   return { type: res.ok ? "success" : "fail", message: json.message };
 }
@@ -361,8 +361,8 @@ export async function deleteLecture(
   if (!res.ok) return { type: "fail", message: json.message };
 
   revalidatePath("/dashboard/lectures", "page");
-  revalidatePath(`/dashboard/lectures/${lectureId}`, "page");
-  revalidatePath(`/subjects/${subjectId}`, "page");
+  revalidatePath(`/dashboard/lectures/${lectureId}`);
+  revalidatePath(`/subjects/${subjectId}`);
 
   return {};
 }
@@ -393,8 +393,8 @@ export async function addLink(
   const json = await res.json();
 
   revalidatePath("/dashboard/links", "page");
-  revalidatePath(`/dashboard/links/${json.data.id}`, "page");
-  revalidatePath(`/lectures/${lectureId}`, "page");
+  revalidatePath(`/dashboard/links/${json.data.id}`);
+  revalidatePath(`/lectures/${lectureId}`);
 
   return { type: res.ok ? "success" : "fail", message: json.message };
 }
@@ -426,8 +426,8 @@ export async function updateLink(
   const json = await res.json();
 
   revalidatePath("/dashboard/links", "page");
-  revalidatePath(`/dashboard/links/${linkId}`, "page");
-  revalidatePath(`/lectures/${lectureId}`, "page");
+  revalidatePath(`/dashboard/links/${linkId}`);
+  revalidatePath(`/lectures/${lectureId}`);
 
   return { type: res.ok ? "success" : "fail", message: json.message };
 }
@@ -450,8 +450,8 @@ export async function deleteLink(
   if (!res.ok) return { type: "fail", message: json.message };
 
   revalidatePath("/dashboard/links", "page");
-  revalidatePath(`/dashboard/links/${linkId}`, "page");
-  revalidatePath(`/lectures/${json.data.lectureId}`, "page");
+  revalidatePath(`/dashboard/links/${linkId}`);
+  revalidatePath(`/lectures/${json.data.lectureId}`);
 
   return {};
 }
