@@ -3,7 +3,6 @@ import Link from "next/link";
 import Path from "@/components/Path";
 import getLecture, { getLectureLinks } from "@/utils/getLecture";
 import getPrefix from "@/utils/getPrefix";
-import { API_URL } from "@/constants";
 
 const icons = {
   Video: (
@@ -71,16 +70,6 @@ const icons = {
     </svg>
   ),
 };
-
-export const dynamic = "force-static";
-
-export async function generateStaticParams() {
-  const res = await fetch(`${API_URL}/lectures`);
-  const json = await res.json();
-  return json.data.map(({ id }: { id: number }) => ({
-    lectureId: id.toString(),
-  }));
-}
 
 export default async function LinksPage({
   params: { lectureId },

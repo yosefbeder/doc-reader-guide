@@ -1,14 +1,5 @@
 import getModule from "@/utils/getModule";
 import UpdateModuleForm from "../components/UpdateModuleForm";
-import { API_URL } from "@/constants";
-
-export async function generateStaticParams() {
-  const res = await fetch(`${API_URL}/modules`);
-  const json = await res.json();
-  return json.data.map(({ id }: { id: number }) => ({
-    moduleId: id.toString(),
-  }));
-}
 
 export default async function UpdateModulePage({
   params: { moduleId },
