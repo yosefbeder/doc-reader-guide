@@ -1,18 +1,24 @@
 import { NextRequest, NextResponse } from "next/server";
-import getUser from "./utils/getUser";
+import { jwtVerify } from "jose";
+
+const secret = new TextEncoder().encode(process.env.SECRET!);
 
 export async function middleware(req: NextRequest): Promise<NextResponse> {
   const { pathname } = req.nextUrl;
-  const jwt = req.cookies.get("jwt")?.value;
+  let jwt = req.cookies.get("jwt")?.value;
   const toLogin = pathname.startsWith("/login");
   const toSignup = pathname.startsWith("/signup");
   const toDashboard = pathname.startsWith("/dashboard");
 
   if (jwt) {
-    const user = await getUser();
-    const isAdmin = user.role === "Admin";
-    if (toLogin || toSignup || (!isAdmin && toDashboard))
-      return NextResponse.redirect(new URL("/", req.url));
+    try {
+      const isAdmin = (await jwtVerify(jwt, secret)).payload.role === "Admin";
+      if (toLogin || toSignup || (!isAdmin && toDashboard))
+        return NextResponse.redirect(new URL("/", req.url));
+    } catch (err) {
+      console.error(err);
+      jwt = undefined;
+    }
   }
 
   if (!jwt && !toLogin && !toSignup)
@@ -24,5 +30,7 @@ export async function middleware(req: NextRequest): Promise<NextResponse> {
 }
 
 export const config = {
-  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
+  matcher: [
+    "/((?!api|_next/static|_next/image|images|favicon.ico|sitemap.xml|robots.txt).*)",
+  ],
 };

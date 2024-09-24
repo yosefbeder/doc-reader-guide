@@ -2,7 +2,7 @@
 
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 
 import { FormState } from "@/types";
 import { API_URL } from "@/constants";
@@ -89,7 +89,7 @@ export async function updatePersonalInfo(
 
   const json = await res.json();
 
-  revalidatePath("/", "layout");
+  revalidateTag("user");
 
   return { type: res.ok ? "success" : "fail", message: json.message };
 }
