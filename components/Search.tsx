@@ -51,7 +51,7 @@ export default function Search({ yearId }: { yearId: number }) {
 
   return (
     <>
-      <SearchNavButton className="ml-2" onClick={() => setIsSearching(true)} />
+      <SearchNavButton onClick={() => setIsSearching(true)} />
       {isSearching && (
         <SearchDialogue onClose={() => setIsSearching(false)}>
           <Searchbar

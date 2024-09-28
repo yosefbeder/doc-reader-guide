@@ -32,15 +32,15 @@ export default function Nav({
 
   return (
     <>
-      <nav className="main flex items-center text-slate-900">
+      <nav className="main flex items-center justify-between max-sm:flex-col max-sm:gap-4 text-slate-900">
         <Link
           href={user ? `/years/${user.yearId}` : "/"}
-          className="flex items-center gap-2 no-underline text-inherit hover:text-inherit ml-auto"
+          className="flex items-center gap-2 no-underline text-inherit hover:text-inherit"
         >
           <Image src={Logo} className="w-8" alt="Logo" />
           <span className="text-xl font-bold text-cyan-700">دوكريدر جايد</span>
         </Link>
-        <h1 className="ml-auto max-md:hidden">{title}</h1>
+        <h1 className="max-md:hidden">{title}</h1>
         <div className="flex items-center gap-2">
           <Search yearId={user?.yearId || -1} />
           <NavLink href="/profile">
