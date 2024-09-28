@@ -1,16 +1,10 @@
-import { cookies } from "next/headers";
-
 import { User } from "@/types";
 import { API_URL } from "@/constants";
 
-export default async function getUser(): Promise<User> {
-  const jwt = cookies().get("jwt")!.value;
+export default async function getUser(jwt: string): Promise<User> {
   const res = await fetch(`${API_URL}/user`, {
     headers: {
       authorization: `Bearer ${jwt}`,
-    },
-    next: {
-      tags: ["user"],
     },
   });
   const json = await res.json();

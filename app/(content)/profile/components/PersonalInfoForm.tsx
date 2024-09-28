@@ -9,6 +9,7 @@ import { Faculty, User } from "@/types";
 import Input from "@/components/Input";
 import Message from "@/components/Message";
 import SelectFacultyYear from "@/components/SelectFacultyYear";
+import { useEffect } from "react";
 
 export default function PersonalInfoForm({
   user,
@@ -19,6 +20,10 @@ export default function PersonalInfoForm({
 }) {
   const [formState, formAction] = useFormState(updatePersonalInfo, {});
   const { mutate } = useSWRConfig();
+
+  useEffect(() => {
+    if (formState.type === "success") mutate(() => true, undefined);
+  }, [formState]);
 
   return (
     <form action={formAction} className="max-w-lg">
@@ -52,12 +57,7 @@ export default function PersonalInfoForm({
           {formState.message}
         </Message>
       )}
-      <ButtonSubmit
-        className="w-max px-4 mb-4"
-        onClick={() => mutate(() => true, undefined, { revalidate: false })}
-      >
-        تعديل
-      </ButtonSubmit>
+      <ButtonSubmit className="w-max px-4 mb-4">تعديل</ButtonSubmit>
     </form>
   );
 }

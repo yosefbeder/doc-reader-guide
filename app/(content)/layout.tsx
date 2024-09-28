@@ -4,8 +4,6 @@ import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import "../globals.css";
-import Nav from "@/components/Nav";
-import Footer from "@/components/Footer";
 import NotificationListener from "@/components/NotificationListener";
 
 const inter = Cairo({ subsets: ["arabic", "latin"], variable: "--font-cairo" });
@@ -23,9 +21,7 @@ export default function RootLayout({
   return (
     <html lang="ar" dir="rtl">
       <body className={`${inter.variable} font-sans`}>
-        <Nav />
         {children}
-        <Footer />
         <NotificationListener />
         <Analytics />
         <SpeedInsights />

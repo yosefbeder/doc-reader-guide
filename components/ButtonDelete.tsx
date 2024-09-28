@@ -2,15 +2,17 @@
 
 import { RefObject } from "react";
 
+import { ButtonProps } from "./Button";
 import ButtonSubmit from "./ButtonSubmit";
 
 export default function ButtonDelete({
   confirmationText,
   formRef,
+  ...props
 }: {
   confirmationText: string;
   formRef: RefObject<HTMLFormElement>;
-}) {
+} & ButtonProps) {
   return (
     <ButtonSubmit
       color="rose"
@@ -25,6 +27,7 @@ export default function ButtonDelete({
 
         formRef.current!.requestSubmit();
       }}
+      {...props}
     >
       حذف
     </ButtonSubmit>

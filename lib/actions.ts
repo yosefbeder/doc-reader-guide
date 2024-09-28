@@ -2,7 +2,7 @@
 
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { revalidatePath, revalidateTag } from "next/cache";
+import { revalidatePath } from "next/cache";
 
 import { FormState } from "@/types";
 import { API_URL } from "@/constants";
@@ -89,8 +89,6 @@ export async function updatePersonalInfo(
 
   const json = await res.json();
 
-  revalidateTag("user");
-
   return { type: res.ok ? "success" : "fail", message: json.message };
 }
 
@@ -140,9 +138,10 @@ export async function addModule(
 
   const json = await res.json();
 
-  revalidatePath("/dashboard/modules", "page");
-  revalidatePath(`/dashboard/modules/${json.data.id}`);
-  revalidatePath("/", "page");
+  if (res.ok) {
+    revalidatePath(`/years/${data.yearId}`);
+    revalidatePath(`/years/${data.yearId}/update`);
+  }
 
   return { type: res.ok ? "success" : "fail", message: json.message };
 }
@@ -169,9 +168,11 @@ export async function updateModule(
 
   const json = await res.json();
 
-  revalidatePath("/dashboard/modules", "page");
-  revalidatePath(`/dashboard/modules/${moduleId}`);
-  revalidatePath("/", "page");
+  if (res.ok) {
+    revalidatePath(`/modules/${moduleId}`);
+    revalidatePath(`/years/${json.data.yearId}`);
+    revalidatePath(`/years/${json.data.yearId}/update`);
+  }
 
   return { type: res.ok ? "success" : "fail", message: json.message };
 }
@@ -193,9 +194,9 @@ export async function deleteModule(
 
   if (!res.ok) return { type: "fail", message: json.message };
 
-  revalidatePath("/dashboard/modules", "page");
-  revalidatePath(`/dashboard/modules/${moduleId}`);
-  revalidatePath("/", "page");
+  revalidatePath(`/modules/${json.data.id}`);
+  revalidatePath(`/years/${json.data.yearId}`);
+  revalidatePath(`/years/${json.data.yearId}/update`);
 
   return {};
 }
@@ -221,9 +222,10 @@ export async function addSubject(
 
   const json = await res.json();
 
-  revalidatePath("/dashboard/subjects", "page");
-  revalidatePath(`/dashboard/subjects/${json.data.id}`);
-  revalidatePath(`/modules/${moduleId}`);
+  if (res.ok) {
+    revalidatePath(`/modules/${moduleId}`);
+    revalidatePath(`/modules/${moduleId}/update`);
+  }
 
   return { type: res.ok ? "success" : "fail", message: json.message };
 }
@@ -251,9 +253,11 @@ export async function updateSubject(
 
   const json = await res.json();
 
-  revalidatePath("/dashboard/subjects", "page");
-  revalidatePath(`/dashboard/subjects/${subjectId}`);
-  revalidatePath(`/modules/${moduleId}`);
+  if (res.ok) {
+    revalidatePath(`/subjects/${subjectId}`);
+    revalidatePath(`/modules/${moduleId}`);
+    revalidatePath(`/modules/${moduleId}/update`);
+  }
 
   return { type: res.ok ? "success" : "fail", message: json.message };
 }
@@ -275,9 +279,8 @@ export async function deleteSubject(
 
   if (!res.ok) return { type: "fail", message: json.message };
 
-  revalidatePath("/dashboard/subjects", "page");
-  revalidatePath(`/dashboard/subjects/${subjectId}`);
   revalidatePath(`/modules/${json.data.moduleId}`);
+  revalidatePath(`/modules/${json.data.moduleId}/update`);
 
   return {};
 }
@@ -305,9 +308,10 @@ export async function addLecture(
 
   const json = await res.json();
 
-  revalidatePath("/dashboard/lectures", "page");
-  revalidatePath(`/dashboard/lectures/${json.data.id}`);
-  revalidatePath(`/subjects/${subjectId}`);
+  if (res.ok) {
+    revalidatePath(`/subjects/${subjectId}`);
+    revalidatePath(`/subjects/${subjectId}/update`);
+  }
 
   return { type: res.ok ? "success" : "fail", message: json.message };
 }
@@ -335,9 +339,11 @@ export async function updateLecture(
 
   const json = await res.json();
 
-  revalidatePath("/dashboard/lectures", "page");
-  revalidatePath(`/dashboard/lectures/${lectureId}`);
-  revalidatePath(`/subjects/${subjectId}`);
+  if (res.ok) {
+    revalidatePath(`/lectures/${lectureId}`);
+    revalidatePath(`/subjects/${subjectId}`);
+    revalidatePath(`/subjects/${subjectId}/update`);
+  }
 
   return { type: res.ok ? "success" : "fail", message: json.message };
 }
@@ -346,8 +352,7 @@ export async function deleteLecture(
   _prevState: FormState,
   formData: FormData
 ): Promise<FormState> {
-  const lectureId = formData.get("lecture-id");
-  const subjectId = formData.get("subject-id");
+  const lectureId = getNumber(formData, "lecture-id");
   const res = await fetch(`${API_URL}/lectures/${lectureId}/delete`, {
     method: "DELETE",
     headers: {
@@ -360,9 +365,8 @@ export async function deleteLecture(
 
   if (!res.ok) return { type: "fail", message: json.message };
 
-  revalidatePath("/dashboard/lectures", "page");
-  revalidatePath(`/dashboard/lectures/${lectureId}`);
-  revalidatePath(`/subjects/${subjectId}`);
+  revalidatePath(`/subjects/${json.data.subjectId}`);
+  revalidatePath(`/subjects/${json.data.subjectId}/update`);
 
   return {};
 }
@@ -392,9 +396,10 @@ export async function addLink(
 
   const json = await res.json();
 
-  revalidatePath("/dashboard/links", "page");
-  revalidatePath(`/dashboard/links/${json.data.id}`);
-  revalidatePath(`/lectures/${lectureId}`);
+  if (res.ok) {
+    revalidatePath(`/lectures/${lectureId}`);
+    revalidatePath(`/lectures/${lectureId}/update`);
+  }
 
   return { type: res.ok ? "success" : "fail", message: json.message };
 }
@@ -425,9 +430,10 @@ export async function updateLink(
 
   const json = await res.json();
 
-  revalidatePath("/dashboard/links", "page");
-  revalidatePath(`/dashboard/links/${linkId}`);
-  revalidatePath(`/lectures/${lectureId}`);
+  if (res.ok) {
+    revalidatePath(`/lectures/${lectureId}`);
+    revalidatePath(`/lectures/${lectureId}/update`);
+  }
 
   return { type: res.ok ? "success" : "fail", message: json.message };
 }
@@ -449,9 +455,8 @@ export async function deleteLink(
 
   if (!res.ok) return { type: "fail", message: json.message };
 
-  revalidatePath("/dashboard/links", "page");
-  revalidatePath(`/dashboard/links/${linkId}`);
   revalidatePath(`/lectures/${json.data.lectureId}`);
+  revalidatePath(`/lectures/${json.data.lectureId}/update`);
 
   return {};
 }
