@@ -3,22 +3,12 @@ import Link from "next/link";
 
 import getPrefix from "@/utils/getPrefix";
 import getModules from "@/utils/getModules";
-import getFaculties from "@/utils/getFaculties";
+import getUser from "@/utils/getUser";
+import { cookies } from "next/headers";
 
-export async function generateStaticParams() {
-  const faculties = await getFaculties();
-  const years = faculties.flatMap((faculty) => faculty.years);
-  return years.map(({ id }: { id: number }) => ({
-    yearId: id.toString(),
-  }));
-}
-
-export default async function ModulesPage({
-  params: { yearId },
-}: {
-  params: { yearId: string };
-}) {
-  const modules = await getModules(+yearId);
+export default async function ModulesPage() {
+  const { yearId } = await getUser(cookies().get("jwt")!.value!);
+  const modules = await getModules(yearId);
 
   return (
     <main className="main">

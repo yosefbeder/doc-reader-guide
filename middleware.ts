@@ -1,26 +1,20 @@
 import { NextRequest, NextResponse } from "next/server";
+import { jwtVerify } from "jose";
 
-import getUser from "./utils/getUser";
+const secret = new TextEncoder().encode(process.env.SECRET!);
 
 export async function middleware(req: NextRequest): Promise<NextResponse> {
   const { pathname } = req.nextUrl;
   let jwt = req.cookies.get("jwt")?.value;
   const toLogin = pathname.startsWith("/login");
   const toSignup = pathname.startsWith("/signup");
+  const toDashboard = pathname.endsWith("/update");
 
   if (jwt) {
     try {
-      const user = await getUser(jwt);
-      const isAdmin = user.role === "Admin";
-      const homePage = `/years/${user.yearId}`;
-      if (
-        pathname === "/" ||
-        (pathname.startsWith("/years") && !pathname.startsWith(homePage)) ||
-        toSignup ||
-        toLogin ||
-        (!isAdmin && pathname.endsWith("/update"))
-      )
-        return NextResponse.redirect(new URL(homePage, req.url));
+      const isAdmin = (await jwtVerify(jwt, secret)).payload.role === "Admin";
+      if (toLogin || toSignup || (!isAdmin && toDashboard))
+        return NextResponse.redirect(new URL("/", req.url));
     } catch (err) {
       console.error(err);
       jwt = undefined;

@@ -34,7 +34,7 @@ export default function Nav({
     <>
       <nav className="main flex items-center justify-between max-sm:flex-col max-sm:gap-4 text-slate-900">
         <Link
-          href={user ? `/years/${user.yearId}` : "/"}
+          href="/"
           className="flex items-center gap-2 no-underline text-inherit hover:text-inherit"
         >
           <Image src={Logo} className="w-8" alt="Logo" />
@@ -59,7 +59,9 @@ export default function Nav({
                         pathname.slice(0, pathname.indexOf("/update"))
                       );
                     } else {
-                      router.replace(`${pathname}/update`);
+                      router.replace(
+                        `${pathname === "/" ? "" : pathname}/update`
+                      );
                     }
                   }}
                 >
