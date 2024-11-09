@@ -21,5 +21,6 @@ export default async function disableNotifications() {
   });
   const json = await res.json();
   localStorage.setItem("notifications-status", "disabled");
+  localStorage.removeItem("fcm-token");
   if (!res.ok) throw new Error(json.message);
 }
