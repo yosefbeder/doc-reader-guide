@@ -5,6 +5,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import "../globals.css";
 import NotificationListener from "@/components/NotificationListener";
+import SWRWrapper from "@/components/SWRWrapper";
 
 const inter = Cairo({ subsets: ["arabic", "latin"], variable: "--font-cairo" });
 
@@ -21,7 +22,7 @@ export default function RootLayout({
   return (
     <html lang="ar" dir="rtl">
       <body className={`${inter.variable} font-sans`}>
-        {children}
+        <SWRWrapper>{children}</SWRWrapper>
         <NotificationListener />
         <Analytics />
         <SpeedInsights />

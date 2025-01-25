@@ -23,8 +23,6 @@ export default function ProfilePage() {
     error: facultiesError,
   } = useSWR("faculties", getFaculties);
 
-  if (userError || facultiesError) throw new Error();
-
   return (
     <Layout title="البيانات الشخصية">
       <main className="main">
@@ -36,10 +34,12 @@ export default function ProfilePage() {
           </div>
           <h2 className="mb-4">الحساب</h2>
           <h3 className="mb-4">البيانات العامة</h3>
-          {!isUserLoading && user && !areFacultiesLoading && faculties ? (
-            <PersonalInfoForm faculties={faculties} user={user} />
-          ) : (
+          {isUserLoading || areFacultiesLoading ? (
             <p className="mb-4">تحميل...</p>
+          ) : userError || facultiesError ? (
+            <p className="mb-4">حدث خطأ</p>
+          ) : (
+            <PersonalInfoForm faculties={faculties!} user={user!} />
           )}
           <h3 className="mb-4">تغيير كلمة المرور</h3>
           <PasswordForm />
