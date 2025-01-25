@@ -89,6 +89,8 @@ export async function updatePersonalInfo(
 
   const json = await res.json();
 
+  revalidatePath("/", "page");
+
   return { type: res.ok ? "success" : "fail", message: json.message };
 }
 
@@ -139,8 +141,8 @@ export async function addModule(
   const json = await res.json();
 
   if (res.ok) {
-    revalidatePath(`/years/${data.yearId}`);
-    revalidatePath(`/years/${data.yearId}/update`);
+    revalidatePath("/", "page");
+    revalidatePath("/update", "page");
   }
 
   return { type: res.ok ? "success" : "fail", message: json.message };
@@ -170,8 +172,8 @@ export async function updateModule(
 
   if (res.ok) {
     revalidatePath(`/modules/${moduleId}`);
-    revalidatePath(`/years/${json.data.yearId}`);
-    revalidatePath(`/years/${json.data.yearId}/update`);
+    revalidatePath("/", "page");
+    revalidatePath("/update", "page");
   }
 
   return { type: res.ok ? "success" : "fail", message: json.message };
@@ -195,8 +197,8 @@ export async function deleteModule(
   if (!res.ok) return { type: "fail", message: json.message };
 
   revalidatePath(`/modules/${json.data.id}`);
-  revalidatePath(`/years/${json.data.yearId}`);
-  revalidatePath(`/years/${json.data.yearId}/update`);
+  revalidatePath("/", "page");
+  revalidatePath("/update", "page");
 
   return {};
 }
