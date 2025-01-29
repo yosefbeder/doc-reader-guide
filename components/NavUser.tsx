@@ -36,7 +36,7 @@ export default function NavUser({ updateable }: { updateable?: boolean }) {
               onClick={() => {
                 if (pathname.endsWith("/update")) {
                   router.replace(
-                    pathname.slice(0, pathname.indexOf("/update"))
+                    pathname.slice(0, pathname.indexOf("/update") + 1)
                   );
                 } else {
                   router.replace(`${pathname === "/" ? "" : pathname}/update`);
