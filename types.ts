@@ -87,5 +87,5 @@ export interface Link extends DatabaseTable {
   url: string;
   type: "Video" | "Record" | "PDF" | "Data";
   category: "Data" | "College" | "Summary";
-  lecture: LectureSimple;
+  lectureData: LectureSimple;
 }

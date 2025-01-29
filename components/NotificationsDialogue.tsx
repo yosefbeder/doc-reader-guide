@@ -50,7 +50,7 @@ export default function NotificationsDialogue({
     return getUniqueObjectsById(
       links.map(
         ({
-          lecture: {
+          lectureData: {
             id: lectureId,
             title: lectureTitle,
             subject: { id: subjectId },
@@ -63,7 +63,7 @@ export default function NotificationsDialogue({
       )
     ).map((lecture) => ({
       ...lecture,
-      links: links.filter((link) => link.lecture.id === lecture.id),
+      links: links.filter((link) => link.lectureData.id === lecture.id),
     }));
   }, [links]);
   const subjects = useMemo(() => {
@@ -71,7 +71,7 @@ export default function NotificationsDialogue({
     return getUniqueObjectsById(
       links.map(
         ({
-          lecture: {
+          lectureData: {
             subject: {
               id: subjectId,
               name: subjectName,
@@ -94,7 +94,7 @@ export default function NotificationsDialogue({
     return getUniqueObjectsById(
       links.map(
         ({
-          lecture: {
+          lectureData: {
             subject: {
               module: { id: moduleId, name: moduleName },
             },
