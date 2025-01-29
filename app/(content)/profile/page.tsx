@@ -39,7 +39,8 @@ export default function ProfilePage() {
           ) : userError || facultiesError ? (
             <p className="mb-4">حدث خطأ</p>
           ) : (
-            <PersonalInfoForm faculties={faculties!} user={user!} />
+            user &&
+            faculties && <PersonalInfoForm faculties={faculties} user={user} />
           )}
           <h3 className="mb-4">تغيير كلمة المرور</h3>
           <PasswordForm />
