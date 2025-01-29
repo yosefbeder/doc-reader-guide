@@ -48,24 +48,42 @@ export default function NotificationsDialogue({
   const lectures = useMemo(() => {
     if (!links) return [];
     return getUniqueObjectsById(
-      links.map(({ lectureId, lectureTitle, subjectId }) => ({
-        id: lectureId,
-        title: lectureTitle,
-        subjectId,
-      }))
+      links.map(
+        ({
+          lecture: {
+            id: lectureId,
+            title: lectureTitle,
+            subject: { id: subjectId },
+          },
+        }) => ({
+          id: lectureId,
+          title: lectureTitle,
+          subjectId,
+        })
+      )
     ).map((lecture) => ({
       ...lecture,
-      links: links.filter((link) => link.lectureId === lecture.id),
+      links: links.filter((link) => link.lecture.id === lecture.id),
     }));
   }, [links]);
   const subjects = useMemo(() => {
     if (!links) return [];
     return getUniqueObjectsById(
-      links.map(({ subjectId, subjectName, moduleId }) => ({
-        id: subjectId,
-        name: subjectName,
-        moduleId,
-      }))
+      links.map(
+        ({
+          lecture: {
+            subject: {
+              id: subjectId,
+              name: subjectName,
+              module: { id: moduleId },
+            },
+          },
+        }) => ({
+          id: subjectId,
+          name: subjectName,
+          moduleId,
+        })
+      )
     ).map((subject) => ({
       ...subject,
       lectures: lectures.filter((lecture) => lecture.subjectId === subject.id),
@@ -74,10 +92,18 @@ export default function NotificationsDialogue({
   const modules = useMemo(() => {
     if (!links) return [];
     return getUniqueObjectsById(
-      links.map(({ moduleId, moduleName }) => ({
-        id: moduleId,
-        name: moduleName,
-      }))
+      links.map(
+        ({
+          lecture: {
+            subject: {
+              module: { id: moduleId, name: moduleName },
+            },
+          },
+        }) => ({
+          id: moduleId,
+          name: moduleName,
+        })
+      )
     ).map((myModule) => ({
       ...myModule,
       subjects: subjects.filter((subject) => subject.moduleId === myModule.id),

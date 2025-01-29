@@ -6,12 +6,12 @@ import getPrefix from "@/utils/getPrefix";
 
 export default function Path({
   lecture: {
-    semesterName,
-    moduleId,
-    moduleName,
-    subjectId,
-    subjectName,
     title,
+    subject: {
+      id: subjectId,
+      name: subjectName,
+      module: { id: moduleId, name: moduleName, semesterName },
+    },
   },
 }: {
   lecture: Lecture;

@@ -11,7 +11,12 @@ import Message from "@/components/Message";
 import ButtonDelete from "@/components/ButtonDelete";
 
 export default function UpdateSubjectForm({
-  subject: { id, icon, name, moduleId },
+  subject: {
+    id,
+    icon,
+    name,
+    module: { id: moduleId },
+  },
 }: {
   subject: Subject;
 }) {

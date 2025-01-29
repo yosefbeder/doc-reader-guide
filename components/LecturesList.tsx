@@ -48,7 +48,15 @@ export default function LecturesList({
     >
       {lectures ? (
         lectures.map(
-          ({ id, title, date, semesterName, moduleName, subjectName }) => (
+          ({
+            id,
+            title,
+            date,
+            subject: {
+              name: subjectName,
+              module: { name: moduleName, semesterName },
+            },
+          }) => (
             <li key={id}>
               <Link
                 href={`/lectures/${id}`}

@@ -5,7 +5,10 @@ import getPrefix from "@/utils/getPrefix";
 import { Subject } from "@/types";
 
 export default function Path({
-  subject: { semesterName, moduleId, moduleName, name },
+  subject: {
+    name,
+    module: { semesterName, id: moduleId, name: moduleName },
+  },
 }: {
   subject: Subject;
 }) {

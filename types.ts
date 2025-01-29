@@ -45,25 +45,26 @@ export interface Module extends DatabaseTable {
   name: string;
   icon: string;
   yearId: number;
-  _count: {
-    subjects: number;
-  };
+  semesterName: number;
 }
 
-export interface Module extends DatabaseTable {
-  name: string;
-  icon: string;
-  yearId: number;
+interface ModuleSimple {
+  id: number;
   semesterName: number;
+  name: string;
+  yearId: number;
 }
 
 export interface Subject extends DatabaseTable {
   name: string;
   icon: string;
+  module: ModuleSimple;
+}
 
-  semesterName: number;
-  moduleId: number;
-  moduleName: string;
+interface SubjectSimple {
+  id: number;
+  name: string;
+  module: ModuleSimple;
 }
 
 export interface Lecture extends DatabaseTable {
@@ -71,12 +72,13 @@ export interface Lecture extends DatabaseTable {
   type: "Normal" | "Practical" | "FinalRevision";
   subTitle: string;
   date: string;
+  subject: SubjectSimple;
+}
 
-  semesterName: number;
-  moduleId: number;
-  moduleName: string;
-  subjectId: number;
-  subjectName: string;
+interface LectureSimple {
+  id: number;
+  title: string;
+  subject: SubjectSimple;
 }
 
 export interface Link extends DatabaseTable {
@@ -85,12 +87,5 @@ export interface Link extends DatabaseTable {
   url: string;
   type: "Video" | "Record" | "PDF" | "Data";
   category: "Data" | "College" | "Summary";
-
-  semesterName: number;
-  moduleId: number;
-  moduleName: string;
-  subjectId: number;
-  subjectName: string;
-  lectureId: number;
-  lectureTitle: string;
+  lecture: LectureSimple;
 }
