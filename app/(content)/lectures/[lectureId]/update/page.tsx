@@ -13,6 +13,8 @@ export default async function UpdateLinksPage({
     getLectureLinks(+lectureId),
   ]);
 
+  console.log(lecture, links);
+
   return (
     <>
       <Path lecture={lecture} />

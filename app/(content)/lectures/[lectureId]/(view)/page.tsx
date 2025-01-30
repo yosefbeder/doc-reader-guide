@@ -78,6 +78,8 @@ export default async function LinksPage({
     getLectureLinks(+lectureId),
   ]);
 
+  console.log(lecture, links);
+
   return (
     <>
       <Path lecture={lecture} />
