@@ -9,8 +9,10 @@ export default async function LecturesPage({
 }: {
   params: { subjectId: string };
 }) {
-  const subject = await getSubject(+subjectId);
-  const lectures = await getLectures(+subjectId);
+  const [subject, lectures] = await Promise.all([
+    getSubject(+subjectId),
+    getLectures(+subjectId),
+  ]);
 
   return (
     <>

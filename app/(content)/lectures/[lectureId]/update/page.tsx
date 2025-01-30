@@ -8,8 +8,10 @@ export default async function UpdateLinksPage({
 }: {
   params: { lectureId: string };
 }) {
-  const lecture = await getLecture(+lectureId);
-  const links = await getLectureLinks(+lectureId);
+  const [lecture, links] = await Promise.all([
+    getLecture(+lectureId),
+    getLectureLinks(+lectureId),
+  ]);
 
   return (
     <>

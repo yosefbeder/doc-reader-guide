@@ -9,8 +9,10 @@ export default async function UpdateSubjectsPage({
 }: {
   params: { moduleId: string };
 }) {
-  const myModule = await getModule(+moduleId);
-  const subjects = await getSubjects(+moduleId);
+  const [myModule, subjects] = await Promise.all([
+    getModule(+moduleId),
+    getSubjects(+moduleId),
+  ]);
 
   return (
     <>

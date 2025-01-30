@@ -1,4 +1,3 @@
-import { API_URL } from "@/constants";
 import Path from "../components/Path";
 import getLecture, { getLectureLinks } from "@/utils/getLecture";
 
@@ -69,21 +68,15 @@ const icons = {
   ),
 };
 
-export async function generateStaticParams() {
-  const res = await fetch(`${API_URL}/lectures`);
-  const json = await res.json();
-  return json.data.map(({ id }: { id: number }) => ({
-    lectureId: id.toString(),
-  }));
-}
-
 export default async function LinksPage({
   params: { lectureId },
 }: {
   params: { lectureId: string };
 }) {
-  const lecture = await getLecture(+lectureId);
-  const links = await getLectureLinks(+lectureId);
+  const [lecture, links] = await Promise.all([
+    getLecture(+lectureId),
+    getLectureLinks(+lectureId),
+  ]);
 
   return (
     <>
