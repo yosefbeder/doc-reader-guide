@@ -40,7 +40,7 @@ const links = [
     ),
   },
   {
-    link: "https://t.me/DocReader_Guide_app/48",
+    link: "https://t.me/DocReader_Guide_app/70",
     color: "hover:text-[#34A853]",
     icon: (
       <svg
