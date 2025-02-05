@@ -12,9 +12,13 @@ export default async function QuizPage({
   return (
     <>
       <Path quiz={quiz} />
-      <main lang="en" dir="ltr" className="main">
-        <QuestionsList questions={quiz.questions} />
-      </main>
+      {quiz.questions.length === 0 ? (
+        <main className="main">الاختبار ليس به أسئلة.</main>
+      ) : (
+        <main lang="en" dir="ltr" className="main">
+          <QuestionsList questions={quiz.questions} />
+        </main>
+      )}
     </>
   );
 }
