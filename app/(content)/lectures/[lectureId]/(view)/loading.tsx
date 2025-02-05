@@ -14,10 +14,12 @@ export default function LinksLoadingPage() {
     <>
       <EmptyPath />
       <main className="main">
-        {[[], [], []].map((_, index) => (
+        {[[], [], [], []].map((_, index) => (
           <details key={index} className="mb-4" open>
             <summary>
-              <h2>{["مصادر خارجية", "الكلية", "الملخصات"][index]}</h2>
+              <h2>
+                {["مصادر خارجية", "الكلية", "الملخصات", "الأسئلة"][index]}
+              </h2>
             </summary>
             <ul>
               <li>

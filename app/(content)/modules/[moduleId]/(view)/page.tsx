@@ -4,10 +4,9 @@ import Image from "next/image";
 import getSubjects from "@/utils/getSubjects";
 import Path from "../components/Path";
 import getModule from "@/utils/getModule";
-import { API_URL } from "@/constants";
 
 export async function generateStaticParams() {
-  const res = await fetch(`${API_URL}/modules`);
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/modules`);
   const json = await res.json();
   return json.data.map(({ id }: { id: number }) => ({
     moduleId: id.toString(),

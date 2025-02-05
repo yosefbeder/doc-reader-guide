@@ -4,7 +4,6 @@ import { useCallback, useEffect, useState } from "react";
 import useSWR from "swr";
 import Cookies from "js-cookie";
 
-import { API_URL } from "@/constants";
 import { Lecture } from "@/types";
 import SearchNavButton from "./SearchNavButton";
 import SearchDialogue from "./SearchDialogue";
@@ -18,7 +17,7 @@ export default function Search({ yearId }: { yearId: number }) {
     async function (search: string): Promise<Lecture[] | undefined> {
       if (search.length < 3) return;
       const res = await fetch(
-        `${API_URL}/years/${yearId}/lectures?search=${search}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/years/${yearId}/lectures?search=${search}`,
         {
           headers: {
             authorization: `Bearer ${Cookies.get("jwt")!}`,

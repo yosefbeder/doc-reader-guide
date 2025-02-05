@@ -5,8 +5,8 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 
 import { FormState } from "@/types";
-import { API_URL } from "@/constants";
 import getNumber from "@/utils/getNumber";
+import parseOptions from "@/utils/parseOptions";
 
 export async function login(
   _prevState: FormState,
@@ -17,7 +17,7 @@ export async function login(
     password: formData.get("password"),
   };
 
-  const res = await fetch(`${API_URL}/login`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/login`, {
     method: "POST",
     headers: {
       "content-type": "application/json;charset=UTF-8",
@@ -50,7 +50,7 @@ export async function signup(
     yearId: getNumber(formData, "yearId"),
   };
 
-  const res = await fetch(`${API_URL}/register`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/register`, {
     method: "POST",
     headers: {
       "content-type": "application/json;charset=UTF-8",
@@ -78,7 +78,7 @@ export async function updatePersonalInfo(
     yearId: getNumber(formData, "yearId"),
   };
 
-  const res = await fetch(`${API_URL}/user/update`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/update`, {
     method: "POST",
     headers: {
       "content-type": "application/json;charset=UTF-8",
@@ -104,14 +104,17 @@ export async function updatePassword(
     confirmationPassword: formData.get("confirmation-password"),
   };
 
-  const res = await fetch(`${API_URL}/user/change-password`, {
-    method: "POST",
-    headers: {
-      "content-type": "application/json;charset=UTF-8",
-      authorization: `Bearer ${cookies().get("jwt")!.value}`,
-    },
-    body: JSON.stringify(data),
-  });
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/user/change-password`,
+    {
+      method: "POST",
+      headers: {
+        "content-type": "application/json;charset=UTF-8",
+        authorization: `Bearer ${cookies().get("jwt")!.value}`,
+      },
+      body: JSON.stringify(data),
+    }
+  );
 
   const json = await res.json();
 
@@ -129,7 +132,7 @@ export async function addModule(
     semesterName: getNumber(formData, "semester-name"),
   };
 
-  const res = await fetch(`${API_URL}/modules/create`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/modules/create`, {
     method: "POST",
     headers: {
       "content-type": "application/json;charset=UTF-8",
@@ -159,14 +162,17 @@ export async function updateModule(
     semesterName: getNumber(formData, "semester-name"),
   };
 
-  const res = await fetch(`${API_URL}/modules/${moduleId}/update`, {
-    method: "POST",
-    headers: {
-      "content-type": "application/json;charset=UTF-8",
-      authorization: `Bearer ${cookies().get("jwt")!.value}`,
-    },
-    body: JSON.stringify(data),
-  });
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/modules/${moduleId}/update`,
+    {
+      method: "POST",
+      headers: {
+        "content-type": "application/json;charset=UTF-8",
+        authorization: `Bearer ${cookies().get("jwt")!.value}`,
+      },
+      body: JSON.stringify(data),
+    }
+  );
 
   const json = await res.json();
 
@@ -184,13 +190,16 @@ export async function deleteModule(
   formData: FormData
 ): Promise<FormState> {
   const moduleId = getNumber(formData, "module-id");
-  const res = await fetch(`${API_URL}/modules/${moduleId}/delete`, {
-    method: "DELETE",
-    headers: {
-      "content-type": "application/json;charset=UTF-8",
-      authorization: `Bearer ${cookies().get("jwt")!.value}`,
-    },
-  });
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/modules/${moduleId}/delete`,
+    {
+      method: "DELETE",
+      headers: {
+        "content-type": "application/json;charset=UTF-8",
+        authorization: `Bearer ${cookies().get("jwt")!.value}`,
+      },
+    }
+  );
 
   const json = await res.json();
 
@@ -213,14 +222,17 @@ export async function addSubject(
     name: formData.get("name"),
   };
 
-  const res = await fetch(`${API_URL}/modules/${moduleId}/subjects/create`, {
-    method: "POST",
-    headers: {
-      "content-type": "application/json;charset=UTF-8",
-      authorization: `Bearer ${cookies().get("jwt")!.value}`,
-    },
-    body: JSON.stringify(data),
-  });
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/modules/${moduleId}/subjects/create`,
+    {
+      method: "POST",
+      headers: {
+        "content-type": "application/json;charset=UTF-8",
+        authorization: `Bearer ${cookies().get("jwt")!.value}`,
+      },
+      body: JSON.stringify(data),
+    }
+  );
 
   const json = await res.json();
 
@@ -244,14 +256,17 @@ export async function updateSubject(
     moduleId,
   };
 
-  const res = await fetch(`${API_URL}/subjects/${subjectId}/update`, {
-    method: "POST",
-    headers: {
-      "content-type": "application/json;charset=UTF-8",
-      authorization: `Bearer ${cookies().get("jwt")!.value}`,
-    },
-    body: JSON.stringify(data),
-  });
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/subjects/${subjectId}/update`,
+    {
+      method: "POST",
+      headers: {
+        "content-type": "application/json;charset=UTF-8",
+        authorization: `Bearer ${cookies().get("jwt")!.value}`,
+      },
+      body: JSON.stringify(data),
+    }
+  );
 
   const json = await res.json();
 
@@ -269,13 +284,16 @@ export async function deleteSubject(
   formData: FormData
 ): Promise<FormState> {
   const subjectId = getNumber(formData, "subject-id");
-  const res = await fetch(`${API_URL}/subjects/${subjectId}/delete`, {
-    method: "DELETE",
-    headers: {
-      "content-type": "application/json;charset=UTF-8",
-      authorization: `Bearer ${cookies().get("jwt")!.value}`,
-    },
-  });
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/subjects/${subjectId}/delete`,
+    {
+      method: "DELETE",
+      headers: {
+        "content-type": "application/json;charset=UTF-8",
+        authorization: `Bearer ${cookies().get("jwt")!.value}`,
+      },
+    }
+  );
 
   const json = await res.json();
 
@@ -299,14 +317,17 @@ export async function addLecture(
     subjectId,
   };
 
-  const res = await fetch(`${API_URL}/subjects/${subjectId}/create-lecture`, {
-    method: "POST",
-    headers: {
-      "content-type": "application/json;charset=UTF-8",
-      authorization: `Bearer ${cookies().get("jwt")!.value}`,
-    },
-    body: JSON.stringify(data),
-  });
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/subjects/${subjectId}/create-lecture`,
+    {
+      method: "POST",
+      headers: {
+        "content-type": "application/json;charset=UTF-8",
+        authorization: `Bearer ${cookies().get("jwt")!.value}`,
+      },
+      body: JSON.stringify(data),
+    }
+  );
 
   const json = await res.json();
 
@@ -330,14 +351,17 @@ export async function updateLecture(
     subjectId,
   };
 
-  const res = await fetch(`${API_URL}/lectures/${lectureId}/update`, {
-    method: "POST",
-    headers: {
-      "content-type": "application/json;charset=UTF-8",
-      authorization: `Bearer ${cookies().get("jwt")!.value}`,
-    },
-    body: JSON.stringify(data),
-  });
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/lectures/${lectureId}/update`,
+    {
+      method: "POST",
+      headers: {
+        "content-type": "application/json;charset=UTF-8",
+        authorization: `Bearer ${cookies().get("jwt")!.value}`,
+      },
+      body: JSON.stringify(data),
+    }
+  );
 
   const json = await res.json();
 
@@ -355,13 +379,16 @@ export async function deleteLecture(
   formData: FormData
 ): Promise<FormState> {
   const lectureId = getNumber(formData, "lecture-id");
-  const res = await fetch(`${API_URL}/lectures/${lectureId}/delete`, {
-    method: "DELETE",
-    headers: {
-      "content-type": "application/json;charset=UTF-8",
-      authorization: `Bearer ${cookies().get("jwt")!.value}`,
-    },
-  });
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/lectures/${lectureId}/delete`,
+    {
+      method: "DELETE",
+      headers: {
+        "content-type": "application/json;charset=UTF-8",
+        authorization: `Bearer ${cookies().get("jwt")!.value}`,
+      },
+    }
+  );
 
   const json = await res.json();
 
@@ -387,14 +414,17 @@ export async function addLink(
     lectureId,
   };
 
-  const res = await fetch(`${API_URL}/lectures/${lectureId}/links/create`, {
-    method: "POST",
-    headers: {
-      "content-type": "application/json;charset=UTF-8",
-      authorization: `Bearer ${cookies().get("jwt")!.value}`,
-    },
-    body: JSON.stringify(data),
-  });
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/lectures/${lectureId}/links/create`,
+    {
+      method: "POST",
+      headers: {
+        "content-type": "application/json;charset=UTF-8",
+        authorization: `Bearer ${cookies().get("jwt")!.value}`,
+      },
+      body: JSON.stringify(data),
+    }
+  );
 
   const json = await res.json();
 
@@ -421,14 +451,17 @@ export async function updateLink(
     lectureId,
   };
 
-  const res = await fetch(`${API_URL}/links/${linkId}/update`, {
-    method: "POST",
-    headers: {
-      "content-type": "application/json;charset=UTF-8",
-      authorization: `Bearer ${cookies().get("jwt")!.value}`,
-    },
-    body: JSON.stringify(data),
-  });
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/links/${linkId}/update`,
+    {
+      method: "POST",
+      headers: {
+        "content-type": "application/json;charset=UTF-8",
+        authorization: `Bearer ${cookies().get("jwt")!.value}`,
+      },
+      body: JSON.stringify(data),
+    }
+  );
 
   const json = await res.json();
 
@@ -445,13 +478,16 @@ export async function deleteLink(
   formData: FormData
 ): Promise<FormState> {
   const linkId = formData.get("link-id");
-  const res = await fetch(`${API_URL}/links/${linkId}/delete`, {
-    method: "DELETE",
-    headers: {
-      "content-type": "application/json;charset=UTF-8",
-      authorization: `Bearer ${cookies().get("jwt")!.value}`,
-    },
-  });
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/links/${linkId}/delete`,
+    {
+      method: "DELETE",
+      headers: {
+        "content-type": "application/json;charset=UTF-8",
+        authorization: `Bearer ${cookies().get("jwt")!.value}`,
+      },
+    }
+  );
 
   const json = await res.json();
 
@@ -459,6 +495,209 @@ export async function deleteLink(
 
   revalidatePath(`/lectures/${json.data.lectureId}`);
   revalidatePath(`/lectures/${json.data.lectureId}/update`);
+
+  return {};
+}
+
+export async function addQuiz(
+  _prevState: FormState,
+  formData: FormData
+): Promise<FormState> {
+  const lectureId = formData.get("lecture-id");
+  const data = {
+    title: formData.get("title"),
+  };
+
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/lectures/${lectureId}/quizzes`,
+    {
+      method: "POST",
+      headers: {
+        "content-type": "application/json;charset=UTF-8",
+        authorization: `Bearer ${cookies().get("jwt")!.value}`,
+      },
+      body: JSON.stringify(data),
+    }
+  );
+
+  const json = await res.json();
+
+  if (res.ok) {
+    revalidatePath(`/lectures/${lectureId}`);
+    revalidatePath(`/lectures/${lectureId}/update`);
+  }
+
+  return { type: res.ok ? "success" : "fail", message: json.message };
+}
+
+export async function updateQuiz(
+  _prevState: FormState,
+  formData: FormData
+): Promise<FormState> {
+  const quizId = getNumber(formData, "quiz-id");
+  const lectureId = getNumber(formData, "lecture-id");
+  const data = {
+    title: formData.get("title"),
+  };
+
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/quizzes/${quizId}`,
+    {
+      method: "PATCH",
+      headers: {
+        "content-type": "application/json;charset=UTF-8",
+        authorization: `Bearer ${cookies().get("jwt")!.value}`,
+      },
+      body: JSON.stringify(data),
+    }
+  );
+
+  const json = await res.json();
+
+  if (res.ok) {
+    revalidatePath(`/lectures/${lectureId}`);
+    revalidatePath(`/lectures/${lectureId}/update`);
+    revalidatePath(`/quizzes/${quizId}`);
+    revalidatePath(`/quizzes/${quizId}/update`);
+  }
+
+  return { type: res.ok ? "success" : "fail", message: json.message };
+}
+
+export async function deleteQuiz(
+  _prevState: FormState,
+  formData: FormData
+): Promise<FormState> {
+  const quizId = formData.get("quiz-id");
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/quizzes/${quizId}`,
+    {
+      method: "DELETE",
+      headers: {
+        "content-type": "application/json;charset=UTF-8",
+        authorization: `Bearer ${cookies().get("jwt")!.value}`,
+      },
+    }
+  );
+
+  const json = await res.json();
+
+  if (!res.ok) return { type: "fail", message: json.message };
+
+  revalidatePath(`/lectures/${json.data.lectureId}`);
+  revalidatePath(`/lectures/${json.data.lectureId}/update`);
+  revalidatePath(`/quizzes/${quizId}`);
+  revalidatePath(`/quizzes/${quizId}/update`);
+
+  return {};
+}
+
+export async function addQuestion(
+  _prevState: FormState,
+  formData: FormData
+): Promise<FormState> {
+  const quizId = getNumber(formData, "quiz-id");
+  const image = formData.has("image")
+    ? formData.get("image")!.toString().trim()
+    : undefined;
+
+  const data = [
+    {
+      text: formData.get("text"),
+      image,
+      ...parseOptions(formData),
+    },
+  ];
+
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/quizzes/${quizId}/questions`,
+    {
+      method: "POST",
+      headers: {
+        "content-type": "application/json;charset=UTF-8",
+        authorization: `Bearer ${cookies().get("jwt")!.value}`,
+      },
+      body: JSON.stringify(data),
+    }
+  );
+
+  const json = await res.json();
+
+  if (res.ok) {
+    revalidatePath(`/quizzes/${quizId}`);
+    revalidatePath(`/quizzes/${quizId}/update`);
+  }
+
+  return {
+    type: res.ok ? "success" : "fail",
+    message: json.message,
+    resetKey: Date.now(),
+  };
+}
+
+export async function updateQuestion(
+  _prevState: FormState,
+  formData: FormData
+): Promise<FormState> {
+  const quizId = getNumber(formData, "quiz-id");
+  const questionId = getNumber(formData, "question-id");
+  const image = formData.has("image")
+    ? formData.get("image")!.toString().trim()
+    : undefined;
+
+  const data = {
+    title: formData.get("title"),
+    image,
+    ...parseOptions(formData),
+  };
+
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/questions/${questionId}`,
+    {
+      method: "PATCH",
+      headers: {
+        "content-type": "application/json;charset=UTF-8",
+        authorization: `Bearer ${cookies().get("jwt")!.value}`,
+      },
+      body: JSON.stringify(data),
+    }
+  );
+
+  const json = await res.json();
+
+  if (res.ok) {
+    revalidatePath(`/quizzes/${quizId}`);
+    revalidatePath(`/quizzes/${quizId}/update`);
+  }
+
+  return { type: res.ok ? "success" : "fail", message: json.message };
+}
+
+export async function deleteQuestion(
+  _prevState: FormState,
+  formData: FormData
+): Promise<FormState> {
+  const quizId = formData.get("quiz-id");
+  const questionId = formData.get("question-id");
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/questions/${questionId}`,
+    {
+      method: "DELETE",
+      headers: {
+        "content-type": "application/json;charset=UTF-8",
+        authorization: `Bearer ${cookies().get("jwt")!.value}`,
+      },
+    }
+  );
+
+  const json = await res.json();
+
+  if (!res.ok) return { type: "fail", message: json.message };
+
+  revalidatePath(`/lectures/${json.data.lectureId}`);
+  revalidatePath(`/lectures/${json.data.lectureId}/update`);
+  revalidatePath(`/quizzes/${quizId}`);
+  revalidatePath(`/quizzes/${quizId}/update`);
 
   return {};
 }

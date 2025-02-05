@@ -3,7 +3,7 @@ import React from "react";
 import { Icon, icons } from "./icons";
 
 interface FormItemNoIconProps {
-  label: string;
+  label: string | React.ReactNode;
   focus: boolean;
   id?: string;
   className?: string;
@@ -21,7 +21,12 @@ export function FormItemNoIcon({
 }: FormItemNoIconProps) {
   return (
     <label htmlFor={id}>
-      <span className="block mb-2">{label}</span>
+      {(() => {
+        if (typeof label === "string")
+          return <span className="block mb-2">{label}</span>;
+        else return label;
+      })()}
+
       <div
         className={`flex items-center gap-1 rounded-md p-1 border-2 bg-white transition-colors ${
           focus ? "border-cyan-600" : "border-slate-200"

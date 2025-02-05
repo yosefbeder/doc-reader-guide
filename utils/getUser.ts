@@ -1,8 +1,7 @@
 import { User } from "@/types";
-import { API_URL } from "@/constants";
 
 export default async function getUser(jwt: string): Promise<User> {
-  const res = await fetch(`${API_URL}/user`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user`, {
     headers: {
       authorization: `Bearer ${jwt}`,
     },

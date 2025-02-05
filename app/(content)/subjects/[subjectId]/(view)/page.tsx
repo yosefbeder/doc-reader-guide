@@ -3,10 +3,9 @@ import getSubject from "@/utils/getSubject";
 import MasonryCardContainer from "@/components/MasonryCardContainer";
 import getLectures from "@/utils/getLectures";
 import Lecture from "./components/Lecture";
-import { API_URL } from "@/constants";
 
 export async function generateStaticParams() {
-  const res = await fetch(`${API_URL}/subjects`);
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/subjects`);
   const json = await res.json();
   return json.data.map(({ id }: { id: number }) => ({
     subjectId: id.toString(),

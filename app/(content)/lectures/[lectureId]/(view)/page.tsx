@@ -1,5 +1,9 @@
+import Link from "next/link";
+import Image from "next/image";
+
 import Path from "../components/Path";
-import getLecture, { getLectureLinks } from "@/utils/getLecture";
+import getLecture, { getLectureLinksAndQuizzes } from "@/utils/getLecture";
+import Logo from "@/public/logo.png";
 
 const icons = {
   Video: (
@@ -73,9 +77,9 @@ export default async function LinksPage({
 }: {
   params: { lectureId: string };
 }) {
-  const [lecture, links] = await Promise.all([
+  const [lecture, { links, quizzes }] = await Promise.all([
     getLecture(+lectureId),
-    getLectureLinks(+lectureId),
+    getLectureLinksAndQuizzes(+lectureId),
   ]);
 
   return (
@@ -92,8 +96,8 @@ export default async function LinksPage({
               <h2>{["مصادر خارجية", "الكلية", "الملخصات"][index]}</h2>
             </summary>
             <ul>
-              {links.map(({ title, subTitle, url, type }, index) => (
-                <li key={index}>
+              {links.map(({ id, title, subTitle, url, type }) => (
+                <li key={id}>
                   <a
                     className="flex items-center gap-2 my-2 no-underline text-inherit hover:text-inherit"
                     target="_blank"
@@ -114,6 +118,54 @@ export default async function LinksPage({
             </ul>
           </details>
         ))}
+        <details className="mb-4" open>
+          <summary>
+            <h2>الأسئلة</h2>
+          </summary>
+          <ul>
+            {quizzes.map(({ id, title }) => (
+              <li key={id}>
+                <Link
+                  className="flex items-center gap-2 my-2 no-underline text-inherit hover:text-inherit"
+                  href={`/quizzes/${id}`}
+                >
+                  <span>{icons.Data}</span>
+                  <div>
+                    <div>{title}</div>
+                    <div className="flex items-center gap-1 text-sm ">
+                      <div className="text-slate-700">مقدم من</div>
+                      <Image src={Logo} className="w-3" alt="Logo" />
+                      <div className="text-cyan-700 font-bold">
+                        دوكريدر جايد
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+              </li>
+            ))}
+            {links
+              .filter((link) => link.category === "Questions")
+              .map(({ id, title, subTitle, url, type }) => (
+                <li key={id}>
+                  <a
+                    className="flex items-center gap-2 my-2 no-underline text-inherit hover:text-inherit"
+                    target="_blank"
+                    href={url}
+                  >
+                    <span>{icons[type]}</span>
+                    {subTitle.trim() ? (
+                      <div>
+                        <div>{title}</div>
+                        <div className="text-sm text-slate-500">{subTitle}</div>
+                      </div>
+                    ) : (
+                      title
+                    )}
+                  </a>
+                </li>
+              ))}
+          </ul>
+        </details>
       </main>
     </>
   );

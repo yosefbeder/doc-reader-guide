@@ -6,7 +6,7 @@ import { Icon } from "./icons";
 import FormItem from "./FormItem";
 
 interface InputProps extends React.ComponentProps<"input"> {
-  label: string;
+  label: string | React.ReactNode;
   icon: Icon;
 }
 

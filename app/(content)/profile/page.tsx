@@ -2,6 +2,7 @@
 
 import Cookies from "js-cookie";
 import useSWR from "swr";
+import Link from "next/link";
 
 import LogoutButton from "./components/LogoutButton";
 import PersonalInfoForm from "./components/PersonalInfoForm";
@@ -26,6 +27,34 @@ export default function ProfilePage() {
   return (
     <Layout title="البيانات الشخصية">
       <main className="main">
+        {user && user.markedQuestions.length && (
+          <>
+            <h2>الأسئلة المفضلة</h2>
+            <ol lang="en" dir="ltr" className="list-decimal">
+              {user.markedQuestions.map((question) => (
+                <li key={question.id}>
+                  <Link href={`/quizzes/${question.quizId}`}>
+                    {question.text}
+                  </Link>
+                  <ol className="list-[upper-alpha]">
+                    {question.options.map((option, index) => (
+                      <li
+                        key={index}
+                        className={`ml-4 ${
+                          index === question.correctOptionIndex
+                            ? "text-green-500"
+                            : ""
+                        }`}
+                      >
+                        {option}
+                      </li>
+                    ))}
+                  </ol>
+                </li>
+              ))}
+            </ol>
+          </>
+        )}
         <div className="max-w-md">
           <h2 className="mb-4">الإعدادات</h2>
           <h3 className="mb-4">الإشعارات</h3>

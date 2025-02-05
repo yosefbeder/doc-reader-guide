@@ -3,6 +3,7 @@ export type FormStateType = "fail" | "success";
 export interface FormState {
   type?: FormStateType;
   message?: string;
+  resetKey?: number;
 }
 
 interface DatabaseTable {
@@ -28,6 +29,7 @@ export interface User extends DatabaseTable {
   role: "Admin" | "User";
   facultyId: number;
   yearId: number;
+  markedQuestions: Question[];
 }
 
 export interface Faculty extends DatabaseTable {
@@ -58,6 +60,7 @@ interface ModuleSimple {
 export interface Subject extends DatabaseTable {
   name: string;
   icon: string;
+  moduleId: number;
   module: ModuleSimple;
 }
 
@@ -86,6 +89,22 @@ export interface Link extends DatabaseTable {
   subTitle: string;
   url: string;
   type: "Video" | "Record" | "PDF" | "Data";
-  category: "Data" | "College" | "Summary";
+  category: "Data" | "College" | "Summary" | "Questions";
   lectureData: LectureSimple;
+}
+
+export interface Quiz {
+  id: number;
+  title: string;
+  questions: Question[];
+  lectureData: LectureSimple;
+}
+
+export interface Question {
+  id: number;
+  image: string;
+  text: string;
+  options: string[];
+  correctOptionIndex: number;
+  quizId: number;
 }

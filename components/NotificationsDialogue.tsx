@@ -15,7 +15,6 @@ import {
   faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
 
-import { API_URL } from "@/constants";
 import { Link } from "@/types";
 import getUniqueObjectsById from "@/utils/getUniqueObjectsById";
 import Button from "./Button";
@@ -31,9 +30,12 @@ export default function NotificationsDialogue({
   const jwt = useMemo(() => Cookies.get("jwt")!, []);
   const fetcher = useCallback(
     async (key: string) => {
-      const res = await fetch(`${API_URL}/years/${yearId}/${key}`, {
-        headers: { authorization: `Bearer ${jwt}` },
-      });
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/years/${yearId}/${key}`,
+        {
+          headers: { authorization: `Bearer ${jwt}` },
+        }
+      );
       const json = await res.json();
       return json.data as Link[];
     },
@@ -170,7 +172,7 @@ export default function NotificationsDialogue({
                   if (!links) return;
                   setIsNotifying(true);
                   const res = await fetch(
-                    `${API_URL}/years/${yearId}/notifications/notify`,
+                    `${process.env.NEXT_PUBLIC_API_URL}/years/${yearId}/notifications/notify`,
                     {
                       method: "POST",
                       headers: {
@@ -199,7 +201,7 @@ export default function NotificationsDialogue({
                   if (!links) return;
                   setIsIgnoring(true);
                   const res = await fetch(
-                    `${API_URL}/years/${yearId}/notifications/ignore`,
+                    `${process.env.NEXT_PUBLIC_API_URL}/years/${yearId}/notifications/ignore`,
                     {
                       method: "POST",
                       headers: {

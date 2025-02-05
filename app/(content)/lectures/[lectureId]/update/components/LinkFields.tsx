@@ -80,6 +80,7 @@ export default function LinkFields({
           { label: "Data", value: "Data" },
           { label: "College", value: "College" },
           { label: "Summary", value: "Summary" },
+          { label: "Questions", value: "Questions" },
         ]}
         required
         defaultValue={defaultValues?.category}
