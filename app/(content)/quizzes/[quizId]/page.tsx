@@ -9,6 +9,8 @@ export default async function QuizPage({
 }) {
   const quiz = await getQuiz(+quizId);
 
+  console.log(quiz.questions.length);
+
   return (
     <>
       <Path quiz={quiz} />
