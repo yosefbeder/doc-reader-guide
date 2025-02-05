@@ -83,6 +83,13 @@ export default function QuestionsList({
       <h3 className="p-4 rounded-xl bg-cyan-50 mb-4">
         {questions[currentQuestion].text}
       </h3>
+      {questions[currentQuestion].image ? (
+        <img
+          src={questions[currentQuestion].image}
+          className="mb-4"
+          alt="Question associated diagram"
+        />
+      ) : null}
       <ol className="list-[upper-alpha] list-inside flex flex-col gap-2 mb-4 px-2">
         {questions[currentQuestion].options.map((option, index) => (
           <button
