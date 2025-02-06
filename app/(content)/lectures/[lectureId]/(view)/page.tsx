@@ -97,27 +97,33 @@ export default async function LinksPage({
             <summary>
               <h2>{["مصادر خارجية", "الكلية", "الملخصات"][index]}</h2>
             </summary>
-            <ul>
-              {links.map(({ id, title, subTitle, url, type }) => (
-                <li key={id}>
-                  <a
-                    className="flex items-center gap-2 my-2 no-underline text-inherit hover:text-inherit"
-                    target="_blank"
-                    href={url}
-                  >
-                    <span>{icons[type]}</span>
-                    {subTitle.trim() ? (
-                      <div>
-                        <div>{title}</div>
-                        <div className="text-sm text-slate-500">{subTitle}</div>
-                      </div>
-                    ) : (
-                      title
-                    )}
-                  </a>
-                </li>
-              ))}
-            </ul>
+            {links.length === 0 ? (
+              "لم يتم إضافة مصادر هنا بعد"
+            ) : (
+              <ul>
+                {links.map(({ id, title, subTitle, url, type }) => (
+                  <li key={id}>
+                    <a
+                      className="flex items-center gap-2 my-2 no-underline text-inherit hover:text-inherit"
+                      target="_blank"
+                      href={url}
+                    >
+                      <span>{icons[type]}</span>
+                      {subTitle.trim() ? (
+                        <div>
+                          <div>{title}</div>
+                          <div className="text-sm text-slate-500">
+                            {subTitle}
+                          </div>
+                        </div>
+                      ) : (
+                        title
+                      )}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            )}
           </details>
         ))}
         <details className="mb-4" open>
@@ -125,6 +131,11 @@ export default async function LinksPage({
             <h2>الأسئلة</h2>
           </summary>
           <ul>
+            {quizzes.length +
+              links.filter((link) => link.category === "Questions").length ===
+            0
+              ? "لم يتم إضافة مصادر هنا بعد"
+              : null}
             {quizzes.map(({ id, title }) => (
               <li key={id}>
                 <Link

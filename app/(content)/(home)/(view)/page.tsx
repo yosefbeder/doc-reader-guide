@@ -12,22 +12,26 @@ export default async function ModulesPage() {
 
   return (
     <main className="main">
-      <ul className="card-container">
-        {modules.map(({ id, name, icon, semesterName }, index) => (
-          <li key={index}>
-            <Link href={`/modules/${id}`} className="card">
-              <span>
-                <Image src={icon} alt={name} width={48} height={48} />
-              </span>
-              <h2>{name}</h2>
-              <span>
-                {semesterName}
-                <sup>{getPrefix(semesterName)}</sup> Semester
-              </span>
-            </Link>
-          </li>
-        ))}
-      </ul>
+      {modules.length === 0 ? (
+        "لم يتم إضافة موديولات بعد"
+      ) : (
+        <ul className="card-container">
+          {modules.map(({ id, name, icon, semesterName }, index) => (
+            <li key={index}>
+              <Link href={`/modules/${id}`} className="card">
+                <span>
+                  <Image src={icon} alt={name} width={48} height={48} />
+                </span>
+                <h2>{name}</h2>
+                <span>
+                  {semesterName}
+                  <sup>{getPrefix(semesterName)}</sup> Semester
+                </span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      )}
     </main>
   );
 }

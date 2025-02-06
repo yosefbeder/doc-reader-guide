@@ -99,7 +99,7 @@ export default function Footer() {
             </a>
           ))}
         </div>
-        <div className="flex -space-x-4 rtl:space-x-reverse justify-center">
+        <div className="flex -space-x-4 rtl:space-x-reverse justify-center mb-4">
           {contributers.map(
             ({ avatar, name, contribution, profile }, index) => {
               const image = (
@@ -125,6 +125,7 @@ export default function Footer() {
             }
           )}
         </div>
+        <div className="text-center">يتم تحديث وإضافة المصادر دوريًا</div>
       </div>
     </footer>
   );
