@@ -66,7 +66,9 @@ export default function SignupForm({ faculties }: { faculties: Faculty[] }) {
           إنشاء حساب جديد
         </ButtonSubmit>
       </form>
-      <Link href="/login">تسجيل الدخول</Link>
+      <p>
+        لديك حساب بالفعل؟ ← <Link href="/login">تسجيل الدخول</Link>
+      </p>
     </AuthCard>
   );
 }

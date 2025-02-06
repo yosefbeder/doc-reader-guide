@@ -47,7 +47,9 @@ export default function LoginPage() {
           تسجيل الدخول
         </ButtonSubmit>
       </form>
-      <Link href="/signup">إنشاء حساب جديد</Link>
+      <p>
+        ليس لديك حساب؟ ← <Link href="/signup">إنشاء حساب جديد</Link>
+      </p>
     </AuthCard>
   );
 }
