@@ -82,8 +82,6 @@ export default async function LinksPage({
     getLectureLinksAndQuizzes(+lectureId),
   ]);
 
-  console.log(lecture, links, quizzes);
-
   return (
     <>
       <Path lecture={lecture} />
