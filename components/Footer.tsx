@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-import YosefAvatar from "@/public/yosefbeder.jpg";
+import AnonymousAvatar from "@/public/anonymous.jpg";
 import AbdulrahmanAvatar from "@/public/abdulrahmansaber.jpeg";
 import OmarAvatar from "@/public/omarabdelaleem.jpeg";
 import MohammedAvatar from "@/public/mohammedalzayat.jpeg";
@@ -59,15 +59,14 @@ const links = [
 
 const contributers = [
   {
-    avatar: YosefAvatar,
-    name: "يوسف بدير",
-    contribution: "مطور الموقع وبعض أجزاء الخادم",
-    profile: "",
+    avatar: AnonymousAvatar,
+    name: "مجهول",
+    contribution: "مطور الواجهة الأمامية (الموقع)",
   },
   {
     avatar: AbdulrahmanAvatar,
     name: "عبد الرحمن صابر",
-    contribution: "مطور الخادم",
+    contribution: "مطور الواجهة الخلفية",
     profile: "https://www.facebook.com/asaber.25",
   },
   {
