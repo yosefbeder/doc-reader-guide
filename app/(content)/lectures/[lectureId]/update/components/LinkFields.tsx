@@ -61,10 +61,10 @@ export default function LinkFields({
         id="type"
         name="type"
         options={[
-          { label: "Video", value: "Video" },
-          { label: "Record", value: "Record" },
-          { label: "PDF", value: "PDF" },
-          { label: "Data", value: "Data" },
+          { label: "فيديو", value: "Video" },
+          { label: "ريكورد", value: "Record" },
+          { label: "ملف نصي", value: "PDF" },
+          { label: "فورم", value: "Data" },
         ]}
         required
         defaultValue={defaultValues?.type}
@@ -77,10 +77,10 @@ export default function LinkFields({
         id="category"
         name="category"
         options={[
-          { label: "Data", value: "Data" },
-          { label: "College", value: "College" },
-          { label: "Summary", value: "Summary" },
-          { label: "Questions", value: "Questions" },
+          { label: "مصادر خارجية", value: "Data" },
+          { label: "الكلية", value: "College" },
+          { label: "الملخصات", value: "Summary" },
+          { label: "الأسئلة", value: "Questions" },
         ]}
         required
         defaultValue={defaultValues?.category}
