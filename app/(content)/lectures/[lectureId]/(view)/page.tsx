@@ -4,6 +4,7 @@ import Image from "next/image";
 import Path from "../components/Path";
 import getLecture, { getLectureLinksAndQuizzes } from "@/utils/getLecture";
 import Logo from "@/public/logo.png";
+import Message from "@/components/Message";
 
 const icons = {
   Video: (
@@ -96,7 +97,7 @@ export default async function LinksPage({
               <h2>{["مصادر خارجية", "الكلية", "الملخصات"][index]}</h2>
             </summary>
             {links.length === 0 ? (
-              "لم يتم إضافة مصادر هنا بعد"
+              <Message type="warning">لم يتم إضافة مصادر هنا بعد</Message>
             ) : (
               <ul>
                 {links.map(({ id, title, subTitle, url, type }) => (
@@ -131,9 +132,9 @@ export default async function LinksPage({
           <ul>
             {quizzes.length +
               links.filter((link) => link.category === "Questions").length ===
-            0
-              ? "لم يتم إضافة مصادر هنا بعد"
-              : null}
+            0 ? (
+              <Message type="warning">لم يتم إضافة مصادر هنا بعد</Message>
+            ) : null}
             {quizzes.map(({ id, title }) => (
               <li key={id}>
                 <Link
@@ -146,7 +147,7 @@ export default async function LinksPage({
                     <div className="flex items-center gap-1 text-sm ">
                       <div className="text-slate-700">مقدم من</div>
                       <Image src={Logo} className="w-3" alt="Logo" />
-                      <div className="text-cyan-700 font-bold">
+                      <div className="text-cyan-700 font-bold font-cairo">
                         دوكريدر جايد
                       </div>
                     </div>

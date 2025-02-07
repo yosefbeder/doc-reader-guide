@@ -8,7 +8,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["var(--font-cairo)"],
+        sans: ["var(--font-inter)"],
+        cairo: ["var(--font-cairo)"],
       },
     },
   },

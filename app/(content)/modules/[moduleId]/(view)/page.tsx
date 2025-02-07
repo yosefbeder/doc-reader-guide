@@ -4,6 +4,7 @@ import Image from "next/image";
 import getSubjects from "@/utils/getSubjects";
 import Path from "../components/Path";
 import getModule from "@/utils/getModule";
+import Message from "@/components/Message";
 
 export async function generateStaticParams() {
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/modules`);
@@ -28,7 +29,7 @@ export default async function SubjectsPage({
       <Path myModule={myModule} />
       <main className="main">
         {subjects.length === 0 ? (
-          "لم يتم إضافة مواد بعد"
+          <Message type="warning">لم يتم إضافة مواد بعد</Message>
         ) : (
           <ul className="card-container">
             {subjects.map(({ id, name, icon }, index) => (

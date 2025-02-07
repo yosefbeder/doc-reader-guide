@@ -21,7 +21,9 @@ export default function Nav({
           className="flex items-center gap-2 no-underline text-inherit hover:text-inherit"
         >
           <Image src={Logo} className="w-8" alt="Logo" />
-          <span className="text-xl font-bold text-cyan-700">دوكريدر جايد</span>
+          <span className="text-xl font-bold text-cyan-700 font-cairo">
+            دوكريدر جايد
+          </span>
         </Link>
         <h1 className="max-md:hidden">{title}</h1>
         <NavUser updateable={updateable} />

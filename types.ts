@@ -1,4 +1,4 @@
-export type FormStateType = "fail" | "success";
+export type FormStateType = "fail" | "warning" | "success";
 
 export interface FormState {
   type?: FormStateType;

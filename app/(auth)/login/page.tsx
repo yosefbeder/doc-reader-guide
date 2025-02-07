@@ -16,7 +16,7 @@ export default function LoginPage() {
   const [hover, setHover] = useState(false);
 
   return (
-    <AuthCard hover={hover}>
+    <AuthCard hover={hover} title="تسجيل الدخول">
       <form action={formAction} className="w-full">
         <Input
           label="البريد الإلكتروني"

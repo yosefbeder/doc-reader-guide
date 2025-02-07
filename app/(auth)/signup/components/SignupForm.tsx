@@ -18,7 +18,7 @@ export default function SignupForm({ faculties }: { faculties: Faculty[] }) {
   const [hover, setHover] = useState(false);
 
   return (
-    <AuthCard hover={hover}>
+    <AuthCard hover={hover} title="إنشاء حساب جديد">
       <form action={formAction} className="w-full">
         <Input
           label="اسم المستخدم"
