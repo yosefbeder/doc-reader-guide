@@ -444,7 +444,7 @@ export async function updateLink(
   const lectureId = getNumber(formData, "lecture-id");
   const data = {
     title: formData.get("title"),
-    subTitle: formData.get("sub-title") || undefined,
+    subTitle: formData.get("sub-title") || "",
     url: formData.get("url"),
     type: formData.get("type"),
     category: formData.get("category"),
@@ -643,7 +643,7 @@ export async function updateQuestion(
   const questionId = getNumber(formData, "question-id");
   const image = formData.has("image")
     ? formData.get("image")!.toString().trim()
-    : undefined;
+    : "";
 
   const data = {
     title: formData.get("title"),
