@@ -1,6 +1,7 @@
 import Path from "./components/Path";
 import getQuiz from "@/utils/getQuiz";
 import QuestionsList from "./components/QuestionsList";
+import Message from "@/components/Message";
 
 export default async function QuizPage({
   params: { quizId },
@@ -13,7 +14,9 @@ export default async function QuizPage({
     <>
       <Path quiz={quiz} />
       {quiz.questions.length === 0 ? (
-        <main className="main">الاختبار ليس به أسئلة.</main>
+        <main className="main">
+          <Message type="warning">لم يتم إضافة أسئلة بعد</Message>
+        </main>
       ) : (
         <main lang="en" dir="ltr" className="main">
           <QuestionsList questions={quiz.questions} />
