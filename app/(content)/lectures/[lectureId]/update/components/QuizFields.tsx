@@ -33,6 +33,18 @@ const QuizFields = ({
         className="mb-4"
         form={formId}
       />
+      {defaultValues ? null : (
+        <>
+          <label htmlFor="questions" className="block mb-2">
+            الإضافة السريعة (اختياري)
+          </label>
+          <textarea
+            name="questions"
+            id="questions"
+            className="block mb-4"
+          ></textarea>
+        </>
+      )}
       <input
         type="number"
         id="lecture-id"

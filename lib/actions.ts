@@ -507,8 +507,17 @@ export async function addQuiz(
   const data = {
     title: formData.get("title"),
   };
+  const questions = formData.get("questions")?.toString().trim();
 
-  const res = await fetch(
+  if (questions) {
+    try {
+      JSON.parse(questions);
+    } catch (error) {
+      return { type: "fail", message: "الإضافة السريعة فشلت 😭" };
+    }
+  }
+
+  const res1 = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/lectures/${lectureId}/quizzes`,
     {
       method: "POST",
@@ -519,15 +528,37 @@ export async function addQuiz(
       body: JSON.stringify(data),
     }
   );
+  let res2;
 
-  const json = await res.json();
+  const json1 = await res1.json();
+  let json2;
 
-  if (res.ok) {
+  if (res1.ok) {
+    if (questions) {
+      res2 = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/quizzes/${json1.data.id}/questions`,
+        {
+          method: "POST",
+          headers: {
+            "content-type": "application/json;charset=UTF-8",
+            authorization: `Bearer ${cookies().get("jwt")!.value}`,
+          },
+          body: questions,
+        }
+      );
+      json2 = await res2.json();
+    }
+
     revalidatePath(`/lectures/${lectureId}`);
     revalidatePath(`/lectures/${lectureId}/update`);
   }
 
-  return { type: res.ok ? "success" : "fail", message: json.message };
+  if (res2 && json2)
+    return {
+      type: res1.ok && res2.ok ? "success" : "fail",
+      message: `${json1.message}\n${json2.message}`,
+    };
+  else return { type: res1.ok ? "success" : "fail", message: json1.message };
 }
 
 export async function updateQuiz(
