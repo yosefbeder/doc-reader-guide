@@ -1,4 +1,4 @@
-export type FormStateType = "fail" | "warning" | "success";
+export type FormStateType = "fail" | "warning" | "success" | "information";
 
 export interface FormState {
   type?: FormStateType;
@@ -102,7 +102,8 @@ export interface Quiz {
 
 export interface Question {
   id: number;
-  image: string;
+  image?: string;
+  explanation?: string;
   text: string;
   options: string[];
   correctOptionIndex: number;

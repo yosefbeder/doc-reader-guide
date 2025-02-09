@@ -631,11 +631,15 @@ export async function addQuestion(
   const image = formData.has("image")
     ? formData.get("image")!.toString().trim()
     : undefined;
+  const explanation = formData.has("explanation")
+    ? formData.get("explanation")!.toString().trim()
+    : undefined;
 
   const data = [
     {
       text: formData.get("text"),
       image,
+      explanation,
       ...parseOptions(formData),
     },
   ];
@@ -675,10 +679,14 @@ export async function updateQuestion(
   const image = formData.has("image")
     ? formData.get("image")!.toString().trim()
     : "";
+  const explanation = formData.has("explanation")
+    ? formData.get("explanation")!.toString().trim()
+    : "";
 
   const data = {
     title: formData.get("title"),
     image,
+    explanation,
     ...parseOptions(formData),
   };
 

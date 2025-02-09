@@ -1,7 +1,9 @@
 "use client";
 
 import Button from "@/components/Button";
+import Message from "@/components/Message";
 import { Question } from "@/types";
+import isValidURL from "@/utils/isValidUrl";
 import React, { useEffect, useState } from "react";
 
 export default function QuestionsList({
@@ -13,6 +15,7 @@ export default function QuestionsList({
   const [answers, setAnswers] = useState(questions.map(() => -1));
   const [currentQuestionInput, setCurrentQuestionInput] = useState(1);
   const [showingResults, setShowingResults] = useState(false);
+  const explanation = questions[currentQuestion].explanation;
 
   useEffect(() => {
     setCurrentQuestionInput(currentQuestion + 1);
@@ -117,6 +120,17 @@ export default function QuestionsList({
           </button>
         ))}
       </ol>
+      {answers[currentQuestion] !== -1 && explanation ? (
+        <Message type="information" className="mb-4">
+          {isValidURL(explanation) ? (
+            <a href={explanation} target="_blank">
+              {explanation}
+            </a>
+          ) : (
+            explanation
+          )}
+        </Message>
+      ) : null}
       <div className="flex justify-between mb-4">
         <Button
           onClick={() => setCurrentQuestion((prev) => prev - 1)}

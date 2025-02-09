@@ -69,6 +69,16 @@ const QuestionFields = ({
         className="mb-4"
         form={formId}
       />
+      <Input
+        label="Explanation"
+        icon="book-open"
+        type="text"
+        id="explanation"
+        name="explanation"
+        defaultValue={defaultValues?.explanation}
+        className="mb-4"
+        form={formId}
+      />
       {options.map(({ id }, index) => (
         <li key={id} className="flex gap-2 mb-2">
           <div className="flex items-center">
