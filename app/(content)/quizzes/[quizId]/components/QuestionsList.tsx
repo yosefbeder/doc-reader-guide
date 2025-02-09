@@ -3,7 +3,7 @@
 import Button from "@/components/Button";
 import Message from "@/components/Message";
 import { Question } from "@/types";
-import isValidURL from "@/utils/isValidUrl";
+import isValidURL from "@/utils/isValidURL";
 import React, { useEffect, useState } from "react";
 
 export default function QuestionsList({
