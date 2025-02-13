@@ -1,6 +1,7 @@
 "use client";
 
 import Button from "@/components/Button";
+import ButtonIcon from "@/components/ButtonIcon";
 import Message from "@/components/Message";
 import { Question } from "@/types";
 import isValidURL from "@/utils/isValidURL";
@@ -28,53 +29,63 @@ export default function QuestionsList({
       0
     );
     return (
-      <div className="max-w-lg">
-        <h2 className="mb-4">
-          Result → {correct} / {questions.length}
-        </h2>
-        <h2 className="mb-4">Summary</h2>
-        <p className="mb-4">
-          <span className="text-green-600">* Correct</span>
-          <br />
-          <span className="text-red-600">* Incorrect</span>
-          <br />
-          <span className="text-yellow-600">* Skipped</span>
-        </p>
-        <ol>
-          {questions.map((question, questionIndex) => {
-            return (
-              <li key={question.id}>
-                <span className="font-bold">
-                  {questionIndex + 1}. {question.text}
-                </span>
-                {question.image ? (
-                  <img src={question.image} alt="Question associated diagram" />
-                ) : null}
-                <ol className="list-[upper-alpha] list-inside">
-                  {question.options.map((option, optionIndex) => (
-                    <li
-                      key={optionIndex}
-                      className={`${(() => {
-                        if (
-                          optionIndex ===
-                          questions[questionIndex].correctOptionIndex
-                        )
-                          if (answers[questionIndex] === -1)
-                            return "text-yellow-600";
-                          else return "text-green-600";
-                        else if (answers[questionIndex] === optionIndex)
-                          return "text-red-600";
-                      })()}`}
-                    >
-                      {option}
-                    </li>
-                  ))}
-                </ol>
-              </li>
-            );
-          })}
-        </ol>
-      </div>
+      <>
+        <ButtonIcon
+          icon="printer"
+          className="mb-4"
+          onClick={() => window.print()}
+        />
+        <div className="max-w-lg" id="print-section">
+          <h2 className="mb-4">
+            Result → {correct} / {questions.length}
+          </h2>
+          <h2 className="mb-4">Summary</h2>
+          <p className="mb-4">
+            <span className="text-green-600">* Correct</span>
+            <br />
+            <span className="text-red-600">* Incorrect</span>
+            <br />
+            <span className="text-yellow-600">* Skipped</span>
+          </p>
+          <ol>
+            {questions.map((question, questionIndex) => {
+              return (
+                <li key={question.id}>
+                  <span className="font-bold">
+                    {questionIndex + 1}. {question.text}
+                  </span>
+                  {question.image ? (
+                    <img
+                      src={question.image}
+                      alt="Question associated diagram"
+                    />
+                  ) : null}
+                  <ol className="list-[upper-alpha] list-inside">
+                    {question.options.map((option, optionIndex) => (
+                      <li
+                        key={optionIndex}
+                        className={`${(() => {
+                          if (
+                            optionIndex ===
+                            questions[questionIndex].correctOptionIndex
+                          )
+                            if (answers[questionIndex] === -1)
+                              return "text-yellow-600";
+                            else return "text-green-600";
+                          else if (answers[questionIndex] === optionIndex)
+                            return "text-red-600";
+                        })()}`}
+                      >
+                        {option}
+                      </li>
+                    ))}
+                  </ol>
+                </li>
+              );
+            })}
+          </ol>
+        </div>
+      </>
     );
   }
 

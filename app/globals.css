@@ -6,6 +6,26 @@
   body {
     @apply text-lg text-slate-700;
   }
+
+  @media print {
+    /* Hide everything */
+    body * {
+      visibility: hidden;
+    }
+
+    /* Show only the target section */
+    #print-section,
+    #print-section * {
+      visibility: visible;
+    }
+
+    /* Position the section at the top-left */
+    #print-section {
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+  }
 }
 
 @layer components {
