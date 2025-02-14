@@ -8,8 +8,10 @@ import isValidURL from "@/utils/isValidURL";
 import React, { useEffect, useState } from "react";
 
 export default function QuestionsList({
+  quizId,
   questions,
 }: {
+  quizId: number;
   questions: Question[];
 }) {
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -17,6 +19,26 @@ export default function QuestionsList({
   const [currentQuestionInput, setCurrentQuestionInput] = useState(1);
   const [showingResults, setShowingResults] = useState(false);
   const explanation = questions[currentQuestion].explanation;
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    const quizJSON = localStorage.getItem(`quiz-${quizId}`);
+    if (quizJSON) {
+      const quiz = JSON.parse(quizJSON);
+      setCurrentQuestion(quiz.currentQuestion);
+      setShowingResults(quiz.showingResults);
+      setAnswers(quiz.answers);
+    }
+    setIsLoaded(true);
+  }, []);
+
+  useEffect(() => {
+    if (isLoaded)
+      localStorage.setItem(
+        `quiz-${quizId}`,
+        JSON.stringify({ currentQuestion, answers, showingResults })
+      );
+  }, [currentQuestion, answers, showingResults]);
 
   useEffect(() => {
     setCurrentQuestionInput(currentQuestion + 1);
@@ -30,11 +52,18 @@ export default function QuestionsList({
     );
     return (
       <>
-        <ButtonIcon
-          icon="printer"
-          className="mb-4"
-          onClick={() => window.print()}
-        />
+        <div className="flex gap-2 mb-4">
+          <ButtonIcon icon="printer" onClick={() => window.print()} />
+          <ButtonIcon
+            icon="arrow-path"
+            onClick={() => {
+              setCurrentQuestion(0);
+              setAnswers(questions.map(() => -1));
+              setCurrentQuestionInput(1);
+              setShowingResults(false);
+            }}
+          />
+        </div>
         <div className="max-w-lg" id="print-section">
           <h2 className="mb-4">
             Result → {correct} / {questions.length}
