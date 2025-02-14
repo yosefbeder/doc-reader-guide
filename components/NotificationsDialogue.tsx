@@ -15,7 +15,7 @@ import {
   faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
 
-import { Link } from "@/types";
+import { Link, Quiz } from "@/types";
 import getUniqueObjectsById from "@/utils/getUniqueObjectsById";
 import Button from "./Button";
 import Dialogue from "./Dialogue";
@@ -37,20 +37,20 @@ export default function NotificationsDialogue({
         }
       );
       const json = await res.json();
-      return json.data as Link[];
+      return json.data as { links: Link[]; quizzes: Quiz[] };
     },
     [yearId]
   );
-  const {
-    data: links,
-    isLoading,
-    error,
-    mutate,
-  } = useSWR("notifiable-links", fetcher, { revalidateOnMount: true });
+  const { data, isLoading, error, mutate } = useSWR(
+    "notifiable-links",
+    fetcher,
+    { revalidateOnMount: true }
+  );
   const lectures = useMemo(() => {
-    if (!links) return [];
+    if (!data) return [];
+    const { links, quizzes } = data;
     return getUniqueObjectsById(
-      links.map(
+      [...links, ...quizzes].map(
         ({
           lectureData: {
             id: lectureId,
@@ -66,12 +66,14 @@ export default function NotificationsDialogue({
     ).map((lecture) => ({
       ...lecture,
       links: links.filter((link) => link.lectureData.id === lecture.id),
+      quizzes: quizzes.filter((quiz) => quiz.lectureData.id === lecture.id),
     }));
-  }, [links]);
+  }, [data]);
   const subjects = useMemo(() => {
-    if (!links) return [];
+    if (!data) return [];
+    const { links, quizzes } = data;
     return getUniqueObjectsById(
-      links.map(
+      [...links, ...quizzes].map(
         ({
           lectureData: {
             subject: {
@@ -90,11 +92,12 @@ export default function NotificationsDialogue({
       ...subject,
       lectures: lectures.filter((lecture) => lecture.subjectId === subject.id),
     }));
-  }, [links]);
+  }, [data]);
   const modules = useMemo(() => {
-    if (!links) return [];
+    if (!data) return [];
+    const { links, quizzes } = data;
     return getUniqueObjectsById(
-      links.map(
+      [...links, ...quizzes].map(
         ({
           lectureData: {
             subject: {
@@ -110,7 +113,7 @@ export default function NotificationsDialogue({
       ...myModule,
       subjects: subjects.filter((subject) => subject.moduleId === myModule.id),
     }));
-  }, [links]);
+  }, [data]);
   const [checked, setChecked] = useState<string[]>([]);
   const [expanded, setExpanded] = useState<string[]>([]);
 
@@ -120,13 +123,19 @@ export default function NotificationsDialogue({
     children: subjects.map(({ id, name, lectures }) => ({
       label: name,
       value: id + name,
-      children: lectures.map(({ id, title, links }) => ({
+      children: lectures.map(({ id, title, links, quizzes }) => ({
         label: title,
         value: id + title,
-        children: links.map(({ id, title }) => ({
-          label: title,
-          value: id.toString(),
-        })),
+        children: [
+          ...links.map(({ id, title }) => ({
+            label: title,
+            value: `link-${id}`,
+          })),
+          ...quizzes.map(({ id, title }) => ({
+            label: title,
+            value: `quiz-${id}`,
+          })),
+        ],
       })),
     })),
   }));
@@ -139,7 +148,7 @@ export default function NotificationsDialogue({
       {(() => {
         if (error) return <p>حدث خطأ ما برجاء التواصل مع المطورين</p>;
         if (isLoading) return <p>تحميل...</p>;
-        if (!links || links.length === 0)
+        if (!data || (data.links.length === 0 && data.quizzes.length === 0))
           return <p>لا يوجد مصادر جديدة برجاء إضافة البعض أولًا</p>;
         return (
           <>
@@ -169,7 +178,8 @@ export default function NotificationsDialogue({
               <Button
                 disabled={checked.length === 0 || isLoading || isNotifying}
                 onClick={async () => {
-                  if (!links) return;
+                  if (!data) return [];
+                  const { links, quizzes } = data;
                   setIsNotifying(true);
                   const res = await fetch(
                     `${process.env.NEXT_PUBLIC_API_URL}/years/${yearId}/notifications/notify`,
@@ -180,14 +190,24 @@ export default function NotificationsDialogue({
                         "content-type": "application/json;charset=UTF-8",
                       },
                       body: JSON.stringify({
-                        links: checked.map((string) => +string),
+                        links: checked
+                          .filter((id) => id.startsWith("link"))
+                          .map((id) => +id.slice(5)),
+                        quizzes: checked
+                          .filter((id) => id.startsWith("quiz"))
+                          .map((id) => +id.slice(5)),
                       }),
                     }
                   );
                   if (!res.ok) throw new Error("Failed ignoring");
-                  await mutate(
-                    links.filter(({ id }) => !checked.includes(id.toString()))
-                  );
+                  await mutate({
+                    links: links.filter(
+                      ({ id }) => !checked.includes(`link-${id}`)
+                    ),
+                    quizzes: quizzes.filter(
+                      ({ id }) => !checked.includes(`quiz-${id}`)
+                    ),
+                  });
                   setIsNotifying(false);
                   setChecked([]);
                 }}
@@ -198,7 +218,8 @@ export default function NotificationsDialogue({
                 color="rose"
                 disabled={checked.length === 0 || isLoading || isIgnoring}
                 onClick={async () => {
-                  if (!links) return;
+                  if (!data) return [];
+                  const { links, quizzes } = data;
                   setIsIgnoring(true);
                   const res = await fetch(
                     `${process.env.NEXT_PUBLIC_API_URL}/years/${yearId}/notifications/ignore`,
@@ -209,14 +230,24 @@ export default function NotificationsDialogue({
                         "content-type": "application/json;charset=UTF-8",
                       },
                       body: JSON.stringify({
-                        links: checked.map((string) => +string),
+                        links: checked
+                          .filter((id) => id.startsWith("link"))
+                          .map((id) => +id.slice(5)),
+                        quizzes: checked
+                          .filter((id) => id.startsWith("quiz"))
+                          .map((id) => +id.slice(5)),
                       }),
                     }
                   );
                   if (!res.ok) throw new Error("Failed ignoring");
-                  await mutate(
-                    links.filter(({ id }) => !checked.includes(id.toString()))
-                  );
+                  await mutate({
+                    links: links.filter(
+                      ({ id }) => !checked.includes(`link-${id}`)
+                    ),
+                    quizzes: quizzes.filter(
+                      ({ id }) => !checked.includes(`quiz-${id}`)
+                    ),
+                  });
                   setIsIgnoring(false);
                   setChecked([]);
                 }}
