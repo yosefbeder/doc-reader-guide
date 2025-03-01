@@ -87,11 +87,12 @@ export default function Message({
   ...props
 }: MessageProps) {
   return (
-    <p
-      className={`p-2 rounded-md border flex gap-2 w-max ${styles[type]} ${className}`}
+    <div
+      className={`p-2 rounded-md border flex gap-2 w-max max-w-full ${styles[type]} ${className}`}
       {...props}
     >
-      {icons[type]} {children}
-    </p>
+      <span>{icons[type]}</span>
+      {children}
+    </div>
   );
 }
