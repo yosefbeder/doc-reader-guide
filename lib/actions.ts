@@ -556,7 +556,7 @@ export async function addQuiz(
   if (res2 && json2)
     return {
       type: res1.ok && res2.ok ? "success" : "fail",
-      message: `${json1.message}\n${json2.message}`,
+      message: `${json1.message}\nتم إضافة ${json2.data.count} سؤالًا`,
     };
   else return { type: res1.ok ? "success" : "fail", message: json1.message };
 }
@@ -739,4 +739,47 @@ export async function deleteQuestion(
   revalidatePath(`/quizzes/${quizId}/update`);
 
   return {};
+}
+
+export async function quickAdd(
+  _prevState: FormState,
+  formData: FormData
+): Promise<FormState> {
+  const questions = formData.get("questions")?.toString().trim();
+  const quizId = getNumber(formData, "quiz-id");
+
+  if (questions) {
+    try {
+      JSON.parse(questions);
+    } catch (error) {
+      return { type: "fail", message: "الإضافة السريعة فشلت 😭" };
+    }
+  }
+
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/quizzes/${quizId}/questions`,
+    {
+      method: "POST",
+      headers: {
+        "content-type": "application/json;charset=UTF-8",
+        authorization: `Bearer ${cookies().get("jwt")!.value}`,
+      },
+      body: questions,
+    }
+  );
+
+  const json = await res.json();
+
+  if (res.ok) {
+    revalidatePath(`/quizzes/${quizId}`);
+    revalidatePath(`/quizzes/${quizId}/update`);
+  }
+
+  return {
+    type: res.ok ? "success" : "fail",
+    message: res.ok
+      ? `تم إضافة ${json.data.count} سؤالًا`
+      : "الإضافة السريعة فشلت 😭",
+    resetKey: Date.now(),
+  };
 }
