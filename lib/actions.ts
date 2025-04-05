@@ -716,7 +716,6 @@ export async function deleteQuestion(
   _prevState: FormState,
   formData: FormData
 ): Promise<FormState> {
-  const quizId = formData.get("quiz-id");
   const questionId = formData.get("question-id");
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/questions/${questionId}`,
@@ -733,10 +732,8 @@ export async function deleteQuestion(
 
   if (!res.ok) return { type: "fail", message: json.message };
 
-  revalidatePath(`/lectures/${json.data.lectureId}`);
-  revalidatePath(`/lectures/${json.data.lectureId}/update`);
-  revalidatePath(`/quizzes/${quizId}`);
-  revalidatePath(`/quizzes/${quizId}/update`);
+  revalidatePath(`/quizzes/${json.data.quizId}`);
+  revalidatePath(`/quizzes/${json.data.quizId}/update`);
 
   return {};
 }
