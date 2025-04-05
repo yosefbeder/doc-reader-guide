@@ -46,16 +46,14 @@ export default function QuestionsList({
   }, [currentQuestion, answers, showingResults]);
 
   if (showingResults) {
-    const correct = answers
-      .entries()
-      .reduce(
-        (acc, [questionId, optionIndex]) =>
-          optionIndex ===
-          questions.find(({ id }) => id === questionId)?.correctOptionIndex
-            ? acc + 1
-            : acc,
-        0
-      );
+    const correct = Array.from(answers.entries()).reduce(
+      (acc, [questionId, optionIndex]) =>
+        optionIndex ===
+        questions.find(({ id }) => id === questionId)?.correctOptionIndex
+          ? acc + 1
+          : acc,
+      0
+    );
     return (
       <>
         <div className="flex gap-2 mb-4">
