@@ -4,6 +4,7 @@ import Path from "../components/Path";
 import getQuiz from "@/utils/getQuiz";
 import UpdateQuestionForm from "./components/UpdateQuestionForm";
 import QuickAddForm from "./components/QuickAddForm";
+import ButtonCopy from "./components/ButtonCopy";
 
 export default async function UpdateQuizPage({
   params: { quizId },
@@ -16,6 +17,25 @@ export default async function UpdateQuizPage({
     <>
       <Path quiz={quiz} />
       <main className="main" lang="en" dir="ltr">
+        <ButtonCopy
+          text={JSON.stringify(
+            quiz.questions.map(
+              ({
+                id,
+                createdAt,
+                updatedAt,
+                quizId,
+                image,
+                explanation,
+                ...rest
+              }: any) => ({
+                image: image || undefined,
+                explanation: explanation || undefined,
+                ...rest,
+              })
+            )
+          )}
+        />
         <div className="max-w-lg flex flex-col gap-4">
           <AddQuestionForm quizId={+quizId} />
           <QuickAddForm quizId={+quizId} />
