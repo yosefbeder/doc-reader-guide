@@ -52,8 +52,8 @@ const QuestionFields = ({
         }
         icon="book-open"
         type="text"
-        id="title"
-        name="title"
+        id="text"
+        name="text"
         required
         defaultValue={defaultValues?.text}
         className="mb-4"

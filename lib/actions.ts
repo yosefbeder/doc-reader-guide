@@ -684,7 +684,7 @@ export async function updateQuestion(
     : "";
 
   const data = {
-    title: formData.get("title"),
+    text: formData.get("text"),
     image,
     explanation,
     ...parseOptions(formData),
