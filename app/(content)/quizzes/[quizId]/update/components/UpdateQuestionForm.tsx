@@ -9,6 +9,7 @@ import Message from "@/components/Message";
 import ButtonSubmit from "@/components/ButtonSubmit";
 import { Question } from "@/types";
 import ButtonDelete from "@/components/ButtonDelete";
+import ButtonCopy from "./ButtonCopy";
 
 export default function UpdateQuestionForm({
   question,
@@ -59,6 +60,17 @@ export default function UpdateQuestionForm({
             formRef={formRef}
           />
         </form>
+        <ButtonCopy
+          text={JSON.stringify([
+            {
+              image: question.image || undefined,
+              explanation: question.explanation || undefined,
+              text: question.text,
+              options: question.options,
+              correctOptionIndex: question.correctOptionIndex,
+            },
+          ])}
+        />
       </div>
     </>
   );
