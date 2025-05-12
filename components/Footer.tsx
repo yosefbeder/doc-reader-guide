@@ -8,6 +8,22 @@ import Tooltip from "./Tooltip";
 
 const links = [
   {
+    link: "mailto:docreaderguide.feedback@gmail.com",
+    color: "hover:text-[#EA4335]",
+    icon: (
+      <svg
+        className="size-10"
+        fill="currentColor"
+        role="img"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <title>Gmail</title>
+        <path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.91 1.528-1.145C21.69 2.28 24 3.434 24 5.457z" />
+      </svg>
+    ),
+  },
+  {
     link: "https://www.facebook.com/profile.php?id=61564416632497&mibextid=ZbWKwL",
     color: "hover:text-[#1877f2]",
     icon: (
@@ -40,7 +56,7 @@ const links = [
     ),
   },
   {
-    link: "https://t.me/DocReader_Guide_app/70",
+    link: "https://t.me/DocReader_Guide_app/91",
     color: "hover:text-[#34A853]",
     icon: (
       <svg
@@ -87,7 +103,7 @@ export default function Footer() {
   return (
     <footer className="bg-slate-50 border-t-2 border-slate-200">
       <div className="main">
-        <div className="flex justify-center gap-4 mb-4">
+        <div className="flex justify-center items-center gap-4 mb-4">
           {links.map(({ link, color, icon }, index) => (
             <a
               key={index}
