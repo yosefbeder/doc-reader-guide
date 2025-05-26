@@ -35,11 +35,11 @@ export default function NavUser({ updateable }: { updateable?: boolean }) {
               }`}
               onClick={() => {
                 if (pathname.endsWith("/update")) {
-                  router.replace(
+                  router.push(
                     pathname.slice(0, pathname.indexOf("/update") + 1)
                   );
                 } else {
-                  router.replace(`${pathname === "/" ? "" : pathname}/update`);
+                  router.push(`${pathname === "/" ? "" : pathname}/update`);
                 }
               }}
             >
