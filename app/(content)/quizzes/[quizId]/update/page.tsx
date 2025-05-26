@@ -2,9 +2,9 @@ import React from "react";
 import AddQuestionForm from "./components/AddQuestionForm";
 import Path from "../components/Path";
 import getQuiz from "@/utils/getQuiz";
-import UpdateQuestionForm from "./components/UpdateQuestionForm";
 import QuickAddForm from "./components/QuickAddForm";
 import ButtonCopy from "./components/ButtonCopy";
+import QuestionsList from "./components/QuestionsList";
 
 export default async function UpdateQuizPage({
   params: { quizId },
@@ -40,15 +40,7 @@ export default async function UpdateQuizPage({
           <AddQuestionForm quizId={+quizId} />
           <QuickAddForm quizId={+quizId} />
         </div>
-        {quiz.questions.map((question, index) => (
-          <div key={question.id} className="max-w-lg mb-4">
-            <UpdateQuestionForm
-              index={index}
-              quizId={+quizId}
-              question={question}
-            />
-          </div>
-        ))}
+        <QuestionsList quizId={quiz.id} questions={quiz.questions} />
       </main>
     </>
   );
