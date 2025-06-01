@@ -36,7 +36,7 @@ const QuestionFields = ({
       {defaultValues && (
         <input
           type="number"
-          id="question-id"
+          id={`question-${defaultValues?.id || "new"}-id`}
           name="question-id"
           className="hidden"
           defaultValue={defaultValues.id}
@@ -52,7 +52,7 @@ const QuestionFields = ({
           </h3>
         }
         icon="book-open"
-        id="text"
+        id={`question-${defaultValues?.id || "new"}-text`}
         name="text"
         required
         defaultValue={defaultValues?.text}
@@ -63,7 +63,7 @@ const QuestionFields = ({
         label="Image"
         icon="link"
         type="url"
-        id="image"
+        id={`question-${defaultValues?.id || "new"}-image`}
         name="image"
         defaultValue={defaultValues?.image}
         className="mb-4"
@@ -72,7 +72,7 @@ const QuestionFields = ({
       <TextArea
         label="Explanation"
         icon="book-open"
-        id="explanation"
+        id={`question-${defaultValues?.id || "new"}-explanation`}
         name="explanation"
         defaultValue={defaultValues?.explanation}
         className="mb-4"
@@ -134,7 +134,7 @@ const QuestionFields = ({
       </Button>
       <input
         type="number"
-        id="quiz-id"
+        id={`question-${defaultValues?.id || "new"}-quiz-id`}
         name="quiz-id"
         className="hidden"
         defaultValue={quizId}
