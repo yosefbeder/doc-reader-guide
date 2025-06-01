@@ -5,6 +5,7 @@ import { Question } from "@/types";
 import { useState } from "react";
 import ButtonIcon from "@/components/ButtonIcon";
 import Button from "@/components/Button";
+import TextArea from "@/components/TextArea";
 
 const QuestionFields = ({
   quizId,
@@ -42,7 +43,7 @@ const QuestionFields = ({
           form={formId}
         />
       )}
-      <Input
+      <TextArea
         label={
           <h3 className="mb-4">
             {typeof index === "undefined"
@@ -51,7 +52,6 @@ const QuestionFields = ({
           </h3>
         }
         icon="book-open"
-        type="text"
         id="text"
         name="text"
         required
@@ -69,10 +69,9 @@ const QuestionFields = ({
         className="mb-4"
         form={formId}
       />
-      <Input
+      <TextArea
         label="Explanation"
         icon="book-open"
-        type="text"
         id="explanation"
         name="explanation"
         defaultValue={defaultValues?.explanation}

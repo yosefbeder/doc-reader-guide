@@ -1,6 +1,7 @@
 "use client";
 
 import Input from "@/components/Input";
+import TextArea from "@/components/TextArea";
 import { Lecture } from "@/types";
 
 export default function LectureFields({
@@ -24,10 +25,9 @@ export default function LectureFields({
           form={formId}
         />
       )}
-      <Input
+      <TextArea
         label="العنوان"
         icon="book-open"
-        type="text"
         name="title"
         id="title"
         defaultValue={defaultValues?.title}
