@@ -5,7 +5,8 @@ import ButtonIcon from "@/components/ButtonIcon";
 import Message from "@/components/Message";
 import { Question } from "@/types";
 import isValidURL from "@/utils/isValidURL";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
+import { useHotkeys } from "react-hotkeys-hook";
 
 export default function QuestionsList({
   quizId,
@@ -20,6 +21,35 @@ export default function QuestionsList({
   const [showingResults, setShowingResults] = useState(false);
   const explanation = questions[currentIndex].explanation;
   const [isLoaded, setIsLoaded] = useState(false);
+  const backQuestion = useCallback(() => {
+    if (currentIndex !== 0)
+      setCurrentQuestion(() => questions[currentIndex - 1].id);
+  }, [currentIndex, questions]);
+  const nextQuestion = useCallback(() => {
+    if (currentIndex !== questions.length - 1)
+      setCurrentQuestion(() => questions[currentIndex + 1].id);
+  }, [currentIndex, questions]);
+
+  useHotkeys("left", backQuestion, [currentIndex, questions]);
+  useHotkeys("right", nextQuestion, [currentIndex, questions]);
+  useHotkeys(
+    "1,2,3,4,5",
+    (event) => {
+      const optionIndex = parseInt(event.key) - 1;
+      if (
+        optionIndex >= 0 &&
+        optionIndex < questions[currentIndex].options.length &&
+        !answers.has(currentQuestion)
+      ) {
+        setAnswers((prev) => {
+          const newMap = new Map(prev);
+          newMap.set(currentQuestion, optionIndex);
+          return newMap;
+        });
+      }
+    },
+    [currentIndex, questions, answers, currentQuestion]
+  );
 
   useEffect(() => {
     const quizJSON = localStorage.getItem(`quiz-${quizId}-new`);
@@ -179,18 +209,11 @@ export default function QuestionsList({
         </Message>
       ) : null}
       <div className="flex justify-between mb-4">
-        <Button
-          onClick={() =>
-            setCurrentQuestion(() => questions[currentIndex - 1].id)
-          }
-          disabled={currentIndex === 0}
-        >
+        <Button onClick={backQuestion} disabled={currentIndex === 0}>
           ← Back
         </Button>
         <Button
-          onClick={() =>
-            setCurrentQuestion(() => questions[currentIndex + 1].id)
-          }
+          onClick={nextQuestion}
           disabled={currentIndex === questions.length - 1}
         >
           {answers.has(currentQuestion) ? "Continue →" : "Skip →"}
