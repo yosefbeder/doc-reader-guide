@@ -11,12 +11,10 @@ const QuestionFields = ({
   quizId,
   defaultValues,
   formId,
-  index,
 }: {
   quizId: number;
   defaultValues?: Question;
   formId?: string;
-  index?: number;
 }) => {
   const [correctOptionId, setCorrectOptionId] = useState(
     defaultValues ? defaultValues.correctOptionIndex : 0
@@ -44,13 +42,7 @@ const QuestionFields = ({
         />
       )}
       <TextArea
-        label={
-          <h3 className="mb-4">
-            {typeof index === "undefined"
-              ? "New Question"
-              : `Question ${index + 1}`}
-          </h3>
-        }
+        label="Text"
         icon="book-open"
         id={`question-${defaultValues?.id || "new"}-text`}
         name="text"

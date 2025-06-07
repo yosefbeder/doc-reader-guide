@@ -14,11 +14,9 @@ import ButtonCopy from "./ButtonCopy";
 export default function UpdateQuestionForm({
   question,
   quizId,
-  index,
 }: {
   question: Question;
   quizId: number;
-  index: number;
 }) {
   const [updateFormState, updateFormAction] = useFormState(updateQuestion, {});
   const updateFormId = `update-question-${question.id}`;
@@ -31,7 +29,6 @@ export default function UpdateQuestionForm({
         quizId={quizId}
         defaultValues={question}
         formId={updateFormId}
-        index={index}
       />
       {updateFormState.message && updateFormState.type && (
         <Message type={updateFormState.type} className="mb-4">
