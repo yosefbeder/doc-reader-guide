@@ -1,9 +1,10 @@
 "use client";
 
 import { Question } from "@/types";
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import UpdateQuestionForm from "./UpdateQuestionForm";
 import { icons } from "@/components/icons";
+import { useHotkeys } from "react-hotkeys-hook";
 
 export default function QuestionsList({
   quizId,
@@ -13,22 +14,36 @@ export default function QuestionsList({
   quizId: number;
 }) {
   const [currentQuestion, setCurrentQuestion] = React.useState<number>();
+  const currentIndex = questions.findIndex(({ id }) => id === currentQuestion);
+  const backQuestion = useCallback(() => {
+    if (currentIndex !== 0)
+      setCurrentQuestion(() => questions[currentIndex - 1].id);
+  }, [currentIndex, questions]);
+  const nextQuestion = useCallback(() => {
+    if (currentIndex !== questions.length - 1)
+      setCurrentQuestion(() => questions[currentIndex + 1].id);
+  }, [currentIndex, questions]);
+  useHotkeys("left", backQuestion, [currentIndex, questions]);
+  useHotkeys("right", nextQuestion, [currentIndex, questions]);
 
   useEffect(() => {
     const quizJSON = localStorage.getItem(`quiz-${quizId}-new`);
     if (quizJSON) {
       const quizData = JSON.parse(quizJSON);
       if (quizData.currentQuestion) {
-        const questionElement = document.getElementById(
-          `question-${quizData.currentQuestion}`
-        );
-        if (questionElement) {
-          questionElement.scrollIntoView({ behavior: "smooth" });
-        }
         setCurrentQuestion(quizData.currentQuestion);
       }
     }
   }, []);
+
+  useEffect(() => {
+    const questionElement = document.getElementById(
+      `question-${currentQuestion}`
+    );
+    if (questionElement) {
+      questionElement.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [currentQuestion]);
 
   return questions.map((question, index) => (
     <div
