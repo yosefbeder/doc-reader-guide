@@ -32,7 +32,7 @@ export default async function UpdateLinksPage({
           links.filter(({ category }) => category === "College"),
           links.filter(({ category }) => category === "Summary"),
         ].map((links, index) => (
-          <details key={index} className="[&:not(:last-child)]:mb-4" open>
+          <details key={index} className="[&:not(:last-child)]:mb-4">
             <summary>
               <h2>{["مصادر خارجية", "الكلية", "الملخصات"][index]}</h2>
             </summary>
@@ -48,7 +48,7 @@ export default async function UpdateLinksPage({
             </ul>
           </details>
         ))}
-        <details className="mb-4" open>
+        <details className="mb-4">
           <summary>
             <h2>الأسئلة</h2>
           </summary>
