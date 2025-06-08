@@ -19,7 +19,7 @@ export default function LectureFields({
         <input
           type="number"
           name="lecture-id"
-          id="lecture-id"
+          id={`lecture-${defaultValues?.id || "new"}-id`}
           className="hidden"
           defaultValue={defaultValues.id}
           form={formId}
@@ -29,7 +29,7 @@ export default function LectureFields({
         label="العنوان"
         icon="book-open"
         name="title"
-        id="title"
+        id={`lecture-${defaultValues?.id || "new"}-title`}
         defaultValue={defaultValues?.title}
         required
         className="mb-4"
@@ -40,7 +40,7 @@ export default function LectureFields({
         icon="calendar"
         type="date"
         name="date"
-        id="date"
+        id={`lecture-${defaultValues?.id || "new"}-date`}
         defaultValue={
           defaultValues &&
           new Date(defaultValues.date).toISOString().substring(0, 10)
@@ -52,7 +52,7 @@ export default function LectureFields({
       <input
         type="number"
         name="subject-id"
-        id="subject-id"
+        id={`lecture-${defaultValues?.id || "new"}-subject-id`}
         className="hidden"
         defaultValue={subjectId}
         form={formId}

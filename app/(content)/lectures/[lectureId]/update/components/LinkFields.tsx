@@ -16,8 +16,8 @@ export default function LinkFields({
       {defaultValues && (
         <input
           type="number"
-          id="link-id"
           name="link-id"
+          id={`link-${defaultValues?.id || "new"}-id`}
           className="hidden"
           defaultValue={defaultValues.id}
           form={formId}
@@ -27,8 +27,8 @@ export default function LinkFields({
         label="العنوان"
         icon="book-open"
         type="text"
-        id="title"
         name="title"
+        id={`link-${defaultValues?.id || "new"}-title`}
         required
         defaultValue={defaultValues?.title}
         className="mb-4"
@@ -38,8 +38,8 @@ export default function LinkFields({
         label="تحت العنوان"
         icon="book-open"
         type="text"
-        id="sub-title"
         name="sub-title"
+        id={`link-${defaultValues?.id || "new"}-sub-title`}
         defaultValue={defaultValues?.subTitle}
         className="mb-4"
         form={formId}
@@ -48,8 +48,8 @@ export default function LinkFields({
         label="الرابط"
         icon="link"
         type="url"
-        id="url"
         name="url"
+        id={`link-${defaultValues?.id || "new"}-url`}
         required
         defaultValue={defaultValues?.url}
         className="mb-4"
@@ -58,8 +58,8 @@ export default function LinkFields({
       <Select
         label="النوع"
         icon="document"
-        id="type"
         name="type"
+        id={`link-${defaultValues?.id || "new"}-type`}
         options={[
           { label: "فيديو", value: "Video" },
           { label: "ريكورد", value: "Record" },
@@ -74,8 +74,8 @@ export default function LinkFields({
       <Select
         label="القسم"
         icon="tag"
-        id="category"
         name="category"
+        id={`link-${defaultValues?.id || "new"}-category`}
         options={[
           { label: "مصادر خارجية", value: "Data" },
           { label: "الكلية", value: "College" },
@@ -89,8 +89,8 @@ export default function LinkFields({
       />
       <input
         type="number"
-        id="lecture-id"
         name="lecture-id"
+        id={`link-${defaultValues?.id || "new"}-lecture-id`}
         className="hidden"
         defaultValue={lectureId}
         form={formId}

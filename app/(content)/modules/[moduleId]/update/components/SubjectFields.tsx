@@ -20,7 +20,7 @@ export default function SubjectFields({
         <input
           type="number"
           name="subject-id"
-          id="subject-id"
+          id={`subject-${defaultValues?.id || "new"}-id`}
           className="hidden"
           defaultValue={defaultValues.id}
           form={formId}
@@ -31,7 +31,7 @@ export default function SubjectFields({
         icon="paint-brush"
         type="url"
         name="icon"
-        id="icon"
+        id={`subject-${defaultValues?.id || "new"}-icon`}
         defaultValue={defaultValues?.icon}
         required
         className="mb-4"
@@ -42,7 +42,7 @@ export default function SubjectFields({
         icon="book-open"
         type="text"
         name="name"
-        id="name"
+        id={`subject-${defaultValues?.id || "new"}-name`}
         defaultValue={defaultValues?.name}
         required
         className="mb-4"
@@ -51,7 +51,7 @@ export default function SubjectFields({
       <input
         type="number"
         name="module-id"
-        id="module-id"
+        id={`subject-${defaultValues?.id || "new"}-module-id`}
         className="hidden"
         defaultValue={moduleId}
         form={formId}

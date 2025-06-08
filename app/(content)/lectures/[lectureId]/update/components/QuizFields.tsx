@@ -15,8 +15,8 @@ const QuizFields = ({
       {defaultValues && (
         <input
           type="number"
-          id="quiz-id"
           name="quiz-id"
+          id={`quiz-${defaultValues?.id || "new"}-id`}
           className="hidden"
           defaultValue={defaultValues.id}
           form={formId}
@@ -26,8 +26,8 @@ const QuizFields = ({
         label="العنوان"
         icon="book-open"
         type="text"
-        id="title"
         name="title"
+        id={`quiz-${defaultValues?.id || "new"}-title`}
         required
         defaultValue={defaultValues?.title}
         className="mb-4"
@@ -47,7 +47,7 @@ const QuizFields = ({
       )}
       <input
         type="number"
-        id="lecture-id"
+        id={`quiz-${defaultValues?.id || "new"}-lecture-id`}
         name="lecture-id"
         className="hidden"
         defaultValue={lectureId}

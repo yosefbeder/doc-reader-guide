@@ -20,7 +20,7 @@ export default function ModuleFields({
         <input
           form={formId}
           name="module-id"
-          id="module-id"
+          id={`module-${defaultValues?.id || "new"}-id`}
           className="hidden"
           defaultValue={defaultValues.id}
         />
@@ -31,7 +31,7 @@ export default function ModuleFields({
         icon="paint-brush"
         type="url"
         name="icon"
-        id="icon"
+        id={`module-${defaultValues?.id || "new"}-icon`}
         defaultValue={defaultValues?.icon}
         required
         className="mb-4"
@@ -42,7 +42,7 @@ export default function ModuleFields({
         icon="book-open"
         type="text"
         name="name"
-        id="name"
+        id={`module-${defaultValues?.id || "new"}-name`}
         defaultValue={defaultValues?.name}
         required
         className="mb-4"
@@ -53,7 +53,7 @@ export default function ModuleFields({
         icon="academic-cap"
         type="number"
         name="semester-name"
-        id="semester-name"
+        id={`module-${defaultValues?.id || "new"}-semester-name`}
         defaultValue={defaultValues?.semesterName || 1}
         required
         className="mb-4"
@@ -62,7 +62,7 @@ export default function ModuleFields({
         form={formId}
         type="number"
         name="year-id"
-        id="year-id"
+        id={`module-${defaultValues?.id || "new"}-year-id`}
         className="hidden"
         defaultValue={yearId}
       />
