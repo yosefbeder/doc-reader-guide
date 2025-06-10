@@ -1,10 +1,11 @@
 "use client";
 
 import { Question } from "@/types";
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import UpdateQuestionForm from "./UpdateQuestionForm";
 import { icons } from "@/components/icons";
 import { useHotkeys } from "react-hotkeys-hook";
+import Button from "@/components/Button";
 
 export default function QuestionsList({
   quizId,
@@ -13,7 +14,8 @@ export default function QuestionsList({
   questions: Question[];
   quizId: number;
 }) {
-  const [currentQuestion, setCurrentQuestion] = React.useState<number>();
+  const [questionsOpen, setQuestionsOpen] = useState(false);
+  const [currentQuestion, setCurrentQuestion] = useState<number>();
   const currentIndex = questions.findIndex(({ id }) => id === currentQuestion);
   const backQuestion = useCallback(() => {
     if (currentIndex !== 0)
@@ -45,32 +47,51 @@ export default function QuestionsList({
     }
   }, [currentQuestion]);
 
-  return questions.map((question, index) => (
-    <div
-      key={question.id}
-      className="max-w-lg mb-4"
-      id={`question-${question.id}`}
-    >
-      <button
-        onClick={() =>
-          setCurrentQuestion((prev) =>
-            question.id === prev ? undefined : question.id
-          )
-        }
-        className={`w-full text-left flex items-center gap-2 p-2 rounded-xl ${
-          question.id === currentQuestion
-            ? "bg-cyan-600 hover:bg-cyan-700 text-white mb-2"
-            : "bg-cyan-50 hover:bg-cyan-100"
-        } transition-colors`}
+  return (
+    <section>
+      <h2 className="mb-4">Update Questions</h2>
+      <Button
+        onClick={() => setQuestionsOpen((prev) => !prev)}
+        className="mb-4"
       >
-        {question.id === currentQuestion
-          ? icons["chevron-down"]
-          : icons["chevron-right"]}
-        Question {index + 1}
-      </button>
-      {question.id === currentQuestion && (
-        <UpdateQuestionForm quizId={+quizId} question={question} />
-      )}
-    </div>
-  ));
+        {questionsOpen ? "Show Only Current Question" : "Show All Questions"}
+      </Button>
+      {questions.map((question, index) => (
+        <div
+          key={question.id}
+          className="max-w-lg mb-4"
+          id={`question-${question.id}`}
+        >
+          {(() => {
+            const questionOpen =
+              questionsOpen || question.id === currentQuestion;
+            return (
+              <>
+                <button
+                  onClick={() =>
+                    setCurrentQuestion((prev) =>
+                      question.id === prev ? undefined : question.id
+                    )
+                  }
+                  className={`w-full text-left flex items-center gap-2 p-2 rounded-xl ${
+                    currentQuestion === question.id
+                      ? "bg-cyan-600 hover:bg-cyan-700 text-white mb-2"
+                      : "bg-cyan-50 hover:bg-cyan-100"
+                  } transition-colors`}
+                >
+                  {questionOpen
+                    ? icons["chevron-down"]
+                    : icons["chevron-right"]}
+                  Question {index + 1}
+                </button>
+                {questionOpen && (
+                  <UpdateQuestionForm quizId={+quizId} question={question} />
+                )}
+              </>
+            );
+          })()}
+        </div>
+      ))}
+    </section>
+  );
 }

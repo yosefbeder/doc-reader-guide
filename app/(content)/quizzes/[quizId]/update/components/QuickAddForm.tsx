@@ -15,7 +15,7 @@ export default function QuickAddForm({ quizId }: { quizId: number }) {
     if (formState.resetKey) setQuestions("");
   }, [formState.resetKey]);
   return (
-    <form action={formAction} className="mb-4">
+    <form action={formAction}>
       <input
         type="number"
         name="quiz-id"

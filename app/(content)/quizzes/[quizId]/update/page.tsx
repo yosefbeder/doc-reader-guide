@@ -36,10 +36,12 @@ export default async function UpdateQuizPage({
             )
           )}
         />
+        <h2 className="mb-4">New Question(s)</h2>
         <div className="max-w-lg flex flex-col gap-4">
           <AddQuestionForm quizId={+quizId} />
           <QuickAddForm quizId={+quizId} />
         </div>
+        <hr className="my-4" />
         <QuestionsList quizId={quiz.id} questions={quiz.questions} />
       </main>
     </>
