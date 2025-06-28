@@ -7,7 +7,7 @@ export default async function getUser(jwt: string): Promise<User> {
     },
   });
   const json = await res.json();
-  if (!res.ok) throw new Error(json.message);
+  if (!res.ok) throw { status: res.status, message: json.message };
   const user = json.data;
   delete user.faculty;
   delete user.year;
