@@ -22,7 +22,7 @@ export default function ModulesPage() {
   const router = useRouter();
   const { mutate } = useSWRConfig();
   const { data: modules, error, isLoading } = useSWR("home", loadModules);
-  if (error.status === 401) {
+  if (error && error.status === 401) {
     (async () => {
       if (localStorage.getItem("notifications-status") === "allowed") {
         await disableNotifications();
