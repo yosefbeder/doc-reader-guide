@@ -22,13 +22,11 @@ export default async function LecturesPage({
           <li>
             <AddLectureForm subjectId={+subjectId} />
           </li>
-          {lectures
-            .filter((lecture) => lecture.type === "Normal")
-            .map((lecture) => (
-              <li key={lecture.id}>
-                <UpdateLectureForm subjectId={+subjectId} lecture={lecture} />
-              </li>
-            ))}
+          {lectures.map((lecture) => (
+            <li key={lecture.id}>
+              <UpdateLectureForm subjectId={+subjectId} lecture={lecture} />
+            </li>
+          ))}
         </ul>
       </main>
     </>
