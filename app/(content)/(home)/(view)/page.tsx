@@ -96,7 +96,11 @@ export default function ModulesPage() {
     );
 
   if (semesters.length === 0)
-    return <Message type="warning">No modules have been added yet</Message>;
+    return (
+      <main className="main">
+        <Message type="warning">No modules have been added yet</Message>
+      </main>
+    );
 
   return (
     <main className="main flex flex-col gap-4">

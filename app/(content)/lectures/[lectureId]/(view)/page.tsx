@@ -97,7 +97,9 @@ export default async function LinksPage({
               <h2>{["External", "College", "Summaries"][index]}</h2>
             </summary>
             {links.length === 0 ? (
-              <Message type="warning">No sources have been added yet</Message>
+              <Message type="warning" className="my-2">
+                No sources have been added yet
+              </Message>
             ) : (
               <ul>
                 {links.map(({ id, title, subTitle, url, type }) => (
@@ -133,7 +135,9 @@ export default async function LinksPage({
             {quizzes.length +
               links.filter((link) => link.category === "Questions").length ===
             0 ? (
-              <Message type="warning">No sources have been added yet</Message>
+              <Message type="warning" className="my-2">
+                No sources have been added yet
+              </Message>
             ) : null}
             {quizzes.map(({ id, title }) => (
               <li key={id}>
