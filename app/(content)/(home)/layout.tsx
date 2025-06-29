@@ -6,7 +6,7 @@ export default function ModulesPageLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <Layout title="Modules" updateable>
+    <Layout title="Modules" updateable border>
       {children}
     </Layout>
   );

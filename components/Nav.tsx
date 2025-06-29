@@ -9,12 +9,14 @@ import NavUser from "./NavUser";
 export default function Nav({
   title,
   updateable,
+  border = false,
 }: {
   title: string;
   updateable?: boolean;
+  border?: boolean;
 }) {
   return (
-    <>
+    <div className={border ? "border-b-2 border-slate-200" : ""}>
       <nav className="main flex items-center justify-between max-sm:flex-col max-sm:gap-4 text-slate-900">
         <Link
           href="/"
@@ -31,6 +33,6 @@ export default function Nav({
       <h1 className="hidden bg-cyan-50 py-4 text-center max-md:block">
         {title}
       </h1>
-    </>
+    </div>
   );
 }

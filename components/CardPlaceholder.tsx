@@ -3,7 +3,6 @@ const cardContent = {
     <>
       <div className="size-12 rounded-full bg-slate-200" />
       <div className="w-1/3 h-8 rounded bg-slate-200" />
-      <div className="w-2/3 h-7 rounded bg-slate-200" />
     </>
   ),
   subject: (

@@ -24,7 +24,7 @@ export default function ProfilePage() {
   } = useSWR("faculties", getFaculties);
 
   return (
-    <Layout title="Profile">
+    <Layout title="Profile" border>
       <main className="main">
         <div className="max-w-md">
           <h2 className="mb-4">Settings</h2>

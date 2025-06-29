@@ -92,7 +92,7 @@
 
 @layer utilities {
   .card {
-    @apply flex flex-col items-center p-4 gap-4 no-underline bg-slate-50 hover:bg-slate-100 rounded-xl text-center text-inherit hover:text-inherit transition-colors border-2 border-slate-200;
+    @apply flex flex-col items-center p-4 gap-4 no-underline bg-white shadow-md hover:shadow-lg rounded-xl text-center text-inherit hover:text-inherit transition-shadow;
   }
 
   .main {
