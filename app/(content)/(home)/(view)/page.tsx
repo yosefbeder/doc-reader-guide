@@ -100,10 +100,10 @@ export default function ModulesPage() {
 
   return (
     <main className="main flex flex-col gap-4">
-      {semesters.map((semesterName) => {
+      {semesters.map((semesterName, index) => {
         const semesterOpen = selectedSemester === semesterName;
         return (
-          <div className="overflow-hidden rounded-xl bg-slate-50">
+          <div key={index} className="overflow-hidden rounded-xl bg-slate-50">
             <button
               onClick={() => setSelectedSemester(semesterName)}
               className={`w-full text-left flex items-center gap-2 p-2 rounded-b-xl ${

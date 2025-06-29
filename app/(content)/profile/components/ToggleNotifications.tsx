@@ -26,7 +26,7 @@ export default function ToggleNotifications() {
 
   if (!isMounted) return;
 
-  if (!isSupported) return <p>Browser doesn't support notifications</p>;
+  if (!isSupported) return <p>Browser doesn&apos;t support notifications</p>;
 
   return (
     <>

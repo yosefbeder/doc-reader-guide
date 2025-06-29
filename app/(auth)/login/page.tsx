@@ -48,7 +48,7 @@ export default function LoginPage() {
         </ButtonSubmit>
       </form>
       <p>
-        Don't have an account? →{" "}
+        Don&apos;t have an account? →{" "}
         <Link href="/signup">Create a new account</Link>
       </p>
     </AuthCard>
