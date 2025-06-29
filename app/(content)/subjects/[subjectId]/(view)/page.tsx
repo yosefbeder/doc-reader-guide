@@ -27,9 +27,18 @@ export default async function LecturesPage({
       <Path subject={subject} />
       <main className="main">
         <MasonryCardContainer>
-          {lectures.map((lecture, index) => (
-            <Lecture key={index} lecture={lecture} />
-          ))}
+          {[
+            ...lectures
+              .filter((lecture) => lecture.type !== "Normal")
+              .map((lecture, index) => (
+                <Lecture key={index} lecture={lecture} />
+              )),
+            ...lectures
+              .filter((lecture) => lecture.type === "Normal")
+              .map((lecture, index) => (
+                <Lecture key={index} lecture={lecture} />
+              )),
+          ]}
         </MasonryCardContainer>
       </main>
     </>
