@@ -131,7 +131,7 @@ export default function ModulesPage() {
                   .filter((myModule) => myModule.semesterName === semesterName)
                   .map(({ id, name, icon }, index) => (
                     <li key={index}>
-                      <Link href={`/modules/${id}`} className="card">
+                      <Link href={`/modules/${id}`} className="card bg-white">
                         <span>
                           <Image src={icon} alt={name} width={48} height={48} />
                         </span>
