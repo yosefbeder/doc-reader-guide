@@ -18,7 +18,7 @@ export default function LinksLoadingPage() {
           <details key={index} className="mb-4" open>
             <summary>
               <h2>
-                {["مصادر خارجية", "الكلية", "الملخصات", "الأسئلة"][index]}
+                {["External", "College", "Summaries", "Questions"][index]}
               </h2>
             </summary>
             <ul>

@@ -143,20 +143,20 @@ export default function NotificationsDialogue({
   const [isNotifying, setIsNotifying] = useState(false);
 
   return (
-    <Dialogue header="إدارة الإشعارات" className="rounded-xl" onClose={onClose}>
-      <h2 className="mb-2 max-[512px]:hidden">إدارة الإشعارات</h2>
+    <Dialogue
+      header="Notifications management"
+      className="rounded-xl"
+      onClose={onClose}
+    >
+      <h2 className="mb-2 max-[512px]:hidden">Notifications management</h2>
       {(() => {
-        if (error) return <p>حدث خطأ ما برجاء التواصل مع المطورين</p>;
-        if (isLoading) return <p>تحميل...</p>;
+        if (error) return <p>Error</p>;
+        if (isLoading) return <p>Loading...</p>;
         if (!data || (data.links.length === 0 && data.quizzes.length === 0))
-          return <p>لا يوجد مصادر جديدة برجاء إضافة البعض أولًا</p>;
+          return <p>No new sources were added, please add some first</p>;
         return (
           <>
-            <div
-              lang="en"
-              dir="ltr"
-              className="max-h-80 max-[512px]:max-h-none overflow-y-scroll max-[512px]:overflow-y-visible mb-2 max-[512px]:mb-4"
-            >
+            <div className="max-h-80 max-[512px]:max-h-none overflow-y-scroll max-[512px]:overflow-y-visible mb-2 max-[512px]:mb-4">
               <CheckboxTree
                 nodes={nodes}
                 checked={checked}
@@ -212,7 +212,7 @@ export default function NotificationsDialogue({
                   setChecked([]);
                 }}
               >
-                {isNotifying ? "تحميل..." : "إرسال إشعار"}
+                {isNotifying ? "Loading..." : "Send a notification"}
               </Button>
               <Button
                 color="rose"
@@ -252,7 +252,7 @@ export default function NotificationsDialogue({
                   setChecked([]);
                 }}
               >
-                {isIgnoring ? "تحميل..." : "تجاهل"}
+                {isIgnoring ? "Loading..." : "Ignore"}
               </Button>
             </div>
           </>

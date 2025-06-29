@@ -28,7 +28,7 @@ export default function AddQuestionForm({ quizId }: { quizId: number }) {
           {formState.message}
         </Message>
       )}
-      <ButtonSubmit>إضافة</ButtonSubmit>
+      <ButtonSubmit>Add</ButtonSubmit>
     </form>
   );
 }

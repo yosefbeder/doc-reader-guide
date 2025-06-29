@@ -21,7 +21,7 @@ export default async function allowNotifications() {
       retry++;
     }
   }
-  if (!token) throw new Error("حدث خطأ غير متوقع يرجى إعادة تحميل الصفحة");
+  if (!token) throw new Error("Error");
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/user/register-device`,
     {

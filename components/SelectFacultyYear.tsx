@@ -31,7 +31,7 @@ export default function SelectFacultyYear({
   return (
     <>
       <Select
-        label="الكلية"
+        label="College"
         icon="building-library"
         options={faculties.map(({ id, name, city }) => ({
           label: name.concat(" ", city).trim(),
@@ -49,7 +49,7 @@ export default function SelectFacultyYear({
         className="mb-4"
       />
       <Select
-        label="السنة الدراسية"
+        label="Year"
         icon="calendar"
         options={getFaculty(faculties, facultyId).years.map(
           ({ title, id }) => ({

@@ -18,10 +18,10 @@ export default function ButtonDelete({
       color="rose"
       onClick={(e) => {
         e.preventDefault();
-        const input = prompt(`برجاء كتابة ${confirmationText} للتأكيد`);
+        const input = prompt(`Enter ${confirmationText} to confirm deletion`);
 
         if (input !== confirmationText) {
-          alert("لم يتم الحذف");
+          alert("Deletion cancelled");
           return;
         }
 
@@ -29,7 +29,7 @@ export default function ButtonDelete({
       }}
       {...props}
     >
-      حذف
+      Delete
     </ButtonSubmit>
   );
 }

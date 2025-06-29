@@ -24,7 +24,7 @@ export default function NavUser({ updateable }: { updateable?: boolean }) {
       <Search yearId={user?.yearId || -1} />
       <NavLink href="/profile">
         {icons["user-circle"]}{" "}
-        {isLoading ? "تحميل..." : error ? "حدث خطأ" : user?.name}
+        {isLoading ? "Loading..." : error ? "Error" : user?.name}
       </NavLink>
       {!isLoading && user && user.role === "Admin" && (
         <>

@@ -6,7 +6,7 @@ export default function LecturesPageLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <Layout title="المحاضرات" updateable>
+    <Layout title="Lectures" updateable>
       {children}
     </Layout>
   );

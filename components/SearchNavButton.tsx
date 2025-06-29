@@ -13,7 +13,7 @@ export default function SearchNavButton({
       {...props}
     >
       {icons["magnifying-glass"]}
-      ابحث...
+      Search...
     </button>
   );
 }

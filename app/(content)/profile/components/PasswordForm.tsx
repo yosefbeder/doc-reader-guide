@@ -14,21 +14,21 @@ export default function PasswordForm(user: any) {
   return (
     <form action={formAction} className="max-w-lg">
       <InputPassword
-        label="كلمة المرور الحالية"
+        label="Current password"
         name="current-password"
         id="current-password"
         required
         className="mb-4"
       />
       <InputPassword
-        label="كلمة المرور الجديدة"
+        label="New password"
         name="new-password"
         id="new-password"
         required
         className="mb-4"
       />
       <InputPassword
-        label="تأكيد كلمة المرور الجديدة"
+        label="Confirm new password"
         name="confirmation-password"
         id="confirmation-password"
         required
@@ -39,7 +39,7 @@ export default function PasswordForm(user: any) {
           {formState.message}
         </Message>
       )}
-      <ButtonSubmit className="w-max px-4 mb-4">تعديل</ButtonSubmit>
+      <ButtonSubmit className="w-max px-4 mb-4">Update</ButtonSubmit>
     </form>
   );
 }

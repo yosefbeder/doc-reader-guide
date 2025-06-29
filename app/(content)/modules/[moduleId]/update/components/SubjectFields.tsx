@@ -27,7 +27,7 @@ export default function SubjectFields({
         />
       )}
       <Input
-        label="الأيقونة"
+        label="Icon"
         icon="paint-brush"
         type="url"
         name="icon"
@@ -38,7 +38,7 @@ export default function SubjectFields({
         form={formId}
       />
       <Input
-        label="الاسم"
+        label="Name"
         icon="book-open"
         type="text"
         name="name"

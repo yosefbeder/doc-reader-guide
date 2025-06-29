@@ -20,11 +20,11 @@ export default async function UpdateLinksPage({
       <Path lecture={lecture} />
       <main className="main">
         <div className="max-w-lg mb-4">
-          <h2 className="mb-4">إضافة مصدر</h2>
+          <h2 className="mb-4">New link</h2>
           <AddLinkForm lectureId={+lectureId} />
         </div>
         <div className="max-w-lg mb-4">
-          <h2 className="mb-4">إضافة اختبار</h2>
+          <h2 className="mb-4">New quiz</h2>
           <AddQuizForm lectureId={+lectureId} />
         </div>
         {[
@@ -34,7 +34,7 @@ export default async function UpdateLinksPage({
         ].map((links, index) => (
           <details key={index} className="[&:not(:last-child)]:mb-4">
             <summary>
-              <h2>{["مصادر خارجية", "الكلية", "الملخصات"][index]}</h2>
+              <h2>{["External", "College", "Summaries"][index]}</h2>
             </summary>
             <ul>
               {links.map((link) => (
@@ -50,7 +50,7 @@ export default async function UpdateLinksPage({
         ))}
         <details className="mb-4">
           <summary>
-            <h2>الأسئلة</h2>
+            <h2>Questions</h2>
           </summary>
           <ul>
             {quizzes.map((quiz) => (

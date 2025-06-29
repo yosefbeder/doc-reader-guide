@@ -9,7 +9,6 @@ module.exports = {
     extend: {
       fontFamily: {
         sans: ["var(--font-inter)"],
-        cairo: ["var(--font-cairo)"],
       },
     },
   },

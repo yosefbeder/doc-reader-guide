@@ -30,7 +30,7 @@ export default function Button({
       disabled={isLoading || disabled}
       {...props}
     >
-      {isLoading ? "تحميل..." : children}
+      {isLoading ? "Loading..." : children}
     </button>
   );
 }

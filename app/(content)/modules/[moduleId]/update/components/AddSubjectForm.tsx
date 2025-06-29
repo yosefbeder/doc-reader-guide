@@ -18,7 +18,7 @@ export default function AddSubjectForm({ moduleId }: { moduleId: number }) {
           {formState.message}
         </Message>
       )}
-      <ButtonSubmit>إضافة</ButtonSubmit>
+      <ButtonSubmit>Add</ButtonSubmit>
     </form>
   );
 }

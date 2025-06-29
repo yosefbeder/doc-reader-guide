@@ -18,7 +18,7 @@ export default function AddLectureForm({ subjectId }: { subjectId: number }) {
           {formState.message}
         </Message>
       )}
-      <ButtonSubmit>إضافة</ButtonSubmit>
+      <ButtonSubmit>Add</ButtonSubmit>
     </form>
   );
 }

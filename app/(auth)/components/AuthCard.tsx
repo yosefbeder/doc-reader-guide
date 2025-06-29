@@ -16,8 +16,8 @@ export default function AuthCard({ hover, title, children }: AuthCardProps) {
       }`}
     >
       <Image src={Logo} width={128} alt="Logo" />
-      <span className="text-4xl font-black text-cyan-700 font-cairo">
-        دوكريدر جايد
+      <span className="text-4xl font-extrabold text-cyan-700 -mb-4">
+        DocReader Guide
       </span>
       <h1 className="font-bold text-cyan-600">{title}</h1>
       {children}

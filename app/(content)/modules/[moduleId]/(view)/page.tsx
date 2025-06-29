@@ -29,7 +29,7 @@ export default async function SubjectsPage({
       <Path myModule={myModule} />
       <main className="main">
         {subjects.length === 0 ? (
-          <Message type="warning">لم يتم إضافة مواد بعد</Message>
+          <Message type="warning">Not subjects have been added yet</Message>
         ) : (
           <ul className="card-container">
             {subjects.map(({ id, name, icon }, index) => (

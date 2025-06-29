@@ -16,7 +16,7 @@ export default async function UpdateQuizPage({
   return (
     <>
       <Path quiz={quiz} />
-      <main className="main" lang="en" dir="ltr">
+      <main className="main">
         <ButtonCopy
           text={JSON.stringify(
             quiz.questions.map(

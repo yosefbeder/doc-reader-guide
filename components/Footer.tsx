@@ -141,7 +141,7 @@ export default function Footer() {
             }
           )}
         </div>
-        <div className="text-center">يتم تحديث وإضافة المصادر دوريًا</div>
+        <div className="text-center">Sources are regularly updated</div>
       </div>
     </footer>
   );

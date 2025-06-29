@@ -26,7 +26,7 @@ export default function LectureFields({
         />
       )}
       <TextArea
-        label="العنوان"
+        label="Title"
         icon="book-open"
         name="title"
         id={`lecture-${defaultValues?.id || "new"}-title`}
@@ -36,7 +36,7 @@ export default function LectureFields({
         form={formId}
       />
       <Input
-        label="التاريخ"
+        label="Date"
         icon="calendar"
         type="date"
         name="date"

@@ -24,7 +24,7 @@ export default function QuickAddForm({ quizId }: { quizId: number }) {
         className="hidden"
       />
       <label htmlFor="questions" className="block mb-2">
-        الإضافة السريعة
+        Quick Add
       </label>
       <textarea
         name="questions"
@@ -38,7 +38,7 @@ export default function QuickAddForm({ quizId }: { quizId: number }) {
           {formState.message}
         </Message>
       )}
-      <ButtonSubmit>إضافة</ButtonSubmit>
+      <ButtonSubmit>Add</ButtonSubmit>
     </form>
   );
 }

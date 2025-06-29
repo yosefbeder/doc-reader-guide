@@ -6,7 +6,7 @@ export default function LinksPageLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <Layout title="المصادر" updateable>
+    <Layout title="Sources" updateable>
       {children}
     </Layout>
   );

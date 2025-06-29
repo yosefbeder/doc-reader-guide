@@ -10,7 +10,11 @@ export default function SearchDialogue({
   children: React.ReactNode;
 }) {
   return (
-    <Dialogue header="ابحث عن محاضرة" className="rounded-3xl" onClose={onClose}>
+    <Dialogue
+      header="Search for a lecture"
+      className="rounded-3xl"
+      onClose={onClose}
+    >
       {children}
     </Dialogue>
   );

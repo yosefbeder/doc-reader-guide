@@ -24,27 +24,24 @@ export default function ProfilePage() {
   } = useSWR("faculties", getFaculties);
 
   return (
-    <Layout title="البيانات الشخصية">
+    <Layout title="Profile">
       <main className="main">
         <div className="max-w-md">
-          <h2 className="mb-4">الإعدادات</h2>
-          <h3 className="mb-4">الإشعارات</h3>
+          <h2 className="mb-4">Settings</h2>
+          <h3 className="mb-4">Notifications</h3>
           <div className="flex flex-col items-start gap-4 mb-4">
             <ToggleNotifications />
           </div>
-          <h2 className="mb-4">الحساب</h2>
-          <h3 className="mb-4">البيانات العامة</h3>
+          <h2 className="mb-4">Account</h2>
           {isUserLoading || areFacultiesLoading ? (
-            <p className="mb-4">تحميل...</p>
+            <p className="mb-4">Loading...</p>
           ) : userError || facultiesError ? (
-            <p className="mb-4">حدث خطأ</p>
+            <p className="mb-4">Error</p>
           ) : (
             user &&
             faculties && <PersonalInfoForm faculties={faculties} user={user} />
           )}
-          <h3 className="mb-4">تغيير كلمة المرور</h3>
           <PasswordForm />
-          <h3 className="mb-4">تسجيل الخروج</h3>
           <LogoutButton className="mb-4" />
         </div>
       </main>

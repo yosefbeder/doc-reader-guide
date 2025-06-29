@@ -18,7 +18,7 @@ export default function AddLinkForm({ lectureId }: { lectureId: number }) {
           {formState.message}
         </Message>
       )}
-      <ButtonSubmit>إضافة</ButtonSubmit>
+      <ButtonSubmit>Add</ButtonSubmit>
     </form>
   );
 }

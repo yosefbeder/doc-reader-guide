@@ -41,7 +41,7 @@ export default function UpdateLectureForm({
       )}
       <div className="flex gap-2">
         <form action={updateFormAction} className="inline" id={updateFormId}>
-          <ButtonSubmit color="yellow">تعديل</ButtonSubmit>
+          <ButtonSubmit color="yellow">Update</ButtonSubmit>
         </form>
         <form action={deleteFormAction} className="inline" ref={formRef}>
           <input

@@ -28,7 +28,7 @@ export default function PersonalInfoForm({
   return (
     <form action={formAction} className="max-w-lg">
       <Input
-        label="اسم المستخدم"
+        label="Name"
         icon="user"
         type="text"
         name="name"
@@ -38,7 +38,7 @@ export default function PersonalInfoForm({
         className="mb-4"
       />
       <Input
-        label="البريد الإلكتروني"
+        label="Email"
         icon="envelope"
         type="email"
         name="email"
@@ -57,7 +57,7 @@ export default function PersonalInfoForm({
           {formState.message}
         </Message>
       )}
-      <ButtonSubmit className="w-max px-4 mb-4">تعديل</ButtonSubmit>
+      <ButtonSubmit className="w-max px-4 mb-4">Update</ButtonSubmit>
     </form>
   );
 }

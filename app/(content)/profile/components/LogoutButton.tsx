@@ -26,7 +26,7 @@ export default function LogoutButton({ onClick, ...props }: ButtonProps) {
       }}
       {...props}
     >
-      تسجيل الخروج
+      Log out
     </Button>
   );
 }

@@ -24,7 +24,7 @@ export default function LinkFields({
         />
       )}
       <Input
-        label="العنوان"
+        label="Title"
         icon="book-open"
         type="text"
         name="title"
@@ -35,7 +35,7 @@ export default function LinkFields({
         form={formId}
       />
       <Input
-        label="تحت العنوان"
+        label="Description"
         icon="book-open"
         type="text"
         name="sub-title"
@@ -45,7 +45,7 @@ export default function LinkFields({
         form={formId}
       />
       <Input
-        label="الرابط"
+        label="Link"
         icon="link"
         type="url"
         name="url"
@@ -56,15 +56,15 @@ export default function LinkFields({
         form={formId}
       />
       <Select
-        label="النوع"
+        label="Type"
         icon="document"
         name="type"
         id={`link-${defaultValues?.id || "new"}-type`}
         options={[
-          { label: "فيديو", value: "Video" },
-          { label: "ريكورد", value: "Record" },
-          { label: "ملف نصي", value: "PDF" },
-          { label: "فورم", value: "Data" },
+          { label: "Video", value: "Video" },
+          { label: "Record", value: "Record" },
+          { label: "Document", value: "PDF" },
+          { label: "Form", value: "Data" },
         ]}
         required
         defaultValue={defaultValues?.type}
@@ -72,15 +72,15 @@ export default function LinkFields({
         form={formId}
       />
       <Select
-        label="القسم"
+        label="Category"
         icon="tag"
         name="category"
         id={`link-${defaultValues?.id || "new"}-category`}
         options={[
-          { label: "مصادر خارجية", value: "Data" },
-          { label: "الكلية", value: "College" },
-          { label: "الملخصات", value: "Summary" },
-          { label: "الأسئلة", value: "Questions" },
+          { label: "External", value: "Data" },
+          { label: "College", value: "College" },
+          { label: "Summaries", value: "Summary" },
+          { label: "Questions", value: "Questions" },
         ]}
         required
         defaultValue={defaultValues?.category}

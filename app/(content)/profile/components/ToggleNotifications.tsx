@@ -26,7 +26,7 @@ export default function ToggleNotifications() {
 
   if (!isMounted) return;
 
-  if (!isSupported) return <p>المتصفح الحالي لا يدعم خاصية الإشعارات</p>;
+  if (!isSupported) return <p>Browser doesn't support notifications</p>;
 
   return (
     <>
@@ -45,7 +45,7 @@ export default function ToggleNotifications() {
                   ? Notification.permission
                   : await Notification.requestPermission();
               if (permission !== "granted")
-                throw new Error("لم يتم إعطاء الصلاحية لإرسال الإشعارات");
+                throw new Error("Notifications permission denied");
               await allowNotifications();
               setIsAllowed(true);
             }
@@ -57,7 +57,7 @@ export default function ToggleNotifications() {
           setIsLoading(false);
         }}
       >
-        {isLoading ? "تحميل..." : isAllowed ? "تعطيل" : "تفعيل"}
+        {isLoading ? "Loading..." : isAllowed ? "Disable" : "Enable"}
       </Button>
       {error && <Message type="fail">{error}</Message>}
     </>

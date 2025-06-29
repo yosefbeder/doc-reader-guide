@@ -15,10 +15,10 @@ export default async function QuizPage({
       <Path quiz={quiz} />
       {quiz.questions.length === 0 ? (
         <main className="main">
-          <Message type="warning">لم يتم إضافة أسئلة بعد</Message>
+          <Message type="warning">No questions have been added yet</Message>
         </main>
       ) : (
-        <main lang="en" dir="ltr" className="main">
+        <main className="main">
           <QuestionsList quizId={+quizId} questions={quiz.questions} />
         </main>
       )}

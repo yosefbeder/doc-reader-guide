@@ -37,8 +37,8 @@ export default function Search({ yearId }: { yearId: number }) {
   }, [isSearching]);
 
   let content;
-  if (error) content = "حدث خطأ أثناء البحث";
-  else if (!isLoading && !lectures) content = "اكتب على الأقل ثلاثة أحرف";
+  if (error) content = "Error";
+  else if (!isLoading && !lectures) content = "Type at least 3 characters";
   else if (isLoading || lectures)
     content = (
       <LecturesList

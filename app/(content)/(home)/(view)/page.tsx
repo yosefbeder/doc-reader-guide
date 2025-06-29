@@ -65,7 +65,7 @@ export default function ModulesPage() {
     );
 
   return modules.length === 0 ? (
-    <Message type="warning">لم يتم إضافة موديولات بعد</Message>
+    <Message type="warning">No modules have been added yet</Message>
   ) : (
     <main className="main">
       <ul className="card-container">

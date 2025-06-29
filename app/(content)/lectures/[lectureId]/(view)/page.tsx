@@ -94,10 +94,10 @@ export default async function LinksPage({
         ].map((links, index) => (
           <details key={index} className="mb-4" open>
             <summary>
-              <h2>{["مصادر خارجية", "الكلية", "الملخصات"][index]}</h2>
+              <h2>{["External", "College", "Summaries"][index]}</h2>
             </summary>
             {links.length === 0 ? (
-              <Message type="warning">لم يتم إضافة مصادر هنا بعد</Message>
+              <Message type="warning">No sources have been added yet</Message>
             ) : (
               <ul>
                 {links.map(({ id, title, subTitle, url, type }) => (
@@ -127,13 +127,13 @@ export default async function LinksPage({
         ))}
         <details className="mb-4" open>
           <summary>
-            <h2>الأسئلة</h2>
+            <h2>Questions</h2>
           </summary>
           <ul>
             {quizzes.length +
               links.filter((link) => link.category === "Questions").length ===
             0 ? (
-              <Message type="warning">لم يتم إضافة مصادر هنا بعد</Message>
+              <Message type="warning">No sources have been added yet</Message>
             ) : null}
             {quizzes.map(({ id, title }) => (
               <li key={id}>
@@ -145,10 +145,10 @@ export default async function LinksPage({
                   <div>
                     <div>{title}</div>
                     <div className="flex items-center gap-1 text-sm ">
-                      <div className="text-slate-700">مقدم من</div>
+                      <div className="text-slate-700">Presented by</div>
                       <Image src={Logo} className="w-3" alt="Logo" />
-                      <div className="text-cyan-700 font-bold font-cairo">
-                        دوكريدر جايد
+                      <div className="text-cyan-700 font-extrabold">
+                        DocReader Guide
                       </div>
                     </div>
                   </div>

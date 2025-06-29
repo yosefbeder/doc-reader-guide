@@ -513,7 +513,10 @@ export async function addQuiz(
     try {
       JSON.parse(questions);
     } catch (error) {
-      return { type: "fail", message: "الإضافة السريعة فشلت 😭" };
+      return {
+        type: "fail",
+        message: "Quick add failed 😭, please try a different AI model",
+      };
     }
   }
 
@@ -556,7 +559,7 @@ export async function addQuiz(
   if (res2 && json2)
     return {
       type: res1.ok && res2.ok ? "success" : "fail",
-      message: `${json1.message}\nتم إضافة ${json2.data.count} سؤالًا`,
+      message: `${json1.message}\n ${json2.data.count} question(s) added`,
     };
   else return { type: res1.ok ? "success" : "fail", message: json1.message };
 }
@@ -749,7 +752,10 @@ export async function quickAdd(
     try {
       JSON.parse(questions);
     } catch (error) {
-      return { type: "fail", message: "الإضافة السريعة فشلت 😭" };
+      return {
+        type: "fail",
+        message: "Quick add failed 😭, please try a different AI model",
+      };
     }
   }
 
@@ -775,8 +781,8 @@ export async function quickAdd(
   return {
     type: res.ok ? "success" : "fail",
     message: res.ok
-      ? `تم إضافة ${json.data.count} سؤالًا`
-      : "الإضافة السريعة فشلت 😭",
+      ? `${json.data.count} question(s) added`
+      : "Quick add failed 😭, please try a different AI model",
     resetKey: Date.now(),
   };
 }

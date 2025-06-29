@@ -18,10 +18,10 @@ export default function SignupForm({ faculties }: { faculties: Faculty[] }) {
   const [hover, setHover] = useState(false);
 
   return (
-    <AuthCard hover={hover} title="إنشاء حساب جديد">
+    <AuthCard hover={hover} title="Sign up">
       <form action={formAction} className="w-full">
         <Input
-          label="اسم المستخدم"
+          label="Name"
           icon="user"
           type="text"
           name="name"
@@ -30,7 +30,7 @@ export default function SignupForm({ faculties }: { faculties: Faculty[] }) {
           className="mb-4"
         />
         <Input
-          label="البريد الإلكتروني"
+          label="Email"
           icon="envelope"
           type="email"
           name="email"
@@ -39,14 +39,14 @@ export default function SignupForm({ faculties }: { faculties: Faculty[] }) {
           className="mb-4"
         />
         <InputPassword
-          label="كلمة المرور"
+          label="Password"
           name="password"
           id="password"
           required
           className="mb-4"
         />
         <InputPassword
-          label="تأكيد كلمة المرور"
+          label="Confirm password"
           name="confirmation-password"
           id="confirmation-password"
           required
@@ -63,11 +63,11 @@ export default function SignupForm({ faculties }: { faculties: Faculty[] }) {
           onMouseEnter={() => setHover(true)}
           onMouseLeave={() => setHover(false)}
         >
-          إنشاء حساب جديد
+          Sign up
         </ButtonSubmit>
       </form>
       <p>
-        لديك حساب بالفعل؟ ← <Link href="/login">تسجيل الدخول</Link>
+        Already have an account? → <Link href="/login">Log in</Link>
       </p>
     </AuthCard>
   );

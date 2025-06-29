@@ -34,7 +34,7 @@ export default function Searchbar({
           if (onBlur) onBlur(e);
         }}
         autoFocus
-        placeholder="ابحث عن محاضرة"
+        placeholder="Search for a lecture"
         {...props}
       />
     </div>

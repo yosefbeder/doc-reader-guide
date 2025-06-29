@@ -23,7 +23,7 @@ const QuizFields = ({
         />
       )}
       <Input
-        label="العنوان"
+        label="Title"
         icon="book-open"
         type="text"
         name="title"
@@ -36,7 +36,7 @@ const QuizFields = ({
       {defaultValues ? null : (
         <>
           <label htmlFor="questions" className="block mb-2">
-            الإضافة السريعة (اختياري)
+            Quiz add (optional)
           </label>
           <textarea
             name="questions"

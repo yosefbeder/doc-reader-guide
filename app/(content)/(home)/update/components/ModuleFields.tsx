@@ -27,7 +27,7 @@ export default function ModuleFields({
       )}
       <Input
         form={formId}
-        label="الأيقونة"
+        label="Icon"
         icon="paint-brush"
         type="url"
         name="icon"
@@ -38,7 +38,7 @@ export default function ModuleFields({
       />
       <Input
         form={formId}
-        label="الاسم"
+        label="Name"
         icon="book-open"
         type="text"
         name="name"
@@ -49,7 +49,7 @@ export default function ModuleFields({
       />
       <Input
         form={formId}
-        label="الفصل الدراسي"
+        label="Semester"
         icon="academic-cap"
         type="number"
         name="semester-name"

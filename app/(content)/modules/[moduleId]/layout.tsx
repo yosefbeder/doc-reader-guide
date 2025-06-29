@@ -6,7 +6,7 @@ export default function SubjectsPageLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <Layout title="المواد" updateable>
+    <Layout title="Subjects" updateable>
       {children}
     </Layout>
   );

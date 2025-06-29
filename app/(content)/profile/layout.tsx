@@ -1,8 +1,8 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "البيانات الشخصية | دوكريدر جايد",
-  description: "عرض وتغيير البيانات العامة وتغيير الباسورد وتسجيل الخروج",
+  title: "Profile | DocReader Guide",
+  description: "Update profile, change password, or logout",
 };
 
 export default function ProfileLayout({

@@ -40,7 +40,7 @@ export default function UpdateModuleForm({
       <div className="flex gap-2">
         <form action={updateFormAction} id={updateFormId}>
           <ButtonSubmit type="submit" color="yellow">
-            تعديل
+            Update
           </ButtonSubmit>
         </form>
         <form action={deleteFormAction} className="inline" ref={deleteFormRef}>

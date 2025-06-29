@@ -1,8 +1,8 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "تسجيل الدخول | دوكريدر جايد",
-  description: "أدخل بيانات حسابك",
+  title: "Log in | DocReader Guide",
+  description: "Enter your credentials please",
 };
 
 export default function LoginLayout({

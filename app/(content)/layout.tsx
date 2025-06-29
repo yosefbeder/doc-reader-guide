@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Cairo, Inter } from "next/font/google";
+import { Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
@@ -8,14 +8,10 @@ import NotificationListener from "@/components/NotificationListener";
 import SWRWrapper from "@/components/SWRWrapper";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
-const cairo = Cairo({
-  subsets: ["arabic", "latin"],
-  variable: "--font-cairo",
-});
 
 export const metadata: Metadata = {
-  title: "دوكريدر جايد",
-  description: "منظم لمصادر المذاكرة لطلبة الطب",
+  title: "DocReader Guide",
+  description: "Organizes studying material for medical students",
 };
 
 export default function RootLayout({
@@ -24,8 +20,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ar" dir="rtl">
-      <body className={`${inter.variable} ${cairo.variable} font-sans`}>
+    <html>
+      <body className={`${inter.variable} font-sans`}>
         <SWRWrapper>{children}</SWRWrapper>
         <NotificationListener />
         <Analytics />

@@ -16,10 +16,10 @@ export default function LoginPage() {
   const [hover, setHover] = useState(false);
 
   return (
-    <AuthCard hover={hover} title="تسجيل الدخول">
+    <AuthCard hover={hover} title="Log in">
       <form action={formAction} className="w-full">
         <Input
-          label="البريد الإلكتروني"
+          label="Email"
           icon="envelope"
           type="email"
           name="email"
@@ -28,7 +28,7 @@ export default function LoginPage() {
           className="mb-4"
         />
         <InputPassword
-          label="كلمة المرور"
+          label="Password"
           name="password"
           id="password"
           required
@@ -44,11 +44,12 @@ export default function LoginPage() {
           onMouseEnter={() => setHover(true)}
           onMouseLeave={() => setHover(false)}
         >
-          تسجيل الدخول
+          Log in
         </ButtonSubmit>
       </form>
       <p>
-        ليس لديك حساب؟ ← <Link href="/signup">إنشاء حساب جديد</Link>
+        Don't have an account? →{" "}
+        <Link href="/signup">Create a new account</Link>
       </p>
     </AuthCard>
   );
