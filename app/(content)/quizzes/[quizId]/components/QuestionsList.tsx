@@ -1,18 +1,23 @@
 "use client";
 
+import React, { useCallback, useEffect, useState } from "react";
+import { useHotkeys } from "react-hotkeys-hook";
+import { useReactToPrint } from "react-to-print";
+
 import Button from "@/components/Button";
 import ButtonIcon from "@/components/ButtonIcon";
 import Message from "@/components/Message";
 import { Question } from "@/types";
 import isValidURL from "@/utils/isValidURL";
-import React, { useCallback, useEffect, useState } from "react";
-import { useHotkeys } from "react-hotkeys-hook";
+import Logo from "@/components/Logo";
 
 export default function QuestionsList({
   quizId,
+  title,
   questions,
 }: {
   quizId: number;
+  title: string;
   questions: Question[];
 }) {
   const [currentQuestion, setCurrentQuestion] = useState(questions[0].id);
@@ -29,6 +34,18 @@ export default function QuestionsList({
     if (currentIndex !== questions.length - 1)
       setCurrentQuestion(() => questions[currentIndex + 1].id);
   }, [currentIndex, questions]);
+  const contentRef = React.useRef<HTMLDivElement>(null);
+  const reactToPrintFn = useReactToPrint({
+    contentRef,
+    documentTitle: title,
+    fonts: [
+      {
+        family: "Inter",
+        source:
+          "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap",
+      },
+    ],
+  });
 
   useHotkeys("left", backQuestion, [currentIndex, questions]);
   useHotkeys("right", nextQuestion, [currentIndex, questions]);
@@ -87,7 +104,7 @@ export default function QuestionsList({
     return (
       <>
         <div className="flex gap-2 mb-4">
-          <ButtonIcon icon="printer" onClick={() => window.print()} />
+          <ButtonIcon icon="printer" onClick={reactToPrintFn} />
           <ButtonIcon
             icon="arrow-path"
             onClick={() => {
@@ -97,13 +114,17 @@ export default function QuestionsList({
             }}
           />
         </div>
-        <div className="max-w-lg" id="print-section">
-          <h2 className="mb-4">
+        <div className="max-w-lg print" ref={contentRef}>
+          <div className="print-only">
+            <Logo />
+          </div>
+          <h1 className="my-4 print-only">{title}</h1>
+          <h2 className="my-4">
             Result → {correct} / {questions.length} (
             {Math.round((correct / questions.length) * 10000) / 100}%)
           </h2>
-          <h2 className="mb-4">Summary</h2>
-          <p className="mb-4">
+          <h2 className="my-4">Summary</h2>
+          <p className="my-4">
             <span className="text-green-600">* Correct</span>
             <br />
             <span className="text-red-600">* Incorrect</span>
@@ -143,6 +164,18 @@ export default function QuestionsList({
                       </li>
                     ))}
                   </ol>
+                  {question.explanation && (
+                    <p>
+                      <b>Explanation: </b>
+                      {isValidURL(question.explanation) ? (
+                        <a href={question.explanation} target="_blank">
+                          {question.explanation}
+                        </a>
+                      ) : (
+                        question.explanation
+                      )}
+                    </p>
+                  )}
                 </li>
               );
             })}

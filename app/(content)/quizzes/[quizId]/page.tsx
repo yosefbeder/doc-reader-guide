@@ -19,7 +19,11 @@ export default async function QuizPage({
         </main>
       ) : (
         <main className="main">
-          <QuestionsList quizId={+quizId} questions={quiz.questions} />
+          <QuestionsList
+            quizId={+quizId}
+            title={quiz.title}
+            questions={quiz.questions}
+          />
         </main>
       )}
     </>

@@ -5,6 +5,7 @@ import Path from "../components/Path";
 import getLecture, { getLectureLinksAndQuizzes } from "@/utils/getLecture";
 import Logo from "@/public/logo.png";
 import Message from "@/components/Message";
+import ButtonPrintQuiz from "../components/ButtonPrintQuiz";
 
 const icons = {
   Video: (
@@ -140,9 +141,9 @@ export default async function LinksPage({
               </Message>
             ) : null}
             {quizzes.map(({ id, title }) => (
-              <li key={id}>
+              <li key={id} className="flex gap-2 items-center">
                 <Link
-                  className="flex items-center gap-2 my-2 no-underline text-inherit hover:text-inherit"
+                  className="flex grow items-center gap-2 my-2 no-underline text-inherit hover:text-inherit"
                   href={`/quizzes/${id}`}
                 >
                   <span>{icons.Data}</span>
@@ -157,6 +158,7 @@ export default async function LinksPage({
                     </div>
                   </div>
                 </Link>
+                <ButtonPrintQuiz id={id} title={title} />
               </li>
             ))}
             {links

@@ -1,10 +1,9 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 
-import Logo from "@/public/logo.png";
 import NavUser from "./NavUser";
+import Logo from "./Logo";
 
 export default function Nav({
   title,
@@ -18,14 +17,8 @@ export default function Nav({
   return (
     <div className={border ? "border-b-2 border-slate-200" : ""}>
       <nav className="main flex items-center justify-between max-sm:flex-col max-sm:gap-4 text-slate-900">
-        <Link
-          href="/"
-          className="flex items-center gap-2 no-underline text-inherit hover:text-inherit"
-        >
-          <Image src={Logo} className="w-8" alt="Logo" />
-          <span className="text-xl font-extrabold text-cyan-700">
-            DocReader Guide
-          </span>
+        <Link href="/" className="no-underline text-inherit hover:text-inherit">
+          <Logo />
         </Link>
         <h1 className="max-md:hidden">{title}</h1>
         <NavUser updateable={updateable} />

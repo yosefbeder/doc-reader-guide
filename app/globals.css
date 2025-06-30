@@ -7,23 +7,18 @@
     @apply text-lg text-slate-700;
   }
 
+  .print-only {
+    @apply hidden;
+  }
+
   @media print {
-    /* Hide everything */
-    body * {
-      visibility: hidden;
+    .print-only {
+      @apply block;
     }
 
-    /* Show only the target section */
-    #print-section,
-    #print-section * {
-      visibility: visible;
-    }
-
-    /* Position the section at the top-left */
-    #print-section {
-      position: absolute;
-      left: 0;
-      top: 0;
+    .print {
+      font-family: "Inter", sans-serif;
+      @apply p-4;
     }
   }
 }
