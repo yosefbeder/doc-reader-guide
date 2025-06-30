@@ -114,7 +114,7 @@ export default function QuestionsList({
             }}
           />
         </div>
-        <div className="max-w-lg print" ref={contentRef}>
+        <div className="max-w-lg print-section" ref={contentRef}>
           <div className="print-only">
             <Logo />
           </div>

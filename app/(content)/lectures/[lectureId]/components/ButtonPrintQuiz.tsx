@@ -55,87 +55,85 @@ export default function ButtonPrintQuiz({
         disabled={isLoading}
       />
       {quiz && (
-        <div className="hidden">
-          <div ref={contentRef} className="print">
-            <Logo />
-            <h1 className="my-4">{title}</h1>
-            <h2 className="my-4">Questions</h2>
-            <ol>
-              {quiz.questions.map((question, questionIndex) => {
+        <div ref={contentRef} className="print-section print-only">
+          <Logo />
+          <h1 className="my-4">{title}</h1>
+          <h2 className="my-4">Questions</h2>
+          <ol>
+            {quiz.questions.map((question, questionIndex) => {
+              return (
+                <li key={question.id}>
+                  <span className="font-bold">
+                    {questionIndex + 1}. {question.text}
+                  </span>
+                  {question.image ? (
+                    <img
+                      src={question.image}
+                      alt="Question associated diagram"
+                    />
+                  ) : null}
+                  <ol className="list-[upper-alpha] list-inside">
+                    {question.options.map((option, optionIndex) => (
+                      <li key={optionIndex}>{option}</li>
+                    ))}
+                  </ol>
+                </li>
+              );
+            })}
+          </ol>
+          <h2 className="my-4">Answers</h2>
+          <table className="table-auto">
+            <tbody>
+              {Array.from({
+                length: Math.round(quiz.questions.length / 10),
+              }).map((_, index) => {
+                const start = index * 10;
+                const end = start + 10;
+                const questionsSlice = quiz.questions.slice(start, end);
                 return (
-                  <li key={question.id}>
-                    <span className="font-bold">
-                      {questionIndex + 1}. {question.text}
-                    </span>
-                    {question.image ? (
-                      <img
-                        src={question.image}
-                        alt="Question associated diagram"
-                      />
-                    ) : null}
-                    <ol className="list-[upper-alpha] list-inside">
-                      {question.options.map((option, optionIndex) => (
-                        <li key={optionIndex}>{option}</li>
-                      ))}
-                    </ol>
-                  </li>
+                  <tr key={index}>
+                    {questionsSlice.map((question, questionIndex) => {
+                      const realQuestionIndex = start + questionIndex;
+                      return (
+                        <>
+                          <td key={question.id} className="bg-slate-50">
+                            {realQuestionIndex + 1}{" "}
+                            {question.explanation ? "*" : ""}
+                          </td>
+                          <td key={question.id + "-answer"}>
+                            {String.fromCharCode(
+                              65 +
+                                quiz.questions[realQuestionIndex]
+                                  .correctOptionIndex
+                            )}
+                          </td>
+                        </>
+                      );
+                    })}
+                  </tr>
                 );
               })}
-            </ol>
-            <h2 className="my-4">Answers</h2>
-            <table className="table-auto">
-              <tbody>
-                {Array.from({
-                  length: Math.round(quiz.questions.length / 10),
-                }).map((_, index) => {
-                  const start = index * 10;
-                  const end = start + 10;
-                  const questionsSlice = quiz.questions.slice(start, end);
-                  return (
-                    <tr key={index}>
-                      {questionsSlice.map((question, questionIndex) => {
-                        const realQuestionIndex = start + questionIndex;
-                        return (
-                          <>
-                            <td key={question.id} className="bg-slate-50">
-                              {realQuestionIndex + 1}{" "}
-                              {question.explanation ? "*" : ""}
-                            </td>
-                            <td key={question.id + "-answer"}>
-                              {String.fromCharCode(
-                                65 +
-                                  quiz.questions[realQuestionIndex]
-                                    .correctOptionIndex
-                              )}
-                            </td>
-                          </>
-                        );
-                      })}
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-            {explanations && explanations.length > 0 && (
-              <>
-                <h2 className="my-4">Explanations</h2>
-                <ul>
-                  {explanations.map(({ index, explanation }) => (
-                    <li key={index}>
-                      {index + 1}.{" "}
-                      {isValidURL(explanation!) ? (
-                        <a href={explanation} target="_blank">
-                          {explanation}
-                        </a>
-                      ) : (
-                        explanation
-                      )}
-                    </li>
-                  ))}
-                </ul>
-              </>
-            )}
-          </div>
+            </tbody>
+          </table>
+          {explanations && explanations.length > 0 && (
+            <>
+              <h2 className="my-4">Explanations</h2>
+              <ul>
+                {explanations.map(({ index, explanation }) => (
+                  <li key={index}>
+                    {index + 1}.{" "}
+                    {isValidURL(explanation!) ? (
+                      <a href={explanation} target="_blank">
+                        {explanation}
+                      </a>
+                    ) : (
+                      explanation
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </>
+          )}
         </div>
       )}
     </>

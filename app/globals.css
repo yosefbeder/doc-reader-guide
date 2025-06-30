@@ -12,13 +12,31 @@
   }
 
   @media print {
+    /* Hide everything */
+    body * {
+      visibility: hidden;
+    }
+
+    /* Show only the target section */
+    .print-section,
+    .print-section * {
+      visibility: visible;
+    }
+
+    /* Position the section at the top-left */
+    .print-section {
+      position: absolute;
+      left: 0;
+      top: 0;
+      font-family: "Inter", sans-serif;
+    }
+
     .print-only {
       @apply block;
     }
 
-    .print {
-      font-family: "Inter", sans-serif;
-      @apply p-4;
+    @page {
+      margin: 1rem;
     }
   }
 }
