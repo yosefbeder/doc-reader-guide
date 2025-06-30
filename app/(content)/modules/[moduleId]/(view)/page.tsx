@@ -32,13 +32,16 @@ export default async function SubjectsPage({
           <Message type="warning">Not subjects have been added yet</Message>
         ) : (
           <ul className="card-container">
-            {subjects.map(({ id, name, icon }, index) => (
+            {subjects.map(({ id, name, icon, _count: { lectures } }, index) => (
               <li key={index}>
-                <Link href={`/subjects/${id}`} className="card">
+                <Link href={`/subjects/${id}`} className="card relative">
                   <span>
                     <Image src={icon} alt={name} width={48} height={48} />
                   </span>
                   <h2>{name}</h2>
+                  <div className="absolute left-0 top-0 p-2 rounded-tl-xl rounded-br-xl bg-cyan-600 text-white font-bold text-sm">
+                    {lectures}
+                  </div>
                 </Link>
               </li>
             ))}

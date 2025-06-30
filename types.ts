@@ -62,6 +62,9 @@ export interface Subject extends DatabaseTable {
   icon: string;
   moduleId: number;
   module: ModuleSimple;
+  _count: {
+    lectures: number;
+  };
 }
 
 interface SubjectSimple {
