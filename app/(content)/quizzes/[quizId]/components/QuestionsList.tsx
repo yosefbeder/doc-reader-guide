@@ -74,6 +74,12 @@ export default function QuestionsList({
       const quiz = JSON.parse(quizJSON);
       if (questions.find(({ id }) => id === quiz.currentQuestion))
         setCurrentQuestion(quiz.currentQuestion);
+      else
+        setCurrentQuestion(
+          quiz.currentIndex < questions.length
+            ? questions[quiz.currentIndex].id
+            : questions[questions.length - 1].id
+        );
       setShowingResults(quiz.showingResults);
       setAnswers(new Map(quiz.answers));
     }
@@ -86,6 +92,7 @@ export default function QuestionsList({
         `quiz-${quizId}-new`,
         JSON.stringify({
           currentQuestion,
+          currentIndex,
           answers: Array.from(answers),
           showingResults,
         })
