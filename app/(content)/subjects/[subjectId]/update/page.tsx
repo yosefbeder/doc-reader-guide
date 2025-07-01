@@ -3,6 +3,7 @@ import getSubject from "@/utils/getSubject";
 import getLectures from "@/utils/getLectures";
 import UpdateLectureForm from "./components/UpdateLectureForm";
 import AddLectureForm from "./components/AddLectureForm";
+import DeleteSpecial from "./components/DeleteSpecial";
 
 export default async function LecturesPage({
   params: { subjectId },
@@ -22,11 +23,20 @@ export default async function LecturesPage({
           <li>
             <AddLectureForm subjectId={+subjectId} />
           </li>
-          {lectures.map((lecture) => (
-            <li key={lecture.id}>
-              <UpdateLectureForm subjectId={+subjectId} lecture={lecture} />
+          {lectures.filter(({ type }) => type !== "Normal").length > 0 && (
+            <li>
+              <DeleteSpecial
+                lectures={lectures.filter(({ type }) => type !== "Normal")}
+              />
             </li>
-          ))}
+          )}
+          {lectures
+            .filter(({ type }) => type === "Normal")
+            .map((lecture) => (
+              <li key={lecture.id}>
+                <UpdateLectureForm subjectId={+subjectId} lecture={lecture} />
+              </li>
+            ))}
         </ul>
       </main>
     </>

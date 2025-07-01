@@ -8,10 +8,12 @@ import ButtonSubmit from "./ButtonSubmit";
 export default function ButtonDelete({
   confirmationText,
   formRef,
+  customLabel,
   ...props
 }: {
   confirmationText: string;
   formRef: RefObject<HTMLFormElement>;
+  customLabel?: string;
 } & ButtonProps) {
   return (
     <ButtonSubmit
@@ -29,7 +31,7 @@ export default function ButtonDelete({
       }}
       {...props}
     >
-      Delete
+      {customLabel || "Delete"}
     </ButtonSubmit>
   );
 }
