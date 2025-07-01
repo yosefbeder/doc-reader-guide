@@ -2,7 +2,7 @@ import React from "react";
 
 export interface ButtonProps extends React.ComponentProps<"button"> {
   fullWidth?: boolean;
-  color?: "cyan" | "yellow" | "rose";
+  color?: "cyan" | "yellow" | "rose" | "white";
   isLoading?: boolean;
 }
 
@@ -16,15 +16,16 @@ export default function Button({
   ...props
 }: ButtonProps) {
   const colorVariants = {
-    cyan: "text-white bg-cyan-600 hover:bg-cyan-700 active:bg-cyan-800",
+    cyan: "text-white bg-cyan-600 hover:bg-cyan-700 active:bg-cyan-800 border-cyan-600 hover:border-cyan-700 active:border-cyan-800",
+    white: "text-cyan-600 border-2 border-cyan-600 hover:bg-cyan-50",
     yellow:
-      "text-inherit bg-yellow-400 hover:bg-yellow-500 active:bg-yellow-600 disabled:text-white",
-    rose: "text-white bg-rose-600 hover:bg-rose-700 active:bg-rose-800",
+      "text-inherit bg-yellow-400 hover:bg-yellow-500 active:bg-yellow-600 border-yellow-400 hover:border-yellow-500 active:border-yellow-600 disabled:text-white",
+    rose: "text-white bg-rose-600 hover:bg-rose-700 active:bg-rose-800 border-rose-600 hover:border-rose-700 active:border-rose-800",
   };
 
   return (
     <button
-      className={`py-2 rounded-md transition-colors disabled:bg-slate-600 disabled:hover:bg-slate-700 disabled:cursor-not-allowed ${
+      className={`py-1 border-2 rounded-md transition-colors disabled:bg-slate-600 disabled:hover:bg-slate-700 disabled:border-slate-600 disabled:hover:border-slate-700 disabled:cursor-not-allowed ${
         colorVariants[color]
       } ${fullWidth ? "w-full" : "px-4"} ${className}`}
       disabled={isLoading || disabled}

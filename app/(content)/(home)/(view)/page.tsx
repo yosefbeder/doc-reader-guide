@@ -14,6 +14,7 @@ import disableNotifications from "@/utils/disableNotifications";
 import CardPlaceholder from "@/components/CardPlaceholder";
 import { useEffect, useMemo, useState } from "react";
 import { icons } from "@/components/icons";
+import { useLogout } from "@/lib/hooks";
 
 function CurrentTag({ semesterOpen }: { semesterOpen: boolean }) {
   return (
@@ -36,8 +37,7 @@ export default function ModulesPage() {
   const currentSemesters = JSON.parse(
     process.env.NEXT_PUBLIC_CURRENT_SEMESTERS!
   );
-  const router = useRouter();
-  const { mutate } = useSWRConfig();
+  const logout = useLogout();
   const { data: modules, error, isLoading } = useSWR("home", loadModules);
   const semesters = useMemo(
     () =>
@@ -54,16 +54,8 @@ export default function ModulesPage() {
     [semesters]
   );
 
-  if (error && error.status === 401) {
-    (async () => {
-      if (localStorage.getItem("notifications-status") === "allowed") {
-        await disableNotifications();
-      }
-      Cookies.remove("jwt");
-      await mutate(() => true, undefined, { revalidate: false });
-      router.replace("/login");
-    })();
-  }
+  if (error && error.status === 401) logout();
+
   if (isLoading || !modules)
     return (
       <main className="main flex flex-col gap-4">

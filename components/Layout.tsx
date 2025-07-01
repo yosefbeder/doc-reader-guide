@@ -1,5 +1,6 @@
 import Footer from "./Footer";
 import Nav from "./Nav";
+import NotificationsToast from "./NotificationsToast";
 
 export default function Layout({
   title,
@@ -15,6 +16,7 @@ export default function Layout({
   return (
     <>
       <Nav title={title} updateable={updateable} border={border} />
+      <NotificationsToast />
       {children}
       <Footer />
     </>

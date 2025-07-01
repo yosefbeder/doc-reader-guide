@@ -12,7 +12,7 @@ export default function SearchDialogue({
   return (
     <Dialogue
       header="Search for a lecture"
-      className="rounded-3xl"
+      className="rounded-3xl flex flex-col gap-2 max-[512px]:gap-4"
       onClose={onClose}
     >
       {children}

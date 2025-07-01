@@ -56,7 +56,6 @@ export default function Search({ yearId }: { yearId: number }) {
           <Searchbar
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="mb-2 max-[512px]:mb-4"
           />
           <p>{content}</p>
         </SearchDialogue>
