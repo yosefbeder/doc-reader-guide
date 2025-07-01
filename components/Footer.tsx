@@ -5,6 +5,7 @@ import AbdulrahmanAvatar from "@/public/abdulrahmansaber.jpeg";
 import OmarAvatar from "@/public/omarabdelaleem.jpeg";
 import MohammedAvatar from "@/public/mohammedalzayat.jpeg";
 import Tooltip from "./Tooltip";
+import { icons } from "./icons";
 
 const links = [
   {
@@ -141,7 +142,12 @@ export default function Footer() {
             }
           )}
         </div>
-        <div className="text-center">Sources are regularly updated</div>
+        <div className="text-center">
+          Sources are regularly updated ·{" "}
+          <a href="https://t.me/DocReader_Guide_app/93" target="_blank">
+            Donate
+          </a>
+        </div>
       </div>
     </footer>
   );
