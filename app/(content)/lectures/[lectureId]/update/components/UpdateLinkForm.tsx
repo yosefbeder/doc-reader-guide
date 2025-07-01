@@ -9,6 +9,7 @@ import Message from "@/components/Message";
 import ButtonSubmit from "@/components/ButtonSubmit";
 import { Link } from "@/types";
 import ButtonDelete from "@/components/ButtonDelete";
+import { useUpdateForm } from "@/lib/hooks";
 
 export default function UpdateLinkForm({
   link,
@@ -19,24 +20,20 @@ export default function UpdateLinkForm({
 }) {
   const [updateFormState, updateFormAction] = useFormState(updateLink, {});
   const updateFormId = `update-link-${link.id}`;
-  const [deleteFormState, deleteFormAction] = useFormState(deleteLink, {});
+  const [_, deleteFormAction] = useFormState(deleteLink, {});
   const formRef = useRef<HTMLFormElement>(null);
+  const { hideMessage, setHideMessage } = useUpdateForm(updateFormState);
 
   return (
-    <>
+    <div onClickCapture={() => setHideMessage(true)}>
       <LinkFields
         lectureId={lectureId}
         defaultValues={link}
         formId={updateFormId}
       />
-      {updateFormState.message && updateFormState.type && (
+      {updateFormState.message && updateFormState.type && !hideMessage && (
         <Message type={updateFormState.type} className="mb-4">
           {updateFormState.message}
-        </Message>
-      )}
-      {deleteFormState.message && deleteFormState.type && (
-        <Message type={deleteFormState.type} className="mb-4">
-          {deleteFormState.message}
         </Message>
       )}
       <div className="flex gap-2">
@@ -57,6 +54,6 @@ export default function UpdateLinkForm({
           />
         </form>
       </div>
-    </>
+    </div>
   );
 }

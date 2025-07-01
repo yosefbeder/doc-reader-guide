@@ -9,6 +9,7 @@ import { deleteLecture, updateLecture } from "@/lib/actions";
 import Message from "@/components/Message";
 import { useRef } from "react";
 import ButtonDelete from "@/components/ButtonDelete";
+import { useUpdateForm } from "@/lib/hooks";
 
 export default function UpdateLectureForm({
   subjectId,
@@ -19,24 +20,20 @@ export default function UpdateLectureForm({
 }) {
   const [updateFormState, updateFormAction] = useFormState(updateLecture, {});
   const updateFormId = `update-lecture-${lecture.id}`;
-  const [deleteFormState, deleteFormAction] = useFormState(deleteLecture, {});
+  const [_, deleteFormAction] = useFormState(deleteLecture, {});
   const formRef = useRef<HTMLFormElement>(null);
+  const { hideMessage, setHideMessage } = useUpdateForm(updateFormState);
 
   return (
-    <>
+    <div onClickCapture={() => setHideMessage(true)}>
       <LectureFields
         subjectId={subjectId}
         defaultValues={lecture}
         formId={updateFormId}
       />
-      {updateFormState.message && updateFormState.type && (
+      {updateFormState.message && updateFormState.type && !hideMessage && (
         <Message type={updateFormState.type} className="mb-4">
           {updateFormState.message}
-        </Message>
-      )}
-      {deleteFormState.message && deleteFormState.type && (
-        <Message type={deleteFormState.type} className="mb-4">
-          {deleteFormState.message}
         </Message>
       )}
       <div className="flex gap-2">
@@ -57,6 +54,6 @@ export default function UpdateLectureForm({
           />
         </form>
       </div>
-    </>
+    </div>
   );
 }

@@ -148,7 +148,11 @@ export async function addModule(
     revalidatePath("/update", "page");
   }
 
-  return { type: res.ok ? "success" : "fail", message: json.message };
+  return {
+    type: res.ok ? "success" : "fail",
+    message: json.message,
+    resetKey: Date.now(),
+  };
 }
 
 export async function updateModule(
@@ -182,7 +186,11 @@ export async function updateModule(
     revalidatePath("/update", "page");
   }
 
-  return { type: res.ok ? "success" : "fail", message: json.message };
+  return {
+    type: res.ok ? "success" : "fail",
+    message: json.message,
+    resetKey: Date.now(),
+  };
 }
 
 export async function deleteModule(
@@ -241,7 +249,11 @@ export async function addSubject(
     revalidatePath(`/modules/${moduleId}/update`);
   }
 
-  return { type: res.ok ? "success" : "fail", message: json.message };
+  return {
+    type: res.ok ? "success" : "fail",
+    message: json.message,
+    resetKey: Date.now(),
+  };
 }
 
 export async function updateSubject(
@@ -276,7 +288,11 @@ export async function updateSubject(
     revalidatePath(`/modules/${moduleId}/update`);
   }
 
-  return { type: res.ok ? "success" : "fail", message: json.message };
+  return {
+    type: res.ok ? "success" : "fail",
+    message: json.message,
+    resetKey: Date.now(),
+  };
 }
 
 export async function deleteSubject(
@@ -336,7 +352,11 @@ export async function addLecture(
     revalidatePath(`/subjects/${subjectId}/update`);
   }
 
-  return { type: res.ok ? "success" : "fail", message: json.message };
+  return {
+    type: res.ok ? "success" : "fail",
+    message: json.message,
+    resetKey: Date.now(),
+  };
 }
 
 export async function updateLecture(
@@ -371,7 +391,11 @@ export async function updateLecture(
     revalidatePath(`/subjects/${subjectId}/update`);
   }
 
-  return { type: res.ok ? "success" : "fail", message: json.message };
+  return {
+    type: res.ok ? "success" : "fail",
+    message: json.message,
+    resetKey: Date.now(),
+  };
 }
 
 export async function deleteLecture(
@@ -433,7 +457,11 @@ export async function addLink(
     revalidatePath(`/lectures/${lectureId}/update`);
   }
 
-  return { type: res.ok ? "success" : "fail", message: json.message };
+  return {
+    type: res.ok ? "success" : "fail",
+    message: json.message,
+    resetKey: Date.now(),
+  };
 }
 
 export async function updateLink(
@@ -470,7 +498,11 @@ export async function updateLink(
     revalidatePath(`/lectures/${lectureId}/update`);
   }
 
-  return { type: res.ok ? "success" : "fail", message: json.message };
+  return {
+    type: res.ok ? "success" : "fail",
+    message: json.message,
+    resetKey: Date.now(),
+  };
 }
 
 export async function deleteLink(
@@ -516,6 +548,7 @@ export async function addQuiz(
       return {
         type: "fail",
         message: "Quick add failed 😭, please try a different AI model",
+        resetKey: Date.now(),
       };
     }
   }
@@ -560,8 +593,14 @@ export async function addQuiz(
     return {
       type: res1.ok && res2.ok ? "success" : "fail",
       message: `${json1.message}\n ${json2.data.count} question(s) added`,
+      resetKey: Date.now(),
     };
-  else return { type: res1.ok ? "success" : "fail", message: json1.message };
+  else
+    return {
+      type: res1.ok ? "success" : "fail",
+      message: json1.message,
+      resetKey: Date.now(),
+    };
 }
 
 export async function updateQuiz(
@@ -595,7 +634,11 @@ export async function updateQuiz(
     revalidatePath(`/quizzes/${quizId}/update`);
   }
 
-  return { type: res.ok ? "success" : "fail", message: json.message };
+  return {
+    type: res.ok ? "success" : "fail",
+    message: json.message,
+    resetKey: Date.now(),
+  };
 }
 
 export async function deleteQuiz(
@@ -712,7 +755,11 @@ export async function updateQuestion(
     revalidatePath(`/quizzes/${quizId}/update`);
   }
 
-  return { type: res.ok ? "success" : "fail", message: json.message };
+  return {
+    type: res.ok ? "success" : "fail",
+    message: json.message,
+    resetKey: Date.now(),
+  };
 }
 
 export async function deleteQuestion(

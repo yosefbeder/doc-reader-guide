@@ -9,6 +9,7 @@ import { deleteModule, updateModule } from "@/lib/actions";
 import Message from "@/components/Message";
 import ButtonDelete from "@/components/ButtonDelete";
 import ButtonSubmit from "@/components/ButtonSubmit";
+import { useUpdateForm } from "@/lib/hooks";
 
 export default function UpdateModuleForm({
   myModule: { id, icon, name, semesterName, yearId },
@@ -17,24 +18,20 @@ export default function UpdateModuleForm({
 }) {
   const [updateFormState, updateFormAction] = useFormState(updateModule, {});
   const updateFormId = `update-module-${id}`;
-  const [deleteFormState, deleteFormAction] = useFormState(deleteModule, {});
+  const [_, deleteFormAction] = useFormState(deleteModule, {});
   const deleteFormRef = useRef(null);
+  const { hideMessage, setHideMessage } = useUpdateForm(updateFormState);
 
   return (
-    <div>
+    <div onClickCapture={() => setHideMessage(true)}>
       <ModuleFields
         yearId={yearId}
         defaultValues={{ id, icon, name, semesterName }}
         formId={updateFormId}
       />
-      {updateFormState.message && updateFormState.type && (
+      {updateFormState.message && updateFormState.type && !hideMessage && (
         <Message type={updateFormState.type} className="mb-4">
           {updateFormState.message}
-        </Message>
-      )}
-      {deleteFormState.message && deleteFormState.type && (
-        <Message type={deleteFormState.type} className="mb-4">
-          {deleteFormState.message}
         </Message>
       )}
       <div className="flex gap-2">

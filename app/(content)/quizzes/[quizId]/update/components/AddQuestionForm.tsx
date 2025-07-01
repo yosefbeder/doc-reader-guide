@@ -7,23 +7,20 @@ import ButtonSubmit from "@/components/ButtonSubmit";
 import QuestionFields from "./QuestionFields";
 import { addQuestion } from "@/lib/actions";
 import Message from "@/components/Message";
+import { useAddForm } from "@/lib/hooks";
 
 export default function AddQuestionForm({ quizId }: { quizId: number }) {
   const [formState, formAction] = useFormState(addQuestion, {});
-  const [forms, setForms] = useState([null]);
-
-  useEffect(() => {
-    if (formState.resetKey) setForms((prev) => [...prev, null]);
-  }, [formState.resetKey]);
+  const { hideMessage, setHideMessage, formKey } = useAddForm(formState);
 
   return (
-    <form action={formAction} className="max-w-lg mb-4">
-      {forms.map((_, index) =>
-        index === forms.length - 1 ? (
-          <QuestionFields key={index} quizId={quizId} />
-        ) : undefined
-      )}
-      {formState.message && formState.type && (
+    <form
+      action={formAction}
+      className="max-w-lg mb-4"
+      onClickCapture={() => setHideMessage(true)}
+    >
+      <QuestionFields key={formKey} quizId={quizId} />
+      {formState.message && formState.type && !hideMessage && (
         <Message type={formState.type} className="mb-4">
           {formState.message}
         </Message>

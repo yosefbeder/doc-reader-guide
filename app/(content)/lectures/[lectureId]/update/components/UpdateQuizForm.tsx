@@ -9,6 +9,7 @@ import Message from "@/components/Message";
 import ButtonSubmit from "@/components/ButtonSubmit";
 import { Quiz } from "@/types";
 import ButtonDelete from "@/components/ButtonDelete";
+import { useUpdateForm } from "@/lib/hooks";
 
 export default function UpdateQuizForm({
   quiz,
@@ -19,24 +20,20 @@ export default function UpdateQuizForm({
 }) {
   const [updateFormState, updateFormAction] = useFormState(updateQuiz, {});
   const updateFormId = `update-quiz-${quiz.id}`;
-  const [deleteFormState, deleteFormAction] = useFormState(deleteQuiz, {});
+  const [_, deleteFormAction] = useFormState(deleteQuiz, {});
   const formRef = useRef<HTMLFormElement>(null);
+  const { hideMessage, setHideMessage } = useUpdateForm(updateFormState);
 
   return (
-    <>
+    <div onClickCapture={() => setHideMessage(true)}>
       <QuizFields
         lectureId={lectureId}
         defaultValues={quiz}
         formId={updateFormId}
       />
-      {updateFormState.message && updateFormState.type && (
+      {updateFormState.message && updateFormState.type && !hideMessage && (
         <Message type={updateFormState.type} className="mb-4">
           {updateFormState.message}
-        </Message>
-      )}
-      {deleteFormState.message && deleteFormState.type && (
-        <Message type={deleteFormState.type} className="mb-4">
-          {deleteFormState.message}
         </Message>
       )}
       <div className="flex gap-2">
@@ -57,6 +54,6 @@ export default function UpdateQuizForm({
           />
         </form>
       </div>
-    </>
+    </div>
   );
 }

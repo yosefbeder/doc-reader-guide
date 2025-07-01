@@ -9,32 +9,29 @@ import { Subject } from "@/types";
 import { deleteSubject, updateSubject } from "@/lib/actions";
 import Message from "@/components/Message";
 import ButtonDelete from "@/components/ButtonDelete";
+import { useUpdateForm } from "@/lib/hooks";
 
 export default function UpdateSubjectForm({
   subject: { id, icon, name, moduleId },
 }: {
   subject: Subject;
 }) {
-  const [updateFormsState, updateFormAction] = useFormState(updateSubject, {});
+  const [updateFormState, updateFormAction] = useFormState(updateSubject, {});
   const updateFormId = `update-subject-${id}`;
-  const [deleteFormState, deleteFormAction] = useFormState(deleteSubject, {});
+  const [_, deleteFormAction] = useFormState(deleteSubject, {});
   const formRef = useRef(null);
+  const { hideMessage, setHideMessage } = useUpdateForm(updateFormState);
 
   return (
-    <>
+    <div onClickCapture={() => setHideMessage(true)}>
       <SubjectFields
         moduleId={moduleId}
         defaultValues={{ id, icon, name, moduleId }}
         formId={updateFormId}
       />
-      {updateFormsState.message && updateFormsState.type && (
-        <Message type={updateFormsState.type} className="mb-4">
-          {updateFormsState.message}
-        </Message>
-      )}
-      {deleteFormState.message && deleteFormState.type && (
-        <Message type={deleteFormState.type} className="mb-4">
-          {deleteFormState.message}
+      {updateFormState.message && updateFormState.type && !hideMessage && (
+        <Message type={updateFormState.type} className="mb-4">
+          {updateFormState.message}
         </Message>
       )}
       <div className="flex gap-2">
@@ -52,6 +49,6 @@ export default function UpdateSubjectForm({
           <ButtonDelete confirmationText={id.toString()} formRef={formRef} />
         </form>
       </div>
-    </>
+    </div>
   );
 }
