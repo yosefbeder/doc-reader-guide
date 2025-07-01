@@ -34,13 +34,16 @@ export default async function SubjectsPage({
           <ul className="card-container">
             {subjects.map(({ id, name, icon, _count: { lectures } }, index) => (
               <li key={index}>
-                <Link href={`/subjects/${id}`} className="card relative">
+                <Link href={`/subjects/${id}`} className="card relative group">
                   <span>
                     <Image src={icon} alt={name} width={48} height={48} />
                   </span>
                   <h2>{name}</h2>
-                  <div className="absolute left-0 top-0 p-2 rounded-tl-xl rounded-br-xl bg-cyan-600 text-white font-bold text-sm">
-                    {lectures}
+                  <div className="flex gap-2 items-center absolute left-0 top-0 p-2 rounded-tl-xl rounded-br-xl bg-cyan-600 text-white font-bold text-sm">
+                    {lectures}{" "}
+                    <span className="hidden group-hover:inline">
+                      LECTURE{lectures > 1 && "S"}
+                    </span>
                   </div>
                 </Link>
               </li>

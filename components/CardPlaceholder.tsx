@@ -27,5 +27,5 @@ export default function CardPlaceholder({
 }: {
   type: "module" | "subject" | "lecture";
 }) {
-  return <div className="card animate-pulse">{cardContent[type]}</div>;
+  return <div className="card bg-white animate-pulse">{cardContent[type]}</div>;
 }
