@@ -9,7 +9,7 @@ import { Subject } from "@/types";
 import { deleteSubject, updateSubject } from "@/lib/actions";
 import Message from "@/components/Message";
 import ButtonDelete from "@/components/ButtonDelete";
-import { useUpdateForm } from "@/lib/hooks";
+import { useUpdateDeleteForms } from "@/lib/hooks";
 
 export default function UpdateSubjectForm({
   subject: { id, icon, name, moduleId },
@@ -18,9 +18,12 @@ export default function UpdateSubjectForm({
 }) {
   const [updateFormState, updateFormAction] = useFormState(updateSubject, {});
   const updateFormId = `update-subject-${id}`;
-  const [_, deleteFormAction] = useFormState(deleteSubject, {});
+  const [deleteFormState, deleteFormAction] = useFormState(deleteSubject, {});
   const formRef = useRef(null);
-  const { hideMessage, setHideMessage } = useUpdateForm(updateFormState);
+  const { hideMessage, setHideMessage } = useUpdateDeleteForms(
+    updateFormState,
+    deleteFormState
+  );
 
   return (
     <div onClickCapture={() => setHideMessage(true)}>
@@ -32,6 +35,11 @@ export default function UpdateSubjectForm({
       {updateFormState.message && updateFormState.type && !hideMessage && (
         <Message type={updateFormState.type} className="mb-4">
           {updateFormState.message}
+        </Message>
+      )}
+      {deleteFormState.message && deleteFormState.type && !hideMessage && (
+        <Message type={deleteFormState.type} className="mb-4">
+          {deleteFormState.message}
         </Message>
       )}
       <div className="flex gap-2">

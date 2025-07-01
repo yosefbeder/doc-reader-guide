@@ -211,7 +211,8 @@ export async function deleteModule(
 
   const json = await res.json();
 
-  if (!res.ok) return { type: "fail", message: json.message };
+  if (!res.ok)
+    return { type: "fail", message: json.message, resetKey: Date.now() };
 
   revalidatePath(`/modules/${json.data.id}`);
   revalidatePath("/", "page");
@@ -313,7 +314,8 @@ export async function deleteSubject(
 
   const json = await res.json();
 
-  if (!res.ok) return { type: "fail", message: json.message };
+  if (!res.ok)
+    return { type: "fail", message: json.message, resetKey: Date.now() };
 
   revalidatePath(`/modules/${json.data.moduleId}`);
   revalidatePath(`/modules/${json.data.moduleId}/update`);
@@ -416,7 +418,8 @@ export async function deleteLecture(
 
   const json = await res.json();
 
-  if (!res.ok) return { type: "fail", message: json.message };
+  if (!res.ok)
+    return { type: "fail", message: json.message, resetKey: Date.now() };
 
   revalidatePath(`/subjects/${json.data.subjectId}`);
   revalidatePath(`/subjects/${json.data.subjectId}/update`);
@@ -523,7 +526,8 @@ export async function deleteLink(
 
   const json = await res.json();
 
-  if (!res.ok) return { type: "fail", message: json.message };
+  if (!res.ok)
+    return { type: "fail", message: json.message, resetKey: Date.now() };
 
   revalidatePath(`/lectures/${json.data.lectureId}`);
   revalidatePath(`/lectures/${json.data.lectureId}/update`);
@@ -659,7 +663,8 @@ export async function deleteQuiz(
 
   const json = await res.json();
 
-  if (!res.ok) return { type: "fail", message: json.message };
+  if (!res.ok)
+    return { type: "fail", message: json.message, resetKey: Date.now() };
 
   revalidatePath(`/lectures/${json.data.lectureId}`);
   revalidatePath(`/lectures/${json.data.lectureId}/update`);
@@ -780,7 +785,8 @@ export async function deleteQuestion(
 
   const json = await res.json();
 
-  if (!res.ok) return { type: "fail", message: json.message };
+  if (!res.ok)
+    return { type: "fail", message: json.message, resetKey: Date.now() };
 
   revalidatePath(`/quizzes/${json.data.quizId}`);
   revalidatePath(`/quizzes/${json.data.quizId}/update`);

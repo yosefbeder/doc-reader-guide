@@ -6,12 +6,13 @@ import { useFormState } from "react-dom";
 import { Lecture } from "@/types";
 import ButtonDelete from "@/components/ButtonDelete";
 import { deleteLecture } from "@/lib/actions";
+import Message from "@/components/Message";
 
 export default function DeleteSpecial({ lectures }: { lectures: Lecture[] }) {
   const pdfr = useRef<HTMLFormElement>(null);
   const frdfr = useRef<HTMLFormElement>(null);
-  const [_p, pdfa] = useFormState(deleteLecture, {});
-  const [_fr, frdfa] = useFormState(deleteLecture, {});
+  const [pdfs, pdfa] = useFormState(deleteLecture, {});
+  const [frdfs, frdfa] = useFormState(deleteLecture, {});
 
   return (
     <>
@@ -30,6 +31,11 @@ export default function DeleteSpecial({ lectures }: { lectures: Lecture[] }) {
                       className="hidden"
                       defaultValue={lecture.id}
                     />
+                    {pdfs.message && pdfs.type && (
+                      <Message type={pdfs.type} className="mb-4">
+                        {pdfs.message}
+                      </Message>
+                    )}
                     <ButtonDelete
                       customLabel="Delete practical"
                       formRef={pdfr}
@@ -47,6 +53,11 @@ export default function DeleteSpecial({ lectures }: { lectures: Lecture[] }) {
                       className="hidden"
                       defaultValue={lecture.id}
                     />
+                    {frdfs.message && frdfs.type && (
+                      <Message type={frdfs.type} className="mb-4">
+                        {frdfs.message}
+                      </Message>
+                    )}
                     <ButtonDelete
                       customLabel="Delete final revision"
                       formRef={frdfr}

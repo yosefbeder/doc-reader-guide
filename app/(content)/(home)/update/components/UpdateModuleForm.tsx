@@ -9,7 +9,7 @@ import { deleteModule, updateModule } from "@/lib/actions";
 import Message from "@/components/Message";
 import ButtonDelete from "@/components/ButtonDelete";
 import ButtonSubmit from "@/components/ButtonSubmit";
-import { useUpdateForm } from "@/lib/hooks";
+import { useUpdateDeleteForms } from "@/lib/hooks";
 
 export default function UpdateModuleForm({
   myModule: { id, icon, name, semesterName, yearId },
@@ -18,9 +18,12 @@ export default function UpdateModuleForm({
 }) {
   const [updateFormState, updateFormAction] = useFormState(updateModule, {});
   const updateFormId = `update-module-${id}`;
-  const [_, deleteFormAction] = useFormState(deleteModule, {});
+  const [deleteFormState, deleteFormAction] = useFormState(deleteModule, {});
   const deleteFormRef = useRef(null);
-  const { hideMessage, setHideMessage } = useUpdateForm(updateFormState);
+  const { hideMessage, setHideMessage } = useUpdateDeleteForms(
+    updateFormState,
+    deleteFormState
+  );
 
   return (
     <div onClickCapture={() => setHideMessage(true)}>
@@ -32,6 +35,11 @@ export default function UpdateModuleForm({
       {updateFormState.message && updateFormState.type && !hideMessage && (
         <Message type={updateFormState.type} className="mb-4">
           {updateFormState.message}
+        </Message>
+      )}
+      {deleteFormState.message && deleteFormState.type && !hideMessage && (
+        <Message type={deleteFormState.type} className="mb-4">
+          {deleteFormState.message}
         </Message>
       )}
       <div className="flex gap-2">

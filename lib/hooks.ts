@@ -14,10 +14,16 @@ export function useAddForm(formState: FormState) {
   return { hideMessage, setHideMessage, formKey };
 }
 
-export function useUpdateForm(formState: FormState) {
+export function useUpdateDeleteForms(
+  updateFormState: FormState,
+  deleteFormState: FormState
+) {
   const [hideMessage, setHideMessage] = useState(false);
 
-  useEffect(() => setHideMessage(false), [formState.resetKey]);
+  useEffect(
+    () => setHideMessage(false),
+    [updateFormState.resetKey, deleteFormState.resetKey]
+  );
 
   return { hideMessage, setHideMessage };
 }
