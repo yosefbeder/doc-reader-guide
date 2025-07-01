@@ -1,6 +1,9 @@
+"use client";
+
 import Input from "@/components/Input";
 import Select from "@/components/Select";
 import { Link } from "@/types";
+import { useEffect, useState } from "react";
 
 export default function LinkFields({
   lectureId,
@@ -11,6 +14,24 @@ export default function LinkFields({
   defaultValues?: Link;
   formId?: string;
 }) {
+  const [title, setTitle] = useState(defaultValues?.title || "");
+  const [category, setCategory] = useState(
+    defaultValues?.category || "College"
+  );
+
+  useEffect(() => {
+    const externalKeyword =
+      /الشريف|محمد فايز|ناجي|الحسيني|سامح غازي|أحمد عصام|عصام|إيمان نبيل|محمد عادل|محمد الشريف|خنفور|عبد المتعال|عبدالمتعال|محمود علاء|نهى|وجيه|القط|النمر|زهرة|زهره|شرين/gi;
+    const summaryKeyword =
+      /summary|notes|vip|important|imp|transcription|ملخص|تفريغ/gi;
+    const questionKeyword =
+      /quiz|mcq|written|department book|exam|bank|كويز|(أ|ا)سئل(ة|ه)|(إ|ا)متحان|كتاب القسم|بنك|مقالي|اختبار|اختياري/gi;
+    if (title.match(externalKeyword)) setCategory("Data");
+    else if (title.match(summaryKeyword)) setCategory("Summary");
+    else if (title.match(questionKeyword)) setCategory("Questions");
+    else setCategory("College");
+  }, [title]);
+
   return (
     <>
       {defaultValues && (
@@ -30,7 +51,8 @@ export default function LinkFields({
         name="title"
         id={`link-${defaultValues?.id || "new"}-title`}
         required
-        defaultValue={defaultValues?.title}
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
         className="mb-4"
         form={formId}
       />
@@ -83,7 +105,8 @@ export default function LinkFields({
           { label: "Questions", value: "Questions" },
         ]}
         required
-        defaultValue={defaultValues?.category}
+        value={category}
+        onChange={(e) => setCategory(e.target.value as any)}
         className="mb-4"
         form={formId}
       />
