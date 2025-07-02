@@ -29,7 +29,10 @@ export default function UpdateQuestionForm({
   );
 
   return (
-    <div onClickCapture={() => setHideMessage(true)}>
+    <div
+      className="superficial p-2 rounded-xl bg-white"
+      onClickCapture={() => setHideMessage(true)}
+    >
       <QuestionFields
         quizId={quizId}
         defaultValues={question}

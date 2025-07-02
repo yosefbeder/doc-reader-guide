@@ -6,7 +6,6 @@ import React from "react";
 export default function ButtonCopy({ text }: { text: string }) {
   return (
     <ButtonIcon
-      className="mb-4"
       icon="clipboard-document-list"
       onClick={() => {
         if (navigator)

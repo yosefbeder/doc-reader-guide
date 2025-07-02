@@ -66,17 +66,17 @@ export default function QuestionsList({
             const questionOpen =
               questionsOpen || question.id === currentQuestion;
             return (
-              <>
+              <div className="overflow-hidden rounded-xl bg-slate-50">
                 <button
                   onClick={() =>
                     setCurrentQuestion((prev) =>
                       question.id === prev ? undefined : question.id
                     )
                   }
-                  className={`w-full text-left flex items-center gap-2 p-2 rounded-xl ${
-                    currentQuestion === question.id
-                      ? "bg-cyan-600 hover:bg-cyan-700 text-white mb-2"
-                      : "bg-cyan-50 hover:bg-cyan-100"
+                  className={`w-full text-left flex items-center gap-2 p-2 rounded-b-xl ${
+                    questionOpen
+                      ? "bg-cyan-600 hover:bg-cyan-700 text-white"
+                      : "hover:bg-slate-100"
                   } transition-colors`}
                 >
                   {questionOpen
@@ -85,9 +85,11 @@ export default function QuestionsList({
                   Question {index + 1}
                 </button>
                 {questionOpen && (
-                  <UpdateQuestionForm quizId={+quizId} question={question} />
+                  <div className="p-2">
+                    <UpdateQuestionForm quizId={+quizId} question={question} />
+                  </div>
                 )}
-              </>
+              </div>
             );
           })()}
         </div>
