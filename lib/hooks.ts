@@ -1,8 +1,8 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 
-import { FormState } from "@/types";
+import { FormState, Link, Quiz } from "@/types";
 import disableNotifications from "@/utils/disableNotifications";
 import allowNotifications from "@/utils/allowNotifications";
 import { useSWRConfig } from "swr";
@@ -93,4 +93,22 @@ export function useLogout() {
       console.error(err);
     }
   };
+}
+
+export function useCategories(links: Link[], quizzes: Quiz[]) {
+  const categories = useMemo(() => {
+    const temp = [];
+    if (links.find((link) => link.category === "Data")) temp.push("Data");
+    if (links.find((link) => link.category === "College")) temp.push("College");
+    if (links.find((link) => link.category === "Summary")) temp.push("Summary");
+    if (
+      quizzes.length > 0 ||
+      links.find((link) => link.category === "Questions")
+    )
+      temp.push("Questions");
+    return temp;
+  }, [links, quizzes]);
+  const [currentCategory, setCurrentCategory] = useState<number>();
+
+  return { categories, currentCategory, setCurrentCategory };
 }

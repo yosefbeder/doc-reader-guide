@@ -1,18 +1,22 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 
 import Message from "@/components/Message";
 import { Link as LinkType, Quiz as QuizType } from "@/types";
-import Link from "./Link";
+import Link from "../../components/Link";
 import { icons } from "@/components/icons";
-import Quiz from "./Quiz";
+import Quiz from "../../components/Quiz";
 import { useCategories } from "@/lib/hooks";
+import UpdateQuizForm from "./UpdateQuizForm";
+import UpdateLinkForm from "./UpdateLinkForm";
 
 export default function LinksList({
+  lectureId,
   links,
   quizzes,
 }: {
+  lectureId: number;
   links: LinkType[];
   quizzes: QuizType[];
 }) {
@@ -20,6 +24,10 @@ export default function LinksList({
     links,
     quizzes
   );
+  const [current, setCurrent] = useState<{
+    type: "link" | "quiz";
+    id: number;
+  }>();
 
   if (categories.length === 0)
     return (
@@ -58,12 +66,36 @@ export default function LinksList({
                 {category === "Questions" &&
                   quizzes.map((quiz) => (
                     <li key={quiz.id}>
-                      <Quiz quiz={quiz} printable />
+                      {current &&
+                      current.type === "quiz" &&
+                      current.id === quiz.id ? (
+                        <UpdateQuizForm quiz={quiz} lectureId={lectureId} />
+                      ) : (
+                        <Quiz
+                          quiz={quiz}
+                          updateable
+                          onUpdate={() =>
+                            setCurrent({ type: "quiz", id: quiz.id })
+                          }
+                        />
+                      )}
                     </li>
                   ))}
                 {categoryLinks.map((link) => (
                   <li key={link.id}>
-                    <Link link={link} />
+                    {current &&
+                    current.type === "link" &&
+                    current.id === link.id ? (
+                      <UpdateLinkForm link={link} lectureId={lectureId} />
+                    ) : (
+                      <Link
+                        link={link}
+                        updateable
+                        onUpdate={() =>
+                          setCurrent({ type: "link", id: link.id })
+                        }
+                      />
+                    )}
                   </li>
                 ))}
               </ul>
