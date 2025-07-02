@@ -61,12 +61,15 @@ export default function ButtonPrintQuiz({
           <h2 className="my-4">Questions</h2>
           <ol>
             {quiz.questions.map((question, questionIndex) => {
+              let skipImage = false;
+              if (quiz.questions[questionIndex - 1]?.image === question?.image)
+                skipImage = true;
               return (
                 <li key={question.id}>
                   <span className="font-bold">
                     {questionIndex + 1}. {question.text}
                   </span>
-                  {question.image ? (
+                  {question.image && !skipImage ? (
                     <img
                       src={question.image}
                       alt="Question associated diagram"
@@ -85,10 +88,10 @@ export default function ButtonPrintQuiz({
           <table className="table-auto">
             <tbody>
               {Array.from({
-                length: Math.ceil(quiz.questions.length / 10),
+                length: Math.ceil(quiz.questions.length / 8),
               }).map((_, index) => {
-                const start = index * 10;
-                const end = start + 10;
+                const start = index * 8;
+                const end = start + 8;
                 const questionsSlice = quiz.questions.slice(start, end);
                 return (
                   <tr key={index}>
