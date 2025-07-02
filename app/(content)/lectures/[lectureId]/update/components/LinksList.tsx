@@ -73,6 +73,7 @@ export default function LinksList({
                       ) : (
                         <Quiz
                           quiz={quiz}
+                          printable
                           updateable
                           onUpdate={() =>
                             setCurrent({ type: "quiz", id: quiz.id })
