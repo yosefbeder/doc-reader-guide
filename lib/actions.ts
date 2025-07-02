@@ -482,6 +482,8 @@ export async function updateLink(
     lectureId,
   };
 
+  console.log("Updating link...");
+
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/links/${linkId}/update`,
     {

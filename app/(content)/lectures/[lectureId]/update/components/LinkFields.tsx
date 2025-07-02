@@ -20,6 +20,7 @@ export default function LinkFields({
   );
 
   useEffect(() => {
+    if (defaultValues) return;
     const externalKeyword =
       /الشريف|محمد فايز|ناجي|الحسيني|سامح غازي|أحمد عصام|عصام|إيمان نبيل|محمد عادل|محمد الشريف|خنفور|عبد المتعال|عبدالمتعال|محمود علاء|نهى|وجيه|القط|النمر|زهرة|زهره|شرين/gi;
     const summaryKeyword =
