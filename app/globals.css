@@ -105,7 +105,19 @@
 
 @layer utilities {
   .card {
-    @apply flex flex-col items-center p-4 gap-4 no-underline shadow-md hover:shadow-lg rounded-xl text-center text-inherit hover:text-inherit transition-shadow;
+    @apply flex flex-col items-center p-4 gap-4 rounded-xl text-center reset-link superficial;
+  }
+
+  .link-card {
+    @apply flex items-center p-2 gap-2 rounded-xl bg-white reset-link superficial;
+  }
+
+  .reset-link {
+    @apply no-underline text-inherit hover:text-inherit;
+  }
+
+  .superficial {
+    @apply shadow-md hover:shadow-lg transition-shadow;
   }
 
   .main {

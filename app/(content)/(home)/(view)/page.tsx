@@ -3,14 +3,12 @@
 import Image from "next/image";
 import Link from "next/link";
 import Cookies from "js-cookie";
-import useSWR, { useSWRConfig } from "swr";
-import { useRouter } from "next/navigation";
+import useSWR from "swr";
 
 import getPrefix from "@/utils/getPrefix";
 import getModules from "@/utils/getModules";
 import getUser from "@/utils/getUser";
 import Message from "@/components/Message";
-import disableNotifications from "@/utils/disableNotifications";
 import CardPlaceholder from "@/components/CardPlaceholder";
 import { useEffect, useMemo, useState } from "react";
 import { icons } from "@/components/icons";
@@ -117,7 +115,7 @@ export default function ModulesPage() {
                 <CurrentTag semesterOpen={semesterOpen} />
               )}
             </button>
-            {selectedSemester === semesterName && (
+            {semesterOpen && (
               <ul className="card-container p-4">
                 {modules
                   .filter((myModule) => myModule.semesterName === semesterName)

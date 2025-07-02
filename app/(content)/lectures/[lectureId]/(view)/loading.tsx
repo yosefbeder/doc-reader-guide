@@ -1,38 +1,19 @@
 import EmptyPath from "@/components/EmptyPath";
-
-export function LinkPlaceholder() {
-  return (
-    <div className="flex gap-2 my-2 animate-pulse">
-      <div className="size-7 rounded-full bg-slate-200"></div>
-      <div className="h-7 w-32 rounded bg-slate-200"></div>
-    </div>
-  );
-}
+import { icons } from "@/components/icons";
 
 export default function LinksLoadingPage() {
   return (
     <>
       <EmptyPath />
-      <main className="main">
+      <main className="main flex flex-col gap-4">
         {[[], [], [], []].map((_, index) => (
-          <details key={index} className="mb-4" open>
-            <summary>
-              <h2>
-                {["External", "College", "Summaries", "Questions"][index]}
-              </h2>
-            </summary>
-            <ul>
-              <li>
-                <LinkPlaceholder />
-              </li>
-              <li>
-                <LinkPlaceholder />
-              </li>
-              <li>
-                <LinkPlaceholder />
-              </li>
-            </ul>
-          </details>
+          <button
+            key={index}
+            className="w-full text-left flex items-center gap-2 p-2 bg-slate-50 hover:bg-slate-100 rounded-xl"
+          >
+            {icons["chevron-right"]}
+            <div className="w-28 h-7 rounded bg-slate-700 animate-pulse" />
+          </button>
         ))}
       </main>
     </>
