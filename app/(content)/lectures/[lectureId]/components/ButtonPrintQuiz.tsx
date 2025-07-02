@@ -85,7 +85,7 @@ export default function ButtonPrintQuiz({
           <table className="table-auto">
             <tbody>
               {Array.from({
-                length: Math.round(quiz.questions.length / 10),
+                length: Math.ceil(quiz.questions.length / 10),
               }).map((_, index) => {
                 const start = index * 10;
                 const end = start + 10;
