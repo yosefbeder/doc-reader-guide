@@ -19,7 +19,7 @@ export default function Quiz({
   onUpdate?: () => void;
 }) {
   return (
-    <div className="flex items-center superficial p-2 rounded-xl bg-white">
+    <div className="flex items-center gap-2 superficial p-2 rounded-xl bg-white">
       <NextLink
         href={`/quizzes/${id}`}
         className="grow flex items-center gap-2 reset-link"
