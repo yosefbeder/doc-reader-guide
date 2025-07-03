@@ -1,9 +1,10 @@
 "use client";
 
+import { useEffect, useState } from "react";
+
 import Input from "@/components/Input";
 import Select from "@/components/Select";
 import { Link } from "@/types";
-import { useEffect, useState } from "react";
 
 export default function LinkFields({
   lectureId,
@@ -18,19 +19,33 @@ export default function LinkFields({
   const [category, setCategory] = useState(
     defaultValues?.category || "College"
   );
+  const [type, setType] = useState(defaultValues?.type || "Video");
 
   useEffect(() => {
     if (defaultValues) return;
+    const documentKeyword = /كتاب|ملف|باور|سبورة|book|file|power|whiteboard/gi;
     const externalKeyword =
       /الشريف|محمد فايز|ناجي|الحسيني|سامح غازي|أحمد عصام|عصام|إيمان نبيل|محمد عادل|محمد الشريف|خنفور|عبد المتعال|عبدالمتعال|محمود علاء|نهى|وجيه|القط|النمر|زهرة|زهره|شرين|شيرين|عبدالله سعد|عبد الله سعد|أحمد فريد|معاذ وهدان|أنس وهدان|أنس الهندي|تاح|الطوخي|زميلتنا|خالد المسلمي|الطويل|زميلنا|osmosis|crash course|ninja nerd|siebert science|mike|medicosis perfectionalis|animation|armando/gi;
     const summaryKeyword =
       /summary|notes|vip|important|imp|transcription|comparison|mind map|ملخص|تفريغ|تلخيص|أهم النقاط|اهم النقاط/gi;
     const questionKeyword =
       /quiz|mcq|written|department book|exam|bank|كويز|(أ|ا)سئل(ة|ه)|(إ|ا)متحان|كتاب القسم|بنك|مقالي|اختبار|اختياري/gi;
-    if (title.match(externalKeyword)) setCategory("Data");
-    else if (title.match(summaryKeyword)) setCategory("Summary");
-    else if (title.match(questionKeyword)) setCategory("Questions");
-    else setCategory("College");
+    if (title.match(externalKeyword)) {
+      setCategory("Data");
+      if (title.match(documentKeyword)) setType("PDF");
+      else setType("Video");
+    } else if (title.match(summaryKeyword)) {
+      setCategory("Summary");
+      setType("PDF");
+    } else if (title.match(questionKeyword)) {
+      setCategory("Questions");
+      if (title.match(documentKeyword)) setType("PDF");
+      else setType("Data");
+    } else {
+      setCategory("College");
+      if (title.match(documentKeyword)) setType("PDF");
+      else setType("Record");
+    }
   }, [title]);
 
   return (
@@ -90,7 +105,8 @@ export default function LinkFields({
           { label: "Form", value: "Data" },
         ]}
         required
-        defaultValue={defaultValues?.type}
+        value={type}
+        onChange={(e) => setType(e.target.value as any)}
         className="mb-4"
         form={formId}
       />
