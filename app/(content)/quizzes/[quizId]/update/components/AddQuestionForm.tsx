@@ -16,7 +16,7 @@ export default function AddQuestionForm({ quizId }: { quizId: number }) {
   return (
     <form
       action={formAction}
-      className="max-w-lg mb-4"
+      className="max-w-lg"
       onClickCapture={() => setHideMessage(true)}
     >
       <QuestionFields key={formKey} quizId={quizId} />

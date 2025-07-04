@@ -24,7 +24,7 @@ export default function QuickAddForm({ quizId }: { quizId: number }) {
         className="hidden"
       />
       <label htmlFor="questions" className="block mb-2">
-        Quick Add
+        JSON
       </label>
       <textarea
         name="questions"

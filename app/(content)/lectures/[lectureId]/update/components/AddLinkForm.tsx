@@ -15,7 +15,7 @@ export default function AddLinkForm({ lectureId }: { lectureId: number }) {
   return (
     <form
       action={formAction}
-      className="max-w-lg mb-4"
+      className="max-w-lg"
       onClickCapture={() => setHideMessage(true)}
     >
       <LinkFields key={formKey} lectureId={lectureId} />

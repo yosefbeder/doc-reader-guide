@@ -36,7 +36,7 @@ const QuizFields = ({
       {defaultValues ? null : (
         <>
           <label htmlFor="questions" className="block mb-2">
-            Quiz add (optional)
+            JSON (optional)
           </label>
           <textarea
             name="questions"

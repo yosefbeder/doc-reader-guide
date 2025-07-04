@@ -5,6 +5,7 @@ import getQuiz from "@/utils/getQuiz";
 import QuickAddForm from "./components/QuickAddForm";
 import ButtonCopy from "./components/ButtonCopy";
 import QuestionsList from "./components/QuestionsList";
+import Templates from "@/components/Templates";
 
 export default async function UpdateQuizPage({
   params: { quizId },
@@ -16,7 +17,7 @@ export default async function UpdateQuizPage({
   return (
     <>
       <Path quiz={quiz} />
-      <main className="main">
+      <main className="main flex flex-col gap-4">
         <ButtonCopy
           text={JSON.stringify(
             quiz.questions.map(
@@ -36,12 +37,14 @@ export default async function UpdateQuizPage({
             )
           )}
         />
-        <h2 className="mb-4">New Question(s)</h2>
-        <div className="max-w-lg flex flex-col gap-4">
-          <AddQuestionForm quizId={+quizId} />
-          <QuickAddForm quizId={+quizId} />
-        </div>
-        <hr className="my-4" />
+        <h2>New Question</h2>
+        <AddQuestionForm quizId={+quizId} />
+        <h2>Quick Add</h2>
+        <h3>Templates</h3>
+        <Templates />
+        <h3>Form</h3>
+        <QuickAddForm quizId={+quizId} />
+        <hr />
         <QuestionsList quizId={quiz.id} questions={quiz.questions} />
       </main>
     </>

@@ -3,6 +3,7 @@ import getLecture, { getLectureLinksAndQuizzes } from "@/utils/getLecture";
 import AddLinkForm from "./components/AddLinkForm";
 import AddQuizForm from "./components/AddQuizForm";
 import LinksList from "./components/LinksList";
+import Templates from "@/components/Templates";
 
 export default async function UpdateLinksPage({
   params: { lectureId },
@@ -17,15 +18,14 @@ export default async function UpdateLinksPage({
   return (
     <>
       <Path lecture={lecture} />
-      <main className="main">
-        <div className="max-w-lg mb-4">
-          <h2 className="mb-4">New link</h2>
-          <AddLinkForm lectureId={+lectureId} />
-        </div>
-        <div className="max-w-lg mb-4">
-          <h2 className="mb-4">New quiz</h2>
-          <AddQuizForm lectureId={+lectureId} />
-        </div>
+      <main className="main flex flex-col gap-4">
+        <h2>New link</h2>
+        <AddLinkForm lectureId={+lectureId} />
+        <h2>Quick Add</h2>
+        <h3>Templates</h3>
+        <Templates />
+        <h3>Form</h3>
+        <AddQuizForm lectureId={+lectureId} />
         <LinksList lectureId={+lectureId} links={links} quizzes={quizzes} />
       </main>
     </>

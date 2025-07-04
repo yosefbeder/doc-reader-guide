@@ -17,7 +17,8 @@ export default function Button({
 }: ButtonProps) {
   const colorVariants = {
     cyan: "text-white bg-cyan-600 hover:bg-cyan-700 active:bg-cyan-800 border-cyan-600 hover:border-cyan-700 active:border-cyan-800",
-    white: "text-cyan-600 border-2 border-cyan-600 hover:bg-cyan-50",
+    white:
+      "text-cyan-600 border-2 border-cyan-600 hover:bg-cyan-50 active:bg-cyan-100",
     yellow:
       "text-inherit bg-yellow-400 hover:bg-yellow-500 active:bg-yellow-600 border-yellow-400 hover:border-yellow-500 active:border-yellow-600 disabled:text-white",
     rose: "text-white bg-rose-600 hover:bg-rose-700 active:bg-rose-800 border-rose-600 hover:border-rose-700 active:border-rose-800",
