@@ -57,7 +57,7 @@ export default function Templates() {
         required
         className="max-w-lg"
       />
-      <div className="flex gap-2">
+      <div className="flex gap-2 max-sm:flex-col">
         <a
           href={model + MCQ_FILE_NO_ANSWERS}
           target="_blank"
