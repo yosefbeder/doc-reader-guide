@@ -1,7 +1,24 @@
-import React from "react";
-import Button from "@/components/Button";
+"use client";
 
-const AI_MODEL_URL = "https://chat.openai.com/?model=gpt-4&q=";
+import React, { useState } from "react";
+
+import Button from "@/components/Button";
+import Select from "./Select";
+
+const models = [
+  {
+    label: "ChatGPT",
+    value: "https://chat.openai.com/?model=gpt-4&q=",
+  },
+  {
+    label: "Grok",
+    value: "https://grok.com/?q=",
+  },
+  {
+    label: "Claude",
+    value: "https://claude.ai/new/?q=",
+  },
+];
 const MCQ_FILE_NO_ANSWERS = `I will send you a list of questions as a PDF file or text and I want you to turn it into a JSON of the following schema:
 {
   text: content of question,
@@ -25,29 +42,40 @@ const AI_GENERATED = `I will send you a PDF file or text and I want you to gener
 Remove all extra spaces to minimize the size of the resulting file. Tell me how many questions where added.`;
 
 export default function Templates() {
+  const [model, setModel] = useState(models[0].value);
+
   return (
-    <div className="flex gap-2">
-      <a
-        href={AI_MODEL_URL + MCQ_FILE_NO_ANSWERS}
-        target="_blank"
-        className="reset-link"
-      >
-        <Button color="white">MCQ file (no answers)</Button>
-      </a>
-      <a
-        href={AI_MODEL_URL + MCQ_FILE_AI_ANSWERS}
-        target="_blank"
-        className="reset-link"
-      >
-        <Button color="white">MCQ file (AI answers)</Button>
-      </a>
-      <a
-        href={AI_MODEL_URL + AI_GENERATED}
-        target="_blank"
-        className="reset-link"
-      >
-        <Button color="white">AI generated</Button>
-      </a>
+    <div className="flex flex-col gap-4">
+      <Select
+        label="AI model"
+        icon="chat-bubble-left-ellipsis"
+        options={models}
+        value={model}
+        onChange={(e) => setModel(e.target.value)}
+        name="facultyId"
+        id="facultyId"
+        required
+        className="max-w-lg"
+      />
+      <div className="flex gap-2">
+        <a
+          href={model + MCQ_FILE_NO_ANSWERS}
+          target="_blank"
+          className="reset-link"
+        >
+          <Button color="white">MCQ file (no answers)</Button>
+        </a>
+        <a
+          href={model + MCQ_FILE_AI_ANSWERS}
+          target="_blank"
+          className="reset-link"
+        >
+          <Button color="white">MCQ file (AI answers)</Button>
+        </a>
+        <a href={model + AI_GENERATED} target="_blank" className="reset-link">
+          <Button color="white">AI generated</Button>
+        </a>
+      </div>
     </div>
   );
 }
