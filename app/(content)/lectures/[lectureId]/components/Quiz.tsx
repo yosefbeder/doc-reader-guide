@@ -1,7 +1,7 @@
 import NextLink from "next/link";
 import Image from "next/image";
 
-import { Quiz as QuizType } from "@/types";
+import { PracticalQuiz, Quiz as QuizType } from "@/types";
 import { typeIcons } from "./typeIcons";
 import ButtonPrintQuiz from "./ButtonPrintQuiz";
 import LogoImage from "@/public/logo.png";
@@ -9,11 +9,13 @@ import ButtonIcon from "@/components/ButtonIcon";
 
 export default function Quiz({
   quiz: { id, title },
+  type,
   printable = false,
   updateable = false,
   onUpdate,
 }: {
-  quiz: QuizType;
+  quiz: QuizType | PracticalQuiz;
+  type: "mcq" | "practical";
   printable?: boolean;
   updateable?: boolean;
   onUpdate?: () => void;
@@ -21,10 +23,10 @@ export default function Quiz({
   return (
     <div className="flex items-center gap-2 superficial p-2 rounded-xl bg-white">
       <NextLink
-        href={`/quizzes/${id}`}
+        href={`/${type === "mcq" ? "quizzes" : "practical-quizzes"}/${id}`}
         className="grow flex items-center gap-2 reset-link"
       >
-        <span>{typeIcons.Data}</span>
+        <span>{type === "mcq" ? typeIcons.Data : typeIcons.Practical}</span>
         <div>
           <div>{title}</div>
           <div className="flex items-center gap-1 text-sm">

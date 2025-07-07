@@ -3,26 +3,30 @@
 import React, { useState } from "react";
 
 import Message from "@/components/Message";
-import { Link as LinkType, Quiz as QuizType } from "@/types";
+import { Link as LinkType, PracticalQuiz, Quiz as QuizType } from "@/types";
 import Link from "../../components/Link";
 import { icons } from "@/components/icons";
 import Quiz from "../../components/Quiz";
 import { useCategories } from "@/lib/hooks";
 import UpdateQuizForm from "./UpdateQuizForm";
 import UpdateLinkForm from "./UpdateLinkForm";
+import UpdatePracticalQuizForm from "./UpdatePracticalQuizForm";
 
 export default function LinksList({
   lectureId,
   links,
   quizzes,
+  practicalQuizzes,
 }: {
   lectureId: number;
   links: LinkType[];
   quizzes: QuizType[];
+  practicalQuizzes: PracticalQuiz[];
 }) {
   const { categories, currentCategory, setCurrentCategory } = useCategories(
     links,
-    quizzes
+    quizzes,
+    practicalQuizzes
   );
   const [current, setCurrent] = useState<{
     type: "link" | "quiz";
@@ -63,25 +67,50 @@ export default function LinksList({
             </button>
             {categoryOpen && (
               <ul className="flex flex-col gap-2 p-2">
-                {category === "Questions" &&
-                  quizzes.map((quiz) => (
-                    <li key={quiz.id}>
-                      {current &&
-                      current.type === "quiz" &&
-                      current.id === quiz.id ? (
-                        <UpdateQuizForm quiz={quiz} lectureId={lectureId} />
-                      ) : (
-                        <Quiz
-                          quiz={quiz}
-                          printable
-                          updateable
-                          onUpdate={() =>
-                            setCurrent({ type: "quiz", id: quiz.id })
-                          }
-                        />
-                      )}
-                    </li>
-                  ))}
+                {category === "Questions" && (
+                  <>
+                    {quizzes.map((quiz) => (
+                      <li key={quiz.id}>
+                        {current &&
+                        current.type === "quiz" &&
+                        current.id === quiz.id ? (
+                          <UpdateQuizForm quiz={quiz} lectureId={lectureId} />
+                        ) : (
+                          <Quiz
+                            type="mcq"
+                            quiz={quiz}
+                            printable
+                            updateable
+                            onUpdate={() =>
+                              setCurrent({ type: "quiz", id: quiz.id })
+                            }
+                          />
+                        )}
+                      </li>
+                    ))}
+                    {practicalQuizzes.map((quiz) => (
+                      <li key={quiz.id}>
+                        {current &&
+                        current.type === "quiz" &&
+                        current.id === quiz.id ? (
+                          <UpdatePracticalQuizForm
+                            quiz={quiz}
+                            lectureId={lectureId}
+                          />
+                        ) : (
+                          <Quiz
+                            type="practical"
+                            quiz={quiz}
+                            updateable
+                            onUpdate={() =>
+                              setCurrent({ type: "quiz", id: quiz.id })
+                            }
+                          />
+                        )}
+                      </li>
+                    ))}
+                  </>
+                )}
                 {categoryLinks.map((link) => (
                   <li key={link.id}>
                     {current &&

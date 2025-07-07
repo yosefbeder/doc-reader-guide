@@ -3,13 +3,17 @@
 import { useFormState } from "react-dom";
 
 import ButtonSubmit from "@/components/ButtonSubmit";
-import QuestionFields from "./QuestionFields";
-import { addQuestion } from "@/lib/actions";
+import PracticalQuizFields from "./PracticalQuizFields";
+import { addPracticalQuiz } from "@/lib/actions";
 import Message from "@/components/Message";
 import { useAddForm } from "@/lib/hooks";
 
-export default function AddQuestionForm({ quizId }: { quizId: number }) {
-  const [formState, formAction] = useFormState(addQuestion, {});
+export default function AddPracticalQuizForm({
+  lectureId,
+}: {
+  lectureId: number;
+}) {
+  const [formState, formAction] = useFormState(addPracticalQuiz, {});
   const { hideMessage, setHideMessage, formKey } = useAddForm(formState);
 
   return (
@@ -18,7 +22,7 @@ export default function AddQuestionForm({ quizId }: { quizId: number }) {
       className="max-w-lg"
       onClickCapture={() => setHideMessage(true)}
     >
-      <QuestionFields key={formKey} quizId={quizId} />
+      <PracticalQuizFields key={formKey} lectureId={lectureId} />
       {formState.message && formState.type && !hideMessage && (
         <Message type={formState.type} className="mb-4">
           {formState.message}

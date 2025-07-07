@@ -13,13 +13,7 @@ export default function AddModuleForm({ yearId }: { yearId: number }) {
   const { hideMessage, setHideMessage, formKey } = useAddForm(formState);
 
   return (
-    <form
-      action={formAction}
-      onSubmit={() => {
-        console.log("Submitting form...");
-      }}
-      onClickCapture={() => setHideMessage(true)}
-    >
+    <form action={formAction} onClickCapture={() => setHideMessage(true)}>
       <ModuleFields key={formKey} yearId={yearId} />
       {formState.message && formState.type && !hideMessage && (
         <Message type={formState.type} className="mb-4">

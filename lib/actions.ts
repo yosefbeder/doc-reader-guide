@@ -7,6 +7,7 @@ import { revalidatePath } from "next/cache";
 import { FormState } from "@/types";
 import getNumber from "@/utils/getNumber";
 import parseOptions from "@/utils/parseOptions";
+import parseWrittenQuestions from "@/utils/parseWrittenQuestions";
 
 export async function login(
   _prevState: FormState,
@@ -482,8 +483,6 @@ export async function updateLink(
     lectureId,
   };
 
-  console.log("Updating link...");
-
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/links/${linkId}/update`,
     {
@@ -840,4 +839,205 @@ export async function quickAdd(
       : "Quick add failed 😭, please try a different AI model",
     resetKey: Date.now(),
   };
+}
+
+export async function addPracticalQuiz(
+  _prevState: FormState,
+  formData: FormData
+): Promise<FormState> {
+  const lectureId = formData.get("lecture-id");
+  const data = {
+    title: formData.get("title"),
+  };
+
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/lectures/${lectureId}/practical-quizzes`,
+    {
+      method: "POST",
+      headers: {
+        "content-type": "application/json;charset=UTF-8",
+        authorization: `Bearer ${cookies().get("jwt")!.value}`,
+      },
+      body: JSON.stringify(data),
+    }
+  );
+
+  const json = await res.json();
+
+  if (res.ok) {
+    revalidatePath(`/lectures/${lectureId}`);
+    revalidatePath(`/lectures/${lectureId}/update`);
+  }
+
+  return {
+    type: res.ok ? "success" : "fail",
+    message: json.message,
+    resetKey: Date.now(),
+  };
+}
+
+export async function updatePracticalQuiz(
+  _prevState: FormState,
+  formData: FormData
+): Promise<FormState> {
+  const quizId = getNumber(formData, "quiz-id");
+  const lectureId = getNumber(formData, "lecture-id");
+  const data = {
+    title: formData.get("title"),
+  };
+
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/practical-quizzes/${quizId}`,
+    {
+      method: "PATCH",
+      headers: {
+        "content-type": "application/json;charset=UTF-8",
+        authorization: `Bearer ${cookies().get("jwt")!.value}`,
+      },
+      body: JSON.stringify(data),
+    }
+  );
+
+  const json = await res.json();
+
+  if (res.ok) {
+    revalidatePath(`/lectures/${lectureId}`);
+    revalidatePath(`/lectures/${lectureId}/update`);
+    revalidatePath(`/practical-quizzes/${quizId}`);
+    revalidatePath(`/practical-quizzes/${quizId}/update`);
+  }
+
+  return {
+    type: res.ok ? "success" : "fail",
+    message: json.message,
+    resetKey: Date.now(),
+  };
+}
+
+export async function deletePracticalQuiz(
+  _prevState: FormState,
+  formData: FormData
+): Promise<FormState> {
+  const quizId = formData.get("quiz-id");
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/practical-quizzes/${quizId}`,
+    {
+      method: "DELETE",
+      headers: {
+        "content-type": "application/json;charset=UTF-8",
+        authorization: `Bearer ${cookies().get("jwt")!.value}`,
+      },
+    }
+  );
+
+  const json = await res.json();
+
+  if (!res.ok)
+    return { type: "fail", message: json.message, resetKey: Date.now() };
+
+  revalidatePath(`/lectures/${json.data.lectureId}`);
+  revalidatePath(`/lectures/${json.data.lectureId}/update`);
+  revalidatePath(`/practical-quizzes/${quizId}`);
+  revalidatePath(`/practical-quizzes/${quizId}/update`);
+
+  return {};
+}
+
+export async function addPracticalQuestion(
+  _prevState: FormState,
+  formData: FormData
+): Promise<FormState> {
+  const quizId = getNumber(formData, "quiz-id");
+  formData.set(
+    "writtenQuestions",
+    JSON.stringify(parseWrittenQuestions(formData))
+  );
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/practical-quizzes/${quizId}/practical-questions`,
+    {
+      method: "POST",
+      headers: {
+        authorization: `Bearer ${cookies().get("jwt")!.value}`,
+      },
+      body: formData,
+    }
+  );
+
+  const json = await res.json();
+
+  if (res.ok) {
+    revalidatePath(`/practical-quizzes/${quizId}`);
+    revalidatePath(`/practical-quizzes/${quizId}/update`);
+  }
+
+  return {
+    type: res.ok ? "success" : "fail",
+    message: json.message,
+    resetKey: Date.now(),
+  };
+}
+
+export async function updatePracticalQuestion(
+  _prevState: FormState,
+  formData: FormData
+): Promise<FormState> {
+  const quizId = getNumber(formData, "quiz-id");
+  const questionId = getNumber(formData, "question-id");
+  const data = {
+    tapes: JSON.parse(formData.get("tapes") as string),
+    masks: JSON.parse(formData.get("masks") as string),
+    writtenQuestions: parseWrittenQuestions(formData),
+  };
+
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/practical-questions/${questionId}`,
+    {
+      method: "PATCH",
+      headers: {
+        "content-type": "application/json;charset=UTF-8",
+        authorization: `Bearer ${cookies().get("jwt")!.value}`,
+      },
+      body: JSON.stringify(data),
+    }
+  );
+
+  const json = await res.json();
+
+  if (res.ok) {
+    revalidatePath(`/practical-quizzes/${quizId}`);
+    revalidatePath(`/practical-quizzes/${quizId}/update`);
+  }
+
+  return {
+    type: res.ok ? "success" : "fail",
+    message: json.message,
+    resetKey: Date.now(),
+  };
+}
+
+export async function deletePracticalQuestion(
+  _prevState: FormState,
+  formData: FormData
+): Promise<FormState> {
+  const questionId = formData.get("question-id");
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/practical-questions/${questionId}`,
+    {
+      method: "DELETE",
+      headers: {
+        "content-type": "application/json;charset=UTF-8",
+        authorization: `Bearer ${cookies().get("jwt")!.value}`,
+      },
+    }
+  );
+
+  const json = await res.json();
+
+  if (!res.ok)
+    return { type: "fail", message: json.message, resetKey: Date.now() };
+
+  revalidatePath(`/practical-quizzes/${json.data.quizId}`);
+  revalidatePath(`/practical-quizzes/${json.data.quizId}/update`);
+
+  return {};
 }

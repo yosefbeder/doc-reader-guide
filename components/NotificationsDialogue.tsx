@@ -15,7 +15,7 @@ import {
   faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
 
-import { Link, Quiz } from "@/types";
+import { Link, PracticalQuiz, Quiz } from "@/types";
 import getUniqueObjectsById from "@/utils/getUniqueObjectsById";
 import Button from "./Button";
 import Dialogue from "./Dialogue";
@@ -37,7 +37,11 @@ export default function NotificationsDialogue({
         }
       );
       const json = await res.json();
-      return json.data as { links: Link[]; quizzes: Quiz[] };
+      return json.data as {
+        links: Link[];
+        quizzes: Quiz[];
+        practicalQuizzes: PracticalQuiz[];
+      };
     },
     [yearId]
   );
@@ -48,9 +52,9 @@ export default function NotificationsDialogue({
   );
   const lectures = useMemo(() => {
     if (!data) return [];
-    const { links, quizzes } = data;
+    const { links, quizzes, practicalQuizzes } = data;
     return getUniqueObjectsById(
-      [...links, ...quizzes].map(
+      [...links, ...quizzes, ...practicalQuizzes].map(
         ({
           lectureData: {
             id: lectureId,
@@ -67,13 +71,16 @@ export default function NotificationsDialogue({
       ...lecture,
       links: links.filter((link) => link.lectureData.id === lecture.id),
       quizzes: quizzes.filter((quiz) => quiz.lectureData.id === lecture.id),
+      practicalQuizzes: practicalQuizzes.filter(
+        (quiz) => quiz.lectureData.id === lecture.id
+      ),
     }));
   }, [data]);
   const subjects = useMemo(() => {
     if (!data) return [];
-    const { links, quizzes } = data;
+    const { links, quizzes, practicalQuizzes } = data;
     return getUniqueObjectsById(
-      [...links, ...quizzes].map(
+      [...links, ...quizzes, ...practicalQuizzes].map(
         ({
           lectureData: {
             subject: {
@@ -95,9 +102,9 @@ export default function NotificationsDialogue({
   }, [data]);
   const modules = useMemo(() => {
     if (!data) return [];
-    const { links, quizzes } = data;
+    const { links, quizzes, practicalQuizzes } = data;
     return getUniqueObjectsById(
-      [...links, ...quizzes].map(
+      [...links, ...quizzes, ...practicalQuizzes].map(
         ({
           lectureData: {
             subject: {
@@ -123,20 +130,26 @@ export default function NotificationsDialogue({
     children: subjects.map(({ id, name, lectures }) => ({
       label: name,
       value: id + name,
-      children: lectures.map(({ id, title, links, quizzes }) => ({
-        label: title,
-        value: id + title,
-        children: [
-          ...links.map(({ id, title }) => ({
-            label: title,
-            value: `link-${id}`,
-          })),
-          ...quizzes.map(({ id, title }) => ({
-            label: title,
-            value: `quiz-${id}`,
-          })),
-        ],
-      })),
+      children: lectures.map(
+        ({ id, title, links, quizzes, practicalQuizzes }) => ({
+          label: title,
+          value: id + title,
+          children: [
+            ...links.map(({ id, title }) => ({
+              label: title,
+              value: `link-${id}`,
+            })),
+            ...quizzes.map(({ id, title }) => ({
+              label: title,
+              value: `quiz-${id}`,
+            })),
+            ...practicalQuizzes.map(({ id, title }) => ({
+              label: title,
+              value: `practicalQuiz-${id}`,
+            })),
+          ],
+        })
+      ),
     })),
   }));
   const [isIgnoring, setIsIgnoring] = useState(false);
@@ -152,7 +165,12 @@ export default function NotificationsDialogue({
       {(() => {
         if (error) return <p>Error</p>;
         if (isLoading) return <p>Loading...</p>;
-        if (!data || (data.links.length === 0 && data.quizzes.length === 0))
+        if (
+          !data ||
+          (data.links.length === 0 &&
+            data.quizzes.length === 0 &&
+            data.practicalQuizzes.length === 0)
+        )
           return <p>No new sources were added, please add some first</p>;
         return (
           <>
@@ -179,7 +197,7 @@ export default function NotificationsDialogue({
                 disabled={checked.length === 0 || isLoading || isNotifying}
                 onClick={async () => {
                   if (!data) return [];
-                  const { links, quizzes } = data;
+                  const { links, quizzes, practicalQuizzes } = data;
                   setIsNotifying(true);
                   const res = await fetch(
                     `${process.env.NEXT_PUBLIC_API_URL}/years/${yearId}/notifications/notify`,
@@ -196,6 +214,9 @@ export default function NotificationsDialogue({
                         quizzes: checked
                           .filter((id) => id.startsWith("quiz"))
                           .map((id) => +id.slice(5)),
+                        practicalQuizzes: checked
+                          .filter((id) => id.startsWith("practicalQuiz"))
+                          .map((id) => +id.slice(14)),
                       }),
                     }
                   );
@@ -206,6 +227,9 @@ export default function NotificationsDialogue({
                     ),
                     quizzes: quizzes.filter(
                       ({ id }) => !checked.includes(`quiz-${id}`)
+                    ),
+                    practicalQuizzes: practicalQuizzes.filter(
+                      ({ id }) => !checked.includes(`practicalQuiz-${id}`)
                     ),
                   });
                   setIsNotifying(false);
@@ -219,7 +243,7 @@ export default function NotificationsDialogue({
                 disabled={checked.length === 0 || isLoading || isIgnoring}
                 onClick={async () => {
                   if (!data) return [];
-                  const { links, quizzes } = data;
+                  const { links, quizzes, practicalQuizzes } = data;
                   setIsIgnoring(true);
                   const res = await fetch(
                     `${process.env.NEXT_PUBLIC_API_URL}/years/${yearId}/notifications/ignore`,
@@ -236,6 +260,9 @@ export default function NotificationsDialogue({
                         quizzes: checked
                           .filter((id) => id.startsWith("quiz"))
                           .map((id) => +id.slice(5)),
+                        practicalQuizzes: checked
+                          .filter((id) => id.startsWith("practicalQuiz"))
+                          .map((id) => +id.slice(14)),
                       }),
                     }
                   );
@@ -246,6 +273,9 @@ export default function NotificationsDialogue({
                     ),
                     quizzes: quizzes.filter(
                       ({ id }) => !checked.includes(`quiz-${id}`)
+                    ),
+                    practicalQuizzes: practicalQuizzes.filter(
+                      ({ id }) => !checked.includes(`practicalQuiz-${id}`)
                     ),
                   });
                   setIsIgnoring(false);

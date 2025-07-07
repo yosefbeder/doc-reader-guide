@@ -1,4 +1,4 @@
-import { Lecture, Link, Quiz } from "@/types";
+import { Lecture, Link, PracticalQuiz, Quiz } from "@/types";
 
 export default async function getLecture(lectureId: number): Promise<Lecture> {
   const res = await fetch(
@@ -9,9 +9,11 @@ export default async function getLecture(lectureId: number): Promise<Lecture> {
   return json.data;
 }
 
-export async function getLectureLinksAndQuizzes(
-  lectureId: number
-): Promise<{ links: Link[]; quizzes: Quiz[] }> {
+export async function getLectureLinksAndQuizzes(lectureId: number): Promise<{
+  links: Link[];
+  quizzes: Quiz[];
+  practicalQuizzes: PracticalQuiz[];
+}> {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/lectures/${lectureId}/links`
   );

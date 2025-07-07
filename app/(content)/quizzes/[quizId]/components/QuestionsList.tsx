@@ -10,6 +10,7 @@ import Message from "@/components/Message";
 import { Question } from "@/types";
 import isValidURL from "@/utils/isValidURL";
 import Logo from "@/components/Logo";
+import { useQuestions } from "@/lib/hooks";
 
 export default function QuestionsList({
   quizId,
@@ -20,20 +21,24 @@ export default function QuestionsList({
   title: string;
   questions: Question[];
 }) {
-  const [currentQuestion, setCurrentQuestion] = useState(questions[0].id);
-  const currentIndex = questions.findIndex(({ id }) => id === currentQuestion);
   const [answers, setAnswers] = useState(new Map<number, number>());
-  const [showingResults, setShowingResults] = useState(false);
+  const {
+    currentQuestion,
+    setCurrentQuestion,
+    currentIndex,
+    backQuestion,
+    nextQuestion,
+    showingResults,
+    setShowingResults,
+    isLoaded,
+  } = useQuestions(
+    questions,
+    `quiz-${quizId}-new`,
+    answers,
+    (x) => JSON.stringify(Array.from(x)),
+    (storedAnswers) => storedAnswers && setAnswers(new Map(storedAnswers))
+  );
   const explanation = questions[currentIndex].explanation;
-  const [isLoaded, setIsLoaded] = useState(false);
-  const backQuestion = useCallback(() => {
-    if (currentIndex !== 0)
-      setCurrentQuestion(() => questions[currentIndex - 1].id);
-  }, [currentIndex, questions]);
-  const nextQuestion = useCallback(() => {
-    if (currentIndex !== questions.length - 1)
-      setCurrentQuestion(() => questions[currentIndex + 1].id);
-  }, [currentIndex, questions]);
   const contentRef = React.useRef<HTMLDivElement>(null);
   const reactToPrintFn = useReactToPrint({
     contentRef,
@@ -47,9 +52,6 @@ export default function QuestionsList({
     ],
     preserveAfterPrint: true,
   });
-
-  useHotkeys("left", backQuestion, [currentIndex, questions]);
-  useHotkeys("right", nextQuestion, [currentIndex, questions]);
   useHotkeys(
     "1,2,3,4,5",
     (event) => {
@@ -69,36 +71,7 @@ export default function QuestionsList({
     [currentIndex, questions, answers, currentQuestion]
   );
 
-  useEffect(() => {
-    const quizJSON = localStorage.getItem(`quiz-${quizId}-new`);
-    if (quizJSON) {
-      const quiz = JSON.parse(quizJSON);
-      if (questions.find(({ id }) => id === quiz.currentQuestion))
-        setCurrentQuestion(quiz.currentQuestion);
-      else
-        setCurrentQuestion(
-          quiz.currentIndex < questions.length
-            ? questions[quiz.currentIndex].id
-            : questions[questions.length - 1].id
-        );
-      setShowingResults(quiz.showingResults);
-      setAnswers(new Map(quiz.answers));
-    }
-    setIsLoaded(true);
-  }, []);
-
-  useEffect(() => {
-    if (isLoaded)
-      localStorage.setItem(
-        `quiz-${quizId}-new`,
-        JSON.stringify({
-          currentQuestion,
-          currentIndex,
-          answers: Array.from(answers),
-          showingResults,
-        })
-      );
-  }, [currentQuestion, answers, showingResults]);
+  if (!isLoaded) return;
 
   if (showingResults) {
     const correct = Array.from(answers.entries()).reduce(

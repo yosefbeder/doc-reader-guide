@@ -1,6 +1,6 @@
 import React from "react";
 import AddQuestionForm from "./components/AddQuestionForm";
-import Path from "../components/Path";
+import Path from "@/components/QuizPath";
 import getQuiz from "@/utils/getQuiz";
 import QuickAddForm from "./components/QuickAddForm";
 import ButtonCopy from "./components/ButtonCopy";

@@ -1,17 +1,19 @@
 "use client";
 
-import { Question } from "@/types";
-import UpdateQuestionForm from "./UpdateQuestionForm";
-import { icons } from "@/components/icons";
 import Button from "@/components/Button";
+import { icons } from "@/components/icons";
 import useQuestionsDashboard from "@/lib/hooks/useQuestionsDashboard";
+import { PracticalQuestion } from "@/types";
+import React from "react";
+import UpdateQuestionForm from "./UpdateQuestionForm";
+import Canvas from "./Canvas";
 
 export default function QuestionsList({
   quizId,
   questions,
 }: {
-  questions: Question[];
   quizId: number;
+  questions: PracticalQuestion[];
 }) {
   const {
     questionsOpen,
@@ -59,7 +61,7 @@ export default function QuestionsList({
                 </button>
                 {questionOpen && (
                   <div className="p-2">
-                    <UpdateQuestionForm quizId={+quizId} question={question} />
+                    <UpdateQuestionForm quizId={quizId} question={question} />
                   </div>
                 )}
               </div>

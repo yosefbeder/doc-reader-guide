@@ -6,7 +6,7 @@ export interface FormState {
   resetKey?: number;
 }
 
-interface DatabaseTable {
+export interface DatabaseTable {
   id: number;
   createdAt: string;
   updatedAt: string;
@@ -96,19 +96,47 @@ export interface Link extends DatabaseTable {
   lectureData: LectureSimple;
 }
 
-export interface Quiz {
-  id: number;
+export interface Quiz extends DatabaseTable {
   title: string;
   questions: Question[];
   lectureData: LectureSimple;
 }
 
-export interface Question {
-  id: number;
+export interface Question extends DatabaseTable {
   image?: string;
   explanation?: string;
   text: string;
   options: string[];
   correctOptionIndex: number;
   quizId: number;
+}
+
+export interface PracticalQuiz extends DatabaseTable {
+  title: string;
+  questions: PracticalQuestion[];
+  lectureData: LectureSimple;
+}
+
+export interface PracticalQuestion extends DatabaseTable {
+  image: string;
+  width: number;
+  height: number;
+  masks: Rect[];
+  tapes: Rect[];
+  writtenQuestions: WrittenQuestion[];
+  quizId: number;
+}
+
+export interface Rect extends DatabaseTable {
+  tapeQuestionId: number;
+  maskQuestionId: number;
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+}
+
+export interface WrittenQuestion extends DatabaseTable {
+  text: string;
+  answer: string;
 }
