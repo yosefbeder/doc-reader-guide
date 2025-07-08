@@ -85,6 +85,7 @@ export default function QuestionsList({
     writtenQuestions: new Map<number, QuestionState>(),
   });
   const {
+    orderedQuestions,
     currentQuestion,
     setCurrentQuestion,
     currentIndex,
@@ -93,6 +94,7 @@ export default function QuestionsList({
     showingResults,
     setShowingResults,
     isLoaded,
+    resetState,
   } = useQuestions(
     questions,
     `practical-quiz-${quizId}`,
@@ -141,7 +143,8 @@ export default function QuestionsList({
         });
         setAnswers(temp);
       }
-    }
+    },
+    true
   );
   const updateTapeState = useCallback(
     (id: number, newState: QuestionState) => {
@@ -181,7 +184,7 @@ export default function QuestionsList({
     const adjustImage = () => {
       const width =
         outerWidth - X_MARGIN * 2 > 512 ? 512 : outerWidth - X_MARGIN * 2;
-      setFactor(width / questions[currentIndex].width);
+      setFactor(width / orderedQuestions[currentIndex].width);
     };
     adjustImage();
     window.addEventListener("resize", adjustImage);
@@ -205,7 +208,7 @@ export default function QuestionsList({
           <ButtonIcon
             icon="arrow-path"
             onClick={() => {
-              setCurrentQuestion(questions[0].id);
+              resetState();
               setAnswers((prev) => {
                 const temp = { tapes: new Map(), writtenQuestions: new Map() };
                 prev.tapes.forEach((_, key) =>
@@ -216,7 +219,6 @@ export default function QuestionsList({
                 );
                 return temp;
               });
-              setShowingResults(false);
             }}
           />
         </div>
@@ -233,7 +235,7 @@ export default function QuestionsList({
           <span className="text-yellow-600">* Skipped</span>
         </p>
         <ol>
-          {questions.map((question) => (
+          {orderedQuestions.map((question) => (
             <>
               <div className="relative mb-4">
                 <img
@@ -298,18 +300,18 @@ export default function QuestionsList({
   return (
     <div className="max-w-lg">
       <h2 className="mb-4">
-        Question {currentIndex + 1} of {questions.length}
+        Question {currentIndex + 1} of {orderedQuestions.length}
       </h2>
       <div className="relative mb-4">
         <img
           key={currentQuestion}
-          src={`${process.env.NEXT_PUBLIC_STATIC_URL}/image/${questions[currentIndex].image}`}
-          width={questions[currentIndex].width * factor}
-          height={questions[currentIndex].height * factor}
+          src={`${process.env.NEXT_PUBLIC_STATIC_URL}/image/${orderedQuestions[currentIndex].image}`}
+          width={orderedQuestions[currentIndex].width * factor}
+          height={orderedQuestions[currentIndex].height * factor}
           alt="Question"
           loading="eager"
         />
-        {questions[currentIndex].masks.map(({ id, x, y, w, h }) => (
+        {orderedQuestions[currentIndex].masks.map(({ id, x, y, w, h }) => (
           <div
             key={"mask-" + id}
             style={{
@@ -323,7 +325,7 @@ export default function QuestionsList({
             }}
           ></div>
         ))}
-        {questions[currentIndex].tapes.map(({ id, x, y, w, h }) => {
+        {orderedQuestions[currentIndex].tapes.map(({ id, x, y, w, h }) => {
           const questionState = answers.tapes.get(id)!;
           return (
             <>
@@ -362,7 +364,7 @@ export default function QuestionsList({
         })}
       </div>
       <ol className="mb-4">
-        {questions[currentIndex].writtenQuestions.map(
+        {orderedQuestions[currentIndex].writtenQuestions.map(
           ({ id, text, answer }, index) => {
             const questionState = answers.writtenQuestions.get(id)!;
             return (
@@ -403,7 +405,7 @@ export default function QuestionsList({
         </Button>
         <Button
           onClick={nextQuestion}
-          disabled={currentIndex === questions.length - 1}
+          disabled={currentIndex === orderedQuestions.length - 1}
         >
           Continue →
         </Button>
@@ -413,7 +415,7 @@ export default function QuestionsList({
           onChange={(e) => setCurrentQuestion(+e.target.value)}
           value={currentQuestion}
         >
-          {questions.map(({ id }, index) => (
+          {orderedQuestions.map(({ id }, index) => (
             <option key={id} value={id}>
               Question {index + 1}
             </option>

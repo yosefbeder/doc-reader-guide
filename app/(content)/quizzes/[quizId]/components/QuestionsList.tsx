@@ -31,12 +31,20 @@ export default function QuestionsList({
     showingResults,
     setShowingResults,
     isLoaded,
+    resetState,
   } = useQuestions(
     questions,
     `quiz-${quizId}-new`,
     answers,
-    (x) => JSON.stringify(Array.from(x)),
-    (storedAnswers) => storedAnswers && setAnswers(new Map(storedAnswers))
+    (x) => Array.from(x),
+    (storedAnswers) => {
+      try {
+        storedAnswers && setAnswers(new Map(storedAnswers));
+      } catch (err) {
+        resetState();
+      }
+    },
+    false
   );
   const explanation = questions[currentIndex].explanation;
   const contentRef = React.useRef<HTMLDivElement>(null);
@@ -89,9 +97,8 @@ export default function QuestionsList({
           <ButtonIcon
             icon="arrow-path"
             onClick={() => {
-              setCurrentQuestion(questions[0].id);
               setAnswers(new Map());
-              setShowingResults(false);
+              resetState();
             }}
           />
         </div>
