@@ -175,14 +175,14 @@ export default function QuestionsList({
     [currentQuestion]
   );
   const [factor, setFactor] = useState(
-    (innerWidth - 8 * 2 > 512 ? 512 : innerWidth - 8 * 2) /
+    (outerWidth - X_MARGIN * 2 > 512 ? 512 : outerWidth - X_MARGIN * 2) /
       questions[currentIndex].width
   );
 
   useEffect(() => {
     const adjustImage = () => {
       const width =
-        innerWidth - X_MARGIN * 2 > 512 ? 512 : innerWidth - X_MARGIN * 2;
+        outerWidth - X_MARGIN * 2 > 512 ? 512 : outerWidth - X_MARGIN * 2;
       setFactor(width / questions[currentIndex].width);
     };
     window.addEventListener("resize", adjustImage);
