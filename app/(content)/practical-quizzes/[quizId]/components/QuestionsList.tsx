@@ -301,7 +301,7 @@ export default function QuestionsList({
         Question {currentIndex + 1} of {questions.length}
       </h2>
       <div className="relative mb-4">
-        <Image
+        <img
           key={currentQuestion}
           src={`${process.env.NEXT_PUBLIC_STATIC_URL}/image/${questions[currentIndex].image}`}
           width={questions[currentIndex].width * factor}
