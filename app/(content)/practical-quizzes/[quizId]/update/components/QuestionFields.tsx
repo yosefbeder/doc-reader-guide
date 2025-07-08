@@ -34,7 +34,7 @@ export default function QuestionFields({
   const [currentCounter, setCurrentCounter] = useState(1);
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 mb-4">
       <Canvas
         formId={formId}
         init={

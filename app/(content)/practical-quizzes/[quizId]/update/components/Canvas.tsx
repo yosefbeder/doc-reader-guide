@@ -175,14 +175,17 @@ export default function Canvas({ formId, init }: CanvasProps) {
       return false;
     }
 
-    function normalize(rect: Rect) {
+    function normalize(type: RectType, index: number) {
+      const rect = type === "mask" ? state.masks[index] : state.tapes[index];
       if (rect.w < 0) {
         rect.x += rect.w;
         rect.w = -rect.w;
+        updateRect(type, index);
       }
       if (rect.h < 0) {
         rect.y += rect.h;
         rect.h = -rect.h;
+        updateRect(type, index);
       }
     }
 
@@ -417,7 +420,8 @@ export default function Canvas({ formId, init }: CanvasProps) {
         isCreating = false;
       }
       if (rect && rectType! && rectIndex!) {
-        normalize(rect);
+        state.tapes.forEach((_, index) => normalize("tape", index));
+        state.masks.forEach((_, index) => normalize("mask", index));
         if (selection) selection.init = { ...rect };
         else
           selection = { type: rectType, index: rectIndex, init: { ...rect } };
@@ -425,8 +429,6 @@ export default function Canvas({ formId, init }: CanvasProps) {
           deleteRect(rectType, rectIndex);
           selection = null;
           canvas.style.cursor = "auto";
-        } else {
-          updateRect(rectType, rectIndex);
         }
       }
     }
@@ -467,10 +469,12 @@ export default function Canvas({ formId, init }: CanvasProps) {
     canvas.addEventListener("mousedown", handleStart);
     canvas.addEventListener("mousemove", handleMove);
     canvas.addEventListener("mouseup", handleEnd);
+    canvas.addEventListener("mouseout", handleEnd);
     if (isTouchDevice) {
       canvas.addEventListener("touchstart", handleTouchStart);
       canvas.addEventListener("touchmove", handleTouchMove);
       canvas.addEventListener("touchend", handleEnd);
+      canvas.addEventListener("touchcancel", handleEnd);
     }
     typeSelectRef.current!.addEventListener("change", handleTypeChange);
     deleteButtonRef.current!.addEventListener("click", handleDelete);
@@ -550,10 +554,12 @@ export default function Canvas({ formId, init }: CanvasProps) {
       canvas.removeEventListener("mousedown", handleStart);
       canvas.removeEventListener("mousemove", handleMove);
       canvas.removeEventListener("mouseup", handleEnd);
+      canvas.removeEventListener("mouseout", handleEnd);
       if (isTouchDevice) {
         canvas.removeEventListener("touchstart", handleTouchStart);
         canvas.removeEventListener("touchmove", handleTouchMove);
         canvas.removeEventListener("touchend", handleEnd);
+        canvas.removeEventListener("touchcancel", handleEnd);
       }
       typeSelectRef.current?.removeEventListener("change", handleTypeChange);
       deleteButtonRef.current?.removeEventListener("click", handleDelete);

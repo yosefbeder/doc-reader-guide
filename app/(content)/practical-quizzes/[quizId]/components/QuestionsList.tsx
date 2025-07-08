@@ -1,6 +1,7 @@
 "use client";
 
-import { CSSProperties, useCallback, useEffect, useRef, useState } from "react";
+import { CSSProperties, useCallback, useEffect, useState } from "react";
+import Image from "next/image";
 
 import Button from "@/components/Button";
 import { PracticalQuestion } from "@/types";
@@ -174,10 +175,7 @@ export default function QuestionsList({
     },
     [currentQuestion]
   );
-  const [factor, setFactor] = useState(
-    (outerWidth - X_MARGIN * 2 > 512 ? 512 : outerWidth - X_MARGIN * 2) /
-      questions[currentIndex].width
-  );
+  const [factor, setFactor] = useState<number>();
 
   useEffect(() => {
     const adjustImage = () => {
@@ -185,13 +183,14 @@ export default function QuestionsList({
         outerWidth - X_MARGIN * 2 > 512 ? 512 : outerWidth - X_MARGIN * 2;
       setFactor(width / questions[currentIndex].width);
     };
+    adjustImage();
     window.addEventListener("resize", adjustImage);
     return () => {
       window?.removeEventListener("resize", adjustImage);
     };
   }, [currentIndex]);
 
-  if (!isLoaded) return;
+  if (!isLoaded || !factor) return;
 
   if (showingResults) {
     let total = answers.tapes.size + answers.writtenQuestions.size;
@@ -302,11 +301,13 @@ export default function QuestionsList({
         Question {currentIndex + 1} of {questions.length}
       </h2>
       <div className="relative mb-4">
-        <img
+        <Image
+          key={currentQuestion}
           src={`${process.env.NEXT_PUBLIC_STATIC_URL}/image/${questions[currentIndex].image}`}
           width={questions[currentIndex].width * factor}
           height={questions[currentIndex].height * factor}
           alt="Question"
+          loading="eager"
         />
         {questions[currentIndex].masks.map(({ id, x, y, w, h }) => (
           <div
