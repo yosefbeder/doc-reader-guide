@@ -14,11 +14,12 @@ export default function QuestionsList({
   quizId: number;
 }) {
   const {
+    orderedQuestions,
     questionsOpen,
     setQuestionsOpen,
     currentQuestion,
     setCurrentQuestion,
-  } = useQuestionsDashboard(questions, `quiz-${quizId}-new`);
+  } = useQuestionsDashboard(questions, `quiz-${quizId}-new`, false);
 
   return (
     <section>
@@ -29,7 +30,7 @@ export default function QuestionsList({
       >
         {questionsOpen ? "Show Only Current Question" : "Show All Questions"}
       </Button>
-      {questions.map((question, index) => (
+      {orderedQuestions.map((question, index) => (
         <div
           key={question.id}
           className="max-w-lg mb-4"

@@ -2,30 +2,51 @@ import { DatabaseTable } from "@/types";
 import { useCallback, useEffect, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 
-export default function useQuestionsDashboard(
-  questions: DatabaseTable[],
-  localStorageItem: string
+export default function useQuestionsDashboard<T extends DatabaseTable>(
+  questions: T[],
+  localStorageItem: string,
+  randomOrder: boolean
 ) {
+  const [orderedQuestions, setOrderedQuestions] = useState([...questions]);
   const [questionsOpen, setQuestionsOpen] = useState(false);
   const [currentQuestion, setCurrentQuestion] = useState<number>();
-  const currentIndex = questions.findIndex(({ id }) => id === currentQuestion);
+  const currentIndex = orderedQuestions.findIndex(
+    ({ id }) => id === currentQuestion
+  );
   const backQuestion = useCallback(() => {
     if (currentIndex !== 0)
-      setCurrentQuestion(() => questions[currentIndex - 1].id);
-  }, [currentIndex, questions]);
+      setCurrentQuestion(() => orderedQuestions[currentIndex - 1].id);
+  }, [currentIndex, orderedQuestions]);
   const nextQuestion = useCallback(() => {
-    if (currentIndex !== questions.length - 1)
-      setCurrentQuestion(() => questions[currentIndex + 1].id);
-  }, [currentIndex, questions]);
-  useHotkeys("left", backQuestion, [currentIndex, questions]);
-  useHotkeys("right", nextQuestion, [currentIndex, questions]);
+    if (currentIndex !== orderedQuestions.length - 1)
+      setCurrentQuestion(() => orderedQuestions[currentIndex + 1].id);
+  }, [currentIndex, orderedQuestions]);
+  useHotkeys("left", backQuestion, [backQuestion]);
+  useHotkeys("right", nextQuestion, [nextQuestion]);
 
   useEffect(() => {
     const quizJSON = localStorage.getItem(localStorageItem);
     if (quizJSON) {
-      const quizData = JSON.parse(quizJSON);
-      if (quizData.currentQuestion) {
-        setCurrentQuestion(quizData.currentQuestion);
+      const quiz = JSON.parse(quizJSON);
+      if (quiz.currentQuestion) {
+        setCurrentQuestion(quiz.currentQuestion);
+      }
+      if (randomOrder && quiz.questionsOrder) {
+        setOrderedQuestions((prev) => {
+          const temp = [];
+          for (let i = 0; i < quiz.questionsOrder.length; i++) {
+            const question = prev.find(
+              ({ id }) => id === quiz.questionsOrder[i]
+            );
+            if (question) {
+              temp.push(question);
+            }
+          }
+          if (temp.length !== prev.length)
+            for (let i = 0; i < prev.length; i++)
+              if (!temp.find(({ id }) => id === prev[i].id)) temp.push(prev[i]);
+          return temp;
+        });
       }
     }
   }, []);
@@ -40,6 +61,7 @@ export default function useQuestionsDashboard(
   }, [currentQuestion]);
 
   return {
+    orderedQuestions,
     questionsOpen,
     setQuestionsOpen,
     currentQuestion,

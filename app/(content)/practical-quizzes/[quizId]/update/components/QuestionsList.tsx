@@ -6,7 +6,6 @@ import useQuestionsDashboard from "@/lib/hooks/useQuestionsDashboard";
 import { PracticalQuestion } from "@/types";
 import React from "react";
 import UpdateQuestionForm from "./UpdateQuestionForm";
-import Canvas from "./Canvas";
 
 export default function QuestionsList({
   quizId,
@@ -16,11 +15,12 @@ export default function QuestionsList({
   questions: PracticalQuestion[];
 }) {
   const {
+    orderedQuestions,
     questionsOpen,
     setQuestionsOpen,
     currentQuestion,
     setCurrentQuestion,
-  } = useQuestionsDashboard(questions, `practical-quiz-${quizId}`);
+  } = useQuestionsDashboard(questions, `practical-quiz-${quizId}`, true);
 
   return (
     <section>
@@ -31,7 +31,7 @@ export default function QuestionsList({
       >
         {questionsOpen ? "Show Only Current Question" : "Show All Questions"}
       </Button>
-      {questions.map((question, index) => (
+      {orderedQuestions.map((question, index) => (
         <div
           key={question.id}
           className="max-w-lg mb-4"
