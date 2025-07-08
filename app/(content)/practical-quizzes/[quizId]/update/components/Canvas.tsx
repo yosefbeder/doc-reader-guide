@@ -266,7 +266,7 @@ export default function Canvas({ formId, init }: CanvasProps) {
       updateTransform();
     }
 
-    function handleClick(e: MouseEvent) {
+    function handleClick(e: MouseEvent | TouchEvent) {
       let clickSelection: Selection | null = null;
       for (let i = state.masks.length - 1; i >= 0; i--) {
         const mask = state.masks[i];
@@ -440,6 +440,7 @@ export default function Canvas({ formId, init }: CanvasProps) {
         startMidpointY = midpoint.y - translateY;
       } else if (e.touches.length === 1) {
         e.preventDefault();
+        if (!selection) handleClick(e);
         handleStart(e);
       }
     }

@@ -61,7 +61,10 @@ export default function QuestionFields({
       )}
       {writtenQuestions.map(
         ({ counter, value: { id, text, answer } }, index) => (
-          <li key={id} className="flex items-center gap-2">
+          <li
+            key={`written-question-${counter}`}
+            className="flex items-center gap-2"
+          >
             <div className="flex flex-col gap-2 grow *:px-2 *:py-1 *:border">
               {id && (
                 <input
