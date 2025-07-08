@@ -20,7 +20,7 @@ export default function QuestionsList({
     setQuestionsOpen,
     currentQuestion,
     setCurrentQuestion,
-  } = useQuestionsDashboard(questions, `quiz-${quizId}-new`);
+  } = useQuestionsDashboard(questions, `practical-quiz-${quizId}`);
 
   return (
     <section>
