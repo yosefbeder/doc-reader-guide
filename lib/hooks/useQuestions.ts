@@ -80,9 +80,15 @@ export default function useQuestions<T, U extends DatabaseTable>(
         });
       }
       setShowingResults(quiz.showingResults);
-      console.log(quiz.answers);
       onLoad(quiz.answers);
     } else {
+      if (randomOrder) {
+        let newOrderedQuestions = orderedQuestions.toSorted(
+          () => Math.random() - 0.5
+        );
+        setOrderedQuestions(newOrderedQuestions);
+        setCurrentQuestion(newOrderedQuestions[0].id);
+      }
       onLoad();
     }
     setIsLoaded(true);
