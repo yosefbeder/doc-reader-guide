@@ -334,6 +334,7 @@ export default function QuestionsList({
                   key={"dialogue-" + id}
                   style={{
                     position: "absolute",
+                    zIndex: 10,
                     top: y * factor - 30,
                     left: x * factor,
                   }}
