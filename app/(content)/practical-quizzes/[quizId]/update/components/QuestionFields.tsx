@@ -78,8 +78,7 @@ export default function QuestionFields({
                   form={formId}
                 />
               )}
-              <input
-                type="text"
+              <textarea
                 name={`written-question-${counter}-text`}
                 id={`practical-question-${
                   init ? init.id : "new"
@@ -94,8 +93,7 @@ export default function QuestionFields({
                 }}
                 form={formId}
               />
-              <input
-                type="text"
+              <textarea
                 name={`written-question-${counter}-answer`}
                 id={`practical-question-${
                   init ? init.id : "new"
