@@ -952,6 +952,7 @@ export async function addPracticalQuestion(
     "writtenQuestions",
     JSON.stringify(parseWrittenQuestions(formData))
   );
+  if ((formData.get("image") as File).size === 0) formData.delete("image");
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/practical-quizzes/${quizId}/practical-questions`,
     {

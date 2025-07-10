@@ -18,7 +18,7 @@ export default function QuestionFields({
   init?: {
     id: number;
     state: State;
-    imageUrl: string;
+    imageUrl?: string;
     writtenQuestions: WrittenQuestion[];
   };
   quizId: number;

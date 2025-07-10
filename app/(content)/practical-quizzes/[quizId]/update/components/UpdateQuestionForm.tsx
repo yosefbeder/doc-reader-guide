@@ -44,7 +44,9 @@ export default function UpdateQuestionForm({
         formId={updateFormId}
         init={{
           id: question.id,
-          imageUrl: `${process.env.NEXT_PUBLIC_STATIC_URL}/image/${question.image}`,
+          imageUrl: question.image
+            ? `${process.env.NEXT_PUBLIC_STATIC_URL}/image/${question.image}`
+            : undefined,
           state: {
             tapes: question.tapes.map(
               ({

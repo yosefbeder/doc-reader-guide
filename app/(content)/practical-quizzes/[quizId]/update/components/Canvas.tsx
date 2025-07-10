@@ -586,7 +586,8 @@ export default function Canvas({ formId, init }: CanvasProps) {
         id={`practical-question-${init ? init.id : "new"}-masks`}
         name="masks"
         className="hidden"
-        defaultValue={JSON.stringify(reactState?.masks)}
+        value={JSON.stringify(reactState?.masks || [])}
+        readOnly
         form={formId}
       />
       <input
@@ -594,28 +595,33 @@ export default function Canvas({ formId, init }: CanvasProps) {
         id={`practical-question-${init ? init.id : "new"}-tapes`}
         name="tapes"
         className="hidden"
-        defaultValue={JSON.stringify(reactState?.tapes)}
+        value={JSON.stringify(reactState?.tapes || [])}
+        readOnly
         form={formId}
       />
-      <div className="flex gap-2 *:px-2 *:py-1 *:border">
-        <select name="type" ref={typeSelectRef} defaultValue="tape">
-          <option value="tape">Tape</option>
-          <option value="mask">Mask</option>
-        </select>
-        <button ref={undoButtonRef}>Undo</button>
-        <button ref={redoButtonRef}>Redo</button>
-        <button ref={deleteButtonRef}>Delete</button>
-        <button ref={zoomInButtonRef}>+</button>
-        <button ref={zoomOutButtonRef}>-</button>
-      </div>
-      <div
-        style={{
-          overflow: isTouchDevice ? "hidden" : "scroll",
-        }}
-        className="h-96 border"
-      >
-        <canvas ref={canvasRef}></canvas>
-      </div>
+      {imageSrc && (
+        <>
+          <div className="flex gap-2 *:px-2 *:py-1 *:border">
+            <select name="type" ref={typeSelectRef} defaultValue="tape">
+              <option value="tape">Tape</option>
+              <option value="mask">Mask</option>
+            </select>
+            <button ref={undoButtonRef}>Undo</button>
+            <button ref={redoButtonRef}>Redo</button>
+            <button ref={deleteButtonRef}>Delete</button>
+            <button ref={zoomInButtonRef}>+</button>
+            <button ref={zoomOutButtonRef}>-</button>
+          </div>
+          <div
+            style={{
+              overflow: isTouchDevice ? "hidden" : "scroll",
+            }}
+            className="h-96 border"
+          >
+            <canvas ref={canvasRef}></canvas>
+          </div>
+        </>
+      )}
     </>
   );
 }
