@@ -180,13 +180,16 @@ export default function Canvas({ formId, init }: CanvasProps) {
       if (rect.w < 0) {
         rect.x += rect.w;
         rect.w = -rect.w;
-        updateRect(type, index);
       }
       if (rect.h < 0) {
         rect.y += rect.h;
         rect.h = -rect.h;
-        updateRect(type, index);
       }
+      if (rect.w < MIN_WIDTH || rect.h < MIN_HEIGHT) {
+        deleteRect(type, index);
+        if (selection && selection.type === type && selection.index === index)
+          selection = null;
+      } else updateRect(type, index);
     }
 
     function getEPos(e: MouseEvent | TouchEvent) {
@@ -401,36 +404,32 @@ export default function Canvas({ formId, init }: CanvasProps) {
     }
 
     function handleEnd() {
-      let rectIndex;
-      let rect;
-      let rectType: RectType;
-      if (isEditing) {
-        rectIndex = selection!.index;
-        rectType = selection!.type;
-        rect =
-          rectType === "tape" ? state.tapes[rectIndex] : state.masks[rectIndex];
-        isEditing = false;
-      }
-      if (isCreating) {
-        rectType = createType;
-        rectIndex =
-          rectType === "tape" ? state.tapes.length - 1 : state.masks.length - 1;
-        rect =
-          rectType === "tape" ? state.tapes[rectIndex] : state.masks[rectIndex];
-        isCreating = false;
-      }
-      if (rect && rectType! && rectIndex!) {
-        state.tapes.forEach((_, index) => normalize("tape", index));
-        state.masks.forEach((_, index) => normalize("mask", index));
-        if (selection) selection.init = { ...rect };
-        else
-          selection = { type: rectType, index: rectIndex, init: { ...rect } };
-        if (rect.w < MIN_WIDTH || rect.h < MIN_HEIGHT) {
-          deleteRect(rectType, rectIndex);
-          selection = null;
-          canvas.style.cursor = "auto";
+      state.tapes.forEach((_, index) => normalize("tape", index));
+      state.masks.forEach((_, index) => normalize("mask", index));
+      if (isCreating)
+        if (
+          (createType === "tape" && state.tapes.length > 0) ||
+          (createType === "mask" && state.masks.length > 0)
+        ) {
+          const index =
+            createType === "tape"
+              ? state.tapes.length - 1
+              : state.masks.length - 1;
+          selection =
+            createType === "tape"
+              ? {
+                  type: createType,
+                  index,
+                  init: state.tapes[index],
+                }
+              : {
+                  type: createType,
+                  index,
+                  init: state.masks[index],
+                };
         }
-      }
+      isCreating = false;
+      isEditing = false;
     }
 
     function handleTouchStart(e: TouchEvent) {
