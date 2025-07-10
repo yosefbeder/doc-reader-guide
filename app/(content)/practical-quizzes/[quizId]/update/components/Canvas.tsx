@@ -187,8 +187,10 @@ export default function Canvas({ formId, init }: CanvasProps) {
       }
       if (rect.w < MIN_WIDTH || rect.h < MIN_HEIGHT) {
         deleteRect(type, index);
-        if (selection && selection.type === type && selection.index === index)
+        if (selection && selection.type === type && selection.index === index) {
           selection = null;
+          canvas.style.cursor = "auto";
+        }
       } else updateRect(type, index);
     }
 
@@ -298,6 +300,7 @@ export default function Canvas({ formId, init }: CanvasProps) {
           }
         }
       if (clickSelection) selection = clickSelection;
+      else selection = null;
     }
 
     function handleStart(e: MouseEvent | TouchEvent) {
@@ -406,28 +409,6 @@ export default function Canvas({ formId, init }: CanvasProps) {
     function handleEnd() {
       state.tapes.forEach((_, index) => normalize("tape", index));
       state.masks.forEach((_, index) => normalize("mask", index));
-      if (isCreating)
-        if (
-          (createType === "tape" && state.tapes.length > 0) ||
-          (createType === "mask" && state.masks.length > 0)
-        ) {
-          const index =
-            createType === "tape"
-              ? state.tapes.length - 1
-              : state.masks.length - 1;
-          selection =
-            createType === "tape"
-              ? {
-                  type: createType,
-                  index,
-                  init: state.tapes[index],
-                }
-              : {
-                  type: createType,
-                  index,
-                  init: state.masks[index],
-                };
-        }
       isCreating = false;
       isEditing = false;
     }
@@ -441,7 +422,7 @@ export default function Canvas({ formId, init }: CanvasProps) {
         startMidpointY = midpoint.y - translateY;
       } else if (e.touches.length === 1) {
         e.preventDefault();
-        if (!selection) handleClick(e);
+        handleClick(e);
         handleStart(e);
       }
     }
