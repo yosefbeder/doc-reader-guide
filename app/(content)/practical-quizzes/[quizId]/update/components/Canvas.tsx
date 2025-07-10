@@ -32,7 +32,7 @@ interface CanvasProps {
   formId: string;
   init?: {
     id: number;
-    state?: State;
+    state: State;
     imageUrl?: string;
   };
 }
@@ -573,7 +573,6 @@ export default function Canvas({ formId, init }: CanvasProps) {
   return (
     <>
       <input
-        required={init ? false : true}
         type="file"
         accept="image/*"
         name="image"

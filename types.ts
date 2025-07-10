@@ -118,9 +118,9 @@ export interface PracticalQuiz extends DatabaseTable {
 }
 
 export interface PracticalQuestion extends DatabaseTable {
-  image: string;
-  width: number;
-  height: number;
+  image?: string;
+  width?: number;
+  height?: number;
   masks: Rect[];
   tapes: Rect[];
   writtenQuestions: WrittenQuestion[];

@@ -180,10 +180,11 @@ export default function QuestionsList({
   const [factor, setFactor] = useState<number>();
 
   useEffect(() => {
+    if (!orderedQuestions[currentIndex].image) return;
     const adjustImage = () => {
       const width =
         outerWidth - X_MARGIN * 2 > 512 ? 512 : outerWidth - X_MARGIN * 2;
-      setFactor(width / orderedQuestions[currentIndex].width);
+      setFactor(width / orderedQuestions[currentIndex].width!);
     };
     adjustImage();
     window.addEventListener("resize", adjustImage);
@@ -236,43 +237,45 @@ export default function QuestionsList({
         <ol>
           {orderedQuestions.map((question) => (
             <>
-              <div className="relative mb-4">
-                <img
-                  src={`${process.env.NEXT_PUBLIC_STATIC_URL}/image/${question.image}`}
-                  width={question.width * factor}
-                  height={question.height * factor}
-                  alt="Question"
-                />
-                {question.masks.map(({ id, x, y, w, h }) => (
-                  <div
-                    key={"mask-" + id}
-                    style={{
-                      position: "absolute",
-                      left: x * factor,
-                      top: y * factor,
-                      width: w * factor,
-                      height: h * factor,
-                      background: "white",
-                      border: "2px solid black",
-                    }}
-                  ></div>
-                ))}
-                {question.tapes.map(({ id, x, y, w, h }) => (
-                  <div
-                    key={"tape-" + id}
-                    className={`border-2 ${borderSummary.get(
-                      answers.tapes.get(id)!
-                    )}`}
-                    style={{
-                      position: "absolute",
-                      left: x * factor,
-                      top: y * factor,
-                      width: w * factor,
-                      height: h * factor,
-                    }}
-                  ></div>
-                ))}
-              </div>
+              {question.image && (
+                <div className="relative mb-4">
+                  <img
+                    src={`${process.env.NEXT_PUBLIC_STATIC_URL}/image/${question.image}`}
+                    width={question.width! * factor}
+                    height={question.height! * factor}
+                    alt="Question"
+                  />
+                  {question.masks.map(({ id, x, y, w, h }) => (
+                    <div
+                      key={"mask-" + id}
+                      style={{
+                        position: "absolute",
+                        left: x * factor,
+                        top: y * factor,
+                        width: w * factor,
+                        height: h * factor,
+                        background: "white",
+                        border: "2px solid black",
+                      }}
+                    ></div>
+                  ))}
+                  {question.tapes.map(({ id, x, y, w, h }) => (
+                    <div
+                      key={"tape-" + id}
+                      className={`border-2 ${borderSummary.get(
+                        answers.tapes.get(id)!
+                      )}`}
+                      style={{
+                        position: "absolute",
+                        left: x * factor,
+                        top: y * factor,
+                        width: w * factor,
+                        height: h * factor,
+                      }}
+                    ></div>
+                  ))}
+                </div>
+              )}
               <ol className="mb-4">
                 {question.writtenQuestions.map(
                   ({ id, text, answer }, index) => {
@@ -301,68 +304,71 @@ export default function QuestionsList({
       <h2 className="mb-4">
         Question {currentIndex + 1} of {orderedQuestions.length}
       </h2>
-      <div className="relative mb-4">
-        <img
-          key={currentQuestion}
-          src={`${process.env.NEXT_PUBLIC_STATIC_URL}/image/${orderedQuestions[currentIndex].image}`}
-          width={orderedQuestions[currentIndex].width * factor}
-          height={orderedQuestions[currentIndex].height * factor}
-          alt="Question"
-          loading="eager"
-        />
-        {orderedQuestions[currentIndex].masks.map(({ id, x, y, w, h }) => (
-          <div
-            key={"mask-" + id}
-            style={{
-              position: "absolute",
-              left: x * factor,
-              top: y * factor,
-              width: w * factor,
-              height: h * factor,
-              background: "white",
-              border: "2px solid black",
-            }}
-          ></div>
-        ))}
-        {orderedQuestions[currentIndex].tapes.map(({ id, x, y, w, h }) => {
-          const questionState = answers.tapes.get(id)!;
-          return (
-            <>
-              {questionState === QuestionState.UNSELECTED && (
-                <SelectAnswerDialogue
-                  key={"dialogue-" + id}
+      {orderedQuestions[currentIndex].image && (
+        <div className="relative mb-4">
+          <img
+            key={currentQuestion}
+            src={`${process.env.NEXT_PUBLIC_STATIC_URL}/image/${orderedQuestions[currentIndex].image}`}
+            width={orderedQuestions[currentIndex].width! * factor}
+            height={orderedQuestions[currentIndex].height! * factor}
+            alt="Question"
+            loading="eager"
+          />
+          {orderedQuestions[currentIndex].masks.map(({ id, x, y, w, h }) => (
+            <div
+              key={"mask-" + id}
+              style={{
+                position: "absolute",
+                left: x * factor,
+                top: y * factor,
+                width: w * factor,
+                height: h * factor,
+                background: "white",
+                border: "2px solid black",
+              }}
+            ></div>
+          ))}
+          {orderedQuestions[currentIndex].tapes.map(({ id, x, y, w, h }) => {
+            const questionState = answers.tapes.get(id)!;
+            return (
+              <>
+                {questionState === QuestionState.UNSELECTED && (
+                  <SelectAnswerDialogue
+                    key={"dialogue-" + id}
+                    style={{
+                      position: "absolute",
+                      zIndex: 10,
+                      top: y * factor - 30,
+                      left: x * factor,
+                    }}
+                    onTrue={() => updateTapeState(id, QuestionState.TRUE)}
+                    onFalse={() => updateTapeState(id, QuestionState.FALSE)}
+                  />
+                )}
+                <button
+                  className={`border-2 ${border.get(questionState)} ${
+                    questionState === QuestionState.UNANSWERED &&
+                    "bg-yellow-200"
+                  }`}
+                  key={"tape-" + id}
                   style={{
                     position: "absolute",
-                    zIndex: 10,
-                    top: y * factor - 30,
                     left: x * factor,
+                    top: y * factor,
+                    width: w * factor,
+                    height: h * factor,
                   }}
-                  onTrue={() => updateTapeState(id, QuestionState.TRUE)}
-                  onFalse={() => updateTapeState(id, QuestionState.FALSE)}
-                />
-              )}
-              <button
-                className={`border-2 ${border.get(questionState)} ${
-                  questionState === QuestionState.UNANSWERED && "bg-yellow-200"
-                }`}
-                key={"tape-" + id}
-                style={{
-                  position: "absolute",
-                  left: x * factor,
-                  top: y * factor,
-                  width: w * factor,
-                  height: h * factor,
-                }}
-                onClick={() => {
-                  if (answers.tapes.get(id) === QuestionState.UNANSWERED) {
-                    updateTapeState(id, QuestionState.UNSELECTED);
-                  }
-                }}
-              ></button>
-            </>
-          );
-        })}
-      </div>
+                  onClick={() => {
+                    if (answers.tapes.get(id) === QuestionState.UNANSWERED) {
+                      updateTapeState(id, QuestionState.UNSELECTED);
+                    }
+                  }}
+                ></button>
+              </>
+            );
+          })}
+        </div>
+      )}
       <ol className="mb-4">
         {orderedQuestions[currentIndex].writtenQuestions.map(
           ({ id, text, answer }, index) => {
