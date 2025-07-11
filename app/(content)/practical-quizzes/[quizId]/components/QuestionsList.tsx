@@ -183,19 +183,20 @@ export default function QuestionsList({
     [currentQuestion]
   );
   const [factor, setFactor] = useState<number>();
+  const calcFactor = useCallback((width: number) => {
+    return (
+      (outerWidth - X_MARGIN * 2 > 512 ? 512 : outerWidth - X_MARGIN * 2) /
+      width
+    );
+  }, []);
 
   useEffect(() => {
     if (!orderedQuestions[currentIndex].image) return;
-    const adjustImage = () => {
-      const width =
-        outerWidth - X_MARGIN * 2 > 512 ? 512 : outerWidth - X_MARGIN * 2;
-      setFactor(width / orderedQuestions[currentIndex].width!);
-    };
+    const adjustImage = () =>
+      setFactor(calcFactor(orderedQuestions[currentIndex].width!));
     adjustImage();
     window.addEventListener("resize", adjustImage);
-    return () => {
-      window?.removeEventListener("resize", adjustImage);
-    };
+    return () => window?.removeEventListener("resize", adjustImage);
   }, [currentIndex]);
 
   if (!isLoaded || !factor) return;
@@ -231,66 +232,71 @@ export default function QuestionsList({
           <span className="text-yellow-600">* Skipped</span>
         </p>
         <ol>
-          {orderedQuestions.map((question) => (
-            <>
-              {question.image && (
-                <div className="relative mb-4">
-                  <img
-                    src={`${process.env.NEXT_PUBLIC_STATIC_URL}/image/${question.image}`}
-                    width={question.width! * factor}
-                    height={question.height! * factor}
-                    alt="Question"
-                  />
-                  {question.masks.map(({ id, x, y, w, h }) => (
-                    <div
-                      key={"mask-" + id}
-                      style={{
-                        position: "absolute",
-                        left: x * factor,
-                        top: y * factor,
-                        width: w * factor,
-                        height: h * factor,
-                        background: "white",
-                        border: "2px solid black",
-                      }}
-                    ></div>
-                  ))}
-                  {question.tapes.map(({ id, x, y, w, h }) => (
-                    <div
-                      key={"tape-" + id}
-                      className={`border-2 ${borderSummary.get(
-                        answers.tapes.get(id)!
-                      )}`}
-                      style={{
-                        position: "absolute",
-                        left: x * factor,
-                        top: y * factor,
-                        width: w * factor,
-                        height: h * factor,
-                      }}
-                    ></div>
-                  ))}
-                </div>
-              )}
-              <ol className="mb-4">
-                {question.writtenQuestions.map(
-                  ({ id, text, answer }, index) => {
-                    const questionState = answers.writtenQuestions.get(id)!;
-                    return (
-                      <li key={`question-${id}`}>
-                        <p className="font-bold">
-                          {index + 1}. {text}
-                        </p>
-                        <p className={writtenAnswerSummary.get(questionState)}>
-                          {answer}
-                        </p>
-                      </li>
-                    );
-                  }
+          {orderedQuestions.map((question) => {
+            const factor = question.image ? calcFactor(question.width!) : null;
+            return (
+              <>
+                {factor && (
+                  <div className="relative mb-4">
+                    <img
+                      src={`${process.env.NEXT_PUBLIC_STATIC_URL}/image/${question.image}`}
+                      width={question.width! * factor}
+                      height={question.height! * factor}
+                      alt="Question"
+                    />
+                    {question.masks.map(({ id, x, y, w, h }) => (
+                      <div
+                        key={"mask-" + id}
+                        style={{
+                          position: "absolute",
+                          left: x * factor,
+                          top: y * factor,
+                          width: w * factor,
+                          height: h * factor,
+                          background: "white",
+                          border: "2px solid black",
+                        }}
+                      ></div>
+                    ))}
+                    {question.tapes.map(({ id, x, y, w, h }) => (
+                      <div
+                        key={"tape-" + id}
+                        className={`border-2 ${borderSummary.get(
+                          answers.tapes.get(id)!
+                        )}`}
+                        style={{
+                          position: "absolute",
+                          left: x * factor,
+                          top: y * factor,
+                          width: w * factor,
+                          height: h * factor,
+                        }}
+                      ></div>
+                    ))}
+                  </div>
                 )}
-              </ol>
-            </>
-          ))}
+                <ol className="mb-4">
+                  {question.writtenQuestions.map(
+                    ({ id, text, answer }, index) => {
+                      const questionState = answers.writtenQuestions.get(id)!;
+                      return (
+                        <li key={`question-${id}`}>
+                          <p className="font-bold">
+                            {index + 1}. {text}
+                          </p>
+                          <p
+                            className={writtenAnswerSummary.get(questionState)}
+                          >
+                            {answer}
+                          </p>
+                        </li>
+                      );
+                    }
+                  )}
+                </ol>
+              </>
+            );
+          })}
         </ol>
       </>
     );
