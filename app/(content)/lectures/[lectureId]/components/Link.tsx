@@ -45,7 +45,7 @@ export default function Link({
           </div>
           <ul className="flex items-center gap-2">
             {[url, ...additionalUrls].map((url, index) => (
-              <li>
+              <li key={index}>
                 <a href={url} target="_blank">
                   {index + 1}
                   <sup>{getPrefix(index + 1)}</sup>
