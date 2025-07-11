@@ -302,7 +302,6 @@ export default function Canvas({ formId, init }: CanvasProps) {
           }
         }
       if (clickSelection) selection = clickSelection;
-      else selection = null;
     }
 
     function handleStart(e: MouseEvent | TouchEvent) {
@@ -409,6 +408,21 @@ export default function Canvas({ formId, init }: CanvasProps) {
     }
 
     function handleEnd() {
+      if (isCreating) {
+        const index =
+          createType === "tape"
+            ? state.tapes.length - 1
+            : state.masks.length - 1;
+        selection = {
+          type: createType,
+          init: {
+            ...(createType === "tape"
+              ? state.tapes[index]
+              : state.masks[index]),
+          },
+          index,
+        };
+      }
       state.tapes.forEach((_, index) => normalize("tape", index));
       state.masks.forEach((_, index) => normalize("mask", index));
       isCreating = false;
