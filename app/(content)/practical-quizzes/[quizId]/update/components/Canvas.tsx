@@ -247,7 +247,8 @@ export default function Canvas({ formId, init }: CanvasProps) {
     function handleUndo() {
       if (undoStack.length > 0) {
         redoStack.push(state);
-        setReactState(undoStack.pop()!);
+        state = undoStack.pop()!;
+        setReactState(JSON.parse(JSON.stringify(state)));
         selection = null;
       }
     }
@@ -255,7 +256,8 @@ export default function Canvas({ formId, init }: CanvasProps) {
     function handleRedo() {
       if (redoStack.length > 0) {
         undoStack.push(state);
-        setReactState(redoStack.pop()!);
+        state = redoStack.pop()!;
+        setReactState(JSON.parse(JSON.stringify(state)));
         selection = null;
       }
     }
