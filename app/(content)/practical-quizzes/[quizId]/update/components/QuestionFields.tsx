@@ -111,7 +111,6 @@ export default function QuestionFields({
             </div>
             <ButtonIcon
               icon="x-mark"
-              disabled={writtenQuestions.length < 2}
               onClick={() =>
                 setWrittenQuestions((prev) => [
                   ...prev.slice(0, index),
