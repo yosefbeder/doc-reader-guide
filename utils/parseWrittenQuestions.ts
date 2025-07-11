@@ -1,5 +1,3 @@
-import getNumber from "./getNumber";
-
 export default function parseWrittenQuestions(formData: FormData) {
   const writtenQuestions = [];
 

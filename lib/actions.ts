@@ -8,6 +8,7 @@ import { FormState } from "@/types";
 import getNumber from "@/utils/getNumber";
 import parseOptions from "@/utils/parseOptions";
 import parseWrittenQuestions from "@/utils/parseWrittenQuestions";
+import parseUrls from "@/utils/parseUrls";
 
 export async function login(
   _prevState: FormState,
@@ -436,7 +437,7 @@ export async function addLink(
   const data = {
     title: formData.get("title"),
     subTitle: formData.get("sub-title") || undefined,
-    url: formData.get("url"),
+    urls: parseUrls(formData),
     type: formData.get("type"),
     category: formData.get("category"),
     lectureId,
@@ -477,7 +478,7 @@ export async function updateLink(
   const data = {
     title: formData.get("title"),
     subTitle: formData.get("sub-title") || "",
-    url: formData.get("url"),
+    urls: parseUrls(formData),
     type: formData.get("type"),
     category: formData.get("category"),
     lectureId,

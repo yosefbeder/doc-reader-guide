@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import Input from "@/components/Input";
 import Select from "@/components/Select";
 import { Link } from "@/types";
+import ButtonIcon from "@/components/ButtonIcon";
 
 export default function LinkFields({
   lectureId,
@@ -20,6 +21,16 @@ export default function LinkFields({
     defaultValues?.category || "College"
   );
   const [type, setType] = useState(defaultValues?.type || "Video");
+  const [urls, setUrls] = useState(
+    defaultValues
+      ? [defaultValues?.url, ...defaultValues?.additionalUrls].map(
+          (url, index) => ({ id: index, value: url })
+        )
+      : [{ id: 0, value: "https://example.com/" }]
+  );
+  const [currentCounter, setCurrentCounter] = useState(
+    defaultValues ? defaultValues.additionalUrls.length + 1 : 1
+  );
 
   useEffect(() => {
     if (defaultValues) return;
@@ -83,16 +94,49 @@ export default function LinkFields({
         className="mb-4"
         form={formId}
       />
-      <Input
-        label="Link"
-        icon="link"
-        type="url"
-        name="url"
-        id={`link-${defaultValues?.id || "new"}-url`}
-        required
-        defaultValue={defaultValues?.url}
-        className="mb-4"
-        form={formId}
+      <ul className="flex flex-col gap-2 mb-4">
+        {urls.map(({ id, value }, index) => (
+          <li key={id} className="flex items-center gap-2">
+            <input
+              type="url"
+              id={`link-${defaultValues?.id || "new"}-url-${id}`}
+              name={`url-${id}`}
+              className="grow"
+              value={value}
+              onChange={(e) => {
+                setUrls((prev) => [
+                  ...prev.slice(0, index),
+                  { id, value: e.target.value },
+                  ...prev.slice(index + 1),
+                ]);
+              }}
+              form={formId}
+            />
+            <ButtonIcon
+              icon="x-mark"
+              disabled={urls.length < 2}
+              onClick={() =>
+                setUrls((prev) => [
+                  ...prev.slice(0, index),
+                  ...prev.slice(index + 1),
+                ])
+              }
+            />
+          </li>
+        ))}
+      </ul>
+      <ButtonIcon
+        icon="plus"
+        type="button"
+        className="w-max mb-4"
+        onClick={() => {
+          if (currentCounter >= +process.env.NEXT_PUBLIC_OPTIONS_LIMIT!) return;
+          setUrls((prev) => [
+            ...prev,
+            { id: currentCounter, value: "https://example.com/" },
+          ]);
+          setCurrentCounter((prev) => prev + 1);
+        }}
       />
       <Select
         label="Type"
