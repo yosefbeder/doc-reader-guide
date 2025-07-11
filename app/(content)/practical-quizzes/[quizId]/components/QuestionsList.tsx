@@ -83,6 +83,18 @@ export default function QuestionsList({
     tapes: new Map<number, QuestionState>(),
     writtenQuestions: new Map<number, QuestionState>(),
   });
+  const resetAnswers = useCallback(() => {
+    const temp = { tapes: new Map(), writtenQuestions: new Map() };
+    questions.forEach((question) => {
+      question.tapes.forEach(({ id }) =>
+        temp.tapes.set(id, QuestionState.UNANSWERED)
+      );
+      question.writtenQuestions.forEach(({ id }) =>
+        temp.writtenQuestions.set(id, QuestionState.UNANSWERED)
+      );
+    });
+    setAnswers(temp);
+  }, [questions]);
   const {
     orderedQuestions,
     currentQuestion,
@@ -106,42 +118,35 @@ export default function QuestionsList({
     },
     (storedAnswersString) => {
       if (storedAnswersString) {
-        const { tapes, writtenQuestions } = JSON.parse(storedAnswersString);
+        const storedAnswers = JSON.parse(storedAnswersString);
+        const storedTapes = new Map<number, QuestionState>(storedAnswers.tapes);
+        const storedWrittenQuestions = new Map<number, QuestionState>(
+          storedAnswers.writtenQuestions
+        );
         const temp = {
-          tapes: new Map<number, QuestionState>(tapes),
-          writtenQuestions: new Map<number, QuestionState>(writtenQuestions),
+          tapes: new Map<number, QuestionState>(),
+          writtenQuestions: new Map<number, QuestionState>(),
         };
-        questions.forEach((questions) => {
-          questions.tapes.forEach(({ id }) =>
+        questions.forEach((question) => {
+          question.tapes.forEach(({ id }) =>
             temp.tapes.set(
               id,
-              temp.tapes.has(id)
-                ? temp.tapes.get(id)!
+              storedTapes.has(id)
+                ? storedTapes.get(id)!
                 : QuestionState.UNANSWERED
             )
           );
-          questions.writtenQuestions.forEach(({ id }) =>
+          question.writtenQuestions.forEach(({ id }) =>
             temp.writtenQuestions.set(
               id,
-              temp.writtenQuestions.has(id)
-                ? temp.writtenQuestions.get(id)!
+              storedWrittenQuestions.has(id)
+                ? storedWrittenQuestions.get(id)!
                 : QuestionState.UNANSWERED
             )
           );
         });
         setAnswers(temp);
-      } else {
-        const temp = { tapes: new Map(), writtenQuestions: new Map() };
-        questions.forEach((questions) => {
-          questions.tapes.forEach(({ id }) =>
-            temp.tapes.set(id, QuestionState.UNANSWERED)
-          );
-          questions.writtenQuestions.forEach(({ id }) =>
-            temp.writtenQuestions.set(id, QuestionState.UNANSWERED)
-          );
-        });
-        setAnswers(temp);
-      }
+      } else resetAnswers();
     },
     true
   );
@@ -209,16 +214,7 @@ export default function QuestionsList({
             icon="arrow-path"
             onClick={() => {
               resetState();
-              setAnswers((prev) => {
-                const temp = { tapes: new Map(), writtenQuestions: new Map() };
-                prev.tapes.forEach((_, key) =>
-                  temp.tapes.set(key, QuestionState.UNANSWERED)
-                );
-                prev.writtenQuestions.forEach((_, key) =>
-                  temp.writtenQuestions.set(key, QuestionState.UNANSWERED)
-                );
-                return temp;
-              });
+              resetAnswers();
             }}
           />
         </div>
