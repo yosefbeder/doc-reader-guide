@@ -29,7 +29,7 @@ export default function QuestionFields({
   >(
     init
       ? init.writtenQuestions.map((value, index) => ({ counter: index, value }))
-      : [{ counter: 0, value: { text: "Identify.", answer: "Answer 1." } }]
+      : [{ counter: 0, value: { text: "", answer: "" } }]
   );
   const [currentCounter, setCurrentCounter] = useState(1);
 
@@ -84,6 +84,7 @@ export default function QuestionFields({
                   init ? init.id : "new"
                 }-written-question-${counter}-text`}
                 value={text}
+                placeholder="Question"
                 onChange={(e) => {
                   setWrittenQuestions((prev) => [
                     ...prev.slice(0, index),
@@ -99,6 +100,7 @@ export default function QuestionFields({
                   init ? init.id : "new"
                 }-written-question-${counter}-answer`}
                 value={answer}
+                placeholder="Answer"
                 onChange={(e) => {
                   setWrittenQuestions((prev) => [
                     ...prev.slice(0, index),
@@ -132,8 +134,8 @@ export default function QuestionFields({
             {
               counter: currentCounter,
               value: {
-                text: `Question ${currentCounter + 1}.`,
-                answer: `Answer ${currentCounter + 1}.`,
+                text: "",
+                answer: "",
               },
             },
           ]);
