@@ -199,7 +199,7 @@ export default function QuestionsList({
     return () => window?.removeEventListener("resize", adjustImage);
   }, [currentIndex]);
 
-  if (!isLoaded || !factor) return;
+  if (!isLoaded) return;
 
   if (showingResults) {
     let total = answers.tapes.size + answers.writtenQuestions.size;
@@ -306,7 +306,7 @@ export default function QuestionsList({
       <h2 className="mb-4">
         Question {currentIndex + 1} of {orderedQuestions.length}
       </h2>
-      {orderedQuestions[currentIndex].image && (
+      {orderedQuestions[currentIndex].image && factor && (
         <div className="relative mb-4">
           <img
             key={currentQuestion}
