@@ -24,37 +24,38 @@ export default function QuestionWrapper<T extends DatabaseTable>({
   children,
 }: QuestionWrapperProps<T>) {
   return (
-    <div className="max-w-lg">
-      <h2 className="mb-4">
-        Question {currentIndex + 1} of {questions.length}
-      </h2>
-      {children}
-      <div className="flex justify-between mb-4">
+    <>
+      <div className="flex flex-col gap-4 pb-[73px]">{children}</div>
+      <div className="w-full max-w-screen-lg fixed bottom-0 left-1/2 -translate-x-1/2 flex justify-between items-center py-4 px-2 bg-white border-t border-slate-200">
         <Button onClick={backQuestion} disabled={currentIndex === 0}>
-          ← Back
+          Back
         </Button>
-        <Button
-          onClick={nextQuestion}
-          disabled={currentIndex === questions.length - 1}
-        >
-          Next →
-        </Button>
+        <span className="text-base text-slate-500">
+          <select
+            onChange={(e) => setCurrentQuestion(+e.target.value)}
+            value={currentQuestion}
+          >
+            {questions.map(({ id }, index) => (
+              <option key={id} value={id}>
+                {index + 1}
+              </option>
+            ))}
+          </select>{" "}
+          / {questions.length}
+        </span>
+        {currentIndex === questions.length - 1 ? (
+          <Button color="yellow" onClick={() => setShowingResults(true)}>
+            End
+          </Button>
+        ) : (
+          <Button
+            onClick={nextQuestion}
+            disabled={currentIndex === questions.length - 1}
+          >
+            Next
+          </Button>
+        )}
       </div>
-      <div className="flex justify-between mb-4">
-        <select
-          onChange={(e) => setCurrentQuestion(+e.target.value)}
-          value={currentQuestion}
-        >
-          {questions.map(({ id }, index) => (
-            <option key={id} value={id}>
-              Question {index + 1}
-            </option>
-          ))}
-        </select>
-        <Button color="yellow" onClick={() => setShowingResults(true)}>
-          End Quiz
-        </Button>
-      </div>
-    </div>
+    </>
   );
 }

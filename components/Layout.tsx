@@ -6,11 +6,13 @@ export default function Layout({
   title,
   updateable,
   border,
+  footer = true,
   children,
 }: Readonly<{
   title: string;
   updateable?: boolean;
   border?: boolean;
+  footer?: boolean;
   children: React.ReactNode;
 }>) {
   return (
@@ -18,7 +20,7 @@ export default function Layout({
       <Nav title={title} updateable={updateable} border={border} />
       <NotificationsToast />
       {children}
-      <Footer />
+      {footer && <Footer />}
     </>
   );
 }

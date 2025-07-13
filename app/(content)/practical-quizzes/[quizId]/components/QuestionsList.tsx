@@ -179,7 +179,7 @@ export default function QuestionsList({
       {...rest}
     >
       {orderedQuestions[currentIndex].image && factor && (
-        <div className="relative mb-4">
+        <div className="relative">
           <img
             key={currentQuestion}
             src={`${process.env.NEXT_PUBLIC_STATIC_URL}/image/${orderedQuestions[currentIndex].image}`}
@@ -243,7 +243,7 @@ export default function QuestionsList({
           })}
         </div>
       )}
-      <ol className="mb-4">
+      <ol>
         {orderedQuestions[currentIndex].writtenQuestions.map(
           ({ id, text, answer }, index) => {
             const questionState = answers.writtenQuestions.get(id)!;

@@ -6,7 +6,7 @@ export default function LinksPageLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <Layout title="Practical" updateable>
+    <Layout title="Practical" updateable footer={false}>
       {children}
     </Layout>
   );

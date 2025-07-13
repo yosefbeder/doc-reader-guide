@@ -88,17 +88,27 @@ export default function QuestionsList({
       currentIndex={currentIndex}
       {...rest}
     >
-      <h3 className="p-4 rounded-xl bg-cyan-50 mb-4">
+      <h3 className="p-4 rounded-xl bg-cyan-50">
         {questions[currentIndex].text}
       </h3>
       {questions[currentIndex].image ? (
         <img
           src={questions[currentIndex].image}
-          className="mb-4"
           alt="Question associated diagram"
         />
       ) : null}
-      <ol className="list-[upper-alpha] list-inside flex flex-col gap-2 mb-4 px-2">
+      {answers.has(currentQuestion) && explanation ? (
+        <Message type="information">
+          {isValidURL(explanation) ? (
+            <a href={explanation} target="_blank">
+              {explanation}
+            </a>
+          ) : (
+            explanation
+          )}
+        </Message>
+      ) : null}
+      <ol className="list-[upper-alpha] list-inside flex flex-col gap-2 px-2">
         {questions[currentIndex].options.map((option, index) => {
           const answer = answers.get(currentQuestion);
           return (
@@ -128,17 +138,6 @@ export default function QuestionsList({
           );
         })}
       </ol>
-      {answers.has(currentQuestion) && explanation ? (
-        <Message type="information" className="mb-4">
-          {isValidURL(explanation) ? (
-            <a href={explanation} target="_blank">
-              {explanation}
-            </a>
-          ) : (
-            explanation
-          )}
-        </Message>
-      ) : null}
     </QuestionWrapper>
   );
 }
