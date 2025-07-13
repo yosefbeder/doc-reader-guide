@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, { useCallback, useEffect, useState } from "react";
 import { Answers } from "./QuestionsList";
 import { PracticalQuestion, QuestionState } from "@/types";
 import ButtonIcon from "@/components/ButtonIcon";
@@ -36,6 +38,21 @@ export default function Summary({
   answers.writtenQuestions.forEach(
     (value) => value === QuestionState.TRUE && correct++
   );
+  const calcFactors = useCallback(
+    () =>
+      questions.map((question) =>
+        question.image ? calcFactor(question.width!) : null
+      ),
+    [questions]
+  );
+  const [factors, setFactors] = useState(calcFactors());
+
+  useEffect(() => {
+    const adjustImages = () => setFactors(calcFactors());
+    window.addEventListener("resize", adjustImages);
+    return () => window.removeEventListener("resize", adjustImages);
+  }, [calcFactors]);
+
   return (
     <>
       <div className="flex gap-2 mb-4">
@@ -54,8 +71,8 @@ export default function Summary({
         <span className="text-yellow-600">* Skipped</span>
       </p>
       <ol>
-        {questions.map((question) => {
-          const factor = question.image ? calcFactor(question.width!) : null;
+        {questions.map((question, index) => {
+          const factor = factors[index];
           return (
             <>
               {factor && (
