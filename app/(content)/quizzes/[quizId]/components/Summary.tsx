@@ -48,7 +48,7 @@ export default function Summary({
         <ButtonIcon icon="printer" onClick={reactToPrintFn} />
         <ButtonIcon icon="arrow-path" onClick={resetState} />
       </div>
-      <div className="max-w-lg print-section" ref={contentRef}>
+      <div className="max-w-xl print-section" ref={contentRef}>
         <div className="print-only">
           <Logo />
         </div>

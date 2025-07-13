@@ -119,7 +119,7 @@ export default function Summary({
                   ({ id, text, answer }, index) => {
                     const questionState = answers.writtenQuestions.get(id)!;
                     return (
-                      <li key={`question-${id}`}>
+                      <li key={`question-${id}`} className="max-w-xl">
                         <p className="font-bold">
                           {index + 1}. {text}
                         </p>

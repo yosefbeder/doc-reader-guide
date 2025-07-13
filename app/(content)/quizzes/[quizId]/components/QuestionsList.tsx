@@ -88,56 +88,58 @@ export default function QuestionsList({
       currentIndex={currentIndex}
       {...rest}
     >
-      <h3 className="p-4 rounded-xl bg-cyan-50">
-        {questions[currentIndex].text}
-      </h3>
-      {questions[currentIndex].image ? (
-        <img
-          src={questions[currentIndex].image}
-          alt="Question associated diagram"
-        />
-      ) : null}
-      {answers.has(currentQuestion) && explanation ? (
-        <Message type="information">
-          {isValidURL(explanation) ? (
-            <a href={explanation} target="_blank">
-              {explanation}
-            </a>
-          ) : (
-            explanation
-          )}
-        </Message>
-      ) : null}
-      <ol className="list-[upper-alpha] list-inside flex flex-col gap-2 px-2">
-        {questions[currentIndex].options.map((option, index) => {
-          const answer = answers.get(currentQuestion);
-          return (
-            <button
-              key={index}
-              className={`block w-full text-left p-2 rounded-xl border transition-colors disabled:cursor-not-allowed ${(() => {
-                if (answer !== undefined) {
-                  if (questions[currentIndex].correctOptionIndex === index)
-                    return "bg-green-100 hover:bg-green-200 border-green-600";
-                  else if (answer === index)
-                    return "bg-red-100 hover:bg-red-200 border-red-600";
-                }
-                return "bg-slate-50 hover:bg-slate-100 border-slate-300";
-              })()}`}
-              disabled={answer !== undefined}
-              onClick={() => {
-                if (answer) return;
-                setAnswers((prev) => {
-                  const newMap = new Map(prev);
-                  newMap.set(currentQuestion, index);
-                  return newMap;
-                });
-              }}
-            >
-              <li>{option}</li>
-            </button>
-          );
-        })}
-      </ol>
+      <div className="max-w-xl flex flex-col gap-4">
+        <h3 className="p-4 rounded-xl bg-cyan-50">
+          {questions[currentIndex].text}
+        </h3>
+        {questions[currentIndex].image ? (
+          <img
+            src={questions[currentIndex].image}
+            alt="Question associated diagram"
+          />
+        ) : null}
+        {answers.has(currentQuestion) && explanation ? (
+          <Message type="information">
+            {isValidURL(explanation) ? (
+              <a href={explanation} target="_blank">
+                {explanation}
+              </a>
+            ) : (
+              explanation
+            )}
+          </Message>
+        ) : null}
+        <ol className="list-[upper-alpha] list-inside flex flex-col gap-2 px-2">
+          {questions[currentIndex].options.map((option, index) => {
+            const answer = answers.get(currentQuestion);
+            return (
+              <button
+                key={index}
+                className={`block w-full text-left p-2 rounded-xl border transition-colors disabled:cursor-not-allowed ${(() => {
+                  if (answer !== undefined) {
+                    if (questions[currentIndex].correctOptionIndex === index)
+                      return "bg-green-100 hover:bg-green-200 border-green-600";
+                    else if (answer === index)
+                      return "bg-red-100 hover:bg-red-200 border-red-600";
+                  }
+                  return "bg-slate-50 hover:bg-slate-100 border-slate-300";
+                })()}`}
+                disabled={answer !== undefined}
+                onClick={() => {
+                  if (answer) return;
+                  setAnswers((prev) => {
+                    const newMap = new Map(prev);
+                    newMap.set(currentQuestion, index);
+                    return newMap;
+                  });
+                }}
+              >
+                <li>{option}</li>
+              </button>
+            );
+          })}
+        </ol>
+      </div>
     </QuestionWrapper>
   );
 }
