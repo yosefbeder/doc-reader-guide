@@ -1,16 +1,14 @@
 "use client";
 
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
-import { useReactToPrint } from "react-to-print";
 
-import Button from "@/components/Button";
-import ButtonIcon from "@/components/ButtonIcon";
 import Message from "@/components/Message";
 import { Question } from "@/types";
 import isValidURL from "@/utils/isValidURL";
-import Logo from "@/components/Logo";
 import { useQuestions } from "@/lib/hooks";
+import Summary from "./Summary";
+import QuestionWrapper from "@/components/QuestionWrapper";
 
 export default function QuestionsList({
   quizId,
@@ -23,43 +21,31 @@ export default function QuestionsList({
 }) {
   const [answers, setAnswers] = useState(new Map<number, number>());
   const {
+    orderedQuestions,
     currentQuestion,
-    setCurrentQuestion,
     currentIndex,
-    backQuestion,
-    nextQuestion,
     showingResults,
-    setShowingResults,
     isLoaded,
     resetState,
-  } = useQuestions(
-    questions,
-    `quiz-${quizId}-new`,
-    answers,
-    (x) => Array.from(x),
-    (storedAnswers) => {
-      try {
-        storedAnswers && setAnswers(new Map(storedAnswers));
-      } catch (err) {
-        resetState();
-      }
-    },
-    false
-  );
-  const explanation = questions[currentIndex].explanation;
-  const contentRef = React.useRef<HTMLDivElement>(null);
-  const reactToPrintFn = useReactToPrint({
-    contentRef,
-    documentTitle: title,
-    fonts: [
-      {
-        family: "Inter",
-        source:
-          "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap",
+    ...rest
+  } = useQuestions({
+    options: {
+      questions,
+      answers,
+      localStorageItem: `quiz-${quizId}-new`,
+      serializeAnswers: (x) => Array.from(x),
+      onLoad(storedAnswers) {
+        try {
+          storedAnswers && setAnswers(new Map(storedAnswers));
+        } catch (err) {
+          resetState();
+        }
       },
-    ],
-    preserveAfterPrint: true,
+      randomOrder: false,
+    },
   });
+  const explanation = questions[currentIndex].explanation;
+
   useHotkeys(
     "1,2,3,4,5",
     (event) => {
@@ -82,102 +68,26 @@ export default function QuestionsList({
   if (!isLoaded) return;
 
   if (showingResults) {
-    const correct = Array.from(answers.entries()).reduce(
-      (acc, [questionId, optionIndex]) =>
-        optionIndex ===
-        questions.find(({ id }) => id === questionId)?.correctOptionIndex
-          ? acc + 1
-          : acc,
-      0
-    );
     return (
-      <>
-        <div className="flex gap-2 mb-4">
-          <ButtonIcon icon="printer" onClick={reactToPrintFn} />
-          <ButtonIcon
-            icon="arrow-path"
-            onClick={() => {
-              setAnswers(new Map());
-              resetState();
-            }}
-          />
-        </div>
-        <div className="max-w-lg print-section" ref={contentRef}>
-          <div className="print-only">
-            <Logo />
-          </div>
-          <h1 className="my-4 print-only">{title}</h1>
-          <h2 className="my-4">
-            Result → {correct} / {questions.length} (
-            {Math.round((correct / questions.length) * 10000) / 100}%)
-          </h2>
-          <h2 className="my-4">Summary</h2>
-          <p className="my-4">
-            <span className="text-green-600">* Correct</span>
-            <br />
-            <span className="text-red-600">* Incorrect</span>
-            <br />
-            <span className="text-yellow-600">* Skipped</span>
-          </p>
-          <ol>
-            {questions.map((question, questionIndex) => {
-              return (
-                <li key={question.id}>
-                  <span className="font-bold">
-                    {questionIndex + 1}. {question.text}
-                  </span>
-                  {question.image ? (
-                    <img
-                      src={question.image}
-                      alt="Question associated diagram"
-                    />
-                  ) : null}
-                  <ol className="list-[upper-alpha] list-inside">
-                    {question.options.map((option, optionIndex) => (
-                      <li
-                        key={optionIndex}
-                        className={`${(() => {
-                          if (
-                            optionIndex ===
-                            questions[questionIndex].correctOptionIndex
-                          )
-                            if (!answers.has(question.id))
-                              return "text-yellow-600";
-                            else return "text-green-600";
-                          else if (answers.get(question.id) === optionIndex)
-                            return "text-red-600";
-                        })()}`}
-                      >
-                        {option}
-                      </li>
-                    ))}
-                  </ol>
-                  {question.explanation && (
-                    <p>
-                      <b>Explanation: </b>
-                      {isValidURL(question.explanation) ? (
-                        <a href={question.explanation} target="_blank">
-                          {question.explanation}
-                        </a>
-                      ) : (
-                        question.explanation
-                      )}
-                    </p>
-                  )}
-                </li>
-              );
-            })}
-          </ol>
-        </div>
-      </>
+      <Summary
+        title={title}
+        questions={questions}
+        answers={answers}
+        resetState={() => {
+          resetState();
+          setAnswers(new Map());
+        }}
+      />
     );
   }
 
   return (
-    <div className="max-w-lg">
-      <h2 className="mb-4">
-        Question {currentIndex + 1} of {questions.length}
-      </h2>
+    <QuestionWrapper
+      questions={orderedQuestions}
+      currentQuestion={currentQuestion}
+      currentIndex={currentIndex}
+      {...rest}
+    >
       <h3 className="p-4 rounded-xl bg-cyan-50 mb-4">
         {questions[currentIndex].text}
       </h3>
@@ -229,32 +139,6 @@ export default function QuestionsList({
           )}
         </Message>
       ) : null}
-      <div className="flex justify-between mb-4">
-        <Button onClick={backQuestion} disabled={currentIndex === 0}>
-          ← Back
-        </Button>
-        <Button
-          onClick={nextQuestion}
-          disabled={currentIndex === questions.length - 1}
-        >
-          {answers.has(currentQuestion) ? "Continue →" : "Skip →"}
-        </Button>
-      </div>
-      <div className="flex justify-between mb-4">
-        <select
-          onChange={(e) => setCurrentQuestion(+e.target.value)}
-          value={currentQuestion}
-        >
-          {questions.map(({ id }, index) => (
-            <option key={id} value={id}>
-              Question {index + 1}
-            </option>
-          ))}
-        </select>
-        <Button color="yellow" onClick={() => setShowingResults(true)}>
-          End Quiz
-        </Button>
-      </div>
-    </div>
+    </QuestionWrapper>
   );
 }

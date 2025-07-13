@@ -141,3 +141,10 @@ export interface WrittenQuestion extends DatabaseTable {
   text: string;
   answer: string;
 }
+
+export enum QuestionState {
+  TRUE,
+  FALSE,
+  UNANSWERED,
+  UNSELECTED,
+}

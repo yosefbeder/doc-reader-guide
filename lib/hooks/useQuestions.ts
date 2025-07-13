@@ -3,14 +3,27 @@ import { useHotkeys } from "react-hotkeys-hook";
 
 import { DatabaseTable } from "@/types";
 
-export default function useQuestions<T, U extends DatabaseTable>(
-  questions: U[],
-  localStorageItem: string,
-  answers: T,
-  serializeAnswers: (answers: T) => any,
-  onLoad: (storedAnswers?: any) => void,
-  randomOrder: boolean
-) {
+export interface Options<T, U extends DatabaseTable> {
+  questions: U[];
+  localStorageItem: string;
+  answers: T;
+  serializeAnswers: (answers: T) => any;
+  onLoad: (storedAnswers?: any) => void;
+  randomOrder: boolean;
+}
+
+export default function useQuestions<T, U extends DatabaseTable>({
+  options: {
+    questions,
+    localStorageItem,
+    answers,
+    serializeAnswers,
+    onLoad,
+    randomOrder,
+  },
+}: {
+  options: Options<T, U>;
+}) {
   const [orderedQuestions, setOrderedQuestions] = useState([...questions]);
   const [currentQuestion, setCurrentQuestion] = useState(
     orderedQuestions[0].id
