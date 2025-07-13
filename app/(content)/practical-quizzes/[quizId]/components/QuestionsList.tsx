@@ -204,6 +204,10 @@ export default function QuestionsList({
           ))}
           {orderedQuestions[currentIndex].tapes.map(({ id, x, y, w, h }) => {
             const questionState = answers.tapes.get(id)!;
+            const dialoguePosition =
+              x * factor + 80 > orderedQuestions[currentIndex].width! * factor
+                ? { right: 0 }
+                : { left: x * factor };
             return (
               <>
                 {questionState === QuestionState.UNSELECTED && (
@@ -213,7 +217,7 @@ export default function QuestionsList({
                       position: "absolute",
                       zIndex: 10,
                       top: y * factor - 30,
-                      left: x * factor,
+                      ...dialoguePosition,
                     }}
                     onTrue={() => updateTapeState(id, QuestionState.TRUE)}
                     onFalse={() => updateTapeState(id, QuestionState.FALSE)}
