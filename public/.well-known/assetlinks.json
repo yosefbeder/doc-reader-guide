@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.docreader.docreader_guide",
+      "sha256_cert_fingerprints": [
+        "A0:46:ED:09:27:D9:EB:AF:35:64:AF:75:E1:10:23:E0:D8:F7:2A:B9:B4:FF:4D:B8:E8:EF:1A:B7:F9:43:11:13"
+      ]
+    }
+  }
+]
