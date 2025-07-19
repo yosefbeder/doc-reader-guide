@@ -603,11 +603,21 @@ export default function Canvas({ formId, init }: CanvasProps) {
               <option value="tape">Tape</option>
               <option value="mask">Mask</option>
             </select>
-            <button ref={undoButtonRef}>Undo</button>
-            <button ref={redoButtonRef}>Redo</button>
-            <button ref={deleteButtonRef}>Delete</button>
-            <button ref={zoomInButtonRef}>+</button>
-            <button ref={zoomOutButtonRef}>-</button>
+            <button type="button" ref={undoButtonRef}>
+              Undo
+            </button>
+            <button type="button" ref={redoButtonRef}>
+              Redo
+            </button>
+            <button type="button" ref={deleteButtonRef}>
+              Delete
+            </button>
+            <button type="button" ref={zoomInButtonRef}>
+              +
+            </button>
+            <button type="button" ref={zoomOutButtonRef}>
+              -
+            </button>
           </div>
           <div
             style={{
