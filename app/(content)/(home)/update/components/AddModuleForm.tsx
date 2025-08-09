@@ -3,7 +3,7 @@
 import { useFormState } from "react-dom";
 
 import ModuleFields from "./ModuleFields";
-import { addModule } from "@/lib/actions";
+import { addModule } from "@/lib/actions/modules";
 import Message from "@/components/Message";
 import ButtonSubmit from "@/components/ButtonSubmit";
 import { useAddForm } from "@/lib/hooks";

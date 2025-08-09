@@ -1,6 +1,5 @@
 import { useRouter } from "next/navigation";
 import { useSWRConfig } from "swr";
-import Cookies from "js-cookie";
 
 import disableNotifications from "@/utils/disableNotifications";
 
@@ -10,12 +9,20 @@ export default function useLogout() {
 
   return async () => {
     try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/logout`, {
+        method: "POST",
+        credentials: "include",
+      });
+      const json = await res.json();
+      if (!res.ok) {
+        throw new Error(json.message || "Logout failed");
+      }
       if (localStorage.getItem("notifications-status") === "allowed") {
         await disableNotifications();
       }
-      Cookies.remove("jwt");
-      localStorage.removeItem("notifications-toast-denied");
       await mutate(() => true, undefined, { revalidate: false });
+      localStorage.removeItem("notifications-toast-denied");
+      localStorage.removeItem("select-class");
       router.replace("/login");
     } catch (err) {
       console.error(err);

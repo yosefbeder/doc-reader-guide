@@ -11,7 +11,7 @@ export default async function UpdateLinksPage({
 }: {
   params: { lectureId: string };
 }) {
-  const [lecture, { links, quizzes, practicalQuizzes }] = await Promise.all([
+  const [lecture, { links, quizzes }] = await Promise.all([
     getLecture(+lectureId),
     getLectureLinksAndQuizzes(+lectureId),
   ]);
@@ -36,7 +36,7 @@ export default async function UpdateLinksPage({
           lectureId={+lectureId}
           links={links}
           quizzes={quizzes}
-          practicalQuizzes={practicalQuizzes}
+          practicalQuizzes={[]}
         />
       </main>
     </>

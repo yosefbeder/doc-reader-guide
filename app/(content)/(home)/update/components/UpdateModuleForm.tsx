@@ -5,7 +5,7 @@ import { useRef } from "react";
 
 import ModuleFields from "./ModuleFields";
 import { Module } from "@/types";
-import { deleteModule, updateModule } from "@/lib/actions";
+import { deleteModule, updateModule } from "@/lib/actions/modules";
 import Message from "@/components/Message";
 import ButtonDelete from "@/components/ButtonDelete";
 import ButtonSubmit from "@/components/ButtonSubmit";

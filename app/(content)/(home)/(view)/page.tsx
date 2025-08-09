@@ -1,18 +1,18 @@
 "use client";
 
+import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import Cookies from "js-cookie";
 import useSWR from "swr";
 
 import getPrefix from "@/utils/getPrefix";
-import getModules from "@/utils/getModules";
-import getUser from "@/utils/getUser";
+import getModules from "@/utils/getModulesClient";
+import getUser from "@/utils/getUserClient";
 import Message from "@/components/Message";
 import CardPlaceholder from "@/components/CardPlaceholder";
-import { useEffect, useMemo, useState } from "react";
 import { icons } from "@/components/icons";
 import { useLogout } from "@/lib/hooks";
+import SelectClass from "./components/SelectClass";
 
 function CurrentTag({ semesterOpen }: { semesterOpen: boolean }) {
   return (
@@ -26,17 +26,16 @@ function CurrentTag({ semesterOpen }: { semesterOpen: boolean }) {
   );
 }
 
-async function loadModules() {
-  const yearId = (await getUser(Cookies.get("jwt")!)).yearId;
-  return await getModules(yearId);
-}
-
 export default function ModulesPage() {
   const currentSemesters = JSON.parse(
     process.env.NEXT_PUBLIC_CURRENT_SEMESTERS!
   );
   const logout = useLogout();
-  const { data: modules, error, isLoading } = useSWR("home", loadModules);
+  const {
+    data: modules,
+    error,
+    isLoading,
+  } = useSWR("home", async () => await getModules((await getUser()).yearId));
   const semesters = useMemo(
     () =>
       Array.from(new Set(modules?.map((module) => module.semesterName))).sort(),
@@ -53,6 +52,10 @@ export default function ModulesPage() {
   );
 
   if (error && error.status === 401) logout();
+
+  if (localStorage.getItem("select-class") === "true") {
+    return <SelectClass />;
+  }
 
   if (isLoading || !modules)
     return (
@@ -99,7 +102,11 @@ export default function ModulesPage() {
         return (
           <div key={index} className="overflow-hidden rounded-xl bg-slate-50">
             <button
-              onClick={() => setSelectedSemester(semesterName)}
+              onClick={() =>
+                setSelectedSemester((prev) =>
+                  semesterName === prev ? -1 : semesterName
+                )
+              }
               className={`w-full text-left flex items-center gap-2 p-2 rounded-b-xl ${
                 semesterOpen
                   ? "bg-cyan-600 hover:bg-cyan-700 text-white"

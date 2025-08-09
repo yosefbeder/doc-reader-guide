@@ -8,14 +8,22 @@ import Message from "./Message";
 
 export default function NotificationsToast() {
   const [isShown, setIsShown] = useState(true);
-  const { isMounted, isAllowed, isSupported, isLoading, error, toggle } =
-    useNotifications();
+  const {
+    isClassSelected,
+    isMounted,
+    isAllowed,
+    isSupported,
+    isLoading,
+    error,
+    toggle,
+  } = useNotifications();
   const onClose = useCallback(() => {
     localStorage.setItem("notifications-toast-denied", "true");
     setIsShown(false);
   }, []);
 
   if (
+    !isClassSelected ||
     !isMounted ||
     !isSupported ||
     isAllowed ||

@@ -6,7 +6,7 @@ import { useRef } from "react";
 import ButtonSubmit from "@/components/ButtonSubmit";
 import LectureFields from "./LectureFields";
 import { Lecture } from "@/types";
-import { deleteLecture, updateLecture } from "@/lib/actions";
+import { deleteLecture, updateLecture } from "@/lib/actions/lectures";
 import Message from "@/components/Message";
 import ButtonDelete from "@/components/ButtonDelete";
 import { useUpdateDeleteForms } from "@/lib/hooks";

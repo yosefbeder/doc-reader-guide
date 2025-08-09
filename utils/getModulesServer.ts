@@ -1,11 +1,9 @@
-import { Lecture } from "@/types";
+import { Module } from "@/types";
 import { cookies } from "next/headers";
 
-export default async function getLectures(
-  subjectId: number
-): Promise<Lecture[]> {
+export default async function getModules(yearId: number): Promise<Module[]> {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/subjects/${subjectId}/lectures?sort=date,createdAt`,
+    `${process.env.NEXT_PUBLIC_API_URL}/years/${yearId}/modules`,
     {
       headers: {
         "Content-Type": "application/json",
@@ -15,5 +13,5 @@ export default async function getLectures(
   );
   const json = await res.json();
   if (!res.ok) throw new Error(json.message);
-  return json.data.lectures;
+  return json.data.modules;
 }

@@ -7,7 +7,7 @@ export default function LogoutButton({ onClick, ...props }: ButtonProps) {
   const logout = useLogout();
 
   return (
-    <Button onClick={logout} {...props}>
+    <Button onClick={logout} color="rose" {...props}>
       Log out
     </Button>
   );

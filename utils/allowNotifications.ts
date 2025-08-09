@@ -23,11 +23,11 @@ export default async function allowNotifications() {
   }
   if (!token) throw new Error("Error");
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/user/register-device`,
+    `${process.env.NEXT_PUBLIC_API_URL}/users/me/devices`,
     {
       method: "POST",
+      credentials: "include",
       headers: {
-        authorization: `Bearer ${jwt}`,
         "content-type": "application/json;charset=UTF-8",
       },
       body: JSON.stringify({ token }),
@@ -37,4 +37,5 @@ export default async function allowNotifications() {
   if (!res.ok) throw new Error(json.message);
   localStorage.setItem("notifications-status", "allowed");
   localStorage.setItem("fcm-token", token);
+  localStorage.setItem("device-id", json.data.device.id);
 }

@@ -5,7 +5,7 @@ import { useReactToPrint } from "react-to-print";
 
 import ButtonIcon from "@/components/ButtonIcon";
 import { Quiz } from "@/types";
-import getQuiz from "@/utils/getQuiz";
+import getQuiz from "@/utils/getQuizClient";
 import Logo from "@/components/Logo";
 import isValidURL from "@/utils/isValidURL";
 

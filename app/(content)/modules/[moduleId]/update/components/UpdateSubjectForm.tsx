@@ -6,7 +6,7 @@ import { useFormState } from "react-dom";
 import ButtonSubmit from "@/components/ButtonSubmit";
 import SubjectFields from "./SubjectFields";
 import { Subject } from "@/types";
-import { deleteSubject, updateSubject } from "@/lib/actions";
+import { deleteSubject, updateSubject } from "@/lib/actions/subjects";
 import Message from "@/components/Message";
 import ButtonDelete from "@/components/ButtonDelete";
 import { useUpdateDeleteForms } from "@/lib/hooks";

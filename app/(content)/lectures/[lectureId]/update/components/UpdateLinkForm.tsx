@@ -4,7 +4,7 @@ import { useRef } from "react";
 import { useFormState } from "react-dom";
 
 import LinkFields from "./LinkFields";
-import { deleteLink, updateLink } from "@/lib/actions";
+import { deleteLink, updateLink } from "@/lib/actions/links";
 import Message from "@/components/Message";
 import ButtonSubmit from "@/components/ButtonSubmit";
 import { Link } from "@/types";

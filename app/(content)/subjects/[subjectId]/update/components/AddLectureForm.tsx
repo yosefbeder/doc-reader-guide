@@ -4,7 +4,7 @@ import { useFormState } from "react-dom";
 
 import ButtonSubmit from "@/components/ButtonSubmit";
 import LectureFields from "./LectureFields";
-import { addLecture } from "@/lib/actions";
+import { addLecture } from "@/lib/actions/lectures";
 import Message from "@/components/Message";
 import { useAddForm } from "@/lib/hooks";
 

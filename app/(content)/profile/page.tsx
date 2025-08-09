@@ -1,12 +1,10 @@
 "use client";
 
-import Cookies from "js-cookie";
 import useSWR from "swr";
 
 import LogoutButton from "./components/LogoutButton";
-import PersonalInfoForm from "./components/PersonalInfoForm";
-import PasswordForm from "./components/PasswordForm";
-import getUser from "@/utils/getUser";
+import PersonalInfoForm from "@/components/PersonalInfoForm";
+import getUser from "@/utils/getUserClient";
 import getFaculties from "@/utils/getFaculties";
 import ToggleNotifications from "./components/ToggleNotifications";
 import Layout from "@/components/Layout";
@@ -16,7 +14,7 @@ export default function ProfilePage() {
     data: user,
     isLoading: isUserLoading,
     error: userError,
-  } = useSWR("user", async () => getUser(Cookies.get("jwt")!));
+  } = useSWR("user", getUser);
   const {
     data: faculties,
     isLoading: areFacultiesLoading,
@@ -26,23 +24,26 @@ export default function ProfilePage() {
   return (
     <Layout title="Profile" border>
       <main className="main">
-        <div className="max-w-md">
-          <h2 className="mb-4">Settings</h2>
-          <h3 className="mb-4">Notifications</h3>
-          <div className="flex flex-col items-start gap-4 mb-4">
+        <div className="max-w-md flex flex-col gap-4 items-start">
+          <h2>Settings</h2>
+          <h3>Notifications</h3>
+          <div className="flex flex-col items-start gap-4 ">
             <ToggleNotifications />
           </div>
-          <h2 className="mb-4">Account</h2>
+          <h2>Account</h2>
           {isUserLoading || areFacultiesLoading ? (
-            <p className="mb-4">Loading...</p>
+            <p>Loading...</p>
           ) : userError || facultiesError ? (
-            <p className="mb-4">Error</p>
-          ) : (
-            user &&
-            faculties && <PersonalInfoForm faculties={faculties} user={user} />
-          )}
-          <PasswordForm />
-          <LogoutButton className="mb-4" />
+            <p>Error</p>
+          ) : null}
+          {user && faculties ? (
+            <PersonalInfoForm
+              user={user}
+              faculties={faculties}
+              buttonLabel="Update"
+            />
+          ) : null}
+          <LogoutButton />
         </div>
       </main>
     </Layout>

@@ -1,5 +1,5 @@
 import Path from "@/components/QuizPath";
-import getQuiz from "@/utils/getQuiz";
+import getQuiz from "@/utils/getQuizServer";
 import QuestionsList from "./components/QuestionsList";
 import Message from "@/components/Message";
 

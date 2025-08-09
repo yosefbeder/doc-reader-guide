@@ -4,7 +4,7 @@ import { useFormState } from "react-dom";
 
 import ButtonSubmit from "@/components/ButtonSubmit";
 import LinkFields from "./LinkFields";
-import { addLink } from "@/lib/actions";
+import { addLink } from "@/lib/actions/links";
 import Message from "@/components/Message";
 import { useAddForm } from "@/lib/hooks";
 

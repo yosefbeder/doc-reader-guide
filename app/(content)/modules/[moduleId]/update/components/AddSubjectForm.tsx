@@ -4,7 +4,7 @@ import { useFormState } from "react-dom";
 
 import ButtonSubmit from "@/components/ButtonSubmit";
 import SubjectFields from "./SubjectFields";
-import { addSubject } from "@/lib/actions";
+import { addSubject } from "@/lib/actions/subjects";
 import Message from "@/components/Message";
 import { useAddForm } from "@/lib/hooks";
 

@@ -5,7 +5,7 @@ import { useFormState } from "react-dom";
 
 import { Lecture } from "@/types";
 import ButtonDelete from "@/components/ButtonDelete";
-import { deleteLecture } from "@/lib/actions";
+import { deleteLecture } from "@/lib/actions/lectures";
 import Message from "@/components/Message";
 
 export default function DeleteSpecial({ lectures }: { lectures: Lecture[] }) {

@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useCallback, useMemo, useState } from "react";
-import Cookies from "js-cookie";
 import useSWR from "swr";
 import CheckboxTree from "react-checkbox-tree";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -27,17 +26,16 @@ export default function NotificationsDialogue({
   yearId: number;
   onClose: React.MouseEventHandler<HTMLDivElement | HTMLButtonElement>;
 }) {
-  const jwt = useMemo(() => Cookies.get("jwt")!, []);
   const fetcher = useCallback(
     async (key: string) => {
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/years/${yearId}/${key}`,
         {
-          headers: { authorization: `Bearer ${jwt}` },
+          credentials: "include",
         }
       );
       const json = await res.json();
-      return json.data as {
+      return { ...json.data, practicalQuizzes: [] } as {
         links: Link[];
         quizzes: Quiz[];
         practicalQuizzes: PracticalQuiz[];
@@ -45,14 +43,12 @@ export default function NotificationsDialogue({
     },
     [yearId]
   );
-  const { data, isLoading, error, mutate } = useSWR(
-    "notifiable-links",
-    fetcher,
-    { revalidateOnMount: true }
-  );
+  const { data, isLoading, error, mutate } = useSWR("notifiable", fetcher, {
+    revalidateOnMount: true,
+  });
   const lectures = useMemo(() => {
     if (!data) return [];
-    const { links, quizzes, practicalQuizzes } = data;
+    const { links, quizzes, practicalQuizzes = [] } = data;
     return getUniqueObjectsById(
       [...links, ...quizzes, ...practicalQuizzes].map(
         ({
@@ -200,12 +196,12 @@ export default function NotificationsDialogue({
                   const { links, quizzes, practicalQuizzes } = data;
                   setIsNotifying(true);
                   const res = await fetch(
-                    `${process.env.NEXT_PUBLIC_API_URL}/years/${yearId}/notifications/notify`,
+                    `${process.env.NEXT_PUBLIC_API_URL}/years/${yearId}/notify`,
                     {
                       method: "POST",
+                      credentials: "include",
                       headers: {
-                        authorization: `Bearer ${jwt}`,
-                        "content-type": "application/json;charset=UTF-8",
+                        "Content-Type": "application/json",
                       },
                       body: JSON.stringify({
                         links: checked
@@ -220,7 +216,7 @@ export default function NotificationsDialogue({
                       }),
                     }
                   );
-                  if (!res.ok) throw new Error("Failed ignoring");
+                  if (!res.ok) throw new Error("Failed notifying");
                   await mutate({
                     links: links.filter(
                       ({ id }) => !checked.includes(`link-${id}`)
@@ -246,12 +242,12 @@ export default function NotificationsDialogue({
                   const { links, quizzes, practicalQuizzes } = data;
                   setIsIgnoring(true);
                   const res = await fetch(
-                    `${process.env.NEXT_PUBLIC_API_URL}/years/${yearId}/notifications/ignore`,
+                    `${process.env.NEXT_PUBLIC_API_URL}/years/${yearId}/ignore`,
                     {
                       method: "POST",
+                      credentials: "include",
                       headers: {
-                        authorization: `Bearer ${jwt}`,
-                        "content-type": "application/json;charset=UTF-8",
+                        "Content-Type": "application/json",
                       },
                       body: JSON.stringify({
                         links: checked

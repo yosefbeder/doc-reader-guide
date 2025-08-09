@@ -1,11 +1,10 @@
-import getModules from "@/utils/getModules";
 import UpdateModuleForm from "./components/UpdateModuleForm";
 import AddModuleForm from "./components/AddModuleForm";
-import { cookies } from "next/headers";
-import getUser from "@/utils/getUser";
+import getUser from "@/utils/getUserServer";
+import getModules from "@/utils/getModulesServer";
 
 export default async function UpdateModulesPage() {
-  const { yearId } = await getUser(cookies().get("jwt")!.value!);
+  const { yearId } = await getUser();
   const modules = await getModules(yearId);
 
   return (

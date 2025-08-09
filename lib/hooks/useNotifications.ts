@@ -4,6 +4,7 @@ import allowNotifications from "@/utils/allowNotifications";
 import disableNotifications from "@/utils/disableNotifications";
 
 export default function useNotifications() {
+  const [isClassSelected, setIsClassSelected] = useState(true);
   const [isMounted, setIsMounted] = useState(false);
   const [isAllowed, setIsAllowed] = useState(false);
   const [isSupported, setIsSupported] = useState(true);
@@ -41,7 +42,24 @@ export default function useNotifications() {
     }
     if (localStorage.getItem("notifications-status") === "allowed")
       setIsAllowed(true);
+    if (localStorage.getItem("select-class") === "true") {
+      setIsClassSelected(false);
+      const intervalId = setInterval(() => {
+        if (!localStorage.getItem("select-class")) {
+          setIsClassSelected(true);
+          clearInterval(intervalId);
+        }
+      }, 1000);
+    }
   }, []);
 
-  return { isMounted, isAllowed, isSupported, isLoading, error, toggle };
+  return {
+    isClassSelected,
+    isMounted,
+    isAllowed,
+    isSupported,
+    isLoading,
+    error,
+    toggle,
+  };
 }

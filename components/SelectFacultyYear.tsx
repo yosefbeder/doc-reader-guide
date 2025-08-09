@@ -5,7 +5,7 @@ import { useState } from "react";
 import Select from "./Select";
 import { Faculty } from "@/types";
 
-interface SelectFacultyYear {
+interface SelectFacultyYearProps {
   faculties: Faculty[];
   defaultValues?: {
     facultyId: number;
@@ -20,12 +20,14 @@ function getFaculty(faculties: Faculty[], facultyId: number): Faculty {
 export default function SelectFacultyYear({
   faculties,
   defaultValues,
-}: SelectFacultyYear) {
+}: SelectFacultyYearProps) {
   const [facultyId, setFacultyId] = useState(
-    defaultValues?.facultyId || faculties[0].id
+    defaultValues ? defaultValues.facultyId : faculties[0].id
   );
   const [yearId, setYearId] = useState(
-    defaultValues?.yearId || getFaculty(faculties, facultyId).years[0].id
+    defaultValues
+      ? defaultValues.yearId
+      : getFaculty(faculties, facultyId).years[0].id
   );
 
   return (
@@ -46,7 +48,6 @@ export default function SelectFacultyYear({
         name="facultyId"
         id="facultyId"
         required
-        className="mb-4"
       />
       <Select
         label="Year"
@@ -62,7 +63,6 @@ export default function SelectFacultyYear({
         name="yearId"
         id="yearId"
         required
-        className="mb-4"
       />
     </>
   );

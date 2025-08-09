@@ -23,13 +23,14 @@ export interface Year extends DatabaseTable {
 }
 
 export interface User extends DatabaseTable {
-  name: string;
+  givenName: string;
+  familyName: string;
+  picture: string;
   email: string;
   status: boolean;
-  role: "Admin" | "User";
+  roleId: number;
   facultyId: number;
   yearId: number;
-  markedQuestions: Question[];
 }
 
 export interface Faculty extends DatabaseTable {
@@ -91,7 +92,6 @@ export interface Link extends DatabaseTable {
   title: string;
   subTitle: string;
   url: string;
-  additionalUrls: string[];
   type: "Video" | "Record" | "PDF" | "Data";
   category: "Data" | "College" | "Summary" | "Questions";
   lectureData: LectureSimple;

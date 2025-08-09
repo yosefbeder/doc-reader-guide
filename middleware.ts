@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { jwtVerify } from "jose";
+import { jwtVerify, decodeJwt } from "jose";
 
 const secret = new TextEncoder().encode(process.env.SECRET!);
 
@@ -7,13 +7,12 @@ export async function middleware(req: NextRequest): Promise<NextResponse> {
   const { pathname } = req.nextUrl;
   let jwt = req.cookies.get("jwt")?.value;
   const toLogin = pathname.startsWith("/login");
-  const toSignup = pathname.startsWith("/signup");
   const toDashboard = pathname.endsWith("/update");
 
   if (jwt) {
     try {
-      const isAdmin = (await jwtVerify(jwt, secret)).payload.role === "Admin";
-      if (toLogin || toSignup || (!isAdmin && toDashboard))
+      const isAdmin = decodeJwt(jwt).role !== 3;
+      if (toLogin || (!isAdmin && toDashboard))
         return NextResponse.redirect(new URL("/", req.url));
     } catch (err) {
       console.error(err);
@@ -21,8 +20,8 @@ export async function middleware(req: NextRequest): Promise<NextResponse> {
     }
   }
 
-  if (!jwt && !toLogin && !toSignup)
-    return NextResponse.redirect(new URL("/signup", req.url));
+  if (!jwt && !toLogin)
+    return NextResponse.redirect(new URL("/login", req.url));
 
   return NextResponse.next();
 }
