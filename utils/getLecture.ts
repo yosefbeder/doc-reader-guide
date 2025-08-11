@@ -1,4 +1,4 @@
-import { Lecture, Link, PracticalQuiz, Quiz } from "@/types";
+import { Lecture, Link, WrittenQuiz, McqQuiz } from "@/types";
 import { cookies } from "next/headers";
 
 export default async function getLecture(lectureId: number): Promise<Lecture> {
@@ -18,8 +18,8 @@ export default async function getLecture(lectureId: number): Promise<Lecture> {
 
 export async function getLectureLinksAndQuizzes(lectureId: number): Promise<{
   links: Link[];
-  quizzes: Quiz[];
-  // practicalQuizzes: PracticalQuiz[];
+  mcqQuizzes: McqQuiz[];
+  writtenQuizzes: WrittenQuiz[];
 }> {
   const res = await Promise.all([
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/lectures/${lectureId}/links`, {
@@ -28,17 +28,34 @@ export async function getLectureLinksAndQuizzes(lectureId: number): Promise<{
         Authorization: `Bearer ${cookies().get("jwt")!.value}`,
       },
     }),
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/lectures/${lectureId}/quizzes`, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${cookies().get("jwt")!.value}`,
-      },
-    }),
+    fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/lectures/${lectureId}/mcq-quizzes`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${cookies().get("jwt")!.value}`,
+        },
+      }
+    ),
+    fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/lectures/${lectureId}/written-quizzes`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${cookies().get("jwt")!.value}`,
+        },
+      }
+    ),
   ]);
   const json = await Promise.all(res.map((r) => r.json()));
   if (res.find(({ ok }) => !ok))
     throw new Error(
       json.find(({ ok }) => !ok)?.message || "Error fetching data"
     );
-  return { links: json[0].data.links, quizzes: json[1].data.quizzes };
+
+  return {
+    links: json[0].data.links,
+    mcqQuizzes: json[1].data.mcqQuizzes,
+    writtenQuizzes: json[2].data.writtenQuizzes,
+  };
 }

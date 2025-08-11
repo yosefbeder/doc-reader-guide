@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 import BasePath from "./Path";
-import { PracticalQuiz, Quiz } from "@/types";
+import { WrittenQuiz, McqQuiz } from "@/types";
 import getPrefix from "@/utils/getPrefix";
 
 export default function Path({
@@ -18,7 +18,7 @@ export default function Path({
     },
   },
 }: {
-  quiz: Quiz | PracticalQuiz;
+  quiz: McqQuiz | WrittenQuiz;
 }) {
   return (
     <BasePath>

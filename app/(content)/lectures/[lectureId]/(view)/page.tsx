@@ -7,7 +7,7 @@ export default async function LinksPage({
 }: {
   params: { lectureId: string };
 }) {
-  const [lecture, { links, quizzes }] = await Promise.all([
+  const [lecture, { links, mcqQuizzes, writtenQuizzes }] = await Promise.all([
     getLecture(+lectureId),
     getLectureLinksAndQuizzes(+lectureId),
   ]);
@@ -16,7 +16,11 @@ export default async function LinksPage({
     <>
       <Path lecture={lecture} />
       <main className="main">
-        <LinksList links={links} quizzes={quizzes} practicalQuizzes={[]} />
+        <LinksList
+          links={links}
+          mcqQuizzes={mcqQuizzes}
+          writtenQuizzes={writtenQuizzes}
+        />
       </main>
     </>
   );

@@ -1,0 +1,147 @@
+"use client";
+
+import React, { useState } from "react";
+import Canvas, { State } from "./Canvas";
+import ButtonIcon from "@/components/ButtonIcon";
+
+interface WrittenQuestion {
+  id?: number;
+  text: string;
+  answer: string;
+}
+
+export default function QuestionFields({
+  init,
+  quizId,
+  formId,
+}: {
+  init?: {
+    id: number;
+    state: State;
+    imageUrl?: string;
+    writtenQuestions: WrittenQuestion[];
+  };
+  quizId: number;
+  formId: string;
+}) {
+  const [writtenQuestions, setWrittenQuestions] = useState<
+    { counter: number; value: WrittenQuestion }[]
+  >(
+    init
+      ? init.writtenQuestions.map((value, index) => ({ counter: index, value }))
+      : [{ counter: 0, value: { text: "", answer: "" } }]
+  );
+  const [currentCounter, setCurrentCounter] = useState(1);
+
+  return (
+    <div className="flex flex-col gap-4 mb-4">
+      <Canvas
+        formId={formId}
+        init={
+          init && { id: init.id, state: init.state, imageUrl: init.imageUrl }
+        }
+      />
+      <input
+        type="number"
+        id={`written-question-${init ? init.id : "new"}-quiz-id`}
+        name="quiz-id"
+        className="hidden"
+        defaultValue={quizId}
+        form={formId}
+      />
+      {init && (
+        <input
+          type="number"
+          id={`written-question-${init ? init.id : "new"}-question-id`}
+          name="question-id"
+          className="hidden"
+          defaultValue={init.id}
+          form={formId}
+        />
+      )}
+      {writtenQuestions.map(
+        ({ counter, value: { id, text, answer } }, index) => (
+          <li
+            key={`sub-question-${counter}`}
+            className="flex items-center gap-2"
+          >
+            <div className="flex flex-col gap-2 grow *:px-2 *:py-1 *:border">
+              {id && (
+                <input
+                  type="text"
+                  name={`sub-question-${counter}-id`}
+                  id={`written-question-${
+                    init ? init.id : "new"
+                  }-sub-question-${counter}-id`}
+                  className="hidden"
+                  defaultValue={id}
+                  form={formId}
+                />
+              )}
+              <textarea
+                name={`sub-question-${counter}-text`}
+                id={`written-question-${
+                  init ? init.id : "new"
+                }-sub-question-${counter}-text`}
+                value={text}
+                placeholder="Question"
+                onChange={(e) => {
+                  setWrittenQuestions((prev) => [
+                    ...prev.slice(0, index),
+                    { counter, value: { text: e.target.value, answer } },
+                    ...prev.slice(index + 1),
+                  ]);
+                }}
+                form={formId}
+              />
+              <textarea
+                name={`sub-question-${counter}-answer`}
+                id={`written-question-${
+                  init ? init.id : "new"
+                }-sub-question-${counter}-answer`}
+                value={answer}
+                placeholder="Answer"
+                onChange={(e) => {
+                  setWrittenQuestions((prev) => [
+                    ...prev.slice(0, index),
+                    { counter, value: { text, answer: e.target.value } },
+                    ...prev.slice(index + 1),
+                  ]);
+                }}
+                form={formId}
+              />
+            </div>
+            <ButtonIcon
+              icon="x-mark"
+              onClick={() =>
+                setWrittenQuestions((prev) => [
+                  ...prev.slice(0, index),
+                  ...prev.slice(index + 1),
+                ])
+              }
+            />
+          </li>
+        )
+      )}
+      <ButtonIcon
+        icon="plus"
+        type="button"
+        className="w-max"
+        onClick={() => {
+          if (currentCounter >= +process.env.NEXT_PUBLIC_OPTIONS_LIMIT!) return;
+          setWrittenQuestions((prev) => [
+            ...prev,
+            {
+              counter: currentCounter,
+              value: {
+                text: "",
+                answer: "",
+              },
+            },
+          ]);
+          setCurrentCounter((prev) => prev + 1);
+        }}
+      />
+    </div>
+  );
+}

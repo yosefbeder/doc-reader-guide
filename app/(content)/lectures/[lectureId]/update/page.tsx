@@ -1,17 +1,17 @@
 import Path from "../components/Path";
 import getLecture, { getLectureLinksAndQuizzes } from "@/utils/getLecture";
 import AddLinkForm from "./components/AddLinkForm";
-import AddQuizForm from "./components/AddQuizForm";
+import AddMcqQuizForm from "./components/AddMcqQuizForm";
 import LinksList from "./components/LinksList";
 import Templates from "@/components/Templates";
-import AddPracticalQuizForm from "./components/AddPracticalQuizForm";
+import AddWrittenQuizForm from "./components/AddWrittenQuizForm";
 
 export default async function UpdateLinksPage({
   params: { lectureId },
 }: {
   params: { lectureId: string };
 }) {
-  const [lecture, { links, quizzes }] = await Promise.all([
+  const [lecture, { links, mcqQuizzes, writtenQuizzes }] = await Promise.all([
     getLecture(+lectureId),
     getLectureLinksAndQuizzes(+lectureId),
   ]);
@@ -27,16 +27,16 @@ export default async function UpdateLinksPage({
         <h3>Templates</h3>
         <Templates />
         <h3>Form</h3>
-        <AddQuizForm lectureId={+lectureId} />
+        <AddMcqQuizForm lectureId={+lectureId} />
         <hr />
         <h2>New Practical Quiz</h2>
-        <AddPracticalQuizForm lectureId={+lectureId} />
+        <AddWrittenQuizForm lectureId={+lectureId} />
         <hr />
         <LinksList
           lectureId={+lectureId}
           links={links}
-          quizzes={quizzes}
-          practicalQuizzes={[]}
+          mcqQuizzes={mcqQuizzes}
+          writtenQuizzes={writtenQuizzes}
         />
       </main>
     </>

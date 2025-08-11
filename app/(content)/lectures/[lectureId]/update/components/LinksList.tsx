@@ -3,30 +3,30 @@
 import React, { useState } from "react";
 
 import Message from "@/components/Message";
-import { Link as LinkType, PracticalQuiz, Quiz as QuizType } from "@/types";
+import { Link as LinkType, WrittenQuiz, McqQuiz as QuizType } from "@/types";
 import Link from "../../components/Link";
 import { icons } from "@/components/icons";
 import Quiz from "../../components/Quiz";
 import { useCategories } from "@/lib/hooks";
-import UpdateQuizForm from "./UpdateQuizForm";
+import UpdateMcqQuizForm from "./UpdateMcqQuizForm";
 import UpdateLinkForm from "./UpdateLinkForm";
-import UpdatePracticalQuizForm from "./UpdatePracticalQuizForm";
+import UpdateWrittenQuizForm from "./UpdateWrittenQuizForm";
 
 export default function LinksList({
   lectureId,
   links,
-  quizzes,
-  practicalQuizzes,
+  mcqQuizzes,
+  writtenQuizzes,
 }: {
   lectureId: number;
   links: LinkType[];
-  quizzes: QuizType[];
-  practicalQuizzes: PracticalQuiz[];
+  mcqQuizzes: QuizType[];
+  writtenQuizzes: WrittenQuiz[];
 }) {
   const { categories, currentCategory, setCurrentCategory } = useCategories(
     links,
-    quizzes,
-    practicalQuizzes
+    mcqQuizzes,
+    writtenQuizzes
   );
   const [current, setCurrent] = useState<{
     type: "link" | "quiz";
@@ -69,12 +69,15 @@ export default function LinksList({
               <ul className="flex flex-col gap-2 p-2">
                 {category === "Questions" && (
                   <>
-                    {quizzes.map((quiz) => (
+                    {mcqQuizzes.map((quiz) => (
                       <li key={quiz.id}>
                         {current &&
                         current.type === "quiz" &&
                         current.id === quiz.id ? (
-                          <UpdateQuizForm quiz={quiz} lectureId={lectureId} />
+                          <UpdateMcqQuizForm
+                            quiz={quiz}
+                            lectureId={lectureId}
+                          />
                         ) : (
                           <Quiz
                             type="mcq"
@@ -88,12 +91,12 @@ export default function LinksList({
                         )}
                       </li>
                     ))}
-                    {practicalQuizzes.map((quiz) => (
+                    {writtenQuizzes.map((quiz) => (
                       <li key={quiz.id}>
                         {current &&
                         current.type === "quiz" &&
                         current.id === quiz.id ? (
-                          <UpdatePracticalQuizForm
+                          <UpdateWrittenQuizForm
                             quiz={quiz}
                             lectureId={lectureId}
                           />

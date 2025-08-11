@@ -1,7 +1,7 @@
 import NextLink from "next/link";
 import Image from "next/image";
 
-import { PracticalQuiz, Quiz as QuizType } from "@/types";
+import { WrittenQuiz, McqQuiz as QuizType } from "@/types";
 import { typeIcons } from "./typeIcons";
 import ButtonPrintQuiz from "./ButtonPrintQuiz";
 import LogoImage from "@/public/logo.png";
@@ -14,7 +14,7 @@ export default function Quiz({
   updateable = false,
   onUpdate,
 }: {
-  quiz: QuizType | PracticalQuiz;
+  quiz: QuizType | WrittenQuiz;
   type: "mcq" | "practical";
   printable?: boolean;
   updateable?: boolean;
@@ -23,7 +23,7 @@ export default function Quiz({
   return (
     <div className="flex items-center gap-2 superficial p-2 rounded-xl bg-white">
       <NextLink
-        href={`/${type === "mcq" ? "quizzes" : "practical-quizzes"}/${id}`}
+        href={`/${type === "mcq" ? "mcq-quizzes" : "written-quizzes"}/${id}`}
         className="grow flex items-center gap-2 reset-link"
       >
         <span>{type === "mcq" ? typeIcons.Data : typeIcons.Practical}</span>

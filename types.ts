@@ -97,13 +97,13 @@ export interface Link extends DatabaseTable {
   lectureData: LectureSimple;
 }
 
-export interface Quiz extends DatabaseTable {
+export interface McqQuiz extends DatabaseTable {
   title: string;
-  questions: Question[];
+  questions: McqQuestion[];
   lectureData: LectureSimple;
 }
 
-export interface Question extends DatabaseTable {
+export interface McqQuestion extends DatabaseTable {
   image?: string;
   explanation?: string;
   text: string;
@@ -112,19 +112,19 @@ export interface Question extends DatabaseTable {
   quizId: number;
 }
 
-export interface PracticalQuiz extends DatabaseTable {
+export interface WrittenQuiz extends DatabaseTable {
   title: string;
-  questions: PracticalQuestion[];
+  questions: WrittenQuestion[];
   lectureData: LectureSimple;
 }
 
-export interface PracticalQuestion extends DatabaseTable {
+export interface WrittenQuestion extends DatabaseTable {
   image?: string;
   width?: number;
   height?: number;
   masks: Rect[];
   tapes: Rect[];
-  writtenQuestions: WrittenQuestion[];
+  subQuestions: SubQuestion[];
   quizId: number;
 }
 
@@ -137,7 +137,7 @@ export interface Rect extends DatabaseTable {
   h: number;
 }
 
-export interface WrittenQuestion extends DatabaseTable {
+export interface SubQuestion extends DatabaseTable {
   text: string;
   answer: string;
 }

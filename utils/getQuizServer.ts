@@ -1,9 +1,9 @@
-import { Quiz } from "@/types";
+import { McqQuiz, WrittenQuiz } from "@/types";
 import { cookies } from "next/headers";
 
-export default async function getQuiz(quizId: number): Promise<Quiz> {
+export async function getMcqQuiz(quizId: number): Promise<McqQuiz> {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/quizzes/${quizId}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/mcq-quizzes/${quizId}`,
     {
       headers: {
         "Content-Type": "application/json",
@@ -13,5 +13,20 @@ export default async function getQuiz(quizId: number): Promise<Quiz> {
   );
   const json = await res.json();
   if (!res.ok) throw new Error(json.message);
-  return json.data.quiz;
+  return json.data.mcqQuiz;
+}
+
+export async function getWrittenQuiz(quizId: number): Promise<WrittenQuiz> {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/written-quizzes/${quizId}`,
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${cookies().get("jwt")!.value}`,
+      },
+    }
+  );
+  const json = await res.json();
+  if (!res.ok) throw new Error(json.message);
+  return json.data.writtenQuiz;
 }

@@ -53,7 +53,10 @@ export default function ModulesPage() {
 
   if (error && error.status === 401) logout();
 
-  if (localStorage.getItem("select-class") === "true") {
+  if (
+    typeof window !== "undefined" &&
+    localStorage.getItem("select-class") === "true"
+  ) {
     return <SelectClass />;
   }
 

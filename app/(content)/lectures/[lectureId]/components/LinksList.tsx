@@ -3,7 +3,7 @@
 import React from "react";
 
 import Message from "@/components/Message";
-import { Link as LinkType, PracticalQuiz, Quiz as QuizType } from "@/types";
+import { Link as LinkType, WrittenQuiz, McqQuiz as QuizType } from "@/types";
 import Link from "./Link";
 import { icons } from "@/components/icons";
 import Quiz from "./Quiz";
@@ -11,17 +11,17 @@ import { useCategories } from "@/lib/hooks";
 
 export default function LinksList({
   links,
-  quizzes,
-  practicalQuizzes,
+  mcqQuizzes,
+  writtenQuizzes,
 }: {
   links: LinkType[];
-  quizzes: QuizType[];
-  practicalQuizzes: PracticalQuiz[];
+  mcqQuizzes: QuizType[];
+  writtenQuizzes: WrittenQuiz[];
 }) {
   const { categories, currentCategory, setCurrentCategory } = useCategories(
     links,
-    quizzes,
-    practicalQuizzes
+    mcqQuizzes,
+    writtenQuizzes
   );
 
   if (categories.length === 0)
@@ -60,12 +60,12 @@ export default function LinksList({
               <ul className="flex flex-col gap-2 p-2">
                 {category === "Questions" && (
                   <>
-                    {quizzes.map((quiz) => (
+                    {mcqQuizzes.map((quiz) => (
                       <li key={quiz.id}>
                         <Quiz type="mcq" quiz={quiz} printable />
                       </li>
                     ))}
-                    {practicalQuizzes.map((quiz) => (
+                    {writtenQuizzes.map((quiz) => (
                       <li key={`practical-${quiz.id}`}>
                         <Quiz type="practical" quiz={quiz} />
                       </li>

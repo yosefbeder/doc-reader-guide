@@ -14,7 +14,7 @@ import {
   faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
 
-import { Link, PracticalQuiz, Quiz } from "@/types";
+import { Link, WrittenQuiz, McqQuiz } from "@/types";
 import getUniqueObjectsById from "@/utils/getUniqueObjectsById";
 import Button from "./Button";
 import Dialogue from "./Dialogue";
@@ -35,10 +35,10 @@ export default function NotificationsDialogue({
         }
       );
       const json = await res.json();
-      return { ...json.data, practicalQuizzes: [] } as {
+      return { ...json.data, writtenQuizzes: [] } as {
         links: Link[];
-        quizzes: Quiz[];
-        practicalQuizzes: PracticalQuiz[];
+        mcqQuizzes: McqQuiz[];
+        writtenQuizzes: WrittenQuiz[];
       };
     },
     [yearId]
@@ -48,9 +48,9 @@ export default function NotificationsDialogue({
   });
   const lectures = useMemo(() => {
     if (!data) return [];
-    const { links, quizzes, practicalQuizzes = [] } = data;
+    const { links, mcqQuizzes, writtenQuizzes = [] } = data;
     return getUniqueObjectsById(
-      [...links, ...quizzes, ...practicalQuizzes].map(
+      [...links, ...mcqQuizzes, ...writtenQuizzes].map(
         ({
           lectureData: {
             id: lectureId,
@@ -66,17 +66,19 @@ export default function NotificationsDialogue({
     ).map((lecture) => ({
       ...lecture,
       links: links.filter((link) => link.lectureData.id === lecture.id),
-      quizzes: quizzes.filter((quiz) => quiz.lectureData.id === lecture.id),
-      practicalQuizzes: practicalQuizzes.filter(
+      mcqQuizzes: mcqQuizzes.filter(
+        (quiz) => quiz.lectureData.id === lecture.id
+      ),
+      writtenQuizzes: writtenQuizzes.filter(
         (quiz) => quiz.lectureData.id === lecture.id
       ),
     }));
   }, [data]);
   const subjects = useMemo(() => {
     if (!data) return [];
-    const { links, quizzes, practicalQuizzes } = data;
+    const { links, mcqQuizzes, writtenQuizzes } = data;
     return getUniqueObjectsById(
-      [...links, ...quizzes, ...practicalQuizzes].map(
+      [...links, ...mcqQuizzes, ...writtenQuizzes].map(
         ({
           lectureData: {
             subject: {
@@ -98,9 +100,9 @@ export default function NotificationsDialogue({
   }, [data]);
   const modules = useMemo(() => {
     if (!data) return [];
-    const { links, quizzes, practicalQuizzes } = data;
+    const { links, mcqQuizzes, writtenQuizzes } = data;
     return getUniqueObjectsById(
-      [...links, ...quizzes, ...practicalQuizzes].map(
+      [...links, ...mcqQuizzes, ...writtenQuizzes].map(
         ({
           lectureData: {
             subject: {
@@ -127,7 +129,7 @@ export default function NotificationsDialogue({
       label: name,
       value: id + name,
       children: lectures.map(
-        ({ id, title, links, quizzes, practicalQuizzes }) => ({
+        ({ id, title, links, mcqQuizzes, writtenQuizzes }) => ({
           label: title,
           value: id + title,
           children: [
@@ -135,11 +137,11 @@ export default function NotificationsDialogue({
               label: title,
               value: `link-${id}`,
             })),
-            ...quizzes.map(({ id, title }) => ({
+            ...mcqQuizzes.map(({ id, title }) => ({
               label: title,
               value: `quiz-${id}`,
             })),
-            ...practicalQuizzes.map(({ id, title }) => ({
+            ...writtenQuizzes.map(({ id, title }) => ({
               label: title,
               value: `practicalQuiz-${id}`,
             })),
@@ -164,8 +166,8 @@ export default function NotificationsDialogue({
         if (
           !data ||
           (data.links.length === 0 &&
-            data.quizzes.length === 0 &&
-            data.practicalQuizzes.length === 0)
+            data.mcqQuizzes.length === 0 &&
+            data.writtenQuizzes.length === 0)
         )
           return <p>No new sources were added, please add some first</p>;
         return (
@@ -193,7 +195,7 @@ export default function NotificationsDialogue({
                 disabled={checked.length === 0 || isLoading || isNotifying}
                 onClick={async () => {
                   if (!data) return [];
-                  const { links, quizzes, practicalQuizzes } = data;
+                  const { links, mcqQuizzes, writtenQuizzes } = data;
                   setIsNotifying(true);
                   const res = await fetch(
                     `${process.env.NEXT_PUBLIC_API_URL}/years/${yearId}/notify`,
@@ -207,10 +209,10 @@ export default function NotificationsDialogue({
                         links: checked
                           .filter((id) => id.startsWith("link"))
                           .map((id) => +id.slice(5)),
-                        quizzes: checked
+                        mcqQuizzes: checked
                           .filter((id) => id.startsWith("quiz"))
                           .map((id) => +id.slice(5)),
-                        practicalQuizzes: checked
+                        writtenQuizzes: checked
                           .filter((id) => id.startsWith("practicalQuiz"))
                           .map((id) => +id.slice(14)),
                       }),
@@ -221,10 +223,10 @@ export default function NotificationsDialogue({
                     links: links.filter(
                       ({ id }) => !checked.includes(`link-${id}`)
                     ),
-                    quizzes: quizzes.filter(
+                    mcqQuizzes: mcqQuizzes.filter(
                       ({ id }) => !checked.includes(`quiz-${id}`)
                     ),
-                    practicalQuizzes: practicalQuizzes.filter(
+                    writtenQuizzes: writtenQuizzes.filter(
                       ({ id }) => !checked.includes(`practicalQuiz-${id}`)
                     ),
                   });
@@ -239,7 +241,7 @@ export default function NotificationsDialogue({
                 disabled={checked.length === 0 || isLoading || isIgnoring}
                 onClick={async () => {
                   if (!data) return [];
-                  const { links, quizzes, practicalQuizzes } = data;
+                  const { links, mcqQuizzes, writtenQuizzes } = data;
                   setIsIgnoring(true);
                   const res = await fetch(
                     `${process.env.NEXT_PUBLIC_API_URL}/years/${yearId}/ignore`,
@@ -253,10 +255,10 @@ export default function NotificationsDialogue({
                         links: checked
                           .filter((id) => id.startsWith("link"))
                           .map((id) => +id.slice(5)),
-                        quizzes: checked
+                        mcqQuizzes: checked
                           .filter((id) => id.startsWith("quiz"))
                           .map((id) => +id.slice(5)),
-                        practicalQuizzes: checked
+                        writtenQuizzes: checked
                           .filter((id) => id.startsWith("practicalQuiz"))
                           .map((id) => +id.slice(14)),
                       }),
@@ -267,10 +269,10 @@ export default function NotificationsDialogue({
                     links: links.filter(
                       ({ id }) => !checked.includes(`link-${id}`)
                     ),
-                    quizzes: quizzes.filter(
+                    mcqQuizzes: mcqQuizzes.filter(
                       ({ id }) => !checked.includes(`quiz-${id}`)
                     ),
-                    practicalQuizzes: practicalQuizzes.filter(
+                    writtenQuizzes: writtenQuizzes.filter(
                       ({ id }) => !checked.includes(`practicalQuiz-${id}`)
                     ),
                   });

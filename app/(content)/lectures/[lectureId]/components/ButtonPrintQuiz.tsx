@@ -4,8 +4,8 @@ import { useRef, useState } from "react";
 import { useReactToPrint } from "react-to-print";
 
 import ButtonIcon from "@/components/ButtonIcon";
-import { Quiz } from "@/types";
-import getQuiz from "@/utils/getQuizClient";
+import { McqQuiz } from "@/types";
+import { getMcqQuiz } from "@/utils/getQuizClient";
 import Logo from "@/components/Logo";
 import isValidURL from "@/utils/isValidURL";
 
@@ -16,7 +16,7 @@ export default function ButtonPrintQuiz({
   id: number;
   title: string;
 }) {
-  const [quiz, setQuiz] = useState<Quiz>();
+  const [quiz, setQuiz] = useState<McqQuiz>();
   const [isLoading, setIsLoading] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
   const reactToPrintFn = useReactToPrint({
@@ -44,7 +44,7 @@ export default function ButtonPrintQuiz({
             if (!quiz) {
               setIsLoading(true);
               try {
-                setQuiz(await getQuiz(id));
+                setQuiz(await getMcqQuiz(id));
                 setTimeout(() => reactToPrintFn(), 1000);
               } catch (error) {
                 alert("Fetching quiz failed");
