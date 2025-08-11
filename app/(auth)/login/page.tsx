@@ -2,12 +2,14 @@
 
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 import Logo from "@/public/logo.png";
 
 export default function LoginPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirect = searchParams.get("redirect");
 
   const onSuccess = (credentialResponse: any) => {
     console.log("Login Success:", credentialResponse);
@@ -43,7 +45,7 @@ export default function LoginPage() {
       if (json.data.user.yearId === null)
         localStorage.setItem("select-class", "true");
 
-      router.replace("/");
+      router.replace(redirect ?? "/");
 
       // Handle the backend's response (e.g., store a session token, redirect the user)
       if (response.ok) {

@@ -21,7 +21,14 @@ export async function middleware(req: NextRequest): Promise<NextResponse> {
   }
 
   if (!jwt && !toLogin)
-    return NextResponse.redirect(new URL("/login", req.url));
+    return NextResponse.redirect(
+      new URL(
+        `/login?redirect=${encodeURIComponent(
+          req.nextUrl.pathname + req.nextUrl.search
+        )}`,
+        req.url
+      )
+    );
 
   return NextResponse.next();
 }
