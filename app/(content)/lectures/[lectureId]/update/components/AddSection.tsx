@@ -14,12 +14,12 @@ export default function AddSection({ lectureId }: { lectureId: number }) {
   return (
     <>
       <SummaryDetail
-        open={openSection === "newLink"}
+        open={openSection === "addLink"}
         toggle={() =>
-          setOpenSection((prev) => (prev === "newLink" ? undefined : "newLink"))
+          setOpenSection((prev) => (prev === "addLink" ? undefined : "addLink"))
         }
       >
-        <SummaryDetail.Summary>New link</SummaryDetail.Summary>
+        <SummaryDetail.Summary>Add Link</SummaryDetail.Summary>
         <SummaryDetail.Detail>
           <div className="p-2">
             <AddLinkForm lectureId={lectureId} />
@@ -28,14 +28,12 @@ export default function AddSection({ lectureId }: { lectureId: number }) {
       </SummaryDetail>
 
       <SummaryDetail
-        open={openSection === "quickAdd"}
+        open={openSection === "addMcq"}
         toggle={() =>
-          setOpenSection((prev) =>
-            prev === "quickAdd" ? undefined : "quickAdd"
-          )
+          setOpenSection((prev) => (prev === "addMcq" ? undefined : "addMcq"))
         }
       >
-        <SummaryDetail.Summary>Quick Add</SummaryDetail.Summary>
+        <SummaryDetail.Summary>Add MCQ Quiz</SummaryDetail.Summary>
         <SummaryDetail.Detail>
           <div className="p-2">
             <div className="floating flex flex-col gap-4">
@@ -49,14 +47,14 @@ export default function AddSection({ lectureId }: { lectureId: number }) {
       </SummaryDetail>
 
       <SummaryDetail
-        open={openSection === "newPractical"}
+        open={openSection === "addWritten"}
         toggle={() =>
           setOpenSection((prev) =>
-            prev === "newPractical" ? undefined : "newPractical"
+            prev === "addWritten" ? undefined : "addWritten"
           )
         }
       >
-        <SummaryDetail.Summary>New Practical Quiz</SummaryDetail.Summary>
+        <SummaryDetail.Summary>Add Written Quiz</SummaryDetail.Summary>
         <SummaryDetail.Detail>
           <div className="p-2">
             <AddWrittenQuizForm lectureId={lectureId} />

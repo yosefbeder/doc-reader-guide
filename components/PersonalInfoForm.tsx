@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useFormState } from "react-dom";
 import { useSWRConfig } from "swr";
 
-import { updatePersonalInfo } from "@/lib/actions/auth";
+import { updatePersonalInfo } from "@/lib/actions/users";
 import ButtonSubmit from "@/components/ButtonSubmit";
 import { Faculty, User } from "@/types";
 import Message from "@/components/Message";

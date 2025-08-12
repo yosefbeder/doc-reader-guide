@@ -5,7 +5,8 @@ export async function middleware(req: NextRequest): Promise<NextResponse> {
   const { pathname } = req.nextUrl;
   let jwt = req.cookies.get("jwt")?.value;
   const toLogin = pathname.startsWith("/login");
-  const toDashboard = pathname.endsWith("/update");
+  const toDashboard =
+    pathname.endsWith("/update") || pathname.startsWith("/users");
   const toHome = pathname === "/";
   const toProfile = pathname.startsWith("/profile");
 

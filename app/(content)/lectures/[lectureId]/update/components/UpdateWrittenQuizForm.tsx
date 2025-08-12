@@ -10,13 +10,16 @@ import ButtonSubmit from "@/components/ButtonSubmit";
 import { WrittenQuiz } from "@/types";
 import ButtonDelete from "@/components/ButtonDelete";
 import { useUpdateDeleteForms } from "@/lib/hooks";
+import ButtonIcon from "@/components/ButtonIcon";
 
 export default function UpdateWrittenQuizForm({
   quiz,
   lectureId,
+  onClose,
 }: {
   quiz: WrittenQuiz;
   lectureId: number;
+  onClose: () => void;
 }) {
   const [updateFormState, updateFormAction] = useFormState(updateQuiz, {});
   const updateFormId = `update-quiz-${quiz.id}`;
@@ -29,6 +32,10 @@ export default function UpdateWrittenQuizForm({
 
   return (
     <div className="floating" onClickCapture={() => setHideMessage(true)}>
+      <div className="flex justify-between items-center mb-4">
+        <h3>Update Link</h3>
+        <ButtonIcon icon="x-mark" onClick={onClose} />
+      </div>
       <WrittenQuizFields
         lectureId={lectureId}
         defaultValues={quiz}

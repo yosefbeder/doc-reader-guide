@@ -7,7 +7,7 @@ import PersonalInfoForm from "@/components/PersonalInfoForm";
 import getFaculties from "@/utils/getFaculties";
 import getUser from "@/utils/getUserClient";
 
-export default function Select() {
+export default function SelectClass() {
   const {
     data: user,
     isLoading: isUserLoading,

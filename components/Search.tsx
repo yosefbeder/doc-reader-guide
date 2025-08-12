@@ -54,6 +54,7 @@ export default function Search({ yearId }: { yearId: number }) {
       {isSearching && (
         <SearchDialogue onClose={() => setIsSearching(false)}>
           <Searchbar
+            placeholder="Lecture name"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />

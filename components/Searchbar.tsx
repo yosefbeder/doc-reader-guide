@@ -8,7 +8,6 @@ export default function Searchbar({
   className,
   onFocus,
   onBlur,
-  placeholder: _placeholder,
   ...props
 }: React.ComponentProps<"input">) {
   const [focus, setFocus] = useState(false);
@@ -24,7 +23,7 @@ export default function Searchbar({
       </span>
       <input
         type="text"
-        className="grow bg-transparent disabled:pointer-events-none focus:outline-none placeholder:text-slate-500 max-[512px]:placeholder-transparent"
+        className="grow bg-transparent disabled:pointer-events-none focus:outline-none placeholder:text-slate-500"
         onFocus={(e) => {
           setFocus(true);
           if (onFocus) onFocus(e);
@@ -34,7 +33,6 @@ export default function Searchbar({
           if (onBlur) onBlur(e);
         }}
         autoFocus
-        placeholder="Search for a lecture"
         {...props}
       />
     </div>

@@ -10,13 +10,16 @@ import ButtonSubmit from "@/components/ButtonSubmit";
 import { McqQuiz } from "@/types";
 import ButtonDelete from "@/components/ButtonDelete";
 import { useUpdateDeleteForms } from "@/lib/hooks";
+import ButtonIcon from "@/components/ButtonIcon";
 
 export default function UpdateMcqQuizForm({
   quiz,
   lectureId,
+  onClose,
 }: {
   quiz: McqQuiz;
   lectureId: number;
+  onClose: () => void;
 }) {
   const [updateFormState, updateFormAction] = useFormState(updateQuiz, {});
   const updateFormId = `update-quiz-${quiz.id}`;
@@ -29,6 +32,10 @@ export default function UpdateMcqQuizForm({
 
   return (
     <div className="floating" onClickCapture={() => setHideMessage(true)}>
+      <div className="flex justify-between items-center mb-4">
+        <h3>Update MCQ Quiz</h3>
+        <ButtonIcon icon="x-mark" onClick={onClose} />
+      </div>
       <McqQuizFields
         lectureId={lectureId}
         defaultValues={quiz}

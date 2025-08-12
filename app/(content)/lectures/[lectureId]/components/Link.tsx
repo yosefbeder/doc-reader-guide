@@ -1,7 +1,6 @@
 import { Link as LinkType } from "@/types";
 import { typeIcons } from "./typeIcons";
 import ButtonIcon from "@/components/ButtonIcon";
-import getPrefix from "@/utils/getPrefix";
 
 export default function Link({
   link: { title, subTitle, type, url },
@@ -13,7 +12,7 @@ export default function Link({
   onUpdate?: () => void;
 }) {
   return (
-    <div className="flex items-center superficial gap-2 p-2 rounded-xl bg-white">
+    <div className="flex items-center gap-2 floating">
       <a
         className="grow flex items-center gap-2 reset-link"
         target="_blank"

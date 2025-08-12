@@ -10,13 +10,16 @@ import ButtonSubmit from "@/components/ButtonSubmit";
 import { Link } from "@/types";
 import ButtonDelete from "@/components/ButtonDelete";
 import { useUpdateDeleteForms } from "@/lib/hooks";
+import ButtonIcon from "@/components/ButtonIcon";
 
 export default function UpdateLinkForm({
   link,
   lectureId,
+  onClose,
 }: {
   link: Link;
   lectureId: number;
+  onClose: () => void;
 }) {
   const [updateFormState, updateFormAction] = useFormState(updateLink, {});
   const updateFormId = `update-link-${link.id}`;
@@ -29,6 +32,10 @@ export default function UpdateLinkForm({
 
   return (
     <div className="floating" onClickCapture={() => setHideMessage(true)}>
+      <div className="flex justify-between items-center mb-4">
+        <h3>Update Link</h3>
+        <ButtonIcon icon="x-mark" onClick={onClose} />
+      </div>
       <LinkFields
         lectureId={lectureId}
         defaultValues={link}

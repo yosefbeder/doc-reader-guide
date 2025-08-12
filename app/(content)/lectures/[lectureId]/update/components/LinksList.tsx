@@ -71,6 +71,7 @@ export default function LinksList({
                           <UpdateMcqQuizForm
                             quiz={quiz}
                             lectureId={lectureId}
+                            onClose={() => setCurrent(undefined)}
                           />
                         ) : (
                           <Quiz
@@ -93,6 +94,7 @@ export default function LinksList({
                           <UpdateWrittenQuizForm
                             quiz={quiz}
                             lectureId={lectureId}
+                            onClose={() => setCurrent(undefined)}
                           />
                         ) : (
                           <Quiz
@@ -114,7 +116,11 @@ export default function LinksList({
                     {current &&
                     current.type === "link" &&
                     current.id === link.id ? (
-                      <UpdateLinkForm link={link} lectureId={lectureId} />
+                      <UpdateLinkForm
+                        link={link}
+                        lectureId={lectureId}
+                        onClose={() => setCurrent(undefined)}
+                      />
                     ) : (
                       <Link
                         link={link}

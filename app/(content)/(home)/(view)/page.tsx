@@ -11,6 +11,7 @@ import getUser from "@/utils/getUserClient";
 import Message from "@/components/Message";
 import CardPlaceholder from "@/components/CardPlaceholder";
 import { SummaryDetail } from "@/components/SummaryDetail";
+import SelectClass from "./components/SelectClass";
 
 function CurrentTag({ semesterOpen }: { semesterOpen: boolean }) {
   return (
@@ -42,6 +43,8 @@ export default function ModulesPage() {
   );
   const [selectedSemester, setSelectedSemester] = useState(-1);
   useEffect(() => setSelectedSemester(data?.currentSemester || -1), [data]);
+
+  if (localStorage.getItem("select-class")) return <SelectClass />;
 
   if (isLoading || !data) {
     return (

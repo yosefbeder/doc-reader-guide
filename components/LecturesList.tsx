@@ -2,21 +2,7 @@ import Link from "next/link";
 
 import { Lecture } from "@/types";
 import getPrefix from "@/utils/getPrefix";
-
-function getHighlightedText(text: string, highlight: string): React.ReactNode {
-  const parts = text.split(new RegExp(`(${highlight})`, "gi"));
-  return (
-    <span>
-      {parts.map((part, index) =>
-        part.toLowerCase() === highlight.toLowerCase() ? (
-          <mark key={index}>{part}</mark>
-        ) : (
-          part
-        )
-      )}
-    </span>
-  );
-}
+import getHighlightedText from "@/utils/getHighlightedText";
 
 function LecturePlaceholder() {
   return (
