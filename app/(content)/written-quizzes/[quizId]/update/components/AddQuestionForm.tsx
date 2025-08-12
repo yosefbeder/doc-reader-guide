@@ -17,7 +17,7 @@ export default function AddQuestionForm({ quizId }: { quizId: number }) {
 
   return (
     <div
-      className="flex flex-col gap-4 max-w-lg"
+      className="flex flex-col gap-4 max-w-xl"
       onClickCapture={() => setHideMessage(true)}
     >
       <form

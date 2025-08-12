@@ -7,6 +7,7 @@ export default function ButtonCopy({ text }: { text: string }) {
   return (
     <ButtonIcon
       icon="clipboard-document-list"
+      className="w-max"
       onClick={() => {
         if (navigator)
           navigator.clipboard

@@ -116,6 +116,10 @@
     @apply shadow-md hover:shadow-lg transition-shadow;
   }
 
+  .floating {
+    @apply superficial p-2 rounded-xl bg-white;
+  }
+
   .main {
     @apply max-w-screen-lg mx-auto px-2 py-4;
   }

@@ -18,8 +18,8 @@ export default function AddWrittenQuizForm({
 
   return (
     <form
+      className="floating"
       action={formAction}
-      className="max-w-lg"
       onClickCapture={() => setHideMessage(true)}
     >
       <WrittenQuizFields key={formKey} lectureId={lectureId} />

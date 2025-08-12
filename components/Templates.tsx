@@ -55,7 +55,6 @@ export default function Templates() {
         name="facultyId"
         id="facultyId"
         required
-        className="max-w-lg"
       />
       <div className="flex flex-col items-start gap-2">
         <a

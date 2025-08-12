@@ -30,7 +30,7 @@ export default function PersonalInfoForm({
   }, [formState]);
 
   return (
-    <form action={formAction} className="max-w-lg flex flex-col gap-4">
+    <form action={formAction} className="max-w-xl w-full flex flex-col gap-4">
       <SelectFacultyYear
         faculties={faculties}
         defaultValues={
@@ -42,7 +42,7 @@ export default function PersonalInfoForm({
       {formState.message && formState.type && (
         <Message type={formState.type}>{formState.message}</Message>
       )}
-      <ButtonSubmit className="w-max px-4">{buttonLabel}</ButtonSubmit>
+      <ButtonSubmit className="self-start">{buttonLabel}</ButtonSubmit>
     </form>
   );
 }

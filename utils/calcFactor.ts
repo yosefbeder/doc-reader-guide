@@ -1,5 +1,5 @@
 const X_MARGIN = 8;
-const MAX_WIDTH = 1024;
+const MAX_WIDTH = 576;
 
 export default function calcFactor(width: number) {
   return (

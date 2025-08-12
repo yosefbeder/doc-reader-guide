@@ -13,6 +13,7 @@ import CardPlaceholder from "@/components/CardPlaceholder";
 import { icons } from "@/components/icons";
 import { useLogout } from "@/lib/hooks";
 import SelectClass from "./components/SelectClass";
+import { SummaryDetail } from "@/components/SummaryDetail";
 
 function CurrentTag({ semesterOpen }: { semesterOpen: boolean }) {
   return (
@@ -60,36 +61,42 @@ export default function ModulesPage() {
     return <SelectClass />;
   }
 
-  if (isLoading || !modules)
+  if (isLoading || !modules) {
     return (
       <main className="main flex flex-col gap-4">
-        <button className="w-full text-left flex items-center gap-2 p-2 bg-slate-50 hover:bg-slate-100 rounded-xl">
-          {icons["chevron-right"]}
-          <div className="w-28 h-7 rounded bg-slate-700 animate-pulse" />
-        </button>
-        <div className="overflow-hidden rounded-xl bg-slate-50 text-white">
-          <button className="w-full text-left flex items-center gap-2 p-2 rounded-b-xl bg-cyan-600 hover:bg-cyan-700">
-            {icons["chevron-down"]}
+        {/* Collapsed loading skeleton */}
+        <SummaryDetail open={false} toggle={() => {}}>
+          <SummaryDetail.Summary>
+            <div className="w-28 h-7 rounded bg-slate-700 animate-pulse" />
+          </SummaryDetail.Summary>
+        </SummaryDetail>
+
+        {/* Expanded loading skeleton */}
+        <SummaryDetail open={true} toggle={() => {}}>
+          <SummaryDetail.Summary>
             <div className="w-28 h-7 rounded bg-white animate-pulse" />
             <CurrentTag semesterOpen={true} />
-          </button>
-          <ul className="card-container p-4">
-            <li>
-              <CardPlaceholder type="module" />
-            </li>
-            <li>
-              <CardPlaceholder type="module" />
-            </li>
-            <li>
-              <CardPlaceholder type="module" />
-            </li>
-            <li>
-              <CardPlaceholder type="module" />
-            </li>
-          </ul>
-        </div>
+          </SummaryDetail.Summary>
+          <SummaryDetail.Detail>
+            <ul className="card-container p-4">
+              <li>
+                <CardPlaceholder type="module" />
+              </li>
+              <li>
+                <CardPlaceholder type="module" />
+              </li>
+              <li>
+                <CardPlaceholder type="module" />
+              </li>
+              <li>
+                <CardPlaceholder type="module" />
+              </li>
+            </ul>
+          </SummaryDetail.Detail>
+        </SummaryDetail>
       </main>
     );
+  }
 
   if (semesters.length === 0)
     return (
@@ -103,32 +110,28 @@ export default function ModulesPage() {
       {semesters.map((semesterName, index) => {
         const semesterOpen = selectedSemester === semesterName;
         return (
-          <div key={index} className="overflow-hidden rounded-xl bg-slate-50">
-            <button
-              onClick={() =>
-                setSelectedSemester((prev) =>
-                  semesterName === prev ? -1 : semesterName
-                )
-              }
-              className={`w-full text-left flex items-center gap-2 p-2 rounded-b-xl ${
-                semesterOpen
-                  ? "bg-cyan-600 hover:bg-cyan-700 text-white"
-                  : "hover:bg-slate-100"
-              } transition-colors`}
-            >
-              {semesterOpen ? icons["chevron-down"] : icons["chevron-right"]}
+          <SummaryDetail
+            key={index}
+            open={semesterOpen}
+            toggle={() =>
+              setSelectedSemester((prev) =>
+                semesterName === prev ? -1 : semesterName
+              )
+            }
+          >
+            <SummaryDetail.Summary>
               <span>
                 {semesterName}
-                <sup>{getPrefix(semesterName)}</sup> Semester{" "}
+                <sup>{getPrefix(semesterName)}</sup> Semester
               </span>
               {currentSemesters.includes(semesterName) && (
                 <CurrentTag semesterOpen={semesterOpen} />
               )}
-            </button>
-            {semesterOpen && (
+            </SummaryDetail.Summary>
+            <SummaryDetail.Detail>
               <ul className="card-container p-4">
                 {modules
-                  .filter((myModule) => myModule.semesterName === semesterName)
+                  .filter((m) => m.semesterName === semesterName)
                   .map(({ id, name, icon }, index) => (
                     <li key={index}>
                       <Link href={`/modules/${id}`} className="card bg-white">
@@ -140,8 +143,8 @@ export default function ModulesPage() {
                     </li>
                   ))}
               </ul>
-            )}
-          </div>
+            </SummaryDetail.Detail>
+          </SummaryDetail>
         );
       })}
     </main>

@@ -63,12 +63,11 @@ export default function LoginPage() {
     <GoogleOAuthProvider
       clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID as string}
     >
-      <main className="max-w-lg max-[512px]:m-0 max-[512px]:rounded-none max-[512px]:border-none max-[512px]:min-h-screen mx-auto my-8 p-8 flex flex-col items-center gap-4">
+      <main className="my-8 mx-auto max-w-xl flex flex-col gap-4 items-center">
         <Image src={Logo} width={128} alt="Logo" />
-        <span className="text-4xl font-extrabold text-cyan-700 -mb-4">
+        <span className="text-4xl font-extrabold text-cyan-700">
           DocReader Guide
         </span>
-        <h1 className="font-bold text-cyan-600">Login</h1>
         <GoogleLogin
           text="continue_with"
           shape="circle"

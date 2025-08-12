@@ -252,7 +252,7 @@ export default function QuestionsList({
           ({ id, text, answer }, index) => {
             const questionState = answers.subQuestions.get(id)!;
             return (
-              <li key={`question-${id}`} className="max-w-xl">
+              <li key={`question-${id}`}>
                 <p className="font-bold">
                   {index + 1}. {text}
                 </p>

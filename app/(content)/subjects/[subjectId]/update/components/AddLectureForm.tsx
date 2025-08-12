@@ -13,11 +13,7 @@ export default function AddLectureForm({ subjectId }: { subjectId: number }) {
   const { hideMessage, setHideMessage, formKey } = useAddForm(formState);
 
   return (
-    <form
-      action={formAction}
-      className="max-w-lg mb-4"
-      onClickCapture={() => setHideMessage(true)}
-    >
+    <form action={formAction} onClickCapture={() => setHideMessage(true)}>
       <LectureFields key={formKey} subjectId={subjectId} />
       {formState.message && formState.type && !hideMessage && (
         <Message type={formState.type} className="mb-4">

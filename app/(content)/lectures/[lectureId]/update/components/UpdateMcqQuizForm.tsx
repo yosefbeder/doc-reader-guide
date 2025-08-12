@@ -28,10 +28,7 @@ export default function UpdateMcqQuizForm({
   );
 
   return (
-    <div
-      className="superficial p-2 rounded-xl bg-white"
-      onClickCapture={() => setHideMessage(true)}
-    >
+    <div className="floating" onClickCapture={() => setHideMessage(true)}>
       <McqQuizFields
         lectureId={lectureId}
         defaultValues={quiz}

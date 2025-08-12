@@ -5,9 +5,9 @@ import React from "react";
 import Message from "@/components/Message";
 import { Link as LinkType, WrittenQuiz, McqQuiz as QuizType } from "@/types";
 import Link from "./Link";
-import { icons } from "@/components/icons";
 import Quiz from "./Quiz";
 import { useCategories } from "@/lib/hooks";
+import { SummaryDetail } from "@/components/SummaryDetail";
 
 export default function LinksList({
   links,
@@ -40,46 +40,42 @@ export default function LinksList({
         const categoryOpen = currentCategory === index;
 
         return (
-          <div key={index} className="overflow-hidden rounded-xl bg-slate-50">
-            <button
-              onClick={() =>
-                setCurrentCategory((prev) =>
-                  prev === index ? undefined : index
-                )
-              }
-              className={`w-full text-left flex items-center gap-2 p-2 rounded-b-xl ${
-                categoryOpen
-                  ? "bg-cyan-600 hover:bg-cyan-700 text-white"
-                  : "hover:bg-slate-100"
-              } transition-colors`}
-            >
-              {categoryOpen ? icons["chevron-down"] : icons["chevron-right"]}
+          <SummaryDetail
+            key={index}
+            open={categoryOpen}
+            toggle={() =>
+              setCurrentCategory((prev) => (prev === index ? undefined : index))
+            }
+          >
+            <SummaryDetail.Summary>
               {category === "Data" ? "External" : category}
-            </button>
-            {categoryOpen && (
+            </SummaryDetail.Summary>
+
+            <SummaryDetail.Detail>
               <ul className="flex flex-col gap-2 p-2">
                 {category === "Questions" && (
                   <>
                     {mcqQuizzes.map((quiz) => (
-                      <li key={quiz.id}>
+                      <li key={`mcq-quiz-${quiz.id}`}>
                         <Quiz type="mcq" quiz={quiz} printable />
                       </li>
                     ))}
                     {writtenQuizzes.map((quiz) => (
-                      <li key={`practical-${quiz.id}`}>
-                        <Quiz type="practical" quiz={quiz} />
+                      <li key={`written-quiz-${quiz.id}`}>
+                        <Quiz type="written" quiz={quiz} />
                       </li>
                     ))}
                   </>
                 )}
+
                 {categoryLinks.map((link) => (
-                  <li key={link.id}>
+                  <li key={`link-${link.id}`}>
                     <Link link={link} />
                   </li>
                 ))}
               </ul>
-            )}
-          </div>
+            </SummaryDetail.Detail>
+          </SummaryDetail>
         );
       })}
     </div>

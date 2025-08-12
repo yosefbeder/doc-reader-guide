@@ -15,13 +15,13 @@ export default function Quiz({
   onUpdate,
 }: {
   quiz: QuizType | WrittenQuiz;
-  type: "mcq" | "practical";
+  type: "mcq" | "written";
   printable?: boolean;
   updateable?: boolean;
   onUpdate?: () => void;
 }) {
   return (
-    <div className="flex items-center gap-2 superficial p-2 rounded-xl bg-white">
+    <div className="flex items-center gap-2 floating">
       <NextLink
         href={`/${type === "mcq" ? "mcq-quizzes" : "written-quizzes"}/${id}`}
         className="grow flex items-center gap-2 reset-link"

@@ -20,7 +20,7 @@ export default function Dialogue({
         onClick={onClose}
       />
       <div
-        className={`fixed z-10 inset-0 my-8 mx-auto max-[512px]:m-0 p-2 max-[512px]:py-4 w-full max-w-lg h-max max-[512px]:h-screen shadow-md max-[512px]:overflow-y-scroll max-[512px]:rounded-none bg-white ${className}`}
+        className={`fixed z-10 inset-0 my-8 mx-auto max-[512px]:m-0 p-2 max-[512px]:py-4 w-full max-w-xl h-max max-[512px]:h-screen shadow-md max-[512px]:overflow-y-scroll max-[512px]:rounded-none bg-white ${className}`}
       >
         <div className="hidden max-[512px]:block relative">
           <h2>{header}</h2>

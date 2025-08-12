@@ -5,12 +5,12 @@ import React, { useState } from "react";
 import Message from "@/components/Message";
 import { Link as LinkType, WrittenQuiz, McqQuiz as QuizType } from "@/types";
 import Link from "../../components/Link";
-import { icons } from "@/components/icons";
 import Quiz from "../../components/Quiz";
 import { useCategories } from "@/lib/hooks";
 import UpdateMcqQuizForm from "./UpdateMcqQuizForm";
 import UpdateLinkForm from "./UpdateLinkForm";
 import UpdateWrittenQuizForm from "./UpdateWrittenQuizForm";
+import { SummaryDetail } from "@/components/SummaryDetail";
 
 export default function LinksList({
   lectureId,
@@ -49,23 +49,17 @@ export default function LinksList({
         const categoryOpen = currentCategory === index;
 
         return (
-          <div key={index} className="overflow-hidden rounded-xl bg-slate-50">
-            <button
-              onClick={() =>
-                setCurrentCategory((prev) =>
-                  prev === index ? undefined : index
-                )
-              }
-              className={`w-full text-left flex items-center gap-2 p-2 rounded-b-xl ${
-                categoryOpen
-                  ? "bg-cyan-600 hover:bg-cyan-700 text-white"
-                  : "hover:bg-slate-100"
-              } transition-colors`}
-            >
-              {categoryOpen ? icons["chevron-down"] : icons["chevron-right"]}
+          <SummaryDetail
+            open={categoryOpen}
+            toggle={() =>
+              setCurrentCategory((prev) => (prev === index ? undefined : index))
+            }
+          >
+            <SummaryDetail.Summary>
               {category === "Data" ? "External" : category}
-            </button>
-            {categoryOpen && (
+            </SummaryDetail.Summary>
+
+            <SummaryDetail.Detail>
               <ul className="flex flex-col gap-2 p-2">
                 {category === "Questions" && (
                   <>
@@ -102,7 +96,7 @@ export default function LinksList({
                           />
                         ) : (
                           <Quiz
-                            type="practical"
+                            type="written"
                             quiz={quiz}
                             updateable
                             onUpdate={() =>
@@ -114,6 +108,7 @@ export default function LinksList({
                     ))}
                   </>
                 )}
+
                 {categoryLinks.map((link) => (
                   <li key={link.id}>
                     {current &&
@@ -132,8 +127,8 @@ export default function LinksList({
                   </li>
                 ))}
               </ul>
-            )}
-          </div>
+            </SummaryDetail.Detail>
+          </SummaryDetail>
         );
       })}
     </div>
