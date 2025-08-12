@@ -17,16 +17,14 @@ export default function Search({ yearId }: { yearId: number }) {
     async function (search: string): Promise<Lecture[] | undefined> {
       if (search.length < 3) return;
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/years/${yearId}/lectures?search=${search}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/years/${yearId}/lectures?search=${search}&size=100`,
         {
-          headers: {
-            authorization: `Bearer ${Cookies.get("jwt")!}`,
-          },
+          credentials: "include",
         }
       );
       const json = await res.json();
       if (!res.ok) throw new Error(json.message);
-      return json.data;
+      return json.data.lectures;
     },
     [yearId]
   );
@@ -37,7 +35,8 @@ export default function Search({ yearId }: { yearId: number }) {
   }, [isSearching]);
 
   let content;
-  if (error) content = "Error";
+  if (yearId === -1) content = "Select class first";
+  else if (error) content = "Error";
   else if (!isLoading && !lectures) content = "Type at least 3 characters";
   else if (isLoading || lectures)
     content = (
