@@ -4,18 +4,22 @@ import MasonryCardContainer from "@/components/MasonryCardContainer";
 import getLectures from "@/utils/getLectures";
 import Lecture from "./components/Lecture";
 
-// export async function generateStaticParams() {
-//   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/subjects`, {
-//     headers: {
-//       "Content-Type": "application/json",
-//       Authorization: `Bearer ${process.env.JWT}`,
-//     },
-//   });
-//   const json = await res.json();
-//   return json.data.subjects.map(({ id }: { id: number }) => ({
-//     subjectId: id.toString(),
-//   }));
-// }
+export async function generateStaticParams() {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/subjects?size=100`,
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${process.env.JWT}`,
+      },
+    }
+  );
+  const json = await res.json();
+  console.log(json.totalCount);
+  return json.data.subjects.map(({ id }: { id: number }) => ({
+    subjectId: id.toString(),
+  }));
+}
 
 export default async function LecturesPage({
   params: { subjectId },

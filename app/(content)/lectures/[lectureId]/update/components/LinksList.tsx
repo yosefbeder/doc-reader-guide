@@ -50,6 +50,7 @@ export default function LinksList({
 
         return (
           <SummaryDetail
+            key={index}
             open={categoryOpen}
             toggle={() =>
               setCurrentCategory((prev) => (prev === index ? undefined : index))
@@ -64,7 +65,7 @@ export default function LinksList({
                 {category === "Questions" && (
                   <>
                     {mcqQuizzes.map((quiz) => (
-                      <li key={quiz.id}>
+                      <li key={`mcq-${quiz.id}`}>
                         {current &&
                         current.type === "quiz" &&
                         current.id === quiz.id ? (
@@ -87,7 +88,7 @@ export default function LinksList({
                       </li>
                     ))}
                     {writtenQuizzes.map((quiz) => (
-                      <li key={quiz.id}>
+                      <li key={`written-${quiz.id}`}>
                         {current &&
                         current.type === "quiz" &&
                         current.id === quiz.id ? (
@@ -112,7 +113,7 @@ export default function LinksList({
                 )}
 
                 {categoryLinks.map((link) => (
-                  <li key={link.id}>
+                  <li key={`link-${link.id}`}>
                     {current &&
                     current.type === "link" &&
                     current.id === link.id ? (

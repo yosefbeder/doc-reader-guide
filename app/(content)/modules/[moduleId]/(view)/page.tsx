@@ -6,18 +6,22 @@ import Path from "../components/Path";
 import getModule from "@/utils/getModule";
 import Message from "@/components/Message";
 
-// export async function generateStaticParams() {
-//   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/modules`, {
-//     headers: {
-//       "Content-Type": "application/json",
-//       Authorization: `Bearer ${process.env.JWT}`,
-//     },
-//   });
-//   const json = await res.json();
-//   return json.data.modules.map(({ id }: { id: number }) => ({
-//     moduleId: id.toString(),
-//   }));
-// }
+export async function generateStaticParams() {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/modules?size=100`,
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${process.env.JWT}`,
+      },
+    }
+  );
+  const json = await res.json();
+  console.log(json.totalCount);
+  return json.data.modules.map(({ id }: { id: number }) => ({
+    moduleId: id.toString(),
+  }));
+}
 
 export default async function SubjectsPage({
   params: { moduleId },

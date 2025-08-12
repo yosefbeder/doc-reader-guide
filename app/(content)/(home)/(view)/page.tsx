@@ -44,7 +44,8 @@ export default function ModulesPage() {
   const [selectedSemester, setSelectedSemester] = useState(-1);
   useEffect(() => setSelectedSemester(data?.currentSemester || -1), [data]);
 
-  if (localStorage.getItem("select-class")) return <SelectClass />;
+  if (typeof window !== "undefined" && localStorage.getItem("select-class"))
+    return <SelectClass />;
 
   if (isLoading || !data) {
     return (
