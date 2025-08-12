@@ -2,6 +2,7 @@ import { useRouter } from "next/navigation";
 import { useSWRConfig } from "swr";
 
 import disableNotifications from "@/utils/disableNotifications";
+import { googleLogout } from "@react-oauth/google";
 
 export default function useLogout() {
   const router = useRouter();
@@ -23,6 +24,7 @@ export default function useLogout() {
       await mutate(() => true, undefined, { revalidate: false });
       localStorage.removeItem("notifications-toast-denied");
       localStorage.removeItem("select-class");
+      googleLogout();
       router.replace("/login");
     } catch (err) {
       console.error(err);

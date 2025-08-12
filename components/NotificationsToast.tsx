@@ -9,7 +9,7 @@ import Message from "./Message";
 export default function NotificationsToast() {
   const [isShown, setIsShown] = useState(true);
   const {
-    isClassSelected,
+    isGuest,
     isMounted,
     isAllowed,
     isSupported,
@@ -23,7 +23,7 @@ export default function NotificationsToast() {
   }, []);
 
   if (
-    !isClassSelected ||
+    isGuest ||
     !isMounted ||
     !isSupported ||
     isAllowed ||

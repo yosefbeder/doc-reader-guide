@@ -3,6 +3,7 @@
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
+import Cookies from "js-cookie";
 
 import Logo from "@/public/logo.png";
 
@@ -45,6 +46,7 @@ export default function LoginPage() {
       if (json.data.user.yearId === null)
         localStorage.setItem("select-class", "true");
 
+      Cookies.remove("guest");
       router.replace(redirect ?? "/");
 
       // Handle the backend's response (e.g., store a session token, redirect the user)

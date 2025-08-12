@@ -7,7 +7,9 @@ export default async function getSubject(subjectId: number): Promise<Subject> {
     {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${cookies().get("jwt")!.value}`,
+        Authorization: `Bearer ${
+          cookies().get("jwt")?.value || process.env.JWT
+        }`,
       },
     }
   );

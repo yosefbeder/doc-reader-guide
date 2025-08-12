@@ -7,7 +7,9 @@ export async function getMcqQuiz(quizId: number): Promise<McqQuiz> {
     {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${cookies().get("jwt")!.value}`,
+        Authorization: `Bearer ${
+          cookies().get("jwt")?.value || process.env.JWT
+        }`,
       },
     }
   );
@@ -22,7 +24,9 @@ export async function getWrittenQuiz(quizId: number): Promise<WrittenQuiz> {
     {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${cookies().get("jwt")!.value}`,
+        Authorization: `Bearer ${
+          cookies().get("jwt")?.value || process.env.JWT
+        }`,
       },
     }
   );

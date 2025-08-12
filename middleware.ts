@@ -1,13 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { decodeJwt } from "jose";
 
-const secret = new TextEncoder().encode(process.env.SECRET!);
-
 export async function middleware(req: NextRequest): Promise<NextResponse> {
   const { pathname } = req.nextUrl;
   let jwt = req.cookies.get("jwt")?.value;
   const toLogin = pathname.startsWith("/login");
   const toDashboard = pathname.endsWith("/update");
+  const toHome = pathname === "/";
+  const toProfile = pathname.startsWith("/profile");
 
   if (jwt) {
     try {
@@ -20,15 +20,23 @@ export async function middleware(req: NextRequest): Promise<NextResponse> {
     }
   }
 
-  if (!jwt && !toLogin)
-    return NextResponse.redirect(
-      new URL(
-        `/login?redirect=${encodeURIComponent(
-          req.nextUrl.pathname + req.nextUrl.search
-        )}`,
-        req.url
-      )
-    );
+  if (!jwt) {
+    // Prepare response based on redirect condition
+    const res =
+      toHome || toProfile || toDashboard
+        ? NextResponse.redirect(new URL("/login", req.url))
+        : NextResponse.next();
+
+    // Set cookie on the response (req.cookies is read-only)
+    res.cookies.set({
+      name: "guest",
+      value: "true",
+      path: "/",
+      secure: process.env.NODE_ENV === "production",
+    });
+
+    return res;
+  }
 
   return NextResponse.next();
 }

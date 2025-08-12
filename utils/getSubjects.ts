@@ -9,7 +9,9 @@ export default async function getSubjects(
     {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${cookies().get("jwt")!.value}`,
+        Authorization: `Bearer ${
+          cookies().get("jwt")?.value || process.env.JWT
+        }`,
       },
     }
   );

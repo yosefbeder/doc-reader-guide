@@ -52,15 +52,6 @@ export default function ModulesPage() {
     [semesters]
   );
 
-  if (error && error.status === 401) logout();
-
-  if (
-    typeof window !== "undefined" &&
-    localStorage.getItem("select-class") === "true"
-  ) {
-    return <SelectClass />;
-  }
-
   if (isLoading || !modules) {
     return (
       <main className="main flex flex-col gap-4">

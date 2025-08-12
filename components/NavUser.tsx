@@ -2,6 +2,8 @@
 
 import useSWR from "swr";
 import { usePathname, useRouter } from "next/navigation";
+import NextLink from "next/link";
+import Cookies from "js-cookie";
 
 import Search from "./Search";
 import NavLink from "./NavLink";
@@ -17,6 +19,13 @@ export default function NavUser({ updateable }: { updateable?: boolean }) {
   } = useSWR("user", async () => await getUser());
   const router = useRouter();
   const pathname = usePathname();
+
+  if (error && Cookies.get("guest"))
+    return (
+      <NextLink href={`/login?redirect=${encodeURIComponent(pathname)}`}>
+        Login
+      </NextLink>
+    );
 
   return (
     <div className="flex items-center gap-2">
