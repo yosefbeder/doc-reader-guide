@@ -19,6 +19,7 @@ export interface Faculty extends DatabaseTable {
 
 export interface Year extends DatabaseTable {
   title: string;
+  currentSemester: number;
   facultyId: number;
 }
 
@@ -31,6 +32,7 @@ export interface User extends DatabaseTable {
   roleId: number;
   facultyId: number;
   yearId: number;
+  year: Year;
 }
 
 export interface Faculty extends DatabaseTable {

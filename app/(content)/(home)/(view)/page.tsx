@@ -10,9 +10,6 @@ import getModules from "@/utils/getModulesClient";
 import getUser from "@/utils/getUserClient";
 import Message from "@/components/Message";
 import CardPlaceholder from "@/components/CardPlaceholder";
-import { icons } from "@/components/icons";
-import { useLogout } from "@/lib/hooks";
-import SelectClass from "./components/SelectClass";
 import { SummaryDetail } from "@/components/SummaryDetail";
 
 function CurrentTag({ semesterOpen }: { semesterOpen: boolean }) {
@@ -28,31 +25,25 @@ function CurrentTag({ semesterOpen }: { semesterOpen: boolean }) {
 }
 
 export default function ModulesPage() {
-  const currentSemesters = JSON.parse(
-    process.env.NEXT_PUBLIC_CURRENT_SEMESTERS!
-  );
-  const logout = useLogout();
-  const {
-    data: modules,
-    error,
-    isLoading,
-  } = useSWR("home", async () => await getModules((await getUser()).yearId));
+  const { data, isLoading } = useSWR("home", async () => {
+    const {
+      year: { id: yearId, currentSemester },
+    } = await getUser();
+    console.log(currentSemester);
+    const modules = await getModules(yearId);
+    return { modules, currentSemester };
+  });
   const semesters = useMemo(
     () =>
-      Array.from(new Set(modules?.map((module) => module.semesterName))).sort(),
-    [modules]
+      Array.from(
+        new Set(data?.modules.map((module) => module.semesterName))
+      ).sort(),
+    [data]
   );
   const [selectedSemester, setSelectedSemester] = useState(-1);
-  useEffect(
-    () =>
-      setSelectedSemester(
-        semesters.find((semester) => currentSemesters.includes(semester)) ||
-          semesters[0]
-      ),
-    [semesters]
-  );
+  useEffect(() => setSelectedSemester(data?.currentSemester || -1), [data]);
 
-  if (isLoading || !modules) {
+  if (isLoading || !data) {
     return (
       <main className="main flex flex-col gap-4">
         {/* Collapsed loading skeleton */}
@@ -115,13 +106,13 @@ export default function ModulesPage() {
                 {semesterName}
                 <sup>{getPrefix(semesterName)}</sup> Semester
               </span>
-              {currentSemesters.includes(semesterName) && (
+              {semesterName === data?.currentSemester && (
                 <CurrentTag semesterOpen={semesterOpen} />
               )}
             </SummaryDetail.Summary>
             <SummaryDetail.Detail>
               <ul className="card-container p-4">
-                {modules
+                {data.modules
                   .filter((m) => m.semesterName === semesterName)
                   .map(({ id, name, icon }, index) => (
                     <li key={index}>
