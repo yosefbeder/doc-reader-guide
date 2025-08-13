@@ -1,11 +1,11 @@
 import Image from "next/image";
 
-import AnonymousAvatar from "@/public/anonymous.jpg";
+import AnonymousSlateAvatar from "@/public/anonymous-slate.jpg";
+import AnonymousCyanAvatar from "@/public/anonymous-cyan.jpg";
 import AbdulrahmanAvatar from "@/public/abdulrahmansaber.jpeg";
 import OmarAvatar from "@/public/omarabdelaleem.jpeg";
 import MohammedAvatar from "@/public/mohammedalzayat.jpeg";
 import Tooltip from "./Tooltip";
-import { icons } from "./icons";
 
 const links = [
   {
@@ -76,14 +76,19 @@ const links = [
 
 const contributers = [
   {
-    avatar: AnonymousAvatar,
+    avatar: AnonymousSlateAvatar,
     name: "مجهول",
-    contribution: "مطور الواجهة الأمامية (الموقع)",
+    contribution: "مطور الموقع + أجزاء من السيرفر",
+  },
+  {
+    avatar: AnonymousCyanAvatar,
+    name: "مجهول ڤيرچن تو",
+    contribution: "صيانة السيرفر + مطور نظام الصلاحيات",
   },
   {
     avatar: AbdulrahmanAvatar,
     name: "عبد الرحمن صابر",
-    contribution: "مطور الواجهة الخلفية",
+    contribution: "مطور السيرفر",
     profile: "https://www.facebook.com/asaber.25",
   },
   {
