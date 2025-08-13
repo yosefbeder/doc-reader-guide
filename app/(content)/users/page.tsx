@@ -47,7 +47,7 @@ export default function UsersPage() {
         <div>Loading...</div>
       ) : (
         <ul className="space-y-4">
-          {data?.data.users.map((user: UserType, index: number) => (
+          {data?.data?.users.map((user: UserType, index: number) => (
             <li key={user.id}>
               <User
                 search={search}

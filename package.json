@@ -4,6 +4,8 @@
   "private": true,
   "scripts": {
     "start": "bun server.ts",
+    "dev": "next dev",
+    "build": "next build",
     "lint": "next lint"
   },
   "dependencies": {
