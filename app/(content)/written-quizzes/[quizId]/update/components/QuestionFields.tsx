@@ -3,6 +3,8 @@
 import React, { useState } from "react";
 import Canvas, { State } from "./Canvas";
 import ButtonIcon from "@/components/ButtonIcon";
+import RichTextEditor from "@/components/RichTextEditor/RichTextEditor";
+import replaceImgSrc from "@/utils/replaceImgSrc";
 
 interface WrittenQuestion {
   id?: number;
@@ -65,7 +67,7 @@ export default function QuestionFields({
             key={`sub-question-${counter}`}
             className="flex items-center gap-2"
           >
-            <div className="flex flex-col gap-2 grow *:px-2 *:py-1 *:border">
+            <div className="flex flex-col gap-2 grow">
               {id && (
                 <input
                   type="text"
@@ -79,6 +81,7 @@ export default function QuestionFields({
                 />
               )}
               <textarea
+                className="px-2 py-1 border"
                 name={`sub-question-${counter}-text`}
                 id={`written-question-${
                   init ? init.id : "new"
@@ -94,17 +97,17 @@ export default function QuestionFields({
                 }}
                 form={formId}
               />
-              <textarea
+              <RichTextEditor
                 name={`sub-question-${counter}-answer`}
                 id={`written-question-${
                   init ? init.id : "new"
                 }-sub-question-${counter}-answer`}
-                value={answer}
+                value={replaceImgSrc(answer)}
                 placeholder="Answer"
-                onChange={(e) => {
+                onChange={(value) => {
                   setWrittenQuestions((prev) => [
                     ...prev.slice(0, index),
-                    { counter, value: { text, answer: e.target.value } },
+                    { counter, value: { text, answer: value } },
                     ...prev.slice(index + 1),
                   ]);
                 }}

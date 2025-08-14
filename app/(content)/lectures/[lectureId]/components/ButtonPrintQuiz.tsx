@@ -127,7 +127,7 @@ export default function ButtonPrintQuiz({
                   <li key={index}>
                     {index + 1}.{" "}
                     {isValidURL(explanation!) ? (
-                      <a href={explanation} target="_blank">
+                      <a className="link" href={explanation} target="_blank">
                         {explanation}
                       </a>
                     ) : (

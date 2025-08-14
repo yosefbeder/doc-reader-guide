@@ -33,7 +33,7 @@ export default function UpdateWrittenQuizForm({
   return (
     <div className="floating" onClickCapture={() => setHideMessage(true)}>
       <div className="flex justify-between items-center mb-4">
-        <h3>Update Link</h3>
+        <h3>Update Written Quiz</h3>
         <ButtonIcon icon="x-mark" onClick={onClose} />
       </div>
       <WrittenQuizFields

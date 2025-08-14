@@ -57,21 +57,13 @@ export default function Templates() {
         required
       />
       <div className="flex flex-col items-start gap-2">
-        <a
-          href={model + MCQ_FILE_NO_ANSWERS}
-          target="_blank"
-          className="reset-link"
-        >
+        <a href={model + MCQ_FILE_NO_ANSWERS} target="_blank">
           <Button color="white">MCQ file (no answers)</Button>
         </a>
-        <a
-          href={model + MCQ_FILE_AI_ANSWERS}
-          target="_blank"
-          className="reset-link"
-        >
+        <a href={model + MCQ_FILE_AI_ANSWERS} target="_blank">
           <Button color="white">MCQ file (AI answers)</Button>
         </a>
-        <a href={model + AI_GENERATED} target="_blank" className="reset-link">
+        <a href={model + AI_GENERATED} target="_blank">
           <Button color="white">AI generated</Button>
         </a>
       </div>

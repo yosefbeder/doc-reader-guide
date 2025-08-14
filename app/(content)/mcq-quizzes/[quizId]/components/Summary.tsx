@@ -99,7 +99,11 @@ export default function Summary({
                   <p>
                     <b>Explanation: </b>
                     {isValidURL(question.explanation) ? (
-                      <a href={question.explanation} target="_blank">
+                      <a
+                        className="link"
+                        href={question.explanation}
+                        target="_blank"
+                      >
                         {question.explanation}
                       </a>
                     ) : (

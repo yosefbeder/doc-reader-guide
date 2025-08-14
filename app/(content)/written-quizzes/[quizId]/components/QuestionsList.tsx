@@ -2,12 +2,14 @@
 
 import { useCallback, useEffect, useState } from "react";
 
-import { WrittenQuestion, QuestionState } from "@/types";
+import { WrittenQuestion, QuestionState, FormStateType } from "@/types";
 import { useQuestions } from "@/lib/hooks";
 import Summary from "./Summary";
 import calcFactor from "@/utils/calcFactor";
 import SelectAnswerDialogue from "./SelectAnswerDialogue";
 import QuestionWrapper from "@/components/QuestionWrapper";
+import HtmlContent from "@/components/HtmlContent";
+import Message from "@/components/Message";
 
 const border = new Map([
   [QuestionState.TRUE, "border-green-600"],
@@ -16,11 +18,14 @@ const border = new Map([
   [QuestionState.UNSELECTED, "border-slate-700"],
 ]);
 
-const writtenAnswer = new Map([
-  [QuestionState.TRUE, "text-green-600"],
-  [QuestionState.FALSE, "text-red-600"],
-  [QuestionState.UNANSWERED, "text-slate-700"],
-  [QuestionState.UNSELECTED, "text-slate-700"],
+const subQuestionMessageType = new Map<QuestionState, FormStateType>([
+  [QuestionState.TRUE, "success"],
+  [QuestionState.FALSE, "fail"],
+]);
+
+const subQuestionText = new Map([
+  [QuestionState.TRUE, "Correct"],
+  [QuestionState.FALSE, "Incorrect"],
 ]);
 
 export interface Answers {
@@ -88,7 +93,7 @@ export default function QuestionsList({
     options: {
       questions,
       answers,
-      localStorageItem: `practical-quiz-${quizId}`,
+      localStorageItem: `written-quiz-${quizId}`,
       serializeAnswers: (x) => {
         return JSON.stringify({
           tapes: Array.from(x.tapes),
@@ -252,9 +257,11 @@ export default function QuestionsList({
           ({ id, text, answer }, index) => {
             const questionState = answers.subQuestions.get(id)!;
             return (
-              <li key={`question-${id}`}>
+              <li key={`question-${id}`} className="flex flex-col gap-4">
                 <p className="font-bold">
-                  {index + 1}. {text}
+                  {orderedQuestions[currentIndex].subQuestions.length > 1
+                    ? `${index + 1}. ${text}`
+                    : text}
                 </p>
                 {questionState === QuestionState.UNSELECTED && (
                   <SelectAnswerDialogue
@@ -267,10 +274,21 @@ export default function QuestionsList({
                   />
                 )}
                 {questionState !== QuestionState.UNANSWERED ? (
-                  <p className={writtenAnswer.get(questionState)}>{answer}</p>
+                  <>
+                    {[QuestionState.TRUE, QuestionState.FALSE].includes(
+                      questionState
+                    ) && (
+                      <Message
+                        type={subQuestionMessageType.get(questionState)!}
+                      >
+                        {subQuestionText.get(questionState)}
+                      </Message>
+                    )}
+                    <HtmlContent html={answer} />
+                  </>
                 ) : (
                   <button
-                    className="font-bold text-cyan-600"
+                    className="font-bold text-cyan-600 self-start"
                     onClick={() =>
                       updateWrittenQuestionState(id, QuestionState.UNSELECTED)
                     }

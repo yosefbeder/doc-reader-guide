@@ -111,12 +111,7 @@ export default function Footer() {
       <div className="main">
         <div className="flex justify-center items-center gap-4 mb-4">
           {links.map(({ link, color, icon }, index) => (
-            <a
-              key={index}
-              href={link}
-              className={`text-inherit ${color}`}
-              target="_blank"
-            >
+            <a key={index} href={link} className={color} target="_blank">
               {icon}
             </a>
           ))}
@@ -149,7 +144,11 @@ export default function Footer() {
         </div>
         <div className="text-center">
           Sources are regularly updated ·{" "}
-          <a href="https://t.me/DocReader_Guide_app/93" target="_blank">
+          <a
+            className="link"
+            href="https://t.me/DocReader_Guide_app/93"
+            target="_blank"
+          >
             Donate
           </a>
         </div>

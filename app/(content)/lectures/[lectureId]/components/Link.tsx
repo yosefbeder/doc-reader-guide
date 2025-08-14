@@ -13,11 +13,7 @@ export default function Link({
 }) {
   return (
     <div className="flex items-center gap-2 floating">
-      <a
-        className="grow flex items-center gap-2 reset-link"
-        target="_blank"
-        href={url}
-      >
+      <a className="grow flex items-center gap-2" target="_blank" href={url}>
         {typeIcons[type]}
         {subTitle && subTitle.trim() ? (
           <div>

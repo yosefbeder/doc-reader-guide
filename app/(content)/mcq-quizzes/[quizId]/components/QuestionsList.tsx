@@ -32,7 +32,7 @@ export default function QuestionsList({
     options: {
       questions,
       answers,
-      localStorageItem: `quiz-${quizId}-new`,
+      localStorageItem: `mcq-quiz-${quizId}`,
       serializeAnswers: (x) => Array.from(x),
       onLoad(storedAnswers) {
         try {

@@ -1,7 +1,6 @@
 "use client";
 
 import Button from "@/components/Button";
-import { icons } from "@/components/icons";
 import useQuestionsDashboard from "@/lib/hooks/useQuestionsDashboard";
 import { WrittenQuestion } from "@/types";
 import React from "react";
@@ -21,7 +20,7 @@ export default function QuestionsList({
     setQuestionsOpen,
     currentQuestion,
     setCurrentQuestion,
-  } = useQuestionsDashboard(questions, `practical-quiz-${quizId}`, true);
+  } = useQuestionsDashboard(questions, `written-quiz-${quizId}`, true);
 
   return (
     <section>

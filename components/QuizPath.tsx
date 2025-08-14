@@ -26,21 +26,21 @@ export default function Path({
       <sup>{getPrefix(semesterName)}</sup> Semester →{" "}
       <Link
         href={`/modules/${moduleId}`}
-        className="text-inherit hover:text-white"
+        className="link text-inherit hover:text-white"
       >
         {moduleName}
       </Link>{" "}
       →{" "}
       <Link
         href={`/subjects/${subjectId}`}
-        className="text-inherit hover:text-white"
+        className="link text-inherit hover:text-white"
       >
         {subjectName}
       </Link>{" "}
       →{" "}
       <Link
         href={`/lectures/${lectureId}`}
-        className="text-inherit hover:text-white"
+        className="link text-inherit hover:text-white"
       >
         {lectureTitle}
       </Link>{" "}

@@ -22,7 +22,10 @@ export default function NavUser({ updateable }: { updateable?: boolean }) {
 
   if (error && Cookies.get("guest"))
     return (
-      <NextLink href={`/login?redirect=${encodeURIComponent(pathname)}`}>
+      <NextLink
+        className="link"
+        href={`/login?redirect=${encodeURIComponent(pathname)}`}
+      >
         Login
       </NextLink>
     );

@@ -54,7 +54,7 @@
     @apply text-xl font-bold;
   }
 
-  a {
+  .link {
     @apply underline text-cyan-600 hover:text-cyan-700 active:text-cyan-800 transition-colors;
   }
 
@@ -91,9 +91,6 @@
     @apply hover:bg-slate-50 active:bg-slate-100;
   }
 
-  .nav-link:not(.selected) {
-  }
-
   .react-checkbox-tree {
     @apply !text-lg;
   }
@@ -105,11 +102,7 @@
 
 @layer utilities {
   .card {
-    @apply flex flex-col items-center p-4 gap-4 rounded-xl text-center reset-link superficial;
-  }
-
-  .reset-link {
-    @apply no-underline text-inherit hover:text-inherit;
+    @apply flex flex-col items-center p-4 gap-4 rounded-xl text-center superficial;
   }
 
   .superficial {

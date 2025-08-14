@@ -41,7 +41,7 @@ export default function LecturesList({
             <li key={id}>
               <Link
                 href={`/lectures/${id}`}
-                className="block no-underline text-inherit hover:text-inherit py-2"
+                className="block text-inherit hover:text-inherit py-2"
                 onClick={onClose}
               >
                 <p>{getHighlightedText(title, search)}</p>
