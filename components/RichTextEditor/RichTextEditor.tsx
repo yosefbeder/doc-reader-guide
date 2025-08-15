@@ -53,6 +53,7 @@ export default function RichTextEditor({
     },
     theme: ExampleTheme,
     editorState: (editor: LexicalEditor) => {
+      if (typeof window === "undefined") return;
       const parser = new DOMParser();
       const dom = parser.parseFromString(value, "text/html");
       const nodes = $generateNodesFromDOM(editor, dom);
