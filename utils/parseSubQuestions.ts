@@ -16,6 +16,9 @@ export default function parseSubQuestions(formData: FormData) {
         text,
         answer: replaceImgSrc(answer as string, "remove"),
       });
+      formData.delete(idName);
+      formData.delete(textName);
+      formData.delete(answerName);
     }
   }
 
