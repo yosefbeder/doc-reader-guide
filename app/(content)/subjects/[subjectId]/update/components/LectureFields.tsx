@@ -1,5 +1,3 @@
-"use client";
-
 import Input from "@/components/Input";
 import TextArea from "@/components/TextArea";
 import { Lecture } from "@/types";

@@ -6,7 +6,7 @@ import ButtonIcon from "@/components/ButtonIcon";
 import RichTextEditor from "@/components/RichTextEditor/RichTextEditor";
 import replaceImgSrc from "@/utils/replaceImgSrc";
 
-interface WrittenQuestion {
+interface SubQuestion {
   id?: number;
   text: string;
   answer: string;
@@ -21,20 +21,21 @@ export default function QuestionFields({
     id: number;
     state: State;
     imageUrl?: string;
-    writtenQuestions: WrittenQuestion[];
+    subQuestions: SubQuestion[];
   };
   quizId: number;
   formId: string;
 }) {
-  const [writtenQuestions, setWrittenQuestions] = useState<
-    { counter: number; value: WrittenQuestion }[]
+  const [subQuestions, setSubQuestions] = useState<
+    { counter: number; value: SubQuestion }[]
   >(
     init
-      ? init.writtenQuestions.map((value, index) => ({ counter: index, value }))
+      ? init.subQuestions.map((value, index) => ({ counter: index, value }))
       : [{ counter: 0, value: { text: "", answer: "" } }]
   );
-  const [currentCounter, setCurrentCounter] = useState(1);
-
+  const [currentCounter, setCurrentCounter] = useState(
+    init ? init.subQuestions.length : 1
+  );
   return (
     <div className="flex flex-col gap-4 mb-4">
       <Canvas
@@ -61,78 +62,73 @@ export default function QuestionFields({
           form={formId}
         />
       )}
-      {writtenQuestions.map(
-        ({ counter, value: { id, text, answer } }, index) => (
-          <li
-            key={`sub-question-${counter}`}
-            className="flex items-center gap-2"
-          >
-            <div className="flex flex-col gap-2 grow">
-              {id && (
-                <input
-                  type="text"
-                  name={`sub-question-${counter}-id`}
-                  id={`written-question-${
-                    init ? init.id : "new"
-                  }-sub-question-${counter}-id`}
-                  className="hidden"
-                  defaultValue={id}
-                  form={formId}
-                />
-              )}
-              <textarea
-                className="px-2 py-1 border"
-                name={`sub-question-${counter}-text`}
+      {subQuestions.map(({ counter, value: { id, text, answer } }, index) => (
+        <li key={`sub-question-${counter}`} className="flex items-center gap-2">
+          <div className="flex flex-col gap-2 grow">
+            {id && (
+              <input
+                type="text"
+                name={`sub-question-${counter}-id`}
                 id={`written-question-${
                   init ? init.id : "new"
-                }-sub-question-${counter}-text`}
-                value={text}
-                placeholder="Question"
-                onChange={(e) => {
-                  setWrittenQuestions((prev) => [
-                    ...prev.slice(0, index),
-                    { counter, value: { text: e.target.value, answer } },
-                    ...prev.slice(index + 1),
-                  ]);
-                }}
+                }-sub-question-${counter}-id`}
+                className="hidden"
+                defaultValue={id}
                 form={formId}
               />
-              <RichTextEditor
-                name={`sub-question-${counter}-answer`}
-                id={`written-question-${
-                  init ? init.id : "new"
-                }-sub-question-${counter}-answer`}
-                value={replaceImgSrc(answer)}
-                placeholder="Answer"
-                onChange={(value) => {
-                  setWrittenQuestions((prev) => [
-                    ...prev.slice(0, index),
-                    { counter, value: { text, answer: value } },
-                    ...prev.slice(index + 1),
-                  ]);
-                }}
-                form={formId}
-              />
-            </div>
-            <ButtonIcon
-              icon="x-mark"
-              onClick={() =>
-                setWrittenQuestions((prev) => [
+            )}
+            <textarea
+              className="px-2 py-1 border"
+              name={`sub-question-${counter}-text`}
+              id={`written-question-${
+                init ? init.id : "new"
+              }-sub-question-${counter}-text`}
+              value={text}
+              placeholder="Question"
+              onChange={(e) => {
+                setSubQuestions((prev) => [
                   ...prev.slice(0, index),
+                  { counter, value: { id, text: e.target.value, answer } },
                   ...prev.slice(index + 1),
-                ])
-              }
+                ]);
+              }}
+              form={formId}
             />
-          </li>
-        )
-      )}
+            <RichTextEditor
+              name={`sub-question-${counter}-answer`}
+              id={`written-question-${
+                init ? init.id : "new"
+              }-sub-question-${counter}-answer`}
+              value={replaceImgSrc(answer)}
+              placeholder="Answer"
+              onChange={(value) => {
+                setSubQuestions((prev) => [
+                  ...prev.slice(0, index),
+                  { counter, value: { id, text, answer: value } },
+                  ...prev.slice(index + 1),
+                ]);
+              }}
+              form={formId}
+            />
+          </div>
+          <ButtonIcon
+            icon="x-mark"
+            onClick={() =>
+              setSubQuestions((prev) => [
+                ...prev.slice(0, index),
+                ...prev.slice(index + 1),
+              ])
+            }
+          />
+        </li>
+      ))}
       <ButtonIcon
         icon="plus"
         type="button"
         className="w-max"
         onClick={() => {
           if (currentCounter >= +process.env.NEXT_PUBLIC_OPTIONS_LIMIT!) return;
-          setWrittenQuestions((prev) => [
+          setSubQuestions((prev) => [
             ...prev,
             {
               counter: currentCounter,

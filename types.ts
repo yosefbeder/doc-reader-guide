@@ -79,7 +79,7 @@ interface SubjectSimple {
 export interface Lecture extends DatabaseTable {
   title: string;
   type: "Normal" | "Practical" | "FinalRevision";
-  subTitle: string;
+  note?: string;
   date: string;
   subject: SubjectSimple;
 }

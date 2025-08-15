@@ -1,3 +1,4 @@
+import addLinkAttributes from "@/utils/addLinkAttributes";
 import replaceImgSrc from "@/utils/replaceImgSrc";
 import DOMPurify from "dompurify";
 
@@ -5,14 +6,7 @@ interface HtmlContentProps extends React.ComponentProps<"div"> {
   html: string;
 }
 
-DOMPurify.addHook("afterSanitizeAttributes", (node) => {
-  if ("target" in node) {
-    node.setAttribute("target", "_blank");
-    node.setAttribute("rel", "noopener noreferrer"); // prevents reverse tabnabbing
-  }
-});
-
-export default function HtmlContent({
+export default function HtmlContentClient({
   html,
   className,
   ...rest
@@ -20,7 +14,9 @@ export default function HtmlContent({
   const cleanHtml = DOMPurify.sanitize(html);
   return (
     <div
-      dangerouslySetInnerHTML={{ __html: replaceImgSrc(cleanHtml) }}
+      dangerouslySetInnerHTML={{
+        __html: addLinkAttributes(replaceImgSrc(cleanHtml)),
+      }}
       className={`prose prose-slate ${className}`}
       {...rest}
     />

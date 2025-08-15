@@ -8,10 +8,9 @@ export default function useUpdateDeleteForms(
 ) {
   const [hideMessage, setHideMessage] = useState(false);
 
-  useEffect(
-    () => setHideMessage(false),
-    [updateFormState.resetKey, deleteFormState.resetKey]
-  );
+  useEffect(() => {
+    setHideMessage(false);
+  }, [updateFormState.resetKey, deleteFormState.resetKey]);
 
   return { hideMessage, setHideMessage };
 }

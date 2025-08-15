@@ -30,7 +30,6 @@ export default function ModulesPage() {
     const {
       year: { id: yearId, currentSemester },
     } = await getUser();
-    console.log(currentSemester);
     const modules = await getModules(yearId);
     return { modules, currentSemester };
   });

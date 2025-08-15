@@ -24,7 +24,7 @@ import { ImageNode } from "./ImageNode";
 interface RichTextEditorProps {
   id: string;
   placeholder: string;
-  form: string;
+  form?: string;
   name: string;
   value: string;
   onChange: (value: string) => void;

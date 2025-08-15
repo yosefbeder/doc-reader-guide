@@ -1,3 +1,5 @@
+import replaceImgSrc from "./replaceImgSrc";
+
 export default function parseSubQuestions(formData: FormData) {
   const subQuestions = [];
 
@@ -12,11 +14,8 @@ export default function parseSubQuestions(formData: FormData) {
       subQuestions.push({
         id: id === null ? undefined : +id,
         text,
-        answer,
+        answer: replaceImgSrc(answer as string, "remove"),
       });
-      formData.delete(idName);
-      formData.delete(textName);
-      formData.delete(answerName);
     }
   }
 

@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 
 import { FormState } from "@/types";
 import getNumber from "@/utils/getNumber";
+import replaceImgSrc from "@/utils/replaceImgSrc";
 
 export async function addLecture(
   _prevState: FormState,
@@ -49,8 +50,10 @@ export async function updateLecture(
 ): Promise<FormState> {
   const lectureId = getNumber(formData, "lecture-id");
   const subjectId = getNumber(formData, "subject-id");
+  const note = formData.get("note");
   const data = {
     title: formData.get("title"),
+    note: note ? replaceImgSrc(note as string, "remove") : undefined,
     date: new Date(formData.get("date") as string).toISOString(),
     subjectId,
   };
@@ -71,6 +74,7 @@ export async function updateLecture(
 
   if (res.ok) {
     revalidatePath(`/lectures/${lectureId}`);
+    revalidatePath(`/lectures/${lectureId}/update`);
     revalidatePath(`/subjects/${subjectId}`);
     revalidatePath(`/subjects/${subjectId}/update`);
   }

@@ -8,7 +8,7 @@ import Summary from "./Summary";
 import calcFactor from "@/utils/calcFactor";
 import SelectAnswerDialogue from "./SelectAnswerDialogue";
 import QuestionWrapper from "@/components/QuestionWrapper";
-import HtmlContent from "@/components/HtmlContent";
+import HtmlContentClient from "@/components/HtmlContentClient";
 import Message from "@/components/Message";
 
 const border = new Map([
@@ -284,7 +284,7 @@ export default function QuestionsList({
                         {subQuestionText.get(questionState)}
                       </Message>
                     )}
-                    <HtmlContent html={answer} />
+                    <HtmlContentClient html={answer} />
                   </>
                 ) : (
                   <button

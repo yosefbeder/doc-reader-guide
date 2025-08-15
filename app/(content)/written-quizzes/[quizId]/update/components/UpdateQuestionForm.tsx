@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { useFormState } from "react-dom";
 
 import ButtonDelete from "@/components/ButtonDelete";
@@ -24,6 +24,12 @@ export default function UpdateQuestionForm({
     updateFormState,
     deleteFormState
   );
+
+  useEffect(() => {
+    if (updateFormState.type === "success") {
+      location.reload();
+    }
+  }, [updateFormState]);
 
   return (
     <div className="floating" onClickCapture={() => setHideMessage(true)}>
@@ -59,7 +65,7 @@ export default function UpdateQuestionForm({
               })
             ),
           },
-          writtenQuestions: question.subQuestions.map(
+          subQuestions: question.subQuestions.map(
             ({ createdAt, updatedAt, ...rest }) => ({ ...rest })
           ),
         }}

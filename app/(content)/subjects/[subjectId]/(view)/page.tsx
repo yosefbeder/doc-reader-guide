@@ -15,7 +15,6 @@ export async function generateStaticParams() {
     }
   );
   const json = await res.json();
-  console.log(json.totalCount);
   return json.data.subjects.map(({ id }: { id: number }) => ({
     subjectId: id.toString(),
   }));
