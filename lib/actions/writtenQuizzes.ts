@@ -7,16 +7,65 @@ import { FormState } from "@/types";
 import getNumber from "@/utils/getNumber";
 import parseSubQuestions from "@/utils/parseSubQuestions";
 
+async function addWrittenQuestions(
+  quizId: number,
+  questions: any[][]
+): Promise<{ successCount: number; failCount: number }> {
+  if (!questions || questions.length === 0) {
+    return { successCount: 0, failCount: 0 };
+  }
+
+  const jwt = cookies().get("jwt")!.value;
+
+  const requests = questions.map(async (x) => {
+    const fd = new FormData();
+    fd.append("subQuestions", JSON.stringify(x));
+    fd.append("tapes", JSON.stringify([]));
+    fd.append("masks", JSON.stringify([]));
+
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/written-quizzes/${quizId}/questions`,
+      {
+        method: "POST",
+        headers: { authorization: `Bearer ${jwt}` },
+        body: fd,
+      }
+    );
+
+    if (!res.ok) throw new Error("Request failed");
+    return res;
+  });
+
+  const results = await Promise.allSettled(requests);
+
+  const successCount = results.filter((r) => r.status === "fulfilled").length;
+  const failCount = results.length - successCount;
+
+  return { successCount, failCount };
+}
+
 export async function addQuiz(
   _prevState: FormState,
   formData: FormData
 ): Promise<FormState> {
   const lectureId = formData.get("lecture-id");
-  const data = {
-    title: formData.get("title"),
-  };
+  const data = { title: formData.get("title") };
+  const questionsRaw = formData.get("questions")?.toString().trim();
 
-  const res = await fetch(
+  let questions: any[][] = [];
+  try {
+    questions = questionsRaw ? JSON.parse(questionsRaw) : [];
+    if (!Array.isArray(questions)) throw new Error();
+  } catch {
+    return {
+      type: "fail",
+      message: "Quick add failed 😭, invalid JSON format",
+      resetKey: Date.now(),
+    };
+  }
+
+  // Step 1: create quiz
+  const res1 = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/lectures/${lectureId}/written-quizzes`,
     {
       method: "POST",
@@ -27,17 +76,31 @@ export async function addQuiz(
       body: JSON.stringify(data),
     }
   );
+  const json1 = await res1.json();
 
-  const json = await res.json();
-
-  if (res.ok) {
-    revalidatePath(`/lectures/${lectureId}`);
-    revalidatePath(`/lectures/${lectureId}/update`);
+  if (!res1.ok) {
+    return {
+      type: "fail",
+      message: json1.message,
+      resetKey: Date.now(),
+    };
   }
 
+  // Step 2: add questions
+  const { successCount, failCount } = await addWrittenQuestions(
+    json1.data.writtenQuiz.id,
+    questions
+  );
+
+  revalidatePath(`/lectures/${lectureId}`);
+  revalidatePath(`/lectures/${lectureId}/update`);
+
   return {
-    type: res.ok ? "success" : "fail",
-    message: json.message,
+    type: res1.ok && (failCount === 0 || successCount > 0) ? "success" : "fail",
+    message:
+      questions.length > 0
+        ? `Added ${successCount} group(s), ${failCount} failed`
+        : json1.message,
     resetKey: Date.now(),
   };
 }
@@ -204,4 +267,39 @@ export async function deleteQuestion(
   revalidatePath(`/written-quizzes/${json.data.writtenQuestion.quizId}/update`);
 
   return {};
+}
+
+export async function quickAdd(
+  _prevState: FormState,
+  formData: FormData
+): Promise<FormState> {
+  const questionsRaw = formData.get("questions")?.toString().trim();
+  const quizId = getNumber(formData, "quiz-id");
+
+  let questions: any[][] = [];
+  try {
+    questions = questionsRaw ? JSON.parse(questionsRaw) : [];
+    if (!Array.isArray(questions)) throw new Error();
+  } catch {
+    return {
+      type: "fail",
+      message: "Quick add failed 😭, invalid JSON format",
+    };
+  }
+
+  const { successCount, failCount } = await addWrittenQuestions(
+    quizId,
+    questions
+  );
+
+  if (successCount > 0) {
+    revalidatePath(`/written-quizzes/${quizId}`);
+    revalidatePath(`/written-quizzes/${quizId}/update`);
+  }
+
+  return {
+    type: successCount > 0 ? "success" : "fail",
+    message: `Added ${successCount} group(s), ${failCount} failed`,
+    resetKey: Date.now(),
+  };
 }

@@ -8,6 +8,8 @@ import getUser from "@/utils/getUserClient";
 import getFaculties from "@/utils/getFaculties";
 import ToggleNotifications from "./components/ToggleNotifications";
 import Layout from "@/components/Layout";
+import { SummaryDetail } from "@/components/SummaryDetail";
+import Settings from "./components/Settings";
 
 export default function ProfilePage() {
   const {
@@ -26,10 +28,7 @@ export default function ProfilePage() {
       <main className="main">
         <div className="max-w-md flex flex-col gap-4 items-start">
           <h2>Settings</h2>
-          <h3>Notifications</h3>
-          <div className="flex flex-col items-start gap-4 ">
-            <ToggleNotifications />
-          </div>
+          <Settings />
           <h2>Account</h2>
           {isUserLoading || areFacultiesLoading ? (
             <p>Loading...</p>

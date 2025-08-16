@@ -1,7 +1,7 @@
 "use client";
 
-import Button from "@/components/Button";
 import Message from "@/components/Message";
+import Toggle from "@/components/Toggle";
 import { useNotifications } from "@/lib/hooks";
 
 export default function ToggleNotifications() {
@@ -14,13 +14,12 @@ export default function ToggleNotifications() {
 
   return (
     <>
-      <Button
-        color={isAllowed ? "rose" : "cyan"}
+      <Toggle
         disabled={isLoading}
+        checked={isAllowed}
         onClick={toggle}
-      >
-        {isLoading ? "Loading..." : isAllowed ? "Disable" : "Enable"}
-      </Button>
+        label="Recieve"
+      />
       {error && <Message type="fail">{error}</Message>}
     </>
   );

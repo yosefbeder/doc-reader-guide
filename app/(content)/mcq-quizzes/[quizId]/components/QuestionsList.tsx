@@ -9,6 +9,8 @@ import isValidURL from "@/utils/isValidURL";
 import { useQuestions } from "@/lib/hooks";
 import Summary from "./Summary";
 import QuestionWrapper from "@/components/QuestionWrapper";
+import useSettings from "@/lib/hooks/useSettings";
+import { useSound } from "@/lib/hooks/useSound";
 
 export default function QuestionsList({
   quizId,
@@ -19,6 +21,7 @@ export default function QuestionsList({
   title: string;
   questions: McqQuestion[];
 }) {
+  const [{ mcqQuiz: settings }] = useSettings();
   const [answers, setAnswers] = useState(new Map<number, number>());
   const {
     orderedQuestions,
@@ -27,6 +30,7 @@ export default function QuestionsList({
     showingResults,
     isLoaded,
     resetState,
+    nextQuestion,
     ...rest
   } = useQuestions({
     options: {
@@ -41,10 +45,13 @@ export default function QuestionsList({
           resetState();
         }
       },
-      randomOrder: false,
+      randomOrder: settings.shuffle,
     },
   });
-  const explanation = questions[currentIndex].explanation;
+  const explanation = orderedQuestions[currentIndex].explanation;
+  const playClick = useSound("/click.mp3");
+  const playCorrect = useSound("/correct.mp3");
+  const playIncorrect = useSound("/incorrect.mp3");
 
   useHotkeys(
     "1,2,3,4,5",
@@ -52,7 +59,7 @@ export default function QuestionsList({
       const optionIndex = parseInt(event.key) - 1;
       if (
         optionIndex >= 0 &&
-        optionIndex < questions[currentIndex].options.length &&
+        optionIndex < orderedQuestions[currentIndex].options.length &&
         !answers.has(currentQuestion)
       ) {
         setAnswers((prev) => {
@@ -62,7 +69,7 @@ export default function QuestionsList({
         });
       }
     },
-    [currentIndex, questions, answers, currentQuestion]
+    [currentIndex, orderedQuestions, answers, currentQuestion]
   );
 
   if (!isLoaded) return;
@@ -71,7 +78,7 @@ export default function QuestionsList({
     return (
       <Summary
         title={title}
-        questions={questions}
+        questions={orderedQuestions}
         answers={answers}
         resetState={() => {
           resetState();
@@ -86,15 +93,16 @@ export default function QuestionsList({
       questions={orderedQuestions}
       currentQuestion={currentQuestion}
       currentIndex={currentIndex}
+      nextQuestion={nextQuestion}
       {...rest}
     >
       <div className="max-w-xl flex flex-col gap-4">
         <h3 className="p-4 rounded-xl bg-cyan-50">
-          {questions[currentIndex].text}
+          {orderedQuestions[currentIndex].text}
         </h3>
-        {questions[currentIndex].image ? (
+        {orderedQuestions[currentIndex].image ? (
           <img
-            src={questions[currentIndex].image}
+            src={orderedQuestions[currentIndex].image}
             alt="Question associated diagram"
           />
         ) : null}
@@ -110,28 +118,49 @@ export default function QuestionsList({
           </Message>
         ) : null}
         <ol className="list-[upper-alpha] list-inside flex flex-col gap-2 px-2">
-          {questions[currentIndex].options.map((option, index) => {
+          {orderedQuestions[currentIndex].options.map((option, index) => {
             const answer = answers.get(currentQuestion);
             return (
               <button
-                key={index}
+                key={`${orderedQuestions[currentIndex].id}-${index}`}
                 className={`block w-full text-left p-2 rounded-xl border transition-colors disabled:cursor-not-allowed ${(() => {
                   if (answer !== undefined) {
-                    if (questions[currentIndex].correctOptionIndex === index)
-                      return "bg-green-100 hover:bg-green-200 border-green-600";
-                    else if (answer === index)
-                      return "bg-red-100 hover:bg-red-200 border-red-600";
+                    if (settings.instantFeedback) {
+                      if (
+                        orderedQuestions[currentIndex].correctOptionIndex ===
+                        index
+                      )
+                        return "bg-green-100 hover:bg-green-200 border-green-600";
+                      else if (answer === index)
+                        return "bg-red-100 hover:bg-red-200 border-red-600";
+                    } else {
+                      if (answer === index)
+                        return "bg-blue-100 hover:bg-blue-200 border-blue-600";
+                    }
                   }
                   return "bg-slate-50 hover:bg-slate-100 border-slate-300";
                 })()}`}
-                disabled={answer !== undefined}
+                disabled={answer !== undefined && settings.instantFeedback}
                 onClick={() => {
-                  if (answer) return;
+                  if (answer && settings.instantFeedback) return;
+                  if (settings.sounds) {
+                    if (!settings.instantFeedback) playClick();
+                    else {
+                      if (
+                        index ===
+                        orderedQuestions[currentIndex].correctOptionIndex
+                      )
+                        playCorrect();
+                      else playIncorrect();
+                    }
+                  }
                   setAnswers((prev) => {
                     const newMap = new Map(prev);
                     newMap.set(currentQuestion, index);
                     return newMap;
                   });
+                  if (settings.autoMove && answer === undefined)
+                    setTimeout(() => nextQuestion(), 1000);
                 }}
               >
                 <li>{option}</li>

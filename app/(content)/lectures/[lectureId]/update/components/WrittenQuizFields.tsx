@@ -33,6 +33,18 @@ const WrittenQuizFields = ({
         className="mb-4"
         form={formId}
       />
+      {defaultValues ? null : (
+        <>
+          <label htmlFor="questions" className="block mb-2">
+            JSON (optional)
+          </label>
+          <textarea
+            name="questions"
+            id="questions"
+            className="block mb-4"
+          ></textarea>
+        </>
+      )}
       <input
         type="number"
         id={`quiz-${defaultValues?.id || "new"}-lecture-id`}

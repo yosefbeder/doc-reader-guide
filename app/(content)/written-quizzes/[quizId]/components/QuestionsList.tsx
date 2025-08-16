@@ -10,6 +10,7 @@ import SelectAnswerDialogue from "./SelectAnswerDialogue";
 import QuestionWrapper from "@/components/QuestionWrapper";
 import HtmlContentClient from "@/components/HtmlContentClient";
 import Message from "@/components/Message";
+import useSettings, { DEFAULT_SETTINGS } from "@/lib/hooks/useSettings";
 
 const border = new Map([
   [QuestionState.TRUE, "border-green-600"],
@@ -18,14 +19,18 @@ const border = new Map([
   [QuestionState.UNSELECTED, "border-slate-700"],
 ]);
 
-const subQuestionMessageType = new Map<QuestionState, FormStateType>([
+export const subQuestionMessageType = new Map<QuestionState, FormStateType>([
   [QuestionState.TRUE, "success"],
   [QuestionState.FALSE, "fail"],
+  [QuestionState.UNANSWERED, "warning"],
+  [QuestionState.UNSELECTED, "warning"],
 ]);
 
-const subQuestionText = new Map([
+export const subQuestionText = new Map([
   [QuestionState.TRUE, "Correct"],
   [QuestionState.FALSE, "Incorrect"],
+  [QuestionState.UNANSWERED, "Skipped"],
+  [QuestionState.UNSELECTED, "Not specified"],
 ]);
 
 export interface Answers {
@@ -42,6 +47,7 @@ export default function QuestionsList({
   title: string;
   questions: WrittenQuestion[];
 }) {
+  const [{ writtenQuiz: settings }] = useSettings();
   const [answers, setAnswers] = useState<Answers>({
     tapes: new Map<number, QuestionState>(),
     subQuestions: new Map<number, QuestionState>(),
@@ -101,7 +107,7 @@ export default function QuestionsList({
         });
       },
       onLoad: onLoad,
-      randomOrder: true,
+      randomOrder: settings.shuffle,
     },
   });
   const updateTapeState = useCallback(
@@ -166,7 +172,7 @@ export default function QuestionsList({
     return (
       <Summary
         title={title}
-        questions={questions}
+        questions={orderedQuestions}
         answers={answers}
         resetState={() => {
           resetState();
@@ -252,7 +258,7 @@ export default function QuestionsList({
           })}
         </div>
       )}
-      <ol>
+      <ol className="flex flex-col gap-4">
         {orderedQuestions[currentIndex].subQuestions.map(
           ({ id, text, answer }, index) => {
             const questionState = answers.subQuestions.get(id)!;

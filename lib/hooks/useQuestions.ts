@@ -54,7 +54,7 @@ export default function useQuestions<T, U extends DatabaseTable>({
       newCurrentQuestion = orderedQuestions[0].id;
     }
     setCurrentQuestion(newCurrentQuestion);
-  }, []);
+  }, [randomOrder]);
   useHotkeys("left", backQuestion, [backQuestion]);
   useHotkeys("right", nextQuestion, [nextQuestion]);
 
@@ -105,7 +105,7 @@ export default function useQuestions<T, U extends DatabaseTable>({
       onLoad();
     }
     setIsLoaded(true);
-  }, []);
+  }, [randomOrder]);
 
   useEffect(() => {
     if (isLoaded)

@@ -3,37 +3,16 @@
 import React, { useState } from "react";
 
 import { SummaryDetail } from "@/components/SummaryDetail";
-import ButtonCopy from "./ButtonCopy";
-import { McqQuiz } from "@/types";
+import { WrittenQuiz } from "@/types";
 import AddQuestionForm from "./AddQuestionForm";
-import McqTemplates from "@/components/McqTemplates";
+import WrittenTemplates from "@/components/WrittenTemplates";
 import QuickAddForm from "./QuickAddForm";
 
-export default function AddSection({ quiz }: { quiz: McqQuiz }) {
+export default function AddSection({ quiz }: { quiz: WrittenQuiz }) {
   const [openSection, setOpenSection] = useState<string | undefined>();
 
   return (
     <>
-      <ButtonCopy
-        text={JSON.stringify(
-          quiz.questions.map(
-            ({
-              id,
-              createdAt,
-              updatedAt,
-              quizId,
-              image,
-              explanation,
-              ...rest
-            }: any) => ({
-              image: image || undefined,
-              explanation: explanation || undefined,
-              ...rest,
-            })
-          )
-        )}
-      />
-
       <SummaryDetail
         className="max-w-xl"
         open={openSection === "newQuestion"}
@@ -65,7 +44,7 @@ export default function AddSection({ quiz }: { quiz: McqQuiz }) {
           <div className="p-2">
             <div className="floating flex flex-col gap-4">
               <h3>Templates</h3>
-              <McqTemplates />
+              <WrittenTemplates />
               <h3>Form</h3>
               <QuickAddForm quizId={quiz.id} />
             </div>

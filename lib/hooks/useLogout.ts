@@ -1,12 +1,15 @@
 import { useRouter } from "next/navigation";
 import { useSWRConfig } from "swr";
 
-import disableNotifications from "@/utils/disableNotifications";
 import { googleLogout } from "@react-oauth/google";
+import useNotifications from "./useNotifications";
+import useSettings from "./useSettings";
 
 export default function useLogout() {
   const router = useRouter();
   const { mutate } = useSWRConfig();
+  const { toggle } = useNotifications();
+  const [settings] = useSettings();
 
   return async () => {
     try {
@@ -18,8 +21,8 @@ export default function useLogout() {
       if (!res.ok) {
         throw new Error(json.message || "Logout failed");
       }
-      if (localStorage.getItem("notifications-status") === "allowed") {
-        await disableNotifications();
+      if (settings.notifications.allowed) {
+        await toggle();
       }
       await mutate(() => true, undefined, { revalidate: false });
       localStorage.removeItem("notifications-toast-denied");

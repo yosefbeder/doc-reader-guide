@@ -4,9 +4,10 @@ import React, { useState } from "react";
 
 import { SummaryDetail } from "@/components/SummaryDetail";
 import AddLinkForm from "./AddLinkForm";
-import Templates from "@/components/Templates";
+import McqTemplates from "@/components/McqTemplates";
 import AddMcqQuizForm from "./AddMcqQuizForm";
 import AddWrittenQuizForm from "./AddWrittenQuizForm";
+import WrittenTemplates from "@/components/WrittenTemplates";
 
 export default function AddSection({ lectureId }: { lectureId: number }) {
   const [openSection, setOpenSection] = useState<string | undefined>();
@@ -38,7 +39,7 @@ export default function AddSection({ lectureId }: { lectureId: number }) {
           <div className="p-2">
             <div className="floating flex flex-col gap-4">
               <h3>Templates</h3>
-              <Templates />
+              <McqTemplates />
               <h3>Form</h3>
               <AddMcqQuizForm lectureId={lectureId} />
             </div>
@@ -57,7 +58,12 @@ export default function AddSection({ lectureId }: { lectureId: number }) {
         <SummaryDetail.Summary>Add Written Quiz</SummaryDetail.Summary>
         <SummaryDetail.Detail>
           <div className="p-2">
-            <AddWrittenQuizForm lectureId={lectureId} />
+            <div className="floating flex flex-col gap-4">
+              <h3>Templates</h3>
+              <WrittenTemplates />
+              <h3>Form</h3>
+              <AddWrittenQuizForm lectureId={lectureId} />
+            </div>
           </div>
         </SummaryDetail.Detail>
       </SummaryDetail>

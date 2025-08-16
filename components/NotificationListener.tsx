@@ -6,14 +6,16 @@ import Cookies from "js-cookie";
 
 import ButtonIcon from "./ButtonIcon";
 import { app } from "@/lib/firebase";
+import useSettings from "@/lib/hooks/useSettings";
 
 export default function NotificationListener() {
   const [notifications, setNotifications] = useState<
     { id: string; title: string; body: string; closed: boolean }[]
   >([]);
+  const [settings] = useSettings();
 
   useEffect(() => {
-    if (localStorage.getItem("notifications-status") === "allowed") {
+    if (settings.notifications.allowed) {
       const messaging = getMessaging(app);
       getToken(messaging, {
         vapidKey: process.env.NEXT_PUBLIC_VAPID_KEY,

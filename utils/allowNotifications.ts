@@ -35,7 +35,6 @@ export default async function allowNotifications() {
   );
   const json = await res.json();
   if (!res.ok) throw new Error(json.message);
-  localStorage.setItem("notifications-status", "allowed");
   localStorage.setItem("fcm-token", token);
   localStorage.setItem("device-id", json.data.device.id);
 }

@@ -7,28 +7,55 @@ import { FormState } from "@/types";
 import getNumber from "@/utils/getNumber";
 import parseOptions from "@/utils/parseOptions";
 
+async function addMcqQuestions(
+  quizId: number,
+  questions: any[]
+): Promise<{ totalCount: number; ok: boolean }> {
+  if (!questions || questions.length === 0) {
+    return { totalCount: 0, ok: true };
+  }
+
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/mcq-quizzes/${quizId}/questions`,
+    {
+      method: "POST",
+      headers: {
+        "content-type": "application/json;charset=UTF-8",
+        authorization: `Bearer ${cookies().get("jwt")!.value}`,
+      },
+      body: JSON.stringify(questions),
+    }
+  );
+
+  if (!res.ok) {
+    return { totalCount: 0, ok: false };
+  }
+
+  const json = await res.json();
+  return { totalCount: json.totalCount ?? 0, ok: true };
+}
+
 export async function addQuiz(
   _prevState: FormState,
   formData: FormData
 ): Promise<FormState> {
   const lectureId = formData.get("lecture-id");
-  const data = {
-    title: formData.get("title"),
-  };
-  const questions = formData.get("questions")?.toString().trim();
+  const data = { title: formData.get("title") };
+  const questionsRaw = formData.get("questions")?.toString().trim();
 
-  if (questions) {
-    try {
-      JSON.parse(questions);
-    } catch (error) {
-      return {
-        type: "fail",
-        message: "Quick add failed 😭, please try a different AI model",
-        resetKey: Date.now(),
-      };
-    }
+  let questions: any[] = [];
+  try {
+    questions = questionsRaw ? JSON.parse(questionsRaw) : [];
+    if (!Array.isArray(questions)) throw new Error();
+  } catch {
+    return {
+      type: "fail",
+      message: "Quick add failed 😭, invalid JSON format",
+      resetKey: Date.now(),
+    };
   }
 
+  // Step 1: create quiz
   const res1 = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/lectures/${lectureId}/mcq-quizzes`,
     {
@@ -40,44 +67,32 @@ export async function addQuiz(
       body: JSON.stringify(data),
     }
   );
-  let res2;
 
   const json1 = await res1.json();
 
-  let json2;
-
-  if (res1.ok) {
-    if (questions) {
-      res2 = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/mcq-quizzes/${json1.data.mcqQuiz.id}/questions`,
-        {
-          method: "POST",
-          headers: {
-            "content-type": "application/json;charset=UTF-8",
-            authorization: `Bearer ${cookies().get("jwt")!.value}`,
-          },
-          body: questions,
-        }
-      );
-      json2 = await res2.json();
-    }
-
-    revalidatePath(`/lectures/${lectureId}`);
-    revalidatePath(`/lectures/${lectureId}/update`);
-  }
-
-  if (res2 && json2) {
+  if (!res1.ok) {
     return {
-      type: res1.ok && res2.ok ? "success" : "fail",
-      message: `${json2.totalCount} question(s) added`,
-      resetKey: Date.now(),
-    };
-  } else
-    return {
-      type: res1.ok ? "success" : "fail",
+      type: "fail",
       message: json1.message,
       resetKey: Date.now(),
     };
+  }
+
+  // Step 2: add questions
+  const { totalCount, ok } = await addMcqQuestions(
+    json1.data.mcqQuiz.id,
+    questions
+  );
+
+  revalidatePath(`/lectures/${lectureId}`);
+  revalidatePath(`/lectures/${lectureId}/update`);
+
+  return {
+    type: res1.ok && ok ? "success" : "fail",
+    message:
+      questions.length > 0 ? `${totalCount} question(s) added` : json1.message,
+    resetKey: Date.now(),
+  };
 }
 
 export async function updateQuiz(
@@ -271,43 +286,31 @@ export async function quickAdd(
   _prevState: FormState,
   formData: FormData
 ): Promise<FormState> {
-  const questions = formData.get("questions")?.toString().trim();
+  const questionsRaw = formData.get("questions")?.toString().trim();
   const quizId = getNumber(formData, "quiz-id");
 
-  if (questions) {
-    try {
-      JSON.parse(questions);
-    } catch (error) {
-      return {
-        type: "fail",
-        message: "Quick add failed 😭, please try a different AI model",
-      };
-    }
+  let questions: any[] = [];
+  try {
+    questions = questionsRaw ? JSON.parse(questionsRaw) : [];
+    if (!Array.isArray(questions)) throw new Error();
+  } catch {
+    return {
+      type: "fail",
+      message: "Quick add failed 😭, invalid JSON format",
+    };
   }
 
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/mcq-quizzes/${quizId}/questions`,
-    {
-      method: "POST",
-      headers: {
-        "content-type": "application/json;charset=UTF-8",
-        authorization: `Bearer ${cookies().get("jwt")!.value}`,
-      },
-      body: questions,
-    }
-  );
+  const { totalCount, ok } = await addMcqQuestions(quizId, questions);
 
-  const json = await res.json();
-
-  if (res.ok) {
-    revalidatePath(`/mcq-quizzes/${quizId}`);
-    revalidatePath(`/mcq-quizzes/${quizId}/update`);
+  if (ok) {
+    revalidatePath(`/written-quizzes/${quizId}`);
+    revalidatePath(`/written-quizzes/${quizId}/update`);
   }
 
   return {
-    type: res.ok ? "success" : "fail",
-    message: res.ok
-      ? `${json.totalCount} question(s) added`
+    type: ok ? "success" : "fail",
+    message: ok
+      ? `${totalCount} question(s) added`
       : "Quick add failed 😭, please try a different AI model",
     resetKey: Date.now(),
   };

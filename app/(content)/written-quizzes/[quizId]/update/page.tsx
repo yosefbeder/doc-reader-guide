@@ -1,8 +1,8 @@
 import React from "react";
-import AddQuestionForm from "./components/AddQuestionForm";
 import Path from "@/components/QuizPath";
 import { getWrittenQuiz } from "@/utils/getQuizServer";
 import QuestionsList from "./components/QuestionsList";
+import AddSection from "./components/AddSection";
 
 export default async function UpdateQuizPage({
   params: { quizId },
@@ -15,8 +15,7 @@ export default async function UpdateQuizPage({
     <>
       <Path quiz={quiz} />
       <main className="main flex flex-col gap-4">
-        <h2>New Question</h2>
-        <AddQuestionForm quizId={+quizId} />
+        <AddSection quiz={quiz} />
         <hr />
         <QuestionsList quizId={quiz.id} questions={quiz.questions} />
       </main>
