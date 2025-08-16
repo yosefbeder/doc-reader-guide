@@ -117,6 +117,19 @@ export default function Settings() {
                 }))
               }
             />
+            <Toggle
+              checked={settings.writtenQuiz.sounds}
+              label="Sounds"
+              onClick={() =>
+                setSettings(({ writtenQuiz, ...rest }) => ({
+                  ...rest,
+                  writtenQuiz: {
+                    ...writtenQuiz,
+                    sounds: !writtenQuiz.sounds,
+                  },
+                }))
+              }
+            />
           </ul>
         </SummaryDetail.Detail>
       </SummaryDetail>

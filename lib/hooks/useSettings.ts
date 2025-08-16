@@ -12,6 +12,7 @@ export interface Settings {
   };
   writtenQuiz: {
     shuffle: boolean;
+    sounds: boolean;
   };
 }
 
@@ -25,6 +26,7 @@ export const DEFAULT_SETTINGS: Settings = {
   },
   writtenQuiz: {
     shuffle: true,
+    sounds: true,
   },
 };
 

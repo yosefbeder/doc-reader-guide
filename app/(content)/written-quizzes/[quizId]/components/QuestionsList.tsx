@@ -11,6 +11,7 @@ import QuestionWrapper from "@/components/QuestionWrapper";
 import HtmlContentClient from "@/components/HtmlContentClient";
 import Message from "@/components/Message";
 import useSettings, { DEFAULT_SETTINGS } from "@/lib/hooks/useSettings";
+import { useSound } from "@/lib/hooks/useSound";
 
 const border = new Map([
   [QuestionState.TRUE, "border-green-600"],
@@ -47,6 +48,9 @@ export default function QuestionsList({
   title: string;
   questions: WrittenQuestion[];
 }) {
+  const playClick = useSound("/click.mp3");
+  const playCorrect = useSound("/correct.mp3");
+  const playIncorrect = useSound("/incorrect.mp3");
   const [{ writtenQuiz: settings }] = useSettings();
   const [answers, setAnswers] = useState<Answers>({
     tapes: new Map<number, QuestionState>(),
@@ -230,8 +234,14 @@ export default function QuestionsList({
                       top: y * factor - 30,
                       ...dialoguePosition,
                     }}
-                    onTrue={() => updateTapeState(id, QuestionState.TRUE)}
-                    onFalse={() => updateTapeState(id, QuestionState.FALSE)}
+                    onTrue={() => {
+                      updateTapeState(id, QuestionState.TRUE);
+                      if (settings.sounds) playCorrect();
+                    }}
+                    onFalse={() => {
+                      updateTapeState(id, QuestionState.FALSE);
+                      if (settings.sounds) playIncorrect();
+                    }}
                   />
                 )}
                 <button
@@ -250,6 +260,7 @@ export default function QuestionsList({
                   onClick={() => {
                     if (answers.tapes.get(id) === QuestionState.UNANSWERED) {
                       updateTapeState(id, QuestionState.UNSELECTED);
+                      if (settings.sounds) playClick();
                     }
                   }}
                 ></button>
@@ -271,12 +282,14 @@ export default function QuestionsList({
                 </p>
                 {questionState === QuestionState.UNSELECTED && (
                   <SelectAnswerDialogue
-                    onTrue={() =>
-                      updateWrittenQuestionState(id, QuestionState.TRUE)
-                    }
-                    onFalse={() =>
-                      updateWrittenQuestionState(id, QuestionState.FALSE)
-                    }
+                    onTrue={() => {
+                      updateWrittenQuestionState(id, QuestionState.TRUE);
+                      if (settings.sounds) playCorrect();
+                    }}
+                    onFalse={() => {
+                      updateWrittenQuestionState(id, QuestionState.FALSE);
+                      if (settings.sounds) playIncorrect();
+                    }}
                   />
                 )}
                 {questionState !== QuestionState.UNANSWERED ? (
@@ -295,9 +308,10 @@ export default function QuestionsList({
                 ) : (
                   <button
                     className="font-bold text-cyan-600 self-start"
-                    onClick={() =>
-                      updateWrittenQuestionState(id, QuestionState.UNSELECTED)
-                    }
+                    onClick={() => {
+                      updateWrittenQuestionState(id, QuestionState.UNSELECTED);
+                      if (settings.sounds) playClick();
+                    }}
                   >
                     [...]
                   </button>
