@@ -64,6 +64,16 @@ export default function ButtonPrintQuiz({
         <div ref={contentRef} className="print-section print-only">
           <Logo />
           <h1 className="my-4">{title}</h1>
+          <p>
+            Solve it online at:{" "}
+            <a
+              className="link"
+              href={`${window.location.origin}/mcq-quizzes/${quiz.id}`}
+              target="_blank"
+            >
+              {window.location.origin}/mcq-quizzes/{quiz.id}
+            </a>
+          </p>
           <h2 className="my-4">Questions</h2>
           <ol>
             {questions.map((question, questionIndex) => {
