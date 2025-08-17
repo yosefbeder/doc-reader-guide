@@ -6,9 +6,7 @@ import LogoutButton from "./components/LogoutButton";
 import PersonalInfoForm from "@/components/PersonalInfoForm";
 import getUser from "@/utils/getUserClient";
 import getFaculties from "@/utils/getFaculties";
-import ToggleNotifications from "./components/ToggleNotifications";
 import Layout from "@/components/Layout";
-import { SummaryDetail } from "@/components/SummaryDetail";
 import Settings from "./components/Settings";
 
 export default function ProfilePage() {
@@ -22,7 +20,6 @@ export default function ProfilePage() {
     isLoading: areFacultiesLoading,
     error: facultiesError,
   } = useSWR("faculties", getFaculties);
-
   return (
     <Layout title="Profile" border>
       <main className="main">

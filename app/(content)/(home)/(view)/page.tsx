@@ -29,7 +29,7 @@ export default function ModulesPage() {
   const { data, isLoading } = useSWR("home", async () => {
     const {
       year: { id: yearId, currentSemester },
-    } = await getUser();
+    } = (await getUser())!;
     const modules = await getModules(yearId);
     return { modules, currentSemester };
   });

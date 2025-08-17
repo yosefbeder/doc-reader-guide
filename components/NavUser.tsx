@@ -20,7 +20,7 @@ export default function NavUser({ updateable }: { updateable?: boolean }) {
   const router = useRouter();
   const pathname = usePathname();
 
-  if (error && Cookies.get("guest"))
+  if (!user && Cookies.get("guest"))
     return (
       <NextLink
         className="link"
