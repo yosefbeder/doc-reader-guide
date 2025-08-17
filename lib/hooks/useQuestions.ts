@@ -86,7 +86,15 @@ export default function useQuestions<T, U extends DatabaseTable>({
               for (let i = 0; i < prev.length; i++)
                 if (!temp.find(({ id }) => id === prev[i].id))
                   temp.push(prev[i]);
-            return temp;
+            // Check if temp order is the same as questions
+            // This solves when user changes settings.shuffle from `false` to `true` for an already started quiz
+            let sameOrder = true;
+            for (let i = 0; i < temp.length; i++)
+              if (temp[i].id !== questions[i].id) {
+                sameOrder = false;
+                break;
+              }
+            return sameOrder ? temp.toSorted(() => Math.random() - 0.5) : temp;
           } else {
             return prev.toSorted(() => Math.random() - 0.5);
           }
