@@ -71,7 +71,7 @@ export default function ButtonPrintQuiz({
               if (questions[questionIndex - 1]?.image === question?.image)
                 skipImage = true;
               return (
-                <li key={question.id}>
+                <li key={`question-${question.id}-image`}>
                   <span className="font-bold">
                     {questionIndex + 1}. {question.text}
                   </span>
@@ -83,7 +83,9 @@ export default function ButtonPrintQuiz({
                   ) : null}
                   <ol className="list-[upper-alpha] list-inside">
                     {question.options.map((option, optionIndex) => (
-                      <li key={optionIndex}>{option}</li>
+                      <li key={`question-${question.id}-option-${optionIndex}`}>
+                        {option}
+                      </li>
                     ))}
                   </ol>
                 </li>
@@ -100,16 +102,19 @@ export default function ButtonPrintQuiz({
                 const end = start + 8;
                 const questionsSlice = questions.slice(start, end);
                 return (
-                  <tr key={index}>
+                  <tr key={`row-${index}`}>
                     {questionsSlice.map((question, questionIndex) => {
                       const realQuestionIndex = start + questionIndex;
                       return (
                         <>
-                          <td key={question.id} className="bg-slate-50">
+                          <td
+                            key={`question-${question.id}-column`}
+                            className="bg-slate-50"
+                          >
                             {realQuestionIndex + 1}{" "}
                             {question.explanation ? "*" : ""}
                           </td>
-                          <td key={question.id + "-answer"}>
+                          <td key={`question-${question.id}-answer-column`}>
                             {String.fromCharCode(
                               65 +
                                 questions[realQuestionIndex].correctOptionIndex
@@ -128,7 +133,7 @@ export default function ButtonPrintQuiz({
               <h2 className="my-4">Explanations</h2>
               <ul>
                 {explanations.map(({ index, explanation }) => (
-                  <li key={index}>
+                  <li key={`explanation-${index}`}>
                     {index + 1}.{" "}
                     {isValidURL(explanation!) ? (
                       <a className="link" href={explanation} target="_blank">
