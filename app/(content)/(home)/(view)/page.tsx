@@ -15,6 +15,7 @@ import SelectClass from "./components/SelectClass";
 import Quiz from "../../lectures/[lectureId]/components/Quiz";
 
 function getLocalStorageItemsByPrefix(prefix: string) {
+  if (typeof window === "undefined") return [];
   const items: Record<string, string> = {};
 
   for (let i = 0; i < localStorage.length; i++) {
