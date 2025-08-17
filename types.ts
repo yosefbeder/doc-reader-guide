@@ -93,7 +93,7 @@ interface LectureSimple {
 export interface Link extends DatabaseTable {
   title: string;
   subTitle: string;
-  url: string;
+  urls: string[];
   type: "Video" | "Record" | "PDF" | "Data";
   category: "Data" | "College" | "Summary" | "Questions";
   lectureData: LectureSimple;
