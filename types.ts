@@ -82,6 +82,9 @@ export interface Lecture extends DatabaseTable {
   note?: string;
   date: string;
   subject: SubjectSimple;
+  links: Link[];
+  writtenQuizzes: WrittenQuiz[];
+  mcqQuizzes: McqQuiz[];
 }
 
 interface LectureSimple {

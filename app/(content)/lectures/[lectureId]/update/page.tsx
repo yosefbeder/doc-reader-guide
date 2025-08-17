@@ -1,5 +1,5 @@
 import Path from "../components/Path";
-import getLecture, { getLectureLinksAndQuizzes } from "@/utils/getLecture";
+import getLecture from "@/utils/getLecture";
 import LinksList from "./components/LinksList";
 import AddSection from "./components/AddSection";
 import Note from "./components/Note";
@@ -9,11 +9,7 @@ export default async function UpdateLinksPage({
 }: {
   params: { lectureId: string };
 }) {
-  const [lecture, { links, mcqQuizzes, writtenQuizzes }] = await Promise.all([
-    getLecture(+lectureId),
-    getLectureLinksAndQuizzes(+lectureId),
-  ]);
-
+  const lecture = await getLecture(+lectureId);
   return (
     <>
       <Path lecture={lecture} />
@@ -24,9 +20,9 @@ export default async function UpdateLinksPage({
         <hr />
         <LinksList
           lectureId={+lectureId}
-          links={links}
-          mcqQuizzes={mcqQuizzes}
-          writtenQuizzes={writtenQuizzes}
+          links={lecture.links}
+          mcqQuizzes={lecture.mcqQuizzes}
+          writtenQuizzes={lecture.writtenQuizzes}
         />
       </main>
     </>
