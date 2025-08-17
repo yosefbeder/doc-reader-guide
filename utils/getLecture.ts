@@ -8,7 +8,7 @@ export default async function getLecture(lectureId: number): Promise<Lecture> {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${
-          cookies().get("jwt")?.value || process.env.JWT
+          cookies().get("jwt")?.value || process.env.NEXT_PUBLIC_JWT
         }`,
       },
     }
@@ -28,7 +28,7 @@ export async function getLectureLinksAndQuizzes(lectureId: number): Promise<{
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${
-          cookies().get("jwt")?.value || process.env.JWT
+          cookies().get("jwt")?.value || process.env.NEXT_PUBLIC_JWT
         }`,
       },
     }),
@@ -38,7 +38,7 @@ export async function getLectureLinksAndQuizzes(lectureId: number): Promise<{
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${
-            cookies().get("jwt")?.value || process.env.JWT
+            cookies().get("jwt")?.value || process.env.NEXT_PUBLIC_JWT
           }`,
         },
       }
@@ -49,7 +49,7 @@ export async function getLectureLinksAndQuizzes(lectureId: number): Promise<{
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${
-            cookies().get("jwt")?.value || process.env.JWT
+            cookies().get("jwt")?.value || process.env.NEXT_PUBLIC_JWT
           }`,
         },
       }

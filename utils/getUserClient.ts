@@ -1,6 +1,6 @@
 import { User } from "@/types";
 
-export default async function getUser(): Promise<User> {
+export default async function getUser(): Promise<User | undefined> {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/users/me?include=year`,
     {

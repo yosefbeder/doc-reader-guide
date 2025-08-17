@@ -1,18 +1,18 @@
+import { McqQuestion, WrittenQuestion } from "@/types";
 import Cookies from "js-cookie";
-import { McqQuiz, WrittenQuiz } from "@/types";
 
-export async function getMcqQuiz(quizId: number): Promise<McqQuiz> {
+export async function getMcqQuestions(quizId: number): Promise<McqQuestion[]> {
   let res;
   if (!Cookies.get("guest")) {
     res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/mcq-quizzes/${quizId}`,
+      `${process.env.NEXT_PUBLIC_API_URL}/mcq-quizzes/${quizId}/questions`,
       {
         credentials: "include",
       }
     );
   } else {
     res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/mcq-quizzes/${quizId}`,
+      `${process.env.NEXT_PUBLIC_API_URL}/mcq-quizzes/${quizId}/questions`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -23,21 +23,23 @@ export async function getMcqQuiz(quizId: number): Promise<McqQuiz> {
   }
   const json = await res.json();
   if (!res.ok) throw new Error(json.message);
-  return json.data;
+  return json.data.questions;
 }
 
-export async function getWrittenQuiz(quizId: number): Promise<WrittenQuiz> {
+export async function getWrittenQuestions(
+  quizId: number
+): Promise<WrittenQuestion[]> {
   let res;
   if (!Cookies.get("guest")) {
     res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/written-quizzes/${quizId}`,
+      `${process.env.NEXT_PUBLIC_API_URL}/written-quizzes/${quizId}/questions`,
       {
         credentials: "include",
       }
     );
   } else {
     res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/written-quizzes/${quizId}`,
+      `${process.env.NEXT_PUBLIC_API_URL}/written-quizzes/${quizId}/questions`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -48,5 +50,5 @@ export async function getWrittenQuiz(quizId: number): Promise<WrittenQuiz> {
   }
   const json = await res.json();
   if (!res.ok) throw new Error(json.message);
-  return json.data;
+  return json.data.questions;
 }

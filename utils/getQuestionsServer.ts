@@ -1,9 +1,9 @@
-import { McqQuiz, WrittenQuiz } from "@/types";
+import { McqQuestion, WrittenQuestion } from "@/types";
 import { cookies } from "next/headers";
 
-export async function getMcqQuiz(quizId: number): Promise<McqQuiz> {
+export async function getMcqQuestions(quizId: number): Promise<McqQuestion[]> {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/mcq-quizzes/${quizId}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/mcq-quizzes/${quizId}/questions?sort=id`,
     {
       headers: {
         "Content-Type": "application/json",
@@ -15,12 +15,14 @@ export async function getMcqQuiz(quizId: number): Promise<McqQuiz> {
   );
   const json = await res.json();
   if (!res.ok) throw new Error(json.message);
-  return json.data.mcqQuiz;
+  return json.data.questions;
 }
 
-export async function getWrittenQuiz(quizId: number): Promise<WrittenQuiz> {
+export async function getWrittenQuestions(
+  quizId: number
+): Promise<WrittenQuestion[]> {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/written-quizzes/${quizId}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/written-quizzes/${quizId}/questions?sort=id`,
     {
       headers: {
         "Content-Type": "application/json",
@@ -32,5 +34,5 @@ export async function getWrittenQuiz(quizId: number): Promise<WrittenQuiz> {
   );
   const json = await res.json();
   if (!res.ok) throw new Error(json.message);
-  return json.data.writtenQuiz;
+  return json.data.questions;
 }

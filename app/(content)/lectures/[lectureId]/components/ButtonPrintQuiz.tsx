@@ -4,10 +4,11 @@ import { useRef, useState } from "react";
 import { useReactToPrint } from "react-to-print";
 
 import ButtonIcon from "@/components/ButtonIcon";
-import { McqQuiz } from "@/types";
+import { McqQuestion, McqQuiz } from "@/types";
 import { getMcqQuiz } from "@/utils/getQuizClient";
 import Logo from "@/components/Logo";
 import isValidURL from "@/utils/isValidURL";
+import { getMcqQuestions } from "@/utils/getQuestionsClient";
 
 export default function ButtonPrintQuiz({
   id,
@@ -17,6 +18,7 @@ export default function ButtonPrintQuiz({
   title: string;
 }) {
   const [quiz, setQuiz] = useState<McqQuiz>();
+  const [questions, setQuestions] = useState<McqQuestion[]>();
   const [isLoading, setIsLoading] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
   const reactToPrintFn = useReactToPrint({
@@ -31,9 +33,11 @@ export default function ButtonPrintQuiz({
     ],
     preserveAfterPrint: true,
   });
-  const explanations = quiz?.questions
-    .map(({ explanation }, index) => ({ index, explanation }))
-    .filter(({ explanation }) => explanation);
+  const explanations =
+    questions &&
+    questions
+      .map(({ explanation }, index) => ({ index, explanation }))
+      .filter(({ explanation }) => explanation);
 
   return (
     <>
@@ -45,9 +49,10 @@ export default function ButtonPrintQuiz({
               setIsLoading(true);
               try {
                 setQuiz(await getMcqQuiz(id));
+                setQuestions(await getMcqQuestions(id));
                 setTimeout(() => reactToPrintFn(), 1000);
               } catch (error) {
-                alert("Fetching quiz failed");
+                alert(error);
               }
               setIsLoading(false);
             } else reactToPrintFn();
@@ -55,15 +60,15 @@ export default function ButtonPrintQuiz({
         }}
         disabled={isLoading}
       />
-      {quiz && (
+      {quiz && questions && (
         <div ref={contentRef} className="print-section print-only">
           <Logo />
           <h1 className="my-4">{title}</h1>
           <h2 className="my-4">Questions</h2>
           <ol>
-            {quiz.questions.map((question, questionIndex) => {
+            {questions.map((question, questionIndex) => {
               let skipImage = false;
-              if (quiz.questions[questionIndex - 1]?.image === question?.image)
+              if (questions[questionIndex - 1]?.image === question?.image)
                 skipImage = true;
               return (
                 <li key={question.id}>
@@ -89,11 +94,11 @@ export default function ButtonPrintQuiz({
           <table className="table-auto">
             <tbody>
               {Array.from({
-                length: Math.ceil(quiz.questions.length / 8),
+                length: Math.ceil(questions.length / 8),
               }).map((_, index) => {
                 const start = index * 8;
                 const end = start + 8;
-                const questionsSlice = quiz.questions.slice(start, end);
+                const questionsSlice = questions.slice(start, end);
                 return (
                   <tr key={index}>
                     {questionsSlice.map((question, questionIndex) => {
@@ -107,8 +112,7 @@ export default function ButtonPrintQuiz({
                           <td key={question.id + "-answer"}>
                             {String.fromCharCode(
                               65 +
-                                quiz.questions[realQuestionIndex]
-                                  .correctOptionIndex
+                                questions[realQuestionIndex].correctOptionIndex
                             )}
                           </td>
                         </>

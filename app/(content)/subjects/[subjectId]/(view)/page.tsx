@@ -10,7 +10,7 @@ export async function generateStaticParams() {
     {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${process.env.JWT}`,
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_JWT}`,
       },
     }
   );

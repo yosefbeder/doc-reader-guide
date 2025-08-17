@@ -101,7 +101,6 @@ export interface Link extends DatabaseTable {
 
 export interface McqQuiz extends DatabaseTable {
   title: string;
-  questions: McqQuestion[];
   lectureData: LectureSimple;
 }
 
@@ -116,7 +115,6 @@ export interface McqQuestion extends DatabaseTable {
 
 export interface WrittenQuiz extends DatabaseTable {
   title: string;
-  questions: WrittenQuestion[];
   lectureData: LectureSimple;
 }
 

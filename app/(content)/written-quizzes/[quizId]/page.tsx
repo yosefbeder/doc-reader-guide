@@ -2,17 +2,21 @@ import Path from "@/components/QuizPath";
 import { getWrittenQuiz } from "@/utils/getQuizServer";
 import QuestionsList from "./components/QuestionsList";
 import Message from "@/components/Message";
+import { getWrittenQuestions } from "@/utils/getQuestionsServer";
 
 export default async function WrittenQuizPage({
   params: { quizId },
 }: {
   params: { quizId: string };
 }) {
-  const writtenQuiz = await getWrittenQuiz(+quizId);
+  const [quiz, questions] = await Promise.all([
+    getWrittenQuiz(+quizId),
+    getWrittenQuestions(+quizId),
+  ]);
   return (
     <>
-      <Path quiz={writtenQuiz} />
-      {writtenQuiz.questions.length === 0 ? (
+      <Path quiz={quiz} />
+      {questions.length === 0 ? (
         <main className="main">
           <Message type="warning">No questions have been added yet</Message>
         </main>
@@ -20,8 +24,8 @@ export default async function WrittenQuizPage({
         <main className="main">
           <QuestionsList
             quizId={+quizId}
-            title={writtenQuiz.title}
-            questions={writtenQuiz.questions}
+            title={quiz.title}
+            questions={questions}
           />
         </main>
       )}
