@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 
 import Message from "@/components/Message";
@@ -52,6 +52,28 @@ export default function QuestionsList({
   const playClick = useSound("/click.mp3");
   const playCorrect = useSound("/correct.mp3");
   const playIncorrect = useSound("/incorrect.mp3");
+  const answerQuestion = useCallback(
+    (answer: number | undefined, index: number) => {
+      if (answer && settings.instantFeedback) return;
+      if (settings.sounds) {
+        if (!settings.instantFeedback) {
+          if (index !== answer) playClick();
+        } else {
+          if (index === orderedQuestions[currentIndex].correctOptionIndex)
+            playCorrect();
+          else playIncorrect();
+        }
+      }
+      setAnswers((prev) => {
+        const newMap = new Map(prev);
+        newMap.set(currentQuestion, index);
+        return newMap;
+      });
+      if (settings.autoMove && answer === undefined)
+        setTimeout(() => nextQuestion(), 1000);
+    },
+    [settings, orderedQuestions, currentQuestion]
+  );
 
   useHotkeys(
     "1,2,3,4,5",
@@ -59,15 +81,9 @@ export default function QuestionsList({
       const optionIndex = parseInt(event.key) - 1;
       if (
         optionIndex >= 0 &&
-        optionIndex < orderedQuestions[currentIndex].options.length &&
-        !answers.has(currentQuestion)
-      ) {
-        setAnswers((prev) => {
-          const newMap = new Map(prev);
-          newMap.set(currentQuestion, optionIndex);
-          return newMap;
-        });
-      }
+        optionIndex < orderedQuestions[currentIndex].options.length
+      )
+        answerQuestion(answers.get(currentQuestion), optionIndex);
     },
     [currentIndex, orderedQuestions, answers, currentQuestion]
   );
@@ -141,27 +157,7 @@ export default function QuestionsList({
                   return "bg-slate-50 hover:bg-slate-100 border-slate-300";
                 })()}`}
                 disabled={answer !== undefined && settings.instantFeedback}
-                onClick={() => {
-                  if (answer && settings.instantFeedback) return;
-                  if (settings.sounds) {
-                    if (!settings.instantFeedback) playClick();
-                    else {
-                      if (
-                        index ===
-                        orderedQuestions[currentIndex].correctOptionIndex
-                      )
-                        playCorrect();
-                      else playIncorrect();
-                    }
-                  }
-                  setAnswers((prev) => {
-                    const newMap = new Map(prev);
-                    newMap.set(currentQuestion, index);
-                    return newMap;
-                  });
-                  if (settings.autoMove && answer === undefined)
-                    setTimeout(() => nextQuestion(), 1000);
-                }}
+                onClick={() => answerQuestion(answer, index)}
               >
                 <li>{option}</li>
               </button>

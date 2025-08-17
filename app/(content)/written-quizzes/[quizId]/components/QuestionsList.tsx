@@ -10,7 +10,7 @@ import SelectAnswerDialogue from "./SelectAnswerDialogue";
 import QuestionWrapper from "@/components/QuestionWrapper";
 import HtmlContentClient from "@/components/HtmlContentClient";
 import Message from "@/components/Message";
-import useSettings, { DEFAULT_SETTINGS } from "@/lib/hooks/useSettings";
+import useSettings from "@/lib/hooks/useSettings";
 import { useSound } from "@/lib/hooks/useSound";
 
 const border = new Map([
