@@ -2,7 +2,12 @@
 
 import { useCallback, useEffect, useState } from "react";
 
-import { WrittenQuestion, QuestionState, FormStateType } from "@/types";
+import {
+  WrittenQuestion,
+  QuestionState,
+  FormStateType,
+  WrittenQuiz,
+} from "@/types";
 import { useQuestions } from "@/lib/hooks";
 import Summary from "./Summary";
 import calcFactor from "@/utils/calcFactor";
@@ -40,11 +45,11 @@ export interface Answers {
 }
 
 export default function QuestionsList({
-  quizId,
+  quiz,
   title,
   questions,
 }: {
-  quizId: number;
+  quiz: WrittenQuiz;
   title: string;
   questions: WrittenQuestion[];
 }) {
@@ -101,9 +106,10 @@ export default function QuestionsList({
     ...rest
   } = useQuestions({
     options: {
+      quiz,
       questions,
       answers,
-      localStorageItem: `written-quiz-${quizId}`,
+      localStorageItem: `written-quiz-${quiz.id}`,
       serializeAnswers: (x) => {
         return JSON.stringify({
           tapes: Array.from(x.tapes),

@@ -99,10 +99,12 @@ export interface Link extends DatabaseTable {
   lectureData: LectureSimple;
 }
 
-export interface McqQuiz extends DatabaseTable {
+export interface Quiz extends DatabaseTable {
   title: string;
   lectureData: LectureSimple;
 }
+
+export type McqQuiz = Quiz;
 
 export interface McqQuestion extends DatabaseTable {
   image?: string;
@@ -113,10 +115,7 @@ export interface McqQuestion extends DatabaseTable {
   quizId: number;
 }
 
-export interface WrittenQuiz extends DatabaseTable {
-  title: string;
-  lectureData: LectureSimple;
-}
+export type WrittenQuiz = Quiz;
 
 export interface WrittenQuestion extends DatabaseTable {
   image?: string;

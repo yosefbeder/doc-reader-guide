@@ -12,6 +12,23 @@ import Message from "@/components/Message";
 import CardPlaceholder from "@/components/CardPlaceholder";
 import { SummaryDetail } from "@/components/SummaryDetail";
 import SelectClass from "./components/SelectClass";
+import Quiz from "../../lectures/[lectureId]/components/Quiz";
+
+function getLocalStorageItemsByPrefix(prefix: string) {
+  const items: Record<string, string> = {};
+
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    if (key && key.startsWith(prefix)) {
+      const value = localStorage.getItem(key);
+      if (value !== null) {
+        items[key] = value;
+      }
+    }
+  }
+
+  return items;
+}
 
 function CurrentTag({ semesterOpen }: { semesterOpen: boolean }) {
   return (
@@ -40,8 +57,23 @@ export default function ModulesPage() {
       ).sort(),
     [data]
   );
-  const [selectedSemester, setSelectedSemester] = useState(-1);
-  useEffect(() => setSelectedSemester(data?.currentSemester || -1), [data]);
+  const [selectedSection, setSelectedSection] = useState<string>();
+  useEffect(
+    () => setSelectedSection(data?.currentSemester.toString() || undefined),
+    [data]
+  );
+  const mcqQuizzes = Object.entries(
+    getLocalStorageItemsByPrefix("mcq-quiz-")
+  ).filter(([_, value]) => {
+    const { showingResults, quiz } = JSON.parse(value);
+    return !showingResults && quiz;
+  });
+  const writtenQuizzes = Object.entries(
+    getLocalStorageItemsByPrefix("written-quiz-")
+  ).filter(([_, value]) => {
+    const { showingResults, quiz } = JSON.parse(value);
+    return !showingResults && quiz;
+  });
 
   if (typeof window !== "undefined" && localStorage.getItem("select-class"))
     return <SelectClass />;
@@ -92,15 +124,49 @@ export default function ModulesPage() {
 
   return (
     <main className="main flex flex-col gap-4">
+      {writtenQuizzes.length + mcqQuizzes.length > 0 && (
+        <SummaryDetail
+          open={selectedSection === "quizzes"}
+          toggle={() =>
+            setSelectedSection((prev) =>
+              prev === "quizzes" ? undefined : "quizzes"
+            )
+          }
+        >
+          <SummaryDetail.Summary>In-progress Quizzes</SummaryDetail.Summary>
+          <SummaryDetail.Detail>
+            <ul className="flex flex-col gap-2 p-2">
+              {mcqQuizzes.map(([_, value]) => {
+                const { quiz } = JSON.parse(value);
+                return (
+                  <li key={`mcq-quiz-${quiz.id}`}>
+                    <Quiz type="mcq" quiz={quiz} printable />
+                  </li>
+                );
+              })}
+              {writtenQuizzes.map(([_, value]) => {
+                const { quiz } = JSON.parse(value);
+                return (
+                  <li key={`written-quiz-${quiz.id}`}>
+                    <Quiz type="written" quiz={quiz} />
+                  </li>
+                );
+              })}
+            </ul>
+          </SummaryDetail.Detail>
+        </SummaryDetail>
+      )}
       {semesters.map((semesterName, index) => {
-        const semesterOpen = selectedSemester === semesterName;
+        const semesterOpen = selectedSection === semesterName.toString();
         return (
           <SummaryDetail
             key={index}
             open={semesterOpen}
             toggle={() =>
-              setSelectedSemester((prev) =>
-                semesterName === prev ? -1 : semesterName
+              setSelectedSection((prev) =>
+                semesterName.toString() === prev
+                  ? undefined
+                  : semesterName.toString()
               )
             }
           >

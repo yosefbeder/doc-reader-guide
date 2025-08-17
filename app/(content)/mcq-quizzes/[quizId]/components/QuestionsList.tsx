@@ -4,7 +4,7 @@ import React, { useCallback, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 
 import Message from "@/components/Message";
-import { McqQuestion } from "@/types";
+import { McqQuestion, McqQuiz } from "@/types";
 import isValidURL from "@/utils/isValidURL";
 import { useQuestions } from "@/lib/hooks";
 import Summary from "./Summary";
@@ -13,11 +13,11 @@ import useSettings from "@/lib/hooks/useSettings";
 import { useSound } from "@/lib/hooks/useSound";
 
 export default function QuestionsList({
-  quizId,
+  quiz,
   title,
   questions,
 }: {
-  quizId: number;
+  quiz: McqQuiz;
   title: string;
   questions: McqQuestion[];
 }) {
@@ -34,9 +34,10 @@ export default function QuestionsList({
     ...rest
   } = useQuestions({
     options: {
+      quiz,
       questions,
       answers,
-      localStorageItem: `mcq-quiz-${quizId}`,
+      localStorageItem: `mcq-quiz-${quiz.id}`,
       serializeAnswers: (x) => Array.from(x),
       onLoad(storedAnswers) {
         try {

@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 
-import { DatabaseTable } from "@/types";
+import { DatabaseTable, Quiz } from "@/types";
 
 export interface Options<T, U extends DatabaseTable> {
+  quiz: Quiz;
   questions: U[];
   localStorageItem: string;
   answers: T;
@@ -14,6 +15,7 @@ export interface Options<T, U extends DatabaseTable> {
 
 export default function useQuestions<T, U extends DatabaseTable>({
   options: {
+    quiz,
     questions,
     localStorageItem,
     answers,
@@ -120,6 +122,7 @@ export default function useQuestions<T, U extends DatabaseTable>({
       localStorage.setItem(
         localStorageItem,
         JSON.stringify({
+          quiz,
           currentQuestion,
           currentIndex,
           answers: serializeAnswers(answers),
