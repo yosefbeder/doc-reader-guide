@@ -20,16 +20,6 @@ export default function NavUser({ updateable }: { updateable?: boolean }) {
   const router = useRouter();
   const pathname = usePathname();
 
-  if (!user && Cookies.get("guest"))
-    return (
-      <NextLink
-        className="link"
-        href={`/login?redirect=${encodeURIComponent(pathname)}`}
-      >
-        Login
-      </NextLink>
-    );
-
   return (
     <div className="flex items-center gap-2">
       <Search yearId={user?.yearId || -1} />
@@ -43,8 +33,15 @@ export default function NavUser({ updateable }: { updateable?: boolean }) {
         </NavLink>
       ) : isLoading ? (
         "Loading..."
-      ) : (
+      ) : error ? (
         "Error"
+      ) : (
+        <NextLink
+          className="link"
+          href={`/login?redirect=${encodeURIComponent(pathname)}`}
+        >
+          Login
+        </NextLink>
       )}
       {!isLoading && user && user.roleId !== 3 && (
         <>
