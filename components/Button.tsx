@@ -2,7 +2,7 @@ import React from "react";
 
 export interface ButtonProps extends React.ComponentProps<"button"> {
   fullWidth?: boolean;
-  color?: "cyan" | "yellow" | "rose" | "white";
+  color?: "cyan" | "yellow" | "rose" | "white" | "violet";
   isLoading?: boolean;
 }
 
@@ -22,6 +22,8 @@ export default function Button({
     yellow:
       "text-inherit bg-yellow-400 hover:bg-yellow-500 active:bg-yellow-600 border-yellow-400 hover:border-yellow-500 active:border-yellow-600 disabled:text-white",
     rose: "text-white bg-rose-600 hover:bg-rose-700 active:bg-rose-800 border-rose-600 hover:border-rose-700 active:border-rose-800",
+    violet:
+      "text-white bg-violet-600 hover:bg-violet-700 active:bg-violet-800 border-violet-600 hover:border-violet-700 active:border-violet-800",
   };
 
   return (

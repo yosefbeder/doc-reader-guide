@@ -6,6 +6,7 @@ import AbdulrahmanAvatar from "@/public/abdulrahmansaber.jpeg";
 import OmarAvatar from "@/public/omarabdelaleem.jpeg";
 import MohammedAvatar from "@/public/mohammedalzayat.jpeg";
 import Tooltip from "./Tooltip";
+import Link from "next/link";
 
 const links = [
   {
@@ -57,7 +58,7 @@ const links = [
     ),
   },
   {
-    link: "https://t.me/DocReader_Guide_app/91",
+    link: "/android",
     color: "hover:text-[#34A853]",
     icon: (
       <svg
@@ -110,11 +111,17 @@ export default function Footer() {
     <footer className="border-t-2 border-slate-200">
       <div className="main">
         <div className="flex justify-center items-center gap-4 mb-4">
-          {links.map(({ link, color, icon }, index) => (
-            <a key={index} href={link} className={color} target="_blank">
-              {icon}
-            </a>
-          ))}
+          {links.map(({ link, color, icon }, index) =>
+            link.startsWith("/") ? (
+              <Link key={index} href={link} className={color}>
+                {icon}
+              </Link>
+            ) : (
+              <a key={index} href={link} className={color} target="_blank">
+                {icon}
+              </a>
+            )
+          )}
         </div>
         <div className="flex -space-x-4 rtl:space-x-reverse justify-center mb-4">
           {contributers.map(
