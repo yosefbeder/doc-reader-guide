@@ -107,7 +107,9 @@ export interface Quiz extends DatabaseTable {
   lectureData: LectureSimple;
 }
 
-export type McqQuiz = Quiz;
+export interface McqQuiz extends Quiz {
+  questions: McqQuestion[];
+}
 
 export interface McqQuestion extends DatabaseTable {
   image?: string;
@@ -118,7 +120,9 @@ export interface McqQuestion extends DatabaseTable {
   quizId: number;
 }
 
-export type WrittenQuiz = Quiz;
+export interface WrittenQuiz extends Quiz {
+  questions: WrittenQuestion[];
+}
 
 export interface WrittenQuestion extends DatabaseTable {
   image?: string;

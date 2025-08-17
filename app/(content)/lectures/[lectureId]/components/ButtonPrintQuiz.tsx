@@ -4,11 +4,10 @@ import { useRef, useState } from "react";
 import { useReactToPrint } from "react-to-print";
 
 import ButtonIcon from "@/components/ButtonIcon";
-import { McqQuestion, McqQuiz } from "@/types";
+import { McqQuiz } from "@/types";
 import { getMcqQuiz } from "@/utils/getQuizClient";
 import Logo from "@/components/Logo";
 import isValidURL from "@/utils/isValidURL";
-import { getMcqQuestions } from "@/utils/getQuestionsClient";
 
 export default function ButtonPrintQuiz({
   id,
@@ -18,7 +17,6 @@ export default function ButtonPrintQuiz({
   title: string;
 }) {
   const [quiz, setQuiz] = useState<McqQuiz>();
-  const [questions, setQuestions] = useState<McqQuestion[]>();
   const [isLoading, setIsLoading] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
   const reactToPrintFn = useReactToPrint({
@@ -34,8 +32,8 @@ export default function ButtonPrintQuiz({
     preserveAfterPrint: true,
   });
   const explanations =
-    questions &&
-    questions
+    quiz &&
+    quiz.questions
       .map(({ explanation }, index) => ({ index, explanation }))
       .filter(({ explanation }) => explanation);
 
@@ -49,7 +47,6 @@ export default function ButtonPrintQuiz({
               setIsLoading(true);
               try {
                 setQuiz(await getMcqQuiz(id));
-                setQuestions(await getMcqQuestions(id));
                 setTimeout(() => reactToPrintFn(), 1000);
               } catch (error) {
                 alert(error);
@@ -60,7 +57,7 @@ export default function ButtonPrintQuiz({
         }}
         disabled={isLoading}
       />
-      {quiz && questions && (
+      {quiz && quiz.questions && (
         <div ref={contentRef} className="print-section print-only">
           <Logo />
           <h1 className="my-4">{title}</h1>
@@ -76,9 +73,9 @@ export default function ButtonPrintQuiz({
           </p>
           <h2 className="my-4">Questions</h2>
           <ol>
-            {questions.map((question, questionIndex) => {
+            {quiz.questions.map((question, questionIndex) => {
               let skipImage = false;
-              if (questions[questionIndex - 1]?.image === question?.image)
+              if (quiz.questions[questionIndex - 1]?.image === question?.image)
                 skipImage = true;
               return (
                 <li key={`question-${question.id}-image`}>
@@ -106,11 +103,11 @@ export default function ButtonPrintQuiz({
           <table className="table-auto">
             <tbody>
               {Array.from({
-                length: Math.ceil(questions.length / 8),
+                length: Math.ceil(quiz.questions.length / 8),
               }).map((_, index) => {
                 const start = index * 8;
                 const end = start + 8;
-                const questionsSlice = questions.slice(start, end);
+                const questionsSlice = quiz.questions.slice(start, end);
                 return (
                   <tr key={`row-${index}`}>
                     {questionsSlice.map((question, questionIndex) => {
@@ -127,7 +124,8 @@ export default function ButtonPrintQuiz({
                           <td key={`question-${question.id}-answer-column`}>
                             {String.fromCharCode(
                               65 +
-                                questions[realQuestionIndex].correctOptionIndex
+                                quiz.questions[realQuestionIndex]
+                                  .correctOptionIndex
                             )}
                           </td>
                         </>
