@@ -3,7 +3,7 @@ import { cookies } from "next/headers";
 
 export default async function getModule(moduleId: number): Promise<Module> {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/modules/${moduleId}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/modules/${moduleId}?include=year.faculty`,
     {
       headers: {
         "Content-Type": "application/json",
@@ -14,6 +14,7 @@ export default async function getModule(moduleId: number): Promise<Module> {
     }
   );
   const json = await res.json();
+  console.log(json.data.module.year);
   if (!res.ok) throw new Error(json.message);
   return json.data.module;
 }

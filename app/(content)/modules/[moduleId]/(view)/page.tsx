@@ -1,32 +1,53 @@
 import Link from "next/link";
 import Image from "next/image";
+import { Metadata } from "next";
 
 import getSubjects from "@/utils/getSubjects";
 import Path from "../components/Path";
 import getModule from "@/utils/getModule";
 import Message from "@/components/Message";
 
+type Props = { params: { moduleId: string } };
+
+export async function generateMetadata({
+  params: { moduleId },
+}: Props): Promise<Metadata> {
+  const myModule = await getModule(+moduleId);
+  if (!myModule) return { robots: { index: false, follow: false } };
+
+  const title = `${myModule.name} | ${myModule.year.faculty.city} ${myModule.year.faculty.name}`;
+  const description = `List of subjects.`;
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      type: "website",
+    },
+    twitter: {
+      card: "summary",
+      title,
+      description,
+    },
+  };
+}
+
 export async function generateStaticParams() {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/modules?size=100`,
-    {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${process.env.NEXT_PUBLIC_JWT}`,
-      },
-    }
-  );
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/modules`, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${process.env.NEXT_PUBLIC_JWT}`,
+    },
+  });
   const json = await res.json();
   return json.data.modules.map(({ id }: { id: number }) => ({
     moduleId: id.toString(),
   }));
 }
 
-export default async function SubjectsPage({
-  params: { moduleId },
-}: {
-  params: { moduleId: string };
-}) {
+export default async function SubjectsPage({ params: { moduleId } }: Props) {
   const [myModule, subjects] = await Promise.all([
     getModule(+moduleId),
     getSubjects(+moduleId),

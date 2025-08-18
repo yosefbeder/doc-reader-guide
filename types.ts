@@ -51,6 +51,9 @@ export interface Module extends DatabaseTable {
   icon: string;
   yearId: number;
   semesterName: number;
+  year: {
+    faculty: Faculty;
+  };
 }
 
 interface ModuleSimple {
@@ -58,6 +61,9 @@ interface ModuleSimple {
   semesterName: number;
   name: string;
   yearId: number;
+  year: {
+    faculty: Faculty;
+  };
 }
 
 export interface Subject extends DatabaseTable {
@@ -76,9 +82,10 @@ interface SubjectSimple {
   module: ModuleSimple;
 }
 
+type LectureType = "Normal" | "Practical" | "FinalRevision";
 export interface Lecture extends DatabaseTable {
   title: string;
-  type: "Normal" | "Practical" | "FinalRevision";
+  type: LectureType;
   note?: string;
   date: string;
   subject: SubjectSimple;
@@ -89,6 +96,7 @@ export interface Lecture extends DatabaseTable {
 
 interface LectureSimple {
   id: number;
+  type: LectureType;
   title: string;
   subject: SubjectSimple;
 }

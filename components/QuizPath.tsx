@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Script from "next/script";
 
 import BasePath from "./Path";
 import { WrittenQuiz, McqQuiz } from "@/types";
@@ -21,30 +22,72 @@ export default function Path({
   quiz: McqQuiz | WrittenQuiz;
 }) {
   return (
-    <BasePath>
-      {semesterName}
-      <sup>{getPrefix(semesterName)}</sup> Semester →{" "}
-      <Link
-        href={`/modules/${moduleId}`}
-        className="link text-inherit hover:text-white"
-      >
-        {moduleName}
-      </Link>{" "}
-      →{" "}
-      <Link
-        href={`/subjects/${subjectId}`}
-        className="link text-inherit hover:text-white"
-      >
-        {subjectName}
-      </Link>{" "}
-      →{" "}
-      <Link
-        href={`/lectures/${lectureId}`}
-        className="link text-inherit hover:text-white"
-      >
-        {lectureTitle}
-      </Link>{" "}
-      → {title}
-    </BasePath>
+    <>
+      <BasePath>
+        {semesterName}
+        <sup>{getPrefix(semesterName)}</sup> Semester →{" "}
+        <Link
+          href={`/modules/${moduleId}`}
+          className="link text-inherit hover:text-white"
+        >
+          {moduleName}
+        </Link>{" "}
+        →{" "}
+        <Link
+          href={`/subjects/${subjectId}`}
+          className="link text-inherit hover:text-white"
+        >
+          {subjectName}
+        </Link>{" "}
+        →{" "}
+        <Link
+          href={`/lectures/${lectureId}`}
+          className="link text-inherit hover:text-white"
+        >
+          {lectureTitle}
+        </Link>{" "}
+        → {title}
+      </BasePath>
+      <Script
+        id="breadcrumb-jsonld-quiz"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              {
+                "@type": "ListItem",
+                position: 1,
+                name: `Semester ${semesterName}`,
+              },
+              {
+                "@type": "ListItem",
+                position: 2,
+                name: moduleName,
+                item: `${process.env.NEXT_PUBLIC_FRONTEND_URL}/modules/${moduleId}`,
+              },
+              {
+                "@type": "ListItem",
+                position: 3,
+                name: subjectName,
+                item: `${process.env.NEXT_PUBLIC_FRONTEND_URL}/subjects/${subjectId}`,
+              },
+              {
+                "@type": "ListItem",
+                position: 4,
+                name: lectureTitle,
+                item: `${process.env.NEXT_PUBLIC_FRONTEND_URL}/lectures/${lectureId}`,
+              },
+              {
+                "@type": "ListItem",
+                position: 5,
+                name: title,
+              },
+            ],
+          }),
+        }}
+      />
+    </>
   );
 }
