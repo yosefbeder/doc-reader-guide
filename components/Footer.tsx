@@ -2,9 +2,11 @@ import Image from "next/image";
 
 import AnonymousSlateAvatar from "@/public/anonymous-slate.jpg";
 import AnonymousCyanAvatar from "@/public/anonymous-cyan.jpg";
+import AnonymousPinkAvatar from "@/public/anonymous-pink.jpg";
 import AbdulrahmanAvatar from "@/public/abdulrahmansaber.jpeg";
 import OmarAvatar from "@/public/omarabdelaleem.jpeg";
 import MohammedAvatar from "@/public/mohammedalzayat.jpeg";
+import OthersAvatar from "@/public/others.jpg";
 import Tooltip from "./Tooltip";
 import Link from "next/link";
 
@@ -83,13 +85,18 @@ const contributers = [
   },
   {
     avatar: AnonymousCyanAvatar,
-    name: "مجهول ڤيرچن تو",
-    contribution: "صيانة السيرفر + مطور نظام الصلاحيات",
+    name: "مجهول تو",
+    contribution: "مطور السيرفر الجديد (الحالي)",
+  },
+  {
+    avatar: AnonymousPinkAvatar,
+    name: "مجهولة",
+    contribution: "مصممة تجربة المستخدم",
   },
   {
     avatar: AbdulrahmanAvatar,
     name: "عبد الرحمن صابر",
-    contribution: "مطور السيرفر",
+    contribution: "مطور السيرفر القديم",
     profile: "https://www.facebook.com/asaber.25",
   },
   {
@@ -101,8 +108,13 @@ const contributers = [
   {
     avatar: MohammedAvatar,
     name: "محمد الزيات",
-    contribution: "مصمم اللوجو وتجربة المستخدم",
+    contribution: "مصمم اللوجو",
     profile: "https://www.facebook.com/mohamedelzayat321",
+  },
+  {
+    avatar: OthersAvatar,
+    name: "الأدمينز",
+    contribution: "إضافة المصادر والاختبارات",
   },
 ];
 
