@@ -14,7 +14,6 @@ export default async function getModule(moduleId: number): Promise<Module> {
     }
   );
   const json = await res.json();
-  console.log(json.data.module.year);
   if (!res.ok) throw new Error(json.message);
   return json.data.module;
 }
