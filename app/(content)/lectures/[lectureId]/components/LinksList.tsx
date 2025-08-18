@@ -26,13 +26,13 @@ export default function LinksList({
 
   if (categories.length === 0)
     return (
-      <Message type="warning" className="my-2">
+      <Message type="warning" className="self-start">
         No sources have been added yet
       </Message>
     );
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 flex-1">
       {categories.map((category, index) => {
         const categoryLinks = links.filter(
           (link) => link.category === category

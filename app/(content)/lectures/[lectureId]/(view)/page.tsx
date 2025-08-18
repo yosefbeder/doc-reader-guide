@@ -56,7 +56,7 @@ export default async function LinksPage({ params: { lectureId } }: Props) {
   return (
     <>
       <Path lecture={lecture} />
-      <main className="main flex max-md:flex-col-reverse gap-4 *:flex-1">
+      <main className="main flex max-md:flex-col-reverse gap-4">
         <LinksList
           links={lecture.links}
           mcqQuizzes={lecture.mcqQuizzes}

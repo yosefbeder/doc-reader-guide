@@ -58,7 +58,7 @@ export default async function SubjectsPage({ params: { moduleId } }: Props) {
       <Path myModule={myModule} />
       <main className="main">
         {subjects.length === 0 ? (
-          <Message type="warning">Not subjects have been added yet</Message>
+          <Message type="warning">No subjects have been added yet</Message>
         ) : (
           <ul className="card-container">
             {subjects.map(({ id, name, icon, _count: { lectures } }, index) => (

@@ -5,6 +5,7 @@ import getSubject from "@/utils/getSubject";
 import MasonryCardContainer from "@/components/MasonryCardContainer";
 import getLectures from "@/utils/getLectures";
 import Lecture from "./components/Lecture";
+import Message from "@/components/Message";
 
 interface Props {
   params: { subjectId: string };
@@ -63,20 +64,24 @@ export default async function LecturesPage({
     <>
       <Path subject={subject} />
       <main className="main">
-        <MasonryCardContainer>
-          {[
-            ...lectures
-              .filter((lecture) => lecture.type !== "Normal")
-              .map((lecture, index) => (
-                <Lecture key={index} lecture={lecture} />
-              )),
-            ...lectures
-              .filter((lecture) => lecture.type === "Normal")
-              .map((lecture, index) => (
-                <Lecture key={index} lecture={lecture} />
-              )),
-          ]}
-        </MasonryCardContainer>
+        {lectures.length === 0 ? (
+          <Message type="warning">No lectures have been added yet</Message>
+        ) : (
+          <MasonryCardContainer>
+            {[
+              ...lectures
+                .filter((lecture) => lecture.type !== "Normal")
+                .map((lecture, index) => (
+                  <Lecture key={index} lecture={lecture} />
+                )),
+              ...lectures
+                .filter((lecture) => lecture.type === "Normal")
+                .map((lecture, index) => (
+                  <Lecture key={index} lecture={lecture} />
+                )),
+            ]}
+          </MasonryCardContainer>
+        )}
       </main>
     </>
   );
