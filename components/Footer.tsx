@@ -89,9 +89,10 @@ const contributers = [
     contribution: "مطور السيرفر الجديد (الحالي)",
   },
   {
-    avatar: AnonymousPinkAvatar,
-    name: "مجهولة",
-    contribution: "مصممة تجربة المستخدم",
+    avatar: OmarAvatar,
+    name: "عمر عبد العليم",
+    contribution: "مطور تطبيق الأندرويد",
+    profile: "https://www.facebook.com/omar.abdelaleem.144",
   },
   {
     avatar: AbdulrahmanAvatar,
@@ -100,10 +101,9 @@ const contributers = [
     profile: "https://www.facebook.com/asaber.25",
   },
   {
-    avatar: OmarAvatar,
-    name: "عمر عبد العليم",
-    contribution: "مطور تطبيق الأندرويد",
-    profile: "https://www.facebook.com/omar.abdelaleem.144",
+    avatar: AnonymousPinkAvatar,
+    name: "مجهولة",
+    contribution: "مصممة تجربة المستخدم",
   },
   {
     avatar: MohammedAvatar,
