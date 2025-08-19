@@ -9,8 +9,8 @@ export default function Tooltip({
 }) {
   return (
     <div className="relative group">
-      <div className="bottom-center invisible group-hover:visible border-x-4 border-b-4 border-x-transparent border-b-slate-700" />
-      <div className="bottom-center translate-y-1 invisible group-hover:visible rounded w-max px-1 py-0.5 bg-slate-700 text-slate-50 text-sm text-center">
+      <div className="bottom-center hidden group-hover:block border-x-4 border-b-4 border-x-transparent border-b-slate-700" />
+      <div className="bottom-center translate-y-1 hidden group-hover:block rounded w-max px-1 py-0.5 bg-slate-700 text-slate-50 text-sm text-center">
         {content}
       </div>
       {children}
