@@ -81,29 +81,29 @@ const contributers = [
   {
     avatar: AnonymousSlateAvatar,
     name: "مجهول",
-    contribution: "مطور الموقع + أجزاء من السيرفر",
+    contribution: "مبرمج الموقع + أجزاء من السيرفر",
   },
   {
     avatar: AnonymousCyanAvatar,
     name: "مجهول تو",
-    contribution: "مطور السيرفر الجديد (الحالي)",
+    contribution: "مبرمج السيرفر الجديد (الحالي)",
   },
   {
     avatar: OmarAvatar,
     name: "عمر عبد العليم",
-    contribution: "مطور تطبيق الأندرويد",
+    contribution: "مبرمج تطبيق الأندرويد",
     profile: "https://www.facebook.com/omar.abdelaleem.144",
   },
   {
     avatar: AbdulrahmanAvatar,
     name: "عبد الرحمن صابر",
-    contribution: "مطور السيرفر القديم",
+    contribution: "مبرمج السيرفر القديم",
     profile: "https://www.facebook.com/asaber.25",
   },
   {
     avatar: AnonymousPinkAvatar,
     name: "مجهولة",
-    contribution: "مصممة تجربة المستخدم",
+    contribution: "نشر التطبيق + اقتراح الإضافات وتطويرات تجربة المستخدم",
   },
   {
     avatar: MohammedAvatar,
