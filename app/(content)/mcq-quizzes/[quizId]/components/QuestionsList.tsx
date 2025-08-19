@@ -123,7 +123,9 @@ export default function QuestionsList({
             alt="Question associated diagram"
           />
         ) : null}
-        {answers.has(currentQuestion) && explanation ? (
+        {answers.has(currentQuestion) &&
+        explanation &&
+        settings.instantFeedback ? (
           <Message type="information">
             {isValidURL(explanation) ? (
               <a href={explanation} target="_blank">
