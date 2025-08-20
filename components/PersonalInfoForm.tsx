@@ -26,6 +26,7 @@ export default function PersonalInfoForm({
     if (formState.type === "success") {
       mutate(() => true, undefined);
       localStorage.removeItem("select-class");
+      location.reload();
     }
   }, [formState]);
 
