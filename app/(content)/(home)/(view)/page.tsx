@@ -63,6 +63,23 @@ export default function ModulesPage() {
     () => setSelectedSection(data?.currentSemester.toString() || undefined),
     [data]
   );
+
+  const [hasClass, setHasClass] = useState(false);
+
+  useEffect(() => {
+    const checkStorage = () => {
+      setHasClass(!!localStorage.getItem("select-class"));
+    };
+
+    checkStorage();
+
+    window.addEventListener("storage", checkStorage);
+
+    return () => {
+      window.removeEventListener("storage", checkStorage);
+    };
+  }, []);
+
   const mcqQuizzes = Object.entries(
     getLocalStorageItemsByPrefix("mcq-quiz-")
   ).filter(([_, value]) => {
@@ -76,8 +93,9 @@ export default function ModulesPage() {
     return !showingResults && quiz;
   });
 
-  if (typeof window !== "undefined" && localStorage.getItem("select-class"))
+  if (hasClass) {
     return <SelectClass />;
+  }
 
   if (isLoading || !data) {
     return (

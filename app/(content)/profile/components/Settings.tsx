@@ -29,7 +29,7 @@ export default function Settings() {
       >
         <SummaryDetail.Summary>Notifications</SummaryDetail.Summary>
         <SummaryDetail.Detail>
-          <div className="p-2">
+          <div className="flex flex-col gap-4 p-2">
             <ToggleNotifications />
           </div>
         </SummaryDetail.Detail>
