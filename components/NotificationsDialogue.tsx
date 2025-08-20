@@ -36,7 +36,6 @@ export default function NotificationsDialogue({
       );
       const json = await res.json();
 
-      console.log(json);
       return { ...json.data, writtenQuizzes: [] } as {
         links: Link[];
         mcqQuizzes: McqQuiz[];
