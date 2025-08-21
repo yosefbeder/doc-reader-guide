@@ -15,8 +15,9 @@ export async function generateMetadata({
   const myModule = await getModule(+moduleId);
   if (!myModule) return { robots: { index: false, follow: false } };
 
-  const title = `${myModule.name} | ${myModule.year.faculty.city} ${myModule.year.faculty.name}`;
-  const description = `List of subjects.`;
+  const faculty = `${myModule.year.faculty.name} ${myModule.year.faculty.city}`;
+  const title = `${myModule.name} | ${faculty}`;
+  const description = `Explore all subjects for ${myModule.name} with lectures, resources, quizzes (MCQ and written), and notes. Designed for students of ${faculty}.`;
 
   return {
     title,

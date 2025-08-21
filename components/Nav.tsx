@@ -20,12 +20,12 @@ export default function Nav({
         <Link href="/" className="no-underline text-inherit hover:text-inherit">
           <Logo />
         </Link>
-        <h1 className="max-md:hidden">{title}</h1>
+        <h2 className="max-md:hidden">{title}</h2>
         <NavUser updateable={updateable} />
       </nav>
-      <h1 className="hidden bg-cyan-50 py-4 text-center max-md:block">
+      <h2 className="hidden bg-cyan-50 py-4 text-center max-md:block">
         {title}
-      </h1>
+      </h2>
     </div>
   );
 }
