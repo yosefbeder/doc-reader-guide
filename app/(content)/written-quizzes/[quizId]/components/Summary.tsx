@@ -84,17 +84,18 @@ export default function Summary({
       <div className="flex gap-2">
         <ButtonIcon icon="arrow-path" onClick={resetState} />
       </div>
-      <h2 className="my-4">
+      <h3 className="my-4">
         Result → {correct} / {total} (
         {Math.round((correct / total) * 10000) / 100}%)
-      </h2>
-      <h2 className="my-4">Summary</h2>
-      <Toggle
-        label="Open all questions"
-        className="my-4"
-        checked={questionsOpen}
-        onChange={() => setQuestionsOpen((prev) => !prev)}
-      />
+      </h3>
+      <h3 className="my-4">Summary</h3>
+      <div className="my-4">
+        <Toggle
+          label="Open all questions"
+          checked={questionsOpen}
+          onChange={() => setQuestionsOpen((prev) => !prev)}
+        />
+      </div>
       <ol className="flex flex-col gap-4 max-w-xl">
         {questions.map((question, index) => {
           const factor = factors[index];

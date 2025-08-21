@@ -42,16 +42,16 @@
 }
 
 @layer components {
-  h1 {
+  .h1 {
     @apply text-3xl font-black text-slate-900;
   }
 
   h2 {
-    @apply text-2xl font-bold text-slate-900;
+    @apply text-2xl font-extrabold text-slate-900;
   }
 
   h3 {
-    @apply text-xl font-bold;
+    @apply text-xl font-bold text-slate-800;
   }
 
   .link {
