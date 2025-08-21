@@ -5,6 +5,7 @@ import Path from "@/components/QuizPath";
 import { getWrittenQuiz } from "@/utils/getQuizServer";
 import QuestionsList from "./components/QuestionsList";
 import Message from "@/components/Message";
+import QuizStructuredData from "@/components/QuizStructuredData";
 
 type Props = { params: { quizId: string } };
 
@@ -47,37 +48,6 @@ export async function generateMetadata({
 export default async function WrittenQuizPage({ params: { quizId } }: Props) {
   const quiz = await getWrittenQuiz(+quizId);
 
-  const faculty = `${quiz.lectureData.subject.module.year.faculty.name} ${quiz.lectureData.subject.module.year.faculty.city}`;
-  const lectureTitle =
-    quiz.lectureData.type === "Normal"
-      ? quiz.lectureData.title
-      : `${quiz.lectureData.subject.module.name} ${
-          quiz.lectureData.subject.name
-        }  ${
-          quiz.lectureData.type === "FinalRevision"
-            ? "Final Revision"
-            : "Practical"
-        }`;
-
-  const data = {
-    "@context": "https://schema.org",
-    "@type": "Quiz",
-    name: quiz.title,
-    description: `This quiz is designed to test medical students’ knowledge in ${quiz.lectureData.subject.name}, focusing on concepts taught in ${lectureTitle}. The quiz includes written assessments, tailored for students of the ${faculty}. It helps learners evaluate their progress, prepare for examinations, and reinforce key principles covered in lectures.`,
-    educationalUse: "assessment",
-    isPartOf: {
-      "@type": "LearningResource",
-      learningResourceType: "Lecture",
-      name: lectureTitle,
-      url: `${process.env.NEXT_PUBLIC_FRONTEND_URL}/lectures/${quiz.lectureData.id}`,
-    },
-    provider: {
-      "@type": "CollegeOrUniversity",
-      name: faculty,
-    },
-    url: `${process.env.NEXT_PUBLIC_FRONTEND_URL}/mcq-quizzes/${quiz.id}`,
-  };
-
   return (
     <>
       <Path quiz={quiz} />
@@ -94,11 +64,7 @@ export default async function WrittenQuizPage({ params: { quizId } }: Props) {
           />
         </main>
       )}
-      <Script
-        id={`ld-quiz-${quiz.id}`}
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
-      />
+      <QuizStructuredData type="written" quiz={quiz} />
     </>
   );
 }

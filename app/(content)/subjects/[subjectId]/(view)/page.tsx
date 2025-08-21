@@ -6,7 +6,7 @@ import MasonryCardContainer from "@/components/MasonryCardContainer";
 import getLectures from "@/utils/getLectures";
 import Lecture from "./components/Lecture";
 import Message from "@/components/Message";
-import Script from "next/script";
+import StructuredData from "../components/StructuredData";
 
 interface Props {
   params: { subjectId: string };
@@ -61,27 +61,6 @@ export default async function LecturesPage({
     getLectures(+subjectId),
   ]);
 
-  const faculty = `${subject.module.year.faculty.name} ${subject.module.year.faculty.city}`;
-  const moduleName = subject.module.name;
-
-  const data = {
-    "@context": "https://schema.org",
-    "@type": "Course",
-    name: `${moduleName} ${subject.name}`,
-    description: `This subject is part of the ${moduleName} in the ${faculty} curriculum, offering detailed lectures, reference notes, and practice quizzes. Students can access normal lectures, practical sessions, and final revisions tailored to their subject area, ensuring both theoretical understanding and exam readiness.`,
-    provider: {
-      "@type": "CollegeOrUniversity",
-      name: faculty,
-    },
-    hasCourseInstance: lectures.map((lecture) => ({
-      "@type": "LearningResource",
-      learningResourceType: "Lecture",
-      name: lecture.title,
-      url: `${process.env.NEXT_PUBLIC_FRONTEND_URL}/lectures/${lecture.id}`,
-    })),
-    url: `${process.env.NEXT_PUBLIC_FRONTEND_URL}/subjects/${subject.id}`,
-  };
-
   return (
     <>
       <Path subject={subject} />
@@ -105,11 +84,7 @@ export default async function LecturesPage({
           </MasonryCardContainer>
         )}
       </main>
-      <Script
-        id={`ld-subject-${subject.id}`}
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
-      />
+      <StructuredData subject={subject} lectures={lectures} />
     </>
   );
 }
