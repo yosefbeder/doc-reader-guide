@@ -6,6 +6,7 @@ import { icons } from "@/components/icons";
 import Button from "@/components/Button";
 import useQuestionsDashboard from "@/lib/hooks/useQuestionsDashboard";
 import { SummaryDetail } from "@/components/SummaryDetail";
+import useSettings from "@/lib/hooks/useSettings";
 
 export default function QuestionsList({
   quizId,
@@ -14,13 +15,14 @@ export default function QuestionsList({
   questions: McqQuestion[];
   quizId: number;
 }) {
+  const [{ mcqQuiz: settings }] = useSettings();
   const {
     orderedQuestions,
     questionsOpen,
     setQuestionsOpen,
     currentQuestion,
     setCurrentQuestion,
-  } = useQuestionsDashboard(questions, `mcq-quiz-${quizId}`, false);
+  } = useQuestionsDashboard(questions, `mcq-quiz-${quizId}`, settings.shuffle);
 
   return (
     <section>

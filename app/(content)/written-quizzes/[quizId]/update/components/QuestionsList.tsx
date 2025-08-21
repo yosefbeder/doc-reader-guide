@@ -6,6 +6,7 @@ import { WrittenQuestion } from "@/types";
 import React from "react";
 import UpdateQuestionForm from "./UpdateQuestionForm";
 import { SummaryDetail } from "@/components/SummaryDetail";
+import useSettings from "@/lib/hooks/useSettings";
 
 export default function QuestionsList({
   quizId,
@@ -14,13 +15,18 @@ export default function QuestionsList({
   quizId: number;
   questions: WrittenQuestion[];
 }) {
+  const [{ writtenQuiz: settings }] = useSettings();
   const {
     orderedQuestions,
     questionsOpen,
     setQuestionsOpen,
     currentQuestion,
     setCurrentQuestion,
-  } = useQuestionsDashboard(questions, `written-quiz-${quizId}`, true);
+  } = useQuestionsDashboard(
+    questions,
+    `written-quiz-${quizId}`,
+    settings.shuffle
+  );
 
   return (
     <section>
