@@ -35,7 +35,7 @@ export default function Path({
         >
           {subjectName}
         </Link>{" "}
-        → {title}
+        → <h1 className="inline-block">{title}</h1>
       </BasePath>
 
       <Script

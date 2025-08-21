@@ -27,13 +27,14 @@ export default function QuestionsList({
 
   return (
     <section>
-      <h2 className="mb-4">Update Questions</h2>
-      <Toggle
-        label="Open all questions"
-        className="mb-4"
-        checked={questionsOpen}
-        onChange={() => setQuestionsOpen((prev) => !prev)}
-      />
+      <h3 className="mb-4">Update Questions</h3>
+      <div className="mb-4">
+        <Toggle
+          label="Open all questions"
+          checked={questionsOpen}
+          onChange={() => setQuestionsOpen((prev) => !prev)}
+        />
+      </div>
       {orderedQuestions.map((question, index) => (
         <div
           key={question.id}

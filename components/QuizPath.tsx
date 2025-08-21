@@ -46,7 +46,7 @@ export default function Path({
         >
           {lectureTitle}
         </Link>{" "}
-        → {title}
+        → <h1 className="inline-block">{title}</h1>
       </BasePath>
       <Script
         id="breadcrumb-jsonld-quiz"

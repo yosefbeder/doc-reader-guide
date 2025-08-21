@@ -52,7 +52,7 @@ export default function Summary({
         <div className="print-only">
           <Logo />
         </div>
-        <h1 className="my-4 print-only">{title}</h1>
+        <h1 className="h1 my-4 print-only">{title}</h1>
         <h2 className="my-4">
           Result → {correct} / {questions.length} (
           {Math.round((correct / questions.length) * 10000) / 100}%)

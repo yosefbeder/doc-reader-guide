@@ -60,7 +60,7 @@ export default function ButtonPrintQuiz({
       {quiz && quiz.questions && (
         <div ref={contentRef} className="print-section print-only">
           <Logo />
-          <h1 className="my-4">{title}</h1>
+          <h1 className="h1 my-4">{title}</h1>
           <p>
             Solve it online at:{" "}
             <a

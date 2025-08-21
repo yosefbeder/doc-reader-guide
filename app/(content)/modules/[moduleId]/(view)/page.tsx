@@ -68,7 +68,7 @@ export default async function SubjectsPage({ params: { moduleId } }: Props) {
                   <span>
                     <Image src={icon} alt={name} width={48} height={48} />
                   </span>
-                  <h2>{name}</h2>
+                  <h3>{name}</h3>
                   <div className="flex gap-2 items-center absolute left-0 top-0 p-2 rounded-tl-xl rounded-br-xl bg-cyan-600 text-white font-bold text-sm">
                     {lectures}{" "}
                     <span className="hidden group-hover:inline">

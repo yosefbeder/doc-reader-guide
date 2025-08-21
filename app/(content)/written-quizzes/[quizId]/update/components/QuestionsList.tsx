@@ -7,6 +7,7 @@ import React from "react";
 import UpdateQuestionForm from "./UpdateQuestionForm";
 import { SummaryDetail } from "@/components/SummaryDetail";
 import useSettings from "@/lib/hooks/useSettings";
+import Toggle from "@/components/Toggle";
 
 export default function QuestionsList({
   quizId,
@@ -30,13 +31,14 @@ export default function QuestionsList({
 
   return (
     <section>
-      <h2 className="mb-4">Update Questions</h2>
-      <Button
-        onClick={() => setQuestionsOpen((prev) => !prev)}
-        className="mb-4"
-      >
-        {questionsOpen ? "Show Only Current Question" : "Show All Questions"}
-      </Button>
+      <h3 className="mb-4">Update Questions</h3>
+      <div className="mb-4">
+        <Toggle
+          label="Open all questions"
+          checked={questionsOpen}
+          onChange={() => setQuestionsOpen((prev) => !prev)}
+        />
+      </div>
       {orderedQuestions.map((question, index) => (
         <div
           key={question.id}

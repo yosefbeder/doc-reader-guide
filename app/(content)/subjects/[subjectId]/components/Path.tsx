@@ -24,7 +24,7 @@ export default function Path({
         >
           {moduleName}
         </Link>{" "}
-        → {name}
+        → <h1 className="inline-block">{name}</h1>
       </BasePath>
       <Script
         id="breadcrumb-jsonld-subject"

@@ -16,7 +16,7 @@ export default function DeleteSpecial({ lectures }: { lectures: Lecture[] }) {
 
   return (
     <>
-      <h2 className="mb-4">DANGER ZONE</h2>
+      <h3 className="mb-4">DANGER ZONE</h3>
       <ul className="flex flex-col gap-4">
         {lectures.map((lecture) => (
           <li key={lecture.id}>
