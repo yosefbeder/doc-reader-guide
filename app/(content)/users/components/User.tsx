@@ -29,7 +29,7 @@ export default function User({
           alt={`${user.givenName} ${user.familyName}`}
           className="size-12 rounded-full"
         />
-        <div className="flex-1">
+        <div className="flex-1 truncate">
           <div>{getHighlightedText(user.email, search)}</div>
           {!isUpdating && (
             <div className="text-gray-500 text-sm">{ROLES[user.roleId]}</div>
