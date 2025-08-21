@@ -13,6 +13,7 @@ const SummaryDetailContext = createContext<SummaryDetailContextValue | null>(
 );
 
 interface SummaryDetailProps {
+  id?: string;
   open: boolean;
   toggle: () => void;
   className?: string;
@@ -20,6 +21,7 @@ interface SummaryDetailProps {
 }
 
 export function SummaryDetail({
+  id,
   open,
   toggle,
   className,
@@ -27,7 +29,10 @@ export function SummaryDetail({
 }: SummaryDetailProps) {
   return (
     <SummaryDetailContext.Provider value={{ open, toggle }}>
-      <div className={`overflow-hidden rounded-xl bg-slate-50 ${className}`}>
+      <div
+        id={id}
+        className={`overflow-hidden rounded-xl bg-slate-50 ${className}`}
+      >
         {children}
       </div>
     </SummaryDetailContext.Provider>

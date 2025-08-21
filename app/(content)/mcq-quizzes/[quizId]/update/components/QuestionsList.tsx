@@ -7,6 +7,7 @@ import Button from "@/components/Button";
 import useQuestionsDashboard from "@/lib/hooks/useQuestionsDashboard";
 import { SummaryDetail } from "@/components/SummaryDetail";
 import useSettings from "@/lib/hooks/useSettings";
+import Toggle from "@/components/Toggle";
 
 export default function QuestionsList({
   quizId,
@@ -27,12 +28,12 @@ export default function QuestionsList({
   return (
     <section>
       <h2 className="mb-4">Update Questions</h2>
-      <Button
-        onClick={() => setQuestionsOpen((prev) => !prev)}
+      <Toggle
+        label="Open all questions"
         className="mb-4"
-      >
-        {questionsOpen ? "Show Only Current Question" : "Show All Questions"}
-      </Button>
+        checked={questionsOpen}
+        onChange={() => setQuestionsOpen((prev) => !prev)}
+      />
       {orderedQuestions.map((question, index) => (
         <div
           key={question.id}
