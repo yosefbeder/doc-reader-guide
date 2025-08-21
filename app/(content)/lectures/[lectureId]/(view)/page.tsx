@@ -19,20 +19,17 @@ export async function generateMetadata({
   const lecture = await getLecture(+lectureId);
   if (!lecture) return { robots: { index: false, follow: false } };
 
-  const faculty = `${lecture.subject.module.year.faculty.city} ${lecture.subject.module.year.faculty.name}`;
-  const title = `${
+  const faculty = `${lecture.subject.module.year.faculty.name} ${lecture.subject.module.year.faculty.city}`;
+  const start =
     lecture.type === "Normal"
       ? lecture.title
       : `${lecture.subject.module.name} ${lecture.subject.name} ${
           lecture.type === "FinalRevision" ? "Final Revision" : "Practical"
-        }`
-  } | ${faculty}`;
-  const rawNote = lecture.note || "";
-  const plainText = stripHtml(rawNote).trim();
-  const description =
-    plainText.length > 0
-      ? plainText.slice(0, 160)
-      : "Medical lecture notes, links, and quizzes.";
+        }`;
+  let title;
+  if (start.length > 35) title = start;
+  else title = `${start} | ${faculty}`;
+  const description = `Access lecture notes, resources, and quizzes (MCQ and written) for ${start}, part of ${faculty} curriculum.`;
 
   return {
     title,
