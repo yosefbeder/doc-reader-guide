@@ -113,61 +113,60 @@ export default function QuestionsList({
       nextQuestion={nextQuestion}
       {...rest}
     >
-      <div className="max-w-xl flex flex-col gap-4">
-        <h3 className="p-4 rounded-xl bg-cyan-50">
-          {orderedQuestions[currentIndex].text}
-        </h3>
-        {orderedQuestions[currentIndex].image ? (
-          <img
-            src={orderedQuestions[currentIndex].image}
-            alt="Question associated diagram"
-          />
-        ) : null}
-        {answers.has(currentQuestion) &&
-        explanation &&
-        settings.instantFeedback ? (
-          <Message type="information">
-            {isValidURL(explanation) ? (
-              <a href={explanation} target="_blank">
-                {explanation}
-              </a>
-            ) : (
-              explanation
-            )}
-          </Message>
-        ) : null}
-        <ol className="list-[upper-alpha] list-inside flex flex-col gap-2 px-2">
-          {orderedQuestions[currentIndex].options.map((option, index) => {
-            const answer = answers.get(currentQuestion);
-            return (
-              <button
-                key={`${orderedQuestions[currentIndex].id}-${index}`}
-                className={`block w-full text-left p-2 rounded-xl border transition-colors disabled:cursor-not-allowed ${(() => {
-                  if (answer !== undefined) {
-                    if (settings.instantFeedback) {
-                      if (
-                        orderedQuestions[currentIndex].correctOptionIndex ===
-                        index
-                      )
-                        return "bg-green-100 hover:bg-green-200 border-green-600";
-                      else if (answer === index)
-                        return "bg-red-100 hover:bg-red-200 border-red-600";
-                    } else {
-                      if (answer === index)
-                        return "bg-blue-100 hover:bg-blue-200 border-blue-600";
+      {orderedQuestions.map((question) => (
+        <div
+          key={question.id}
+          className={`max-w-xl flex flex-col gap-4 ${
+            currentQuestion === question.id ? "" : "hidden"
+          }`}
+        >
+          <h3 className="p-4 rounded-xl bg-cyan-50">{question.text}</h3>
+          {question.image ? (
+            <img src={question.image} alt="Question associated diagram" />
+          ) : null}
+          {answers.has(currentQuestion) &&
+          explanation &&
+          settings.instantFeedback ? (
+            <Message type="information">
+              {isValidURL(explanation) ? (
+                <a href={explanation} target="_blank">
+                  {explanation}
+                </a>
+              ) : (
+                explanation
+              )}
+            </Message>
+          ) : null}
+          <ol className="list-[upper-alpha] list-inside flex flex-col gap-2 px-2">
+            {question.options.map((option, index) => {
+              const answer = answers.get(currentQuestion);
+              return (
+                <button
+                  key={`${question.id}-${index}`}
+                  className={`block w-full text-left p-2 rounded-xl border transition-colors disabled:cursor-not-allowed ${(() => {
+                    if (answer !== undefined) {
+                      if (settings.instantFeedback) {
+                        if (question.correctOptionIndex === index)
+                          return "bg-green-100 hover:bg-green-200 border-green-600";
+                        else if (answer === index)
+                          return "bg-red-100 hover:bg-red-200 border-red-600";
+                      } else {
+                        if (answer === index)
+                          return "bg-blue-100 hover:bg-blue-200 border-blue-600";
+                      }
                     }
-                  }
-                  return "bg-slate-50 hover:bg-slate-100 border-slate-300";
-                })()}`}
-                disabled={answer !== undefined && settings.instantFeedback}
-                onClick={() => answerQuestion(answer, index)}
-              >
-                <li>{option}</li>
-              </button>
-            );
-          })}
-        </ol>
-      </div>
+                    return "bg-slate-50 hover:bg-slate-100 border-slate-300";
+                  })()}`}
+                  disabled={answer !== undefined && settings.instantFeedback}
+                  onClick={() => answerQuestion(answer, index)}
+                >
+                  <li>{option}</li>
+                </button>
+              );
+            })}
+          </ol>
+        </div>
+      ))}
     </QuestionWrapper>
   );
 }

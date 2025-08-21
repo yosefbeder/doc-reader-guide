@@ -76,5 +76,5 @@ SummaryDetail.Detail = function Detail({ children }: DetailProps) {
   if (!ctx) throw new Error("Detail must be used within SummaryDetail");
   const { open } = ctx;
 
-  return open ? children : null;
+  return <div className={open ? "" : "hidden"}> {children} </div>;
 };
