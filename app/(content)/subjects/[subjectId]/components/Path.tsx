@@ -38,6 +38,7 @@ export default function Path({
                 "@type": "ListItem",
                 position: 1,
                 name: `Semester ${semesterName}`,
+                item: process.env.NEXT_PUBLIC_FRONTEND_URL,
               },
               {
                 "@type": "ListItem",
