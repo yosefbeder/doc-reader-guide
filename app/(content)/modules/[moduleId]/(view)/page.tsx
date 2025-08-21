@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Metadata } from "next";
+import Script from "next/script";
 
 import getSubjects from "@/utils/getSubjects";
 import Path from "../components/Path";
@@ -53,6 +54,24 @@ export default async function SubjectsPage({ params: { moduleId } }: Props) {
     getModule(+moduleId),
     getSubjects(+moduleId),
   ]);
+  const faculty = `${myModule.year.faculty.name} ${myModule.year.faculty.city}`;
+
+  const data = {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    name: myModule.name,
+    description: `This module provides a complete learning pathway for students in ${faculty} covering essential subjects with lectures, quizzes (MCQ and written), revision materials, and notes. Designed to guide students through foundational and advanced concepts in the curriculum, the module helps in structured preparation for exams and clinical practice.`,
+    provider: {
+      "@type": "CollegeOrUniversity",
+      name: faculty,
+    },
+    hasCourseInstance: subjects.map((subject) => ({
+      "@type": "Course",
+      name: subject.name,
+      url: `${process.env.NEXT_PUBLIC_FRONTEND_URL}/subjects/${subject.id}`,
+    })),
+    url: `${process.env.NEXT_PUBLIC_FRONTEND_URL}/modules/${myModule.id}`,
+  };
 
   return (
     <>
@@ -81,6 +100,11 @@ export default async function SubjectsPage({ params: { moduleId } }: Props) {
           </ul>
         )}
       </main>
+      <Script
+        id={`ld-module-${module.id}`}
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+      />
     </>
   );
 }

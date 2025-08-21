@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import Script from "next/script";
 
 import getLecture from "@/utils/getLecture";
 import LinksList from "../components/LinksList";
@@ -50,6 +51,41 @@ export async function generateMetadata({
 export default async function LinksPage({ params: { lectureId } }: Props) {
   const lecture = await getLecture(+lectureId);
 
+  const faculty = `${lecture.subject.module.year.faculty.name} ${lecture.subject.module.year.faculty.city}`;
+
+  const data = {
+    "@context": "https://schema.org",
+    "@type": "LearningResource",
+    learningResourceType: "Lecture",
+    name: lecture.title,
+    description: `This lecture in ${lecture.subject.name} covers core topics required for medical students at the ${faculty}. Students can access comprehensive lecture notes, supporting links, and related quizzes (MCQ and written). The lecture may include practical demonstrations, normal teaching sessions, or final revision classes to reinforce learning outcomes.`,
+    educationalLevel: lecture.subject.module.year,
+    provider: {
+      "@type": "CollegeOrUniversity",
+      name: faculty,
+    },
+    isPartOf: {
+      "@type": "Course",
+      name: lecture.subject.name,
+      url: `${process.env.NEXT_PUBLIC_FRONTEND_URL}/subjects/${lecture.subject.id}`,
+    },
+    hasPart: [
+      ...lecture.mcqQuizzes.map((quiz) => ({
+        "@type": "Quiz",
+        name: quiz.title,
+        educationalUse: "assessment",
+        url: `${process.env.NEXT_PUBLIC_FRONTEND_URL}/mcq-quizzes/${quiz.id}`,
+      })),
+      ...lecture.writtenQuizzes.map((quiz) => ({
+        "@type": "Quiz",
+        name: quiz.title,
+        educationalUse: "assessment",
+        url: `${process.env.NEXT_PUBLIC_FRONTEND_URL}/written-quizzes/${quiz.id}`,
+      })),
+    ],
+    url: `${process.env.NEXT_PUBLIC_FRONTEND_URL}/lectures/${lecture.id}`,
+  };
+
   return (
     <>
       <Path lecture={lecture} />
@@ -66,6 +102,11 @@ export default async function LinksPage({ params: { lectureId } }: Props) {
           />
         )}
       </main>
+      <Script
+        id={`ld-lecture-${lecture.id}`}
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+      />
     </>
   );
 }
