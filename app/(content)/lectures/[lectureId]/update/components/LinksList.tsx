@@ -3,7 +3,12 @@
 import React, { useState } from "react";
 
 import Message from "@/components/Message";
-import { Link as LinkType, WrittenQuiz, McqQuiz as QuizType } from "@/types";
+import {
+  Link as LinkType,
+  WrittenQuiz,
+  McqQuiz as QuizType,
+  User,
+} from "@/types";
 import Link from "../../components/Link";
 import Quiz from "../../components/Quiz";
 import { useCategories } from "@/lib/hooks";
@@ -11,13 +16,16 @@ import UpdateMcqQuizForm from "./UpdateMcqQuizForm";
 import UpdateLinkForm from "./UpdateLinkForm";
 import UpdateWrittenQuizForm from "./UpdateWrittenQuizForm";
 import { SummaryDetail } from "@/components/SummaryDetail";
+import notUpdateable from "@/utils/isUpdateable";
 
 export default function LinksList({
+  user,
   lectureId,
   links,
   mcqQuizzes,
   writtenQuizzes,
 }: {
+  user: User;
   lectureId: number;
   links: LinkType[];
   mcqQuizzes: QuizType[];
@@ -79,7 +87,7 @@ export default function LinksList({
                             type="mcq"
                             quiz={quiz}
                             printable
-                            updateable
+                            updateable={!notUpdateable(user, quiz.creatorId)}
                             onUpdate={() =>
                               setCurrent({ type: "quiz", id: quiz.id })
                             }
@@ -101,7 +109,7 @@ export default function LinksList({
                           <Quiz
                             type="written"
                             quiz={quiz}
-                            updateable
+                            updateable={!notUpdateable(user, quiz.creatorId)}
                             onUpdate={() =>
                               setCurrent({ type: "quiz", id: quiz.id })
                             }
@@ -125,7 +133,7 @@ export default function LinksList({
                     ) : (
                       <Link
                         link={link}
-                        updateable
+                        updateable={!notUpdateable(user, link.creatorId)}
                         onUpdate={() =>
                           setCurrent({ type: "link", id: link.id })
                         }

@@ -4,12 +4,15 @@ import getLectures from "@/utils/getLectures";
 import UpdateLectureForm from "./components/UpdateLectureForm";
 import AddLectureForm from "./components/AddLectureForm";
 import DeleteSpecial from "./components/DeleteSpecial";
+import getUser from "@/utils/getUserServer";
+import notUpdateable from "@/utils/isUpdateable";
 
 export default async function LecturesPage({
   params: { subjectId },
 }: {
   params: { subjectId: string };
 }) {
+  const user = await getUser();
   const [subject, lectures] = await Promise.all([
     getSubject(+subjectId),
     getLectures(+subjectId),
@@ -26,6 +29,7 @@ export default async function LecturesPage({
           {lectures.filter(({ type }) => type !== "Normal").length > 0 && (
             <li>
               <DeleteSpecial
+                disabled={notUpdateable(user, subject.creatorId)}
                 lectures={lectures.filter(({ type }) => type !== "Normal")}
               />
             </li>
@@ -34,7 +38,11 @@ export default async function LecturesPage({
             .filter(({ type }) => type === "Normal")
             .map((lecture) => (
               <li key={lecture.id}>
-                <UpdateLectureForm subjectId={+subjectId} lecture={lecture} />
+                <UpdateLectureForm
+                  user={user}
+                  subjectId={+subjectId}
+                  lecture={lecture}
+                />
               </li>
             ))}
         </ul>
