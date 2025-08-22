@@ -5,15 +5,18 @@ import { useFormState } from "react-dom";
 
 import ButtonSubmit from "@/components/ButtonSubmit";
 import SubjectFields from "./SubjectFields";
-import { Subject } from "@/types";
+import { Subject, User } from "@/types";
 import { deleteSubject, updateSubject } from "@/lib/actions/subjects";
 import Message from "@/components/Message";
 import ButtonDelete from "@/components/ButtonDelete";
 import { useUpdateDeleteForms } from "@/lib/hooks";
+import notUpdateable from "@/utils/isUpdateable";
 
 export default function UpdateSubjectForm({
-  subject: { id, icon, name, moduleId },
+  user,
+  subject: { id, icon, name, moduleId, creatorId },
 }: {
+  user: User;
   subject: Subject;
 }) {
   const [updateFormState, updateFormAction] = useFormState(updateSubject, {});
@@ -24,6 +27,7 @@ export default function UpdateSubjectForm({
     updateFormState,
     deleteFormState
   );
+  const disabled = notUpdateable(user, creatorId);
 
   return (
     <div onClickCapture={() => setHideMessage(true)}>
@@ -44,7 +48,9 @@ export default function UpdateSubjectForm({
       )}
       <div className="flex gap-2">
         <form action={updateFormAction} className="inline" id={updateFormId}>
-          <ButtonSubmit color="yellow">Update</ButtonSubmit>
+          <ButtonSubmit color="yellow" disabled={disabled}>
+            Update
+          </ButtonSubmit>
         </form>
         <form action={deleteFormAction} className="inline" ref={formRef}>
           <input
@@ -54,7 +60,11 @@ export default function UpdateSubjectForm({
             className="hidden"
             defaultValue={id}
           />
-          <ButtonDelete confirmationText={id.toString()} formRef={formRef} />
+          <ButtonDelete
+            disabled={disabled}
+            confirmationText={id.toString()}
+            formRef={formRef}
+          />
         </form>
       </div>
     </div>

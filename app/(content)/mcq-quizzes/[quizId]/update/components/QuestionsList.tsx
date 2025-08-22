@@ -1,6 +1,6 @@
 "use client";
 
-import { McqQuestion } from "@/types";
+import { McqQuestion, User } from "@/types";
 import UpdateQuestionForm from "./UpdateQuestionForm";
 import { icons } from "@/components/icons";
 import Button from "@/components/Button";
@@ -10,9 +10,11 @@ import useSettings from "@/lib/hooks/useSettings";
 import Toggle from "@/components/Toggle";
 
 export default function QuestionsList({
+  user,
   quizId,
   questions,
 }: {
+  user: User;
   questions: McqQuestion[];
   quizId: number;
 }) {
@@ -59,7 +61,11 @@ export default function QuestionsList({
 
                 <SummaryDetail.Detail>
                   <div className="p-2">
-                    <UpdateQuestionForm quizId={+quizId} question={question} />
+                    <UpdateQuestionForm
+                      user={user}
+                      quizId={+quizId}
+                      question={question}
+                    />
                   </div>
                 </SummaryDetail.Detail>
               </SummaryDetail>

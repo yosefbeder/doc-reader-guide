@@ -3,12 +3,14 @@ import Path from "../components/Path";
 import getModule from "@/utils/getModule";
 import UpdateSubjectForm from "./components/UpdateSubjectForm";
 import AddSubjectForm from "./components/AddSubjectForm";
+import getUser from "@/utils/getUserServer";
 
 export default async function UpdateSubjectsPage({
   params: { moduleId },
 }: {
   params: { moduleId: string };
 }) {
+  const user = await getUser();
   const [myModule, subjects] = await Promise.all([
     getModule(+moduleId),
     getSubjects(+moduleId),
@@ -24,7 +26,7 @@ export default async function UpdateSubjectsPage({
           </li>
           {subjects.map((subject) => (
             <li key={subject.id}>
-              <UpdateSubjectForm subject={subject} />
+              <UpdateSubjectForm user={user} subject={subject} />
             </li>
           ))}
         </ul>

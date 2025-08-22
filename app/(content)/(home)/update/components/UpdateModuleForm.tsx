@@ -4,16 +4,19 @@ import { useFormState } from "react-dom";
 import { useRef } from "react";
 
 import ModuleFields from "./ModuleFields";
-import { Module } from "@/types";
+import { Module, User } from "@/types";
 import { deleteModule, updateModule } from "@/lib/actions/modules";
 import Message from "@/components/Message";
 import ButtonDelete from "@/components/ButtonDelete";
 import ButtonSubmit from "@/components/ButtonSubmit";
 import { useUpdateDeleteForms } from "@/lib/hooks";
+import notUpdateable from "@/utils/isUpdateable";
 
 export default function UpdateModuleForm({
-  myModule: { id, icon, name, semesterName, yearId },
+  user,
+  myModule: { id, icon, name, semesterName, yearId, creatorId },
 }: {
+  user: User;
   myModule: Module;
 }) {
   const [updateFormState, updateFormAction] = useFormState(updateModule, {});
@@ -24,6 +27,7 @@ export default function UpdateModuleForm({
     updateFormState,
     deleteFormState
   );
+  const disabled = notUpdateable(user, creatorId);
 
   return (
     <div onClickCapture={() => setHideMessage(true)}>
@@ -44,7 +48,7 @@ export default function UpdateModuleForm({
       )}
       <div className="flex gap-2">
         <form action={updateFormAction} id={updateFormId}>
-          <ButtonSubmit type="submit" color="yellow">
+          <ButtonSubmit type="submit" color="yellow" disabled={disabled}>
             Update
           </ButtonSubmit>
         </form>
@@ -59,6 +63,7 @@ export default function UpdateModuleForm({
           <ButtonDelete
             confirmationText={id.toString()}
             formRef={deleteFormRef}
+            disabled={disabled}
           />
         </form>
       </div>
