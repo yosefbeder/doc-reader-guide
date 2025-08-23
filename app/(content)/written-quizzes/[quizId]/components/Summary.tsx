@@ -100,7 +100,7 @@ export default function Summary({
         {questions.map((question, index) => {
           const factor = factors[index];
           return (
-            <li key={question.id}>
+            <li key={`written-question-${question.id}`}>
               <SummaryDetail
                 id={`question-${question.id}`}
                 open={currentIndex === index || questionsOpen}
@@ -125,7 +125,7 @@ export default function Summary({
                         />
                         {question.masks.map(({ id, x, y, w, h }) => (
                           <div
-                            key={"mask-" + id}
+                            key={`written-question-${question.id}-mask-${id}`}
                             style={{
                               position: "absolute",
                               left: x * factor,
@@ -139,7 +139,7 @@ export default function Summary({
                         ))}
                         {question.tapes.map(({ id, x, y, w, h }) => (
                           <div
-                            key={"tape-" + id}
+                            key={`written-question-${question.id}-tape-${id}`}
                             className={`border-2 ${border.get(
                               answers.tapes.get(id)!
                             )}`}
@@ -160,7 +160,7 @@ export default function Summary({
                           const questionState = answers.subQuestions.get(id)!;
                           return (
                             <li
-                              key={`question-${id}`}
+                              key={`written-question-${question.id}-sub-question-${id}`}
                               className="flex flex-col gap-4"
                             >
                               <p className="font-bold">

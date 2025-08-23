@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import {
   WrittenQuestion,
@@ -212,7 +212,6 @@ export default function QuestionsList({
             {question.image && factor && (
               <div className="relative">
                 <img
-                  key={currentQuestion}
                   src={`${process.env.NEXT_PUBLIC_STATIC_URL}/image/${question.image}`}
                   width={question.width! * factor}
                   height={question.height! * factor}
@@ -221,7 +220,7 @@ export default function QuestionsList({
                 />
                 {question.masks.map(({ id, x, y, w, h }) => (
                   <div
-                    key={"mask-" + id}
+                    key={`written-question-${question.id}-mask-${id}`}
                     style={{
                       position: "absolute",
                       left: x * factor,
@@ -240,10 +239,11 @@ export default function QuestionsList({
                       ? { right: 0 }
                       : { left: x * factor };
                   return (
-                    <>
+                    <React.Fragment
+                      key={`written-question-${question.id}-tape-${id}`}
+                    >
                       {questionState === QuestionState.UNSELECTED && (
                         <SelectAnswerDialogue
-                          key={"dialogue-" + id}
                           style={{
                             position: "absolute",
                             zIndex: 10,
@@ -265,7 +265,6 @@ export default function QuestionsList({
                           questionState === QuestionState.UNANSWERED &&
                           "bg-yellow-200"
                         }`}
-                        key={"tape-" + id}
                         style={{
                           position: "absolute",
                           left: x * factor,
@@ -282,7 +281,7 @@ export default function QuestionsList({
                           }
                         }}
                       ></button>
-                    </>
+                    </React.Fragment>
                   );
                 })}
               </div>
@@ -291,7 +290,10 @@ export default function QuestionsList({
               {question.subQuestions.map(({ id, text, answer }, index) => {
                 const questionState = answers.subQuestions.get(id)!;
                 return (
-                  <li key={`question-${id}`} className="flex flex-col gap-4">
+                  <li
+                    key={`written-question-${question.id}-sub-question-${id}`}
+                    className="flex flex-col gap-4"
+                  >
                     <p className="font-bold">
                       {question.subQuestions.length > 1
                         ? `${index + 1}. ${text}`
