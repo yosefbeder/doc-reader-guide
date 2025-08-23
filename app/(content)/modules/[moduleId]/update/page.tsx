@@ -26,7 +26,7 @@ export default async function UpdateSubjectsPage({
             <AddSubjectForm moduleId={+moduleId} />
           </li>
           <li>
-            <QuickAddForm moduleId={+moduleId} />
+            <QuickAddForm moduleId={+moduleId} disabled={user.roleId !== 0} />
           </li>
           {subjects.map((subject) => (
             <li key={subject.id}>

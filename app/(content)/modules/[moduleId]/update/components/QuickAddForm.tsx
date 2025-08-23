@@ -51,7 +51,13 @@ Only include these subjects with their exact names and corresponding icon URLs:
 
 Ignore any additional information outside these properties. If a subject has no lectures, omit it from the array. Please return only the JSON output without explanations or extra text.`;
 
-export default function QuickAddForm({ moduleId }: { moduleId: number }) {
+export default function QuickAddForm({
+  moduleId,
+  disabled,
+}: {
+  moduleId: number;
+  disabled?: boolean;
+}) {
   const [formState, formAction] = useFormState(quickAdd, {});
   const [subjects, setQuestions] = useState("");
   const [model, setModel] = useState(models[0].value);
@@ -97,7 +103,9 @@ export default function QuickAddForm({ moduleId }: { moduleId: number }) {
       {formState.message && formState.type && (
         <Message type={formState.type}>{formState.message}</Message>
       )}
-      <ButtonSubmit className="self-start">Add</ButtonSubmit>
+      <ButtonSubmit disabled={disabled} className="self-start">
+        Add
+      </ButtonSubmit>
     </form>
   );
 }
