@@ -43,7 +43,7 @@ export default function QuestionsList({
       </div>
       {orderedQuestions.map((question, index) => (
         <div
-          key={question.id}
+          key={`written-question-${question.id}`}
           className="max-w-xl mb-4"
           id={`question-${question.id}`}
         >
