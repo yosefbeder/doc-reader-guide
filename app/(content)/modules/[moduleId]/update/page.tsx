@@ -4,6 +4,7 @@ import getModule from "@/utils/getModule";
 import UpdateSubjectForm from "./components/UpdateSubjectForm";
 import AddSubjectForm from "./components/AddSubjectForm";
 import getUser from "@/utils/getUserServer";
+import QuickAddForm from "./components/QuickAddForm";
 
 export default async function UpdateSubjectsPage({
   params: { moduleId },
@@ -23,6 +24,9 @@ export default async function UpdateSubjectsPage({
         <ul className="card-container">
           <li>
             <AddSubjectForm moduleId={+moduleId} />
+          </li>
+          <li>
+            <QuickAddForm moduleId={+moduleId} />
           </li>
           {subjects.map((subject) => (
             <li key={subject.id}>
