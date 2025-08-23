@@ -43,7 +43,7 @@ export default function Summary({
   const calcFactors = useCallback(
     () =>
       questions.map((question) =>
-        question.image ? calcFactor(question.width!) : null
+        question.image ? calcFactor(question.width!, 16) : null
       ),
     [questions]
   );
