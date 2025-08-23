@@ -23,9 +23,11 @@ export default async function UpdateLinksPage({
         <LinksList
           user={user}
           lectureId={+lectureId}
-          links={lecture.links}
-          mcqQuizzes={lecture.mcqQuizzes}
-          writtenQuizzes={lecture.writtenQuizzes}
+          links={lecture.links.toSorted((a, b) => a.id - b.id)}
+          mcqQuizzes={lecture.mcqQuizzes.toSorted((a, b) => a.id - b.id)}
+          writtenQuizzes={lecture.writtenQuizzes.toSorted(
+            (a, b) => a.id - b.id
+          )}
         />
       </main>
     </>

@@ -57,9 +57,11 @@ export default async function LinksPage({ params: { lectureId } }: Props) {
       <Path lecture={lecture} />
       <main className="main flex max-md:flex-col-reverse gap-4">
         <LinksList
-          links={lecture.links}
-          mcqQuizzes={lecture.mcqQuizzes}
-          writtenQuizzes={lecture.writtenQuizzes}
+          links={lecture.links.toSorted((a, b) => a.id - b.id)}
+          mcqQuizzes={lecture.mcqQuizzes.toSorted((a, b) => a.id - b.id)}
+          writtenQuizzes={lecture.writtenQuizzes.toSorted(
+            (a, b) => a.id - b.id
+          )}
         />
         {lecture.note && lecture.note !== "<p><br></p>" && (
           <HtmlContentServer
