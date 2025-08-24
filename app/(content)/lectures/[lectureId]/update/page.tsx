@@ -11,7 +11,7 @@ export default async function UpdateLinksPage({
   params: { lectureId: string };
 }) {
   const user = await getUser();
-  const lecture = await getLecture(+lectureId);
+  const lecture = await getLecture(+lectureId, true);
   return (
     <>
       <Path lecture={lecture} />
