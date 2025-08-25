@@ -67,7 +67,7 @@ export default async function LinksPage({ params: { lectureId } }: Props) {
         />
         {lecture.note && lecture.note !== "<p><br></p>" && (
           <HtmlContentServer
-            className="rounded-xl p-2 bg-slate-50"
+            className="flex-1 rounded-xl p-2 bg-slate-50"
             html={lecture.note}
           />
         )}
