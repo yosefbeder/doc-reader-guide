@@ -35,7 +35,7 @@ export default function Path({
         >
           {subjectName}
         </Link>{" "}
-        → {title}
+        → <h1 className="inline-block">{title}</h1>
       </BasePath>
 
       <Script
@@ -50,6 +50,7 @@ export default function Path({
                 "@type": "ListItem",
                 position: 1,
                 name: `Semester ${semesterName}`,
+                item: process.env.NEXT_PUBLIC_FRONTEND_URL,
               },
               {
                 "@type": "ListItem",

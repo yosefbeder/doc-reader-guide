@@ -17,7 +17,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       url: `${origin}/modules/${m.id}`,
       changeFrequency: "yearly",
       lastModified: m.updatedAt,
-      priority: 0.5,
+      priority: 0.6,
     });
   });
 
@@ -27,7 +27,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       url: `${origin}/subjects/${s.id}`,
       changeFrequency: "yearly",
       lastModified: s.updatedAt,
-      priority: 0.5,
+      priority: 0.7,
     });
   });
 
@@ -37,7 +37,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       url: `${origin}/lectures/${l.id}`,
       changeFrequency: "weekly",
       lastModified: l.updatedAt,
-      priority: 0.8,
+      priority: 0.9,
     });
   });
 
@@ -47,7 +47,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       url: `${origin}/mcq-quizzes/${q.id}`,
       changeFrequency: "weekly",
       lastModified: q.updatedAt,
-      priority: 0.5,
+      priority: 0.8,
     });
   });
 
@@ -57,7 +57,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       url: `${origin}/written-quizzes/${q.id}`,
       changeFrequency: "weekly",
       lastModified: q.updatedAt,
-      priority: 0.5,
+      priority: 0.8,
     });
   });
 

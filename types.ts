@@ -10,6 +10,7 @@ export interface DatabaseTable {
   id: number;
   createdAt: string;
   updatedAt: string;
+  creatorId?: number;
 }
 
 export interface Faculty extends DatabaseTable {

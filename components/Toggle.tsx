@@ -50,7 +50,9 @@ export default function Toggle({
   return (
     <label
       htmlFor={id}
-      className={`flex items-center gap-2 ${disabled && "cursor-not-allowed"}`}
+      className={`flex items-center gap-2 ${
+        disabled ? "cursor-not-allowed" : "cursor-pointer"
+      }`}
     >
       <button
         type="button"
@@ -59,7 +61,7 @@ export default function Toggle({
         disabled={disabled}
         className={`
         relative inline-flex h-6 w-11 items-center rounded-full border-2 
-        transition-colors duration-200 ease-in-out disabled:opacity-50 
+        transition-colors duration-200 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed
         ${colorVariants[color]} ${className}
         `}
         {...props}

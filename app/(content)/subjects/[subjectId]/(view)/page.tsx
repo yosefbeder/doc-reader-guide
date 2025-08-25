@@ -6,6 +6,8 @@ import MasonryCardContainer from "@/components/MasonryCardContainer";
 import getLectures from "@/utils/getLectures";
 import Lecture from "./components/Lecture";
 import Message from "@/components/Message";
+import StructuredData from "../components/StructuredData";
+import buildCanonical from "@/utils/buildCanonical";
 
 interface Props {
   params: { subjectId: string };
@@ -17,9 +19,9 @@ export async function generateMetadata({
   const subject = await getSubject(+subjectId);
   if (!subject) return { robots: { index: false, follow: false } };
 
-  const faculty = `${subject.module.year.faculty.city} ${subject.module.year.faculty.name}`;
+  const faculty = `${subject.module.year.faculty.name} ${subject.module.year.faculty.city}`;
   const title = `${subject.module.name} ${subject.name} | ${faculty}`;
-  const description = "Medical lecture notes, links, and quizzes.";
+  const description = `Find all lectures for ${subject.module.name} ${subject.name} with resources, quizzes (MCQ and written), and notes. Tailored for students of ${faculty}.`;
 
   return {
     title,
@@ -34,6 +36,7 @@ export async function generateMetadata({
       title,
       description,
     },
+    ...buildCanonical(`/subjects/${subjectId}`),
   };
 }
 
@@ -83,6 +86,7 @@ export default async function LecturesPage({
           </MasonryCardContainer>
         )}
       </main>
+      <StructuredData subject={subject} lectures={lectures} />
     </>
   );
 }

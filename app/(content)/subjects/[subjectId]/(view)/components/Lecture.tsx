@@ -23,7 +23,7 @@ export default function Lecture({
       {type === "FinalRevision" && (
         <span className="text-white">{icons["book-open-large"]}</span>
       )}
-      <h2
+      <h3
         className={`line-clamp-2 group-hover:line-clamp-none max-[512px]:line-clamp-none ${
           type !== "Normal" ? "text-white" : ""
         }`}
@@ -33,7 +33,7 @@ export default function Lecture({
           : type === "FinalRevision"
           ? "Final Revision"
           : "Practical"}
-      </h2>
+      </h3>
       {type === "Normal" && (
         <time dateTime={new Date(date).toISOString()}>
           {new Date(date).toDateString()}

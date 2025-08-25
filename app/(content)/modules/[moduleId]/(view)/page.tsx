@@ -6,6 +6,8 @@ import getSubjects from "@/utils/getSubjects";
 import Path from "../components/Path";
 import getModule from "@/utils/getModule";
 import Message from "@/components/Message";
+import StructuredData from "../components/StructuredData";
+import buildCanonical from "@/utils/buildCanonical";
 
 type Props = { params: { moduleId: string } };
 
@@ -15,8 +17,9 @@ export async function generateMetadata({
   const myModule = await getModule(+moduleId);
   if (!myModule) return { robots: { index: false, follow: false } };
 
-  const title = `${myModule.name} | ${myModule.year.faculty.city} ${myModule.year.faculty.name}`;
-  const description = `List of subjects.`;
+  const faculty = `${myModule.year.faculty.name} ${myModule.year.faculty.city}`;
+  const title = `${myModule.name} | ${faculty}`;
+  const description = `Explore all subjects for ${myModule.name} with lectures, resources, quizzes (MCQ and written), and notes. Designed for students of ${faculty}.`;
 
   return {
     title,
@@ -31,6 +34,7 @@ export async function generateMetadata({
       title,
       description,
     },
+    ...buildCanonical(`/modules/${moduleId}`),
   };
 }
 
@@ -67,7 +71,7 @@ export default async function SubjectsPage({ params: { moduleId } }: Props) {
                   <span>
                     <Image src={icon} alt={name} width={48} height={48} />
                   </span>
-                  <h2>{name}</h2>
+                  <h3>{name}</h3>
                   <div className="flex gap-2 items-center absolute left-0 top-0 p-2 rounded-tl-xl rounded-br-xl bg-cyan-600 text-white font-bold text-sm">
                     {lectures}{" "}
                     <span className="hidden group-hover:inline">
@@ -80,6 +84,7 @@ export default async function SubjectsPage({ params: { moduleId } }: Props) {
           </ul>
         )}
       </main>
+      <StructuredData myModule={myModule} subjects={subjects} />
     </>
   );
 }

@@ -24,9 +24,9 @@ export default function ProfilePage() {
     <Layout title="Profile" border>
       <main className="main">
         <div className="max-w-md flex flex-col gap-4 items-start">
-          <h2>Settings</h2>
+          <h3>Settings</h3>
           <Settings />
-          <h2>Account</h2>
+          <h3>Account</h3>
           {isUserLoading || areFacultiesLoading ? (
             <p>Loading...</p>
           ) : userError || facultiesError ? (

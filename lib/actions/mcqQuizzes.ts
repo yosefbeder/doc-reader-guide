@@ -7,7 +7,7 @@ import { FormState } from "@/types";
 import getNumber from "@/utils/getNumber";
 import parseOptions from "@/utils/parseOptions";
 
-async function addMcqQuestions(
+export async function addMcqQuestions(
   quizId: number,
   questions: any[]
 ): Promise<{ totalCount: number; ok: boolean }> {

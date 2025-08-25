@@ -8,7 +8,13 @@ import ButtonDelete from "@/components/ButtonDelete";
 import { deleteLecture } from "@/lib/actions/lectures";
 import Message from "@/components/Message";
 
-export default function DeleteSpecial({ lectures }: { lectures: Lecture[] }) {
+export default function DeleteSpecial({
+  disabled,
+  lectures,
+}: {
+  disabled: boolean;
+  lectures: Lecture[];
+}) {
   const pdfr = useRef<HTMLFormElement>(null);
   const frdfr = useRef<HTMLFormElement>(null);
   const [pdfs, pdfa] = useFormState(deleteLecture, {});
@@ -16,7 +22,7 @@ export default function DeleteSpecial({ lectures }: { lectures: Lecture[] }) {
 
   return (
     <>
-      <h2 className="mb-4">DANGER ZONE</h2>
+      <h3 className="mb-4">DANGER ZONE</h3>
       <ul className="flex flex-col gap-4">
         {lectures.map((lecture) => (
           <li key={lecture.id}>
@@ -37,6 +43,7 @@ export default function DeleteSpecial({ lectures }: { lectures: Lecture[] }) {
                       </Message>
                     )}
                     <ButtonDelete
+                      disabled={disabled}
                       customLabel="Delete practical"
                       formRef={pdfr}
                       confirmationText={`PRACTICAL ${lecture.id}`}
@@ -59,6 +66,7 @@ export default function DeleteSpecial({ lectures }: { lectures: Lecture[] }) {
                       </Message>
                     )}
                     <ButtonDelete
+                      disabled={disabled}
                       customLabel="Delete final revision"
                       formRef={frdfr}
                       confirmationText={`FINAL REVISION ${lecture.id}`}

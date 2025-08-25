@@ -1,12 +1,13 @@
 "use client";
 
 import useSWR from "swr";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import Button from "@/components/Button";
 import User from "./components/User";
 import { User as UserType } from "@/types";
 import Searchbar from "@/components/Searchbar";
+import { useHotkeys } from "react-hotkeys-hook";
 
 const fetcher = (url: string) =>
   fetch(url, { credentials: "include" }).then((res) => res.json());
@@ -22,10 +23,22 @@ export default function UsersPage() {
     fetcher
   );
   const [pagesNumber, setPagesNumber] = useState(0);
+  const backPage = useCallback(() => {
+    if (page > 1) setPage((p) => p - 1);
+  }, [page]);
+  const nextPage = useCallback(() => {
+    if (page < pagesNumber) setPage((p) => p + 1);
+  }, [page]);
+  useHotkeys("left", backPage, [backPage]);
+  useHotkeys("right", nextPage, [nextPage]);
 
   useEffect(() => {
     if (data) setPagesNumber(Math.ceil(data.totalCount / pageSize));
   }, [data]);
+
+  useEffect(() => {
+    setPage(1);
+  }, [search]);
 
   if (error)
     return (
@@ -66,28 +79,25 @@ export default function UsersPage() {
 
       {data && (
         <div className="flex justify-between items-center mt-4">
-          <Button
-            onClick={() => setPage((p) => Math.max(p - 1, 1))}
-            disabled={page === 1}
-          >
+          <Button onClick={backPage} disabled={page === 1}>
             Previous
           </Button>
           <span className="text-base text-slate-500">
-            <select onChange={(e) => setPage(+e.target.value)} value={page}>
-              {Array.from({ length: Math.ceil(page / pageSize) }).map(
-                (_, index) => (
-                  <option key={index} value={index}>
-                    {index + 1}
-                  </option>
-                )
-              )}
+            <select
+              onChange={(e) => {
+                setPage(+e.target.value);
+              }}
+              value={page}
+            >
+              {Array.from({ length: pagesNumber }).map((_, index) => (
+                <option key={index} value={index + 1}>
+                  {index + 1}
+                </option>
+              ))}
             </select>{" "}
             / {pagesNumber}
           </span>
-          <Button
-            onClick={() => setPage((p) => p + 1)}
-            disabled={page === pagesNumber}
-          >
+          <Button onClick={nextPage} disabled={page === pagesNumber}>
             Next
           </Button>
         </div>

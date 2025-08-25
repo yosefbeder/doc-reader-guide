@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import NextLink from "next/link";
 import Image from "next/image";
 
@@ -23,12 +23,14 @@ export default function Quiz({
   updateable?: boolean;
   onUpdate?: () => void;
 }) {
-  const solved = useMemo(
-    () =>
-      JSON.parse(localStorage.getItem(`${type}-quiz-${quiz.id}`) || "{}")
-        ?.showingResults,
-    [quiz]
-  );
+  const [solved, setSolved] = useState(false);
+
+  useEffect(() => {
+    const stored = JSON.parse(
+      localStorage.getItem(`${type}-quiz-${quiz.id}`) || "{}"
+    )?.showingResults;
+    setSolved(stored);
+  }, []);
 
   return (
     <div className="flex items-center gap-2 floating">
@@ -40,7 +42,7 @@ export default function Quiz({
       >
         <span>{type === "mcq" ? icons["queue-list"] : icons["pencil"]}</span>
         <div>
-          <div className={solved && "line-through"}>{quiz.title}</div>
+          <div className={solved ? "line-through" : ""}>{quiz.title}</div>
           <div className="flex items-center gap-1 text-sm">
             <div className="text-slate-700">Presented by</div>
             <Image src={LogoImage} className="w-3" alt="Logo" />

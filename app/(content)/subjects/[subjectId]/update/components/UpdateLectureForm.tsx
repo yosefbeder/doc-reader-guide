@@ -5,16 +5,19 @@ import { useRef } from "react";
 
 import ButtonSubmit from "@/components/ButtonSubmit";
 import LectureFields from "./LectureFields";
-import { Lecture } from "@/types";
+import { Lecture, User } from "@/types";
 import { deleteLecture, updateLecture } from "@/lib/actions/lectures";
 import Message from "@/components/Message";
 import ButtonDelete from "@/components/ButtonDelete";
 import { useUpdateDeleteForms } from "@/lib/hooks";
+import notUpdateable from "@/utils/isUpdateable";
 
 export default function UpdateLectureForm({
+  user,
   subjectId,
   lecture,
 }: {
+  user: User;
   subjectId: number;
   lecture: Lecture;
 }) {
@@ -26,6 +29,7 @@ export default function UpdateLectureForm({
     updateFormState,
     deleteFormState
   );
+  const disabled = notUpdateable(user, lecture.creatorId);
 
   return (
     <div onClickCapture={() => setHideMessage(true)}>
@@ -46,7 +50,9 @@ export default function UpdateLectureForm({
       )}
       <div className="flex gap-2">
         <form action={updateFormAction} className="inline" id={updateFormId}>
-          <ButtonSubmit color="yellow">Update</ButtonSubmit>
+          <ButtonSubmit disabled={disabled} color="yellow">
+            Update
+          </ButtonSubmit>
         </form>
         <form action={deleteFormAction} className="inline" ref={formRef}>
           <input
@@ -57,6 +63,7 @@ export default function UpdateLectureForm({
             defaultValue={lecture.id}
           />
           <ButtonDelete
+            disabled={disabled}
             confirmationText={lecture.id.toString()}
             formRef={formRef}
           />

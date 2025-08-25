@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import {
   WrittenQuestion,
@@ -152,11 +152,23 @@ export default function QuestionsList({
     },
     [currentQuestion]
   );
-  const [factor, setFactor] = useState<number>();
+  const calcFactors = useCallback(
+    () =>
+      orderedQuestions.map((question) =>
+        question.image ? calcFactor(question.width!) : null
+      ),
+    [orderedQuestions]
+  );
+  const [factors, setFactors] = useState(calcFactors());
+  useEffect(() => {
+    const adjustImages = () => setFactors(calcFactors());
+    window.addEventListener("resize", adjustImages);
+    return () => window.removeEventListener("resize", adjustImages);
+  }, [calcFactors]);
 
   const resetAnswers = useCallback(() => {
     const temp = { tapes: new Map(), subQuestions: new Map() };
-    questions.forEach((question) => {
+    orderedQuestions.forEach((question) => {
       question.tapes.forEach(({ id }) =>
         temp.tapes.set(id, QuestionState.UNANSWERED)
       );
@@ -165,16 +177,7 @@ export default function QuestionsList({
       );
     });
     setAnswers(temp);
-  }, [questions]);
-
-  useEffect(() => {
-    if (!orderedQuestions[currentIndex].image) return;
-    const adjustImage = () =>
-      setFactor(calcFactor(orderedQuestions[currentIndex].width!));
-    adjustImage();
-    window.addEventListener("resize", adjustImage);
-    return () => window?.removeEventListener("resize", adjustImage);
-  }, [currentQuestion]);
+  }, [orderedQuestions]);
 
   if (!isLoaded) return;
 
@@ -199,134 +202,149 @@ export default function QuestionsList({
       currentIndex={currentIndex}
       {...rest}
     >
-      {orderedQuestions[currentIndex].image && factor && (
-        <div className="relative">
-          <img
-            key={currentQuestion}
-            src={`${process.env.NEXT_PUBLIC_STATIC_URL}/image/${orderedQuestions[currentIndex].image}`}
-            width={orderedQuestions[currentIndex].width! * factor}
-            height={orderedQuestions[currentIndex].height! * factor}
-            alt="Question"
-            loading="eager"
-          />
-          {orderedQuestions[currentIndex].masks.map(({ id, x, y, w, h }) => (
-            <div
-              key={"mask-" + id}
-              style={{
-                position: "absolute",
-                left: x * factor,
-                top: y * factor,
-                width: w * factor,
-                height: h * factor,
-                background: "white",
-                border: "2px solid black",
-              }}
-            ></div>
-          ))}
-          {orderedQuestions[currentIndex].tapes.map(({ id, x, y, w, h }) => {
-            const questionState = answers.tapes.get(id)!;
-            const dialoguePosition =
-              x * factor + 80 > orderedQuestions[currentIndex].width! * factor
-                ? { right: 0 }
-                : { left: x * factor };
-            return (
-              <>
-                {questionState === QuestionState.UNSELECTED && (
-                  <SelectAnswerDialogue
-                    key={"dialogue-" + id}
+      {orderedQuestions.map((question, index) => {
+        const factor = factors[index];
+        return (
+          <div
+            key={`written-question-${question.id}`}
+            className={currentQuestion === question.id ? "" : "hidden"}
+          >
+            {question.image && factor && (
+              <div className="relative">
+                <img
+                  src={`${process.env.NEXT_PUBLIC_STATIC_URL}/image/${question.image}`}
+                  width={question.width! * factor}
+                  height={question.height! * factor}
+                  alt="Question"
+                  loading="eager"
+                />
+                {question.masks.map(({ id, x, y, w, h }) => (
+                  <div
+                    key={`written-question-${question.id}-mask-${id}`}
                     style={{
                       position: "absolute",
-                      zIndex: 10,
-                      top: y * factor - 30,
-                      ...dialoguePosition,
+                      left: x * factor,
+                      top: y * factor,
+                      width: w * factor,
+                      height: h * factor,
+                      background: "white",
+                      border: "2px solid black",
                     }}
-                    onTrue={() => {
-                      updateTapeState(id, QuestionState.TRUE);
-                      if (settings.sounds) playCorrect();
-                    }}
-                    onFalse={() => {
-                      updateTapeState(id, QuestionState.FALSE);
-                      if (settings.sounds) playIncorrect();
-                    }}
-                  />
-                )}
-                <button
-                  className={`border-2 ${border.get(questionState)} ${
-                    questionState === QuestionState.UNANSWERED &&
-                    "bg-yellow-200"
-                  }`}
-                  key={"tape-" + id}
-                  style={{
-                    position: "absolute",
-                    left: x * factor,
-                    top: y * factor,
-                    width: w * factor,
-                    height: h * factor,
-                  }}
-                  onClick={() => {
-                    if (answers.tapes.get(id) === QuestionState.UNANSWERED) {
-                      updateTapeState(id, QuestionState.UNSELECTED);
-                      if (settings.sounds) playClick();
-                    }
-                  }}
-                ></button>
-              </>
-            );
-          })}
-        </div>
-      )}
-      <ol className="flex flex-col gap-4">
-        {orderedQuestions[currentIndex].subQuestions.map(
-          ({ id, text, answer }, index) => {
-            const questionState = answers.subQuestions.get(id)!;
-            return (
-              <li key={`question-${id}`} className="flex flex-col gap-4">
-                <p className="font-bold">
-                  {orderedQuestions[currentIndex].subQuestions.length > 1
-                    ? `${index + 1}. ${text}`
-                    : text}
-                </p>
-                {questionState === QuestionState.UNSELECTED && (
-                  <SelectAnswerDialogue
-                    onTrue={() => {
-                      updateWrittenQuestionState(id, QuestionState.TRUE);
-                      if (settings.sounds) playCorrect();
-                    }}
-                    onFalse={() => {
-                      updateWrittenQuestionState(id, QuestionState.FALSE);
-                      if (settings.sounds) playIncorrect();
-                    }}
-                  />
-                )}
-                {questionState !== QuestionState.UNANSWERED ? (
-                  <>
-                    {[QuestionState.TRUE, QuestionState.FALSE].includes(
-                      questionState
-                    ) && (
-                      <Message
-                        type={subQuestionMessageType.get(questionState)!}
-                      >
-                        {subQuestionText.get(questionState)}
-                      </Message>
-                    )}
-                    <HtmlContentClient html={answer} />
-                  </>
-                ) : (
-                  <button
-                    className="font-bold text-cyan-600 self-start"
-                    onClick={() => {
-                      updateWrittenQuestionState(id, QuestionState.UNSELECTED);
-                      if (settings.sounds) playClick();
-                    }}
+                  ></div>
+                ))}
+                {question.tapes.map(({ id, x, y, w, h }) => {
+                  const questionState = answers.tapes.get(id)!;
+                  const dialoguePosition =
+                    x * factor + 80 > question.width! * factor
+                      ? { right: 0 }
+                      : { left: x * factor };
+                  return (
+                    <React.Fragment
+                      key={`written-question-${question.id}-tape-${id}`}
+                    >
+                      {questionState === QuestionState.UNSELECTED && (
+                        <SelectAnswerDialogue
+                          style={{
+                            position: "absolute",
+                            zIndex: 10,
+                            top: y * factor - 30,
+                            ...dialoguePosition,
+                          }}
+                          onTrue={() => {
+                            updateTapeState(id, QuestionState.TRUE);
+                            if (settings.sounds) playCorrect();
+                          }}
+                          onFalse={() => {
+                            updateTapeState(id, QuestionState.FALSE);
+                            if (settings.sounds) playIncorrect();
+                          }}
+                        />
+                      )}
+                      <button
+                        className={`border-2 ${border.get(questionState)} ${
+                          questionState === QuestionState.UNANSWERED &&
+                          "bg-yellow-200"
+                        }`}
+                        style={{
+                          position: "absolute",
+                          left: x * factor,
+                          top: y * factor,
+                          width: w * factor,
+                          height: h * factor,
+                        }}
+                        onClick={() => {
+                          if (
+                            answers.tapes.get(id) === QuestionState.UNANSWERED
+                          ) {
+                            updateTapeState(id, QuestionState.UNSELECTED);
+                            if (settings.sounds) playClick();
+                          }
+                        }}
+                      ></button>
+                    </React.Fragment>
+                  );
+                })}
+              </div>
+            )}
+            <ol className="flex flex-col gap-4">
+              {question.subQuestions.map(({ id, text, answer }, index) => {
+                const questionState = answers.subQuestions.get(id)!;
+                return (
+                  <li
+                    key={`written-question-${question.id}-sub-question-${id}`}
+                    className="flex flex-col gap-4"
                   >
-                    [...]
-                  </button>
-                )}
-              </li>
-            );
-          }
-        )}
-      </ol>
+                    <p className="font-bold">
+                      {question.subQuestions.length > 1
+                        ? `${index + 1}. ${text}`
+                        : text}
+                    </p>
+                    {questionState === QuestionState.UNSELECTED && (
+                      <SelectAnswerDialogue
+                        onTrue={() => {
+                          updateWrittenQuestionState(id, QuestionState.TRUE);
+                          if (settings.sounds) playCorrect();
+                        }}
+                        onFalse={() => {
+                          updateWrittenQuestionState(id, QuestionState.FALSE);
+                          if (settings.sounds) playIncorrect();
+                        }}
+                      />
+                    )}
+                    {questionState !== QuestionState.UNANSWERED ? (
+                      <>
+                        {[QuestionState.TRUE, QuestionState.FALSE].includes(
+                          questionState
+                        ) && (
+                          <Message
+                            type={subQuestionMessageType.get(questionState)!}
+                          >
+                            {subQuestionText.get(questionState)}
+                          </Message>
+                        )}
+                        <HtmlContentClient html={answer} />
+                      </>
+                    ) : (
+                      <button
+                        className="font-bold text-cyan-600 self-start"
+                        onClick={() => {
+                          updateWrittenQuestionState(
+                            id,
+                            QuestionState.UNSELECTED
+                          );
+                          if (settings.sounds) playClick();
+                        }}
+                      >
+                        [...]
+                      </button>
+                    )}
+                  </li>
+                );
+              })}
+            </ol>
+          </div>
+        );
+      })}
     </QuestionWrapper>
   );
 }

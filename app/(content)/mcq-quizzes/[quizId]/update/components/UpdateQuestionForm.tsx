@@ -7,15 +7,18 @@ import QuestionFields from "./QuestionFields";
 import { deleteQuestion, updateQuestion } from "@/lib/actions/mcqQuizzes";
 import Message from "@/components/Message";
 import ButtonSubmit from "@/components/ButtonSubmit";
-import { McqQuestion } from "@/types";
+import { McqQuestion, User } from "@/types";
 import ButtonDelete from "@/components/ButtonDelete";
 import ButtonCopy from "./ButtonCopy";
 import { useUpdateDeleteForms } from "@/lib/hooks";
+import notUpdateable from "@/utils/isUpdateable";
 
 export default function UpdateQuestionForm({
+  user,
   question,
   quizId,
 }: {
+  user: User;
   question: McqQuestion;
   quizId: number;
 }) {
@@ -27,6 +30,7 @@ export default function UpdateQuestionForm({
     updateFormState,
     deleteFormState
   );
+  const disabled = notUpdateable(user, question.creatorId);
 
   return (
     <div className="floating" onClickCapture={() => setHideMessage(true)}>
@@ -47,7 +51,9 @@ export default function UpdateQuestionForm({
       )}
       <div className="flex gap-2">
         <form action={updateFormAction} className="inline" id={updateFormId}>
-          <ButtonSubmit color="yellow">Update</ButtonSubmit>
+          <ButtonSubmit disabled={disabled} color="yellow">
+            Update
+          </ButtonSubmit>
         </form>
         <form action={deleteFormAction} className="inline" ref={formRef}>
           <input
@@ -58,6 +64,7 @@ export default function UpdateQuestionForm({
             defaultValue={question.id}
           />
           <ButtonDelete
+            disabled={disabled}
             confirmationText={question.id.toString()}
             formRef={formRef}
           />

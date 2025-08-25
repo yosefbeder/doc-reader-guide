@@ -24,7 +24,7 @@ export default function Path({
         >
           {moduleName}
         </Link>{" "}
-        → {name}
+        → <h1 className="inline-block">{name}</h1>
       </BasePath>
       <Script
         id="breadcrumb-jsonld-subject"
@@ -38,6 +38,7 @@ export default function Path({
                 "@type": "ListItem",
                 position: 1,
                 name: `Semester ${semesterName}`,
+                item: process.env.NEXT_PUBLIC_FRONTEND_URL,
               },
               {
                 "@type": "ListItem",

@@ -8,8 +8,11 @@ export default function Path({ myModule }: { myModule: Module }) {
   return (
     <>
       <BasePath>
-        {myModule.semesterName}
-        <sup>{getPrefix(myModule.semesterName)}</sup> Semester → {myModule.name}
+        <h1>
+          {myModule.semesterName}
+          <sup>{getPrefix(myModule.semesterName)}</sup> Semester →{" "}
+          {myModule.name}
+        </h1>
       </BasePath>
       <Script
         id="breadcrumb-jsonld-module"
@@ -23,6 +26,7 @@ export default function Path({ myModule }: { myModule: Module }) {
                 "@type": "ListItem",
                 position: 1,
                 name: `Semester ${myModule.semesterName}`,
+                item: process.env.NEXT_PUBLIC_FRONTEND_URL,
               },
               {
                 "@type": "ListItem",

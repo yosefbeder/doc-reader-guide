@@ -1,9 +1,12 @@
 import { Metadata } from "next";
+import Script from "next/script";
 
 import getLecture from "@/utils/getLecture";
 import LinksList from "../components/LinksList";
 import Path from "../components/Path";
 import HtmlContentServer from "@/components/HtmlContentServer";
+import StructuredData from "../components/StructuredData";
+import buildCanonical from "@/utils/buildCanonical";
 
 function stripHtml(html: string): string {
   return html.replace(/<[^>]*>?/gm, ""); // removes all tags
@@ -19,20 +22,17 @@ export async function generateMetadata({
   const lecture = await getLecture(+lectureId);
   if (!lecture) return { robots: { index: false, follow: false } };
 
-  const faculty = `${lecture.subject.module.year.faculty.city} ${lecture.subject.module.year.faculty.name}`;
-  const title = `${
+  const faculty = `${lecture.subject.module.year.faculty.name} ${lecture.subject.module.year.faculty.city}`;
+  const start =
     lecture.type === "Normal"
       ? lecture.title
       : `${lecture.subject.module.name} ${lecture.subject.name} ${
           lecture.type === "FinalRevision" ? "Final Revision" : "Practical"
-        }`
-  } | ${faculty}`;
-  const rawNote = lecture.note || "";
-  const plainText = stripHtml(rawNote).trim();
-  const description =
-    plainText.length > 0
-      ? plainText.slice(0, 160)
-      : "Medical lecture notes, links, and quizzes.";
+        }`;
+  let title;
+  if (start.length > 35) title = start;
+  else title = `${start} | ${faculty}`;
+  const description = `Access lecture notes, resources, and quizzes (MCQ and written) for ${start}, part of ${faculty} curriculum.`;
 
   return {
     title,
@@ -47,6 +47,7 @@ export async function generateMetadata({
       title,
       description,
     },
+    ...buildCanonical(`/lectures/${lectureId}`),
   };
 }
 
@@ -58,9 +59,11 @@ export default async function LinksPage({ params: { lectureId } }: Props) {
       <Path lecture={lecture} />
       <main className="main flex max-md:flex-col-reverse gap-4">
         <LinksList
-          links={lecture.links}
-          mcqQuizzes={lecture.mcqQuizzes}
-          writtenQuizzes={lecture.writtenQuizzes}
+          links={lecture.links.toSorted((a, b) => a.id - b.id)}
+          mcqQuizzes={lecture.mcqQuizzes.toSorted((a, b) => a.id - b.id)}
+          writtenQuizzes={lecture.writtenQuizzes.toSorted(
+            (a, b) => a.id - b.id
+          )}
         />
         {lecture.note && lecture.note !== "<p><br></p>" && (
           <HtmlContentServer
@@ -69,6 +72,7 @@ export default async function LinksPage({ params: { lectureId } }: Props) {
           />
         )}
       </main>
+      <StructuredData lecture={lecture} />
     </>
   );
 }

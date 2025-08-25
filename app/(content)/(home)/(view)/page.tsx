@@ -208,7 +208,7 @@ export default function ModulesPage() {
                         <span>
                           <Image src={icon} alt={name} width={48} height={48} />
                         </span>
-                        <h2>{name}</h2>
+                        <h3>{name}</h3>
                       </Link>
                     </li>
                   ))}

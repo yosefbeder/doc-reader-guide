@@ -6,15 +6,18 @@ import { useFormState } from "react-dom";
 import ButtonDelete from "@/components/ButtonDelete";
 import ButtonSubmit from "@/components/ButtonSubmit";
 import Message from "@/components/Message";
-import { WrittenQuestion } from "@/types";
+import { User, WrittenQuestion } from "@/types";
 import QuestionFields from "./QuestionFields";
 import { useUpdateDeleteForms } from "@/lib/hooks";
 import { updateQuestion, deleteQuestion } from "@/lib/actions/writtenQuizzes";
+import notUpdateable from "@/utils/isUpdateable";
 
 export default function UpdateQuestionForm({
+  user,
   quizId,
   question,
 }: {
+  user: User;
   quizId: number;
   question: WrittenQuestion;
 }) {
@@ -26,6 +29,7 @@ export default function UpdateQuestionForm({
     updateFormState,
     deleteFormState
   );
+  const disabled = notUpdateable(user, question.creatorId);
 
   useEffect(() => {
     if (updateFormState.type === "success") {
@@ -84,7 +88,9 @@ export default function UpdateQuestionForm({
       )}
       <div className="flex gap-2">
         <form action={updateFormAction} className="inline" id={updateFormId}>
-          <ButtonSubmit color="yellow">Update</ButtonSubmit>
+          <ButtonSubmit disabled={disabled} color="yellow">
+            Update
+          </ButtonSubmit>
         </form>
         <form action={deleteFormAction} className="inline" ref={formRef}>
           <input
@@ -95,6 +101,7 @@ export default function UpdateQuestionForm({
             defaultValue={question.id}
           />
           <ButtonDelete
+            disabled={disabled}
             confirmationText={question.id.toString()}
             formRef={formRef}
           />

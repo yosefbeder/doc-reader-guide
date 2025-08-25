@@ -8,6 +8,7 @@ import McqTemplates from "@/components/McqTemplates";
 import AddMcqQuizForm from "./AddMcqQuizForm";
 import AddWrittenQuizForm from "./AddWrittenQuizForm";
 import WrittenTemplates from "@/components/WrittenTemplates";
+import ImportSourcesForm from "./ImportSourcesForm";
 
 export default function AddSection({ lectureId }: { lectureId: number }) {
   const [openSection, setOpenSection] = useState<string | undefined>();
@@ -64,6 +65,19 @@ export default function AddSection({ lectureId }: { lectureId: number }) {
               <h3>Form</h3>
               <AddWrittenQuizForm lectureId={lectureId} />
             </div>
+          </div>
+        </SummaryDetail.Detail>
+      </SummaryDetail>
+      <SummaryDetail
+        open={openSection === "import"}
+        toggle={() =>
+          setOpenSection((prev) => (prev === "import" ? undefined : "import"))
+        }
+      >
+        <SummaryDetail.Summary>Import</SummaryDetail.Summary>
+        <SummaryDetail.Detail>
+          <div className="p-2">
+            <ImportSourcesForm lectureId={lectureId} />
           </div>
         </SummaryDetail.Detail>
       </SummaryDetail>

@@ -19,7 +19,7 @@ export default async function UpdateModulesPage() {
         </li>
         {modules.map((myModule) => (
           <li key={myModule.id}>
-            <UpdateModuleForm myModule={myModule} />
+            <UpdateModuleForm user={user} myModule={myModule} />
           </li>
         ))}
       </ul>
