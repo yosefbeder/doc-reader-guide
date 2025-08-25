@@ -5,6 +5,7 @@ import { getMcqQuiz } from "@/utils/getQuizServer";
 import QuestionsList from "./components/QuestionsList";
 import Message from "@/components/Message";
 import QuizStructuredData from "@/components/QuizStructuredData";
+import buildCanonical from "@/utils/buildCanonical";
 
 type Props = { params: { quizId: string } };
 
@@ -41,6 +42,7 @@ export async function generateMetadata({
       title,
       description,
     },
+    ...buildCanonical(`/mcq-quizzes/${quizId}`),
   };
 }
 
