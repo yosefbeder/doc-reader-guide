@@ -86,6 +86,8 @@ export async function addQuiz(
     };
   }
 
+  console.log(json1);
+
   // Step 2: add questions
   const { successCount, failCount } = await addWrittenQuestions(
     json1.data.writtenQuiz.id,
