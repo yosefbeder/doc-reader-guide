@@ -7,6 +7,7 @@ import Path from "../components/Path";
 import getModule from "@/utils/getModule";
 import Message from "@/components/Message";
 import StructuredData from "../components/StructuredData";
+import buildCanonical from "@/utils/buildCanonical";
 
 type Props = { params: { moduleId: string } };
 
@@ -33,6 +34,7 @@ export async function generateMetadata({
       title,
       description,
     },
+    ...buildCanonical(`/modules/${moduleId}`),
   };
 }
 

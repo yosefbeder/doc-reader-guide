@@ -6,6 +6,7 @@ import LinksList from "../components/LinksList";
 import Path from "../components/Path";
 import HtmlContentServer from "@/components/HtmlContentServer";
 import StructuredData from "../components/StructuredData";
+import buildCanonical from "@/utils/buildCanonical";
 
 function stripHtml(html: string): string {
   return html.replace(/<[^>]*>?/gm, ""); // removes all tags
@@ -46,6 +47,7 @@ export async function generateMetadata({
       title,
       description,
     },
+    ...buildCanonical(`/lectures/${lectureId}`),
   };
 }
 

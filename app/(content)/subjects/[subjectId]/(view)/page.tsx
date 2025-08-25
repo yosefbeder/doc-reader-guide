@@ -7,6 +7,7 @@ import getLectures from "@/utils/getLectures";
 import Lecture from "./components/Lecture";
 import Message from "@/components/Message";
 import StructuredData from "../components/StructuredData";
+import buildCanonical from "@/utils/buildCanonical";
 
 interface Props {
   params: { subjectId: string };
@@ -35,6 +36,7 @@ export async function generateMetadata({
       title,
       description,
     },
+    ...buildCanonical(`/subjects/${subjectId}`),
   };
 }
 
