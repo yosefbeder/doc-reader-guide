@@ -25,14 +25,7 @@ export default function Path({ myModule }: { myModule: Module }) {
               {
                 "@type": "ListItem",
                 position: 1,
-                name: `Semester ${myModule.semesterName}`,
-                item: process.env.NEXT_PUBLIC_FRONTEND_URL,
-              },
-              {
-                "@type": "ListItem",
-                position: 2,
                 name: myModule.name,
-                // current page → no "item"
               },
             ],
           }),
