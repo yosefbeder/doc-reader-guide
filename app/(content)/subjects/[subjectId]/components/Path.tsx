@@ -37,18 +37,12 @@ export default function Path({
               {
                 "@type": "ListItem",
                 position: 1,
-                name: `Semester ${semesterName}`,
-                item: process.env.NEXT_PUBLIC_FRONTEND_URL,
-              },
-              {
-                "@type": "ListItem",
-                position: 2,
                 name: moduleName,
                 item: `${process.env.NEXT_PUBLIC_FRONTEND_URL}/modules/${moduleId}`,
               },
               {
                 "@type": "ListItem",
-                position: 3,
+                position: 2,
                 name: name,
               },
             ],
