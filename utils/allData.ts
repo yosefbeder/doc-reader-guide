@@ -8,7 +8,7 @@ async function fetchWithAuth<T>(endpoint: string): Promise<T> {
     throw new Error("Missing NEXT_PUBLIC_API_URL or NEXT_PUBLIC_JWT");
   }
 
-  const res = await fetch(`${API_URL}${endpoint}`, {
+  const res = await fetch(`${API_URL}${endpoint}?fields=id,updatedAt`, {
     headers: {
       Authorization: `Bearer ${JWT}`,
       "Content-Type": "application/json",
