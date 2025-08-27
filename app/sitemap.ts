@@ -15,7 +15,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   modules.forEach((m) => {
     urls.push({
       url: `${origin}/modules/${m.id}`,
-      changeFrequency: "yearly",
       lastModified: m.updatedAt,
       priority: 0.6,
     });
@@ -25,7 +24,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   subjects.forEach((s) => {
     urls.push({
       url: `${origin}/subjects/${s.id}`,
-      changeFrequency: "yearly",
       lastModified: s.updatedAt,
       priority: 0.7,
     });
@@ -35,7 +33,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   lectures.forEach((l) => {
     urls.push({
       url: `${origin}/lectures/${l.id}`,
-      changeFrequency: "weekly",
       lastModified: l.updatedAt,
       priority: 0.9,
     });
@@ -45,7 +42,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   mcq.forEach((q) => {
     urls.push({
       url: `${origin}/mcq-quizzes/${q.id}`,
-      changeFrequency: "weekly",
       lastModified: q.updatedAt,
       priority: 0.8,
     });
@@ -55,7 +51,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   written.forEach((q) => {
     urls.push({
       url: `${origin}/written-quizzes/${q.id}`,
-      changeFrequency: "weekly",
       lastModified: q.updatedAt,
       priority: 0.8,
     });
@@ -64,7 +59,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Optional: include /android landing page
   urls.push({
     url: `${origin}/android`,
-    changeFrequency: "yearly",
     priority: 1,
   });
 
