@@ -158,7 +158,15 @@ export default function LinksList({
             }
           >
             <SummaryDetail.Summary>
-              {category === "Data" ? "External" : category}
+              <span>{category === "Data" ? "External" : category}</span>
+              <span className="text-sm">
+                (
+                {categoryLinks.length +
+                  (category === "Questions"
+                    ? mcqQuizzes.length + writtenQuizzes.length
+                    : 0)}
+                )
+              </span>
             </SummaryDetail.Summary>
 
             <SummaryDetail.Detail>
