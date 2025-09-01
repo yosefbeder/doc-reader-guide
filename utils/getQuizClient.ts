@@ -23,7 +23,7 @@ export async function getMcqQuiz(quizId: number): Promise<McqQuiz> {
   }
   const json = await res.json();
   if (!res.ok) throw new Error(json.message);
-  return json.data;
+  return json.data.mcqQuiz;
 }
 
 export async function getWrittenQuiz(quizId: number): Promise<WrittenQuiz> {
@@ -48,5 +48,5 @@ export async function getWrittenQuiz(quizId: number): Promise<WrittenQuiz> {
   }
   const json = await res.json();
   if (!res.ok) throw new Error(json.message);
-  return json.data;
+  return json.data.writtenQuiz;
 }
