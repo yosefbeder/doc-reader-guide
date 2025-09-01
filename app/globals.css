@@ -79,15 +79,15 @@
     display: none;
   }
 
-  .nav-link {
-    @apply p-2 rounded-md border-slate-700 flex items-center gap-2 no-underline text-inherit hover:text-inherit active:text-inherit transition-colors;
+  .radio {
+    @apply rounded-md transition-colors;
   }
 
-  .nav-link.selected {
+  .radio.selected {
     @apply bg-slate-100;
   }
 
-  .nav-link.normal {
+  .radio.normal {
     @apply hover:bg-slate-50 active:bg-slate-100;
   }
 

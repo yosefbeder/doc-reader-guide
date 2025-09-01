@@ -152,7 +152,7 @@ export default function ModulesPage() {
             )
           }
         >
-          <SummaryDetail.Summary>In-progress Quizzes</SummaryDetail.Summary>
+          <SummaryDetail.Summary>In-Progress Quizzes</SummaryDetail.Summary>
           <SummaryDetail.Detail>
             <ul className="flex flex-col gap-2 p-2">
               {mcqQuizzes.map(([_, value]) => {

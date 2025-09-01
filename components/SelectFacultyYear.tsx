@@ -51,7 +51,7 @@ export default function SelectFacultyYear({
       />
       <Select
         label="Year"
-        icon="calendar"
+        icon="calendar-outline"
         options={getFaculty(faculties, facultyId).years.map(
           ({ title, id }) => ({
             label: title,
