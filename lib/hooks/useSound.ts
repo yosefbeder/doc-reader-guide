@@ -1,19 +1,12 @@
-import { useEffect } from "react";
-
-declare global {
-  interface Window {
-    lowLag: any;
-  }
-}
+import { Howl } from "howler";
 
 export function useSound(url: string) {
-  useEffect(() => {
-    if (!window.lowLag) return;
-    window.lowLag.init({ forceAudio: "audioTag" });
-    window.lowLag.load(url, url);
-  }, [url]);
+  const sound = new Howl({
+    src: [url],
+    html5: false,
+  });
 
   return () => {
-    window.lowLag?.play(url);
+    sound.play();
   };
 }
