@@ -47,7 +47,7 @@ export default function NavUser({ updateable }: { updateable?: boolean }) {
         <>
           {updateable && (
             <button
-              className={`nav-link ${
+              className={`radio p-2 ${
                 pathname.endsWith("/update") ? "selected" : "normal"
               }`}
               onClick={() => {
@@ -65,7 +65,9 @@ export default function NavUser({ updateable }: { updateable?: boolean }) {
           )}
           <Notifications yearId={user.yearId} />
           {user.roleId === 0 && (
-            <NavLink href="/users">{icons["user-group"]}</NavLink>
+            <NavLink href="/users" className="p-2">
+              {icons["user-group"]}
+            </NavLink>
           )}
         </>
       )}

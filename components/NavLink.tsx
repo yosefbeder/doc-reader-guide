@@ -15,7 +15,7 @@ export default function NavLink({
   return (
     <Link
       href={href}
-      className={`nav-link ${
+      className={`radio ${
         pathname.startsWith(href) ? "selected" : "normal"
       } ${className}`}
       {...props}

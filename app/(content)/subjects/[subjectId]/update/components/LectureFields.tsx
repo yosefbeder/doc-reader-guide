@@ -35,7 +35,7 @@ export default function LectureFields({
       />
       <Input
         label="Date"
-        icon="calendar"
+        icon="calendar-outline"
         type="date"
         name="date"
         id={`lecture-${defaultValues?.id || "new"}-date`}
