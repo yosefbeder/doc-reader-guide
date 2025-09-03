@@ -28,7 +28,7 @@ export default function UsersPage() {
   }, [page]);
   const nextPage = useCallback(() => {
     if (page < pagesNumber) setPage((p) => p + 1);
-  }, [page]);
+  }, [page, pagesNumber]);
   useHotkeys("left", backPage, [backPage]);
   useHotkeys("right", nextPage, [nextPage]);
 
@@ -54,6 +54,7 @@ export default function UsersPage() {
         value={search}
         onChange={(e) => setSearch(e.target.value)}
         className="mb-4"
+        autoFocus={false}
       />
 
       {isLoading ? (
