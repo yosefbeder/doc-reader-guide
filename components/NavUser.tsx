@@ -3,13 +3,13 @@
 import useSWR from "swr";
 import { usePathname, useRouter } from "next/navigation";
 import NextLink from "next/link";
-import Cookies from "js-cookie";
 
 import Search from "./Search";
 import NavLink from "./NavLink";
 import getUser from "@/utils/getUserClient";
 import { icons } from "./icons";
 import Notifications from "./Notifications";
+import { useLogout } from "@/lib/hooks";
 
 export default function NavUser({ updateable }: { updateable?: boolean }) {
   const {
@@ -19,6 +19,9 @@ export default function NavUser({ updateable }: { updateable?: boolean }) {
   } = useSWR("user", async () => await getUser());
   const router = useRouter();
   const pathname = usePathname();
+  const logout = useLogout();
+
+  if (error?.status === 401) logout();
 
   return (
     <div className="flex items-center gap-2">
