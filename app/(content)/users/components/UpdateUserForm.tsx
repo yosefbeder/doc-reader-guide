@@ -66,6 +66,7 @@ export default function UpdateUserForm({
         name="role-id"
         id={`user-${user.id}-role-id`}
         options={ROLES.map((role, index) => ({ label: role, value: index }))}
+        disabled={user.roleId === 0}
         required
         value={roleId}
         onChange={(e) => setRoleId(Number(e.target.value))}
@@ -84,7 +85,12 @@ export default function UpdateUserForm({
       )}
       <div className="flex gap-2">
         <form action={updateFormAction} className="inline" id={updateFormId}>
-          <ButtonSubmit color="yellow">Update</ButtonSubmit>
+          <ButtonSubmit
+            color="yellow"
+            disabled={user.roleId === 0 || roleId === 0}
+          >
+            Update
+          </ButtonSubmit>
         </form>
         <form action={deleteFormAction} className="inline" ref={formRef}>
           <input
@@ -96,6 +102,7 @@ export default function UpdateUserForm({
           <ButtonDelete
             confirmationText={user.id.toString()}
             formRef={formRef}
+            disabled={user.roleId === 0}
           />
         </form>
       </div>
