@@ -55,7 +55,7 @@ export default function ModulesPage() {
     () =>
       Array.from(
         new Set(data?.modules.map((module) => module.semesterName))
-      ).sort(),
+      ).toSorted(),
     [data]
   );
   const [selectedSection, setSelectedSection] = useState<string>();

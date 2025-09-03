@@ -1,8 +1,8 @@
-import { Module } from "@/types";
+import { DatabaseTable, Module } from "@/types";
 
 export default async function getModules(yearId: number): Promise<Module[]> {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/years/${yearId}/modules`,
+    `${process.env.NEXT_PUBLIC_API_URL}/years/${yearId}/modules?sort=createdAt`,
     { credentials: "include" }
   );
   const json = await res.json();

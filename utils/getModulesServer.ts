@@ -1,9 +1,9 @@
-import { Module } from "@/types";
+import { DatabaseTable, Module } from "@/types";
 import { cookies } from "next/headers";
 
 export default async function getModules(yearId: number): Promise<Module[]> {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/years/${yearId}/modules`,
+    `${process.env.NEXT_PUBLIC_API_URL}/years/${yearId}/modules?sort=createdAt`,
     {
       headers: {
         "Content-Type": "application/json",

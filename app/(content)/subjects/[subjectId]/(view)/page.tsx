@@ -8,6 +8,7 @@ import Lecture from "./components/Lecture";
 import Message from "@/components/Message";
 import StructuredData from "../components/StructuredData";
 import buildCanonical from "@/utils/buildCanonical";
+import { listSubjects } from "@/utils/allData";
 
 interface Props {
   params: { subjectId: string };
@@ -41,14 +42,8 @@ export async function generateMetadata({
 }
 
 export async function generateStaticParams() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/subjects`, {
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${process.env.NEXT_PUBLIC_JWT}`,
-    },
-  });
-  const json = await res.json();
-  return json.data.subjects.map(({ id }: { id: number }) => ({
+  const subjects = await listSubjects();
+  return subjects.map(({ id }: { id: number }) => ({
     subjectId: id.toString(),
   }));
 }
