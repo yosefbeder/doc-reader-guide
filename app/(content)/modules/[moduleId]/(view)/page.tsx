@@ -8,6 +8,7 @@ import getModule from "@/utils/getModule";
 import Message from "@/components/Message";
 import StructuredData from "../components/StructuredData";
 import buildCanonical from "@/utils/buildCanonical";
+import { listModules } from "@/utils/allData";
 
 type Props = { params: { moduleId: string } };
 
@@ -39,14 +40,8 @@ export async function generateMetadata({
 }
 
 export async function generateStaticParams() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/modules`, {
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${process.env.NEXT_PUBLIC_JWT}`,
-    },
-  });
-  const json = await res.json();
-  return json.data.modules.map(({ id }: { id: number }) => ({
+  const modules = await listModules();
+  return modules.map(({ id }: { id: number }) => ({
     moduleId: id.toString(),
   }));
 }
