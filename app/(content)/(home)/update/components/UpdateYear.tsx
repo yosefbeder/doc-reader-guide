@@ -10,6 +10,7 @@ import { updateYear } from "@/lib/actions/years";
 import useUpdateForm from "@/lib/hooks/useUpdateForm";
 import getPrefix from "@/utils/getPrefix";
 import { User, Module } from "@/types";
+import notUpdateable from "@/utils/isUpdateable";
 
 export default function UpdateYear({
   user,
@@ -57,7 +58,11 @@ export default function UpdateYear({
       {formState.message && formState.type && !hideMessage && (
         <Message type={formState.type}>{formState.message}</Message>
       )}
-      <ButtonSubmit className="self-start" color="yellow">
+      <ButtonSubmit
+        disabled={user.roleId > 1}
+        className="self-start"
+        color="yellow"
+      >
         Update
       </ButtonSubmit>
     </form>

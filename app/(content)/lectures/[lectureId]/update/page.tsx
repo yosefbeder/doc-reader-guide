@@ -16,7 +16,7 @@ export default async function UpdateLinksPage({
     <>
       <Path lecture={lecture} />
       <main className="main flex flex-col gap-4">
-        <Note lecture={lecture} />
+        <Note user={user} lecture={lecture} />
         <hr />
         <AddSection lectureId={+lectureId} />
         <hr />
