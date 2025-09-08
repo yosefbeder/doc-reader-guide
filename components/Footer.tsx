@@ -165,7 +165,7 @@ export default function Footer() {
           Sources are regularly updated ·{" "}
           <a
             className="link"
-            href="https://t.me/DocReader_Guide_app/93"
+            href="https://t.me/DocReader_Guide_app/110"
             target="_blank"
           >
             Donate
