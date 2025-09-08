@@ -1,7 +1,7 @@
 import Layout from "@/components/Layout";
 
 export const metadata = {
-  robots: { index: false, follow: false, nocache: true },
+  robots: { index: true, follow: true },
 };
 
 export default function ModulesPageLayout({
