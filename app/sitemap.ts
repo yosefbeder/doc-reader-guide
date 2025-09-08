@@ -1,4 +1,3 @@
-// app/sitemap.ts
 import type { MetadataRoute } from "next";
 import {
   listModules,
@@ -10,6 +9,21 @@ import {
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const origin = process.env.NEXT_PUBLIC_FRONTEND_URL!;
   const urls: MetadataRoute.Sitemap = [];
+
+  urls.push({
+    url: `${origin}`,
+    priority: 1,
+  });
+
+  urls.push({
+    url: `${origin}/android`,
+    priority: 1,
+  });
+
+  urls.push({
+    url: `${origin}/login`,
+    priority: 1,
+  });
 
   const modules = await listModules();
   modules.forEach((m) => {
@@ -54,12 +68,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: q.updatedAt,
       priority: 0.8,
     });
-  });
-
-  // Optional: include /android landing page
-  urls.push({
-    url: `${origin}/android`,
-    priority: 1,
   });
 
   return urls;
