@@ -18,7 +18,9 @@ export default function QuestionsList({
   questions: McqQuestion[];
   quizId: number;
 }) {
-  const [{ mcqQuiz: settings }] = useSettings();
+  const {
+    settings: { mcqQuiz: settings },
+  } = useSettings();
   const {
     orderedQuestions,
     questionsOpen,

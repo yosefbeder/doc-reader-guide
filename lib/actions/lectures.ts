@@ -180,7 +180,6 @@ export async function importSources(
         json1.data.mcqQuiz.id,
         quiz.questions
       );
-      console.log(totalCount, ok);
       return { ok, totalCount };
     })
   );

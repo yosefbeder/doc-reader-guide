@@ -29,7 +29,15 @@ function DateRadio({
       className={`radio p-1 flex items-center gap-1 text-sm ${
         dateFilter === value ? "selected" : "normal"
       }`}
-      onClick={() => setDateFilter(dateFilter === value ? undefined : value)}
+      onClick={() => {
+        const nextDateFilter = dateFilter === value ? undefined : value;
+        setDateFilter(nextDateFilter);
+        if (nextDateFilter && nextDateFilter !== "custom") {
+          logEvent(Resource.LECTURE, null, Action.APPLY_FILTER, {
+            filterType: nextDateFilter,
+          });
+        }
+      }}
     >
       {iconMap[value]}
       {labelMap[value]}
@@ -40,12 +48,13 @@ function DateRadio({
 import { useCallback, useEffect, useState } from "react";
 import useSWR from "swr";
 
-import { Lecture } from "@/types";
+import { Action, Lecture, Resource } from "@/types";
 import SearchNavButton from "./SearchNavButton";
 import SearchDialogue from "./SearchDialogue";
 import Searchbar from "./Searchbar";
 import LecturesList from "./LecturesList";
 import { icons } from "./icons";
+import { logEvent } from "@/lib/event-logger";
 
 function getDate(offset: number) {
   const d = new Date();
@@ -91,12 +100,24 @@ export default function Search({ yearId }: { yearId: number }) {
       const res = await fetch(url, { credentials: "include" });
       const json = await res.json();
       if (!res.ok) throw new Error(json.message);
-      return json.data.lectures;
+
+      const lectures = json.data.lectures;
+
+      await logEvent(Resource.LECTURE, null, Action.SEARCH, {
+        query: search || null,
+        filters: {
+          type: dateFilter || null,
+          startDate: startDate || null,
+          endDate: endDate || null,
+        },
+        resultsCount: lectures?.length ?? 0,
+      });
+
+      return lectures;
     },
     [yearId]
   );
 
-  // useSWR key includes all params
   const {
     data: lectures,
     isLoading,
@@ -107,8 +128,14 @@ export default function Search({ yearId }: { yearId: number }) {
     setSearch("");
   }, [isSearching]);
 
-  // Reset custom dates if filter changes
   useEffect(() => {
+    if (dateFilter === "custom" && customStart && customEnd) {
+      logEvent(Resource.LECTURE, null, Action.APPLY_FILTER, {
+        filterType: "custom",
+        start: customStart,
+        end: customEnd,
+      });
+    }
     if (dateFilter !== "custom") {
       setCustomStart("");
       setCustomEnd("");

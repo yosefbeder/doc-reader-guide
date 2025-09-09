@@ -1,4 +1,6 @@
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
+import { logEvent } from "../event-logger";
+import { Action, Resource } from "@/types";
 
 export interface Settings {
   notifications: {
@@ -41,17 +43,38 @@ function loadSettings(): Settings {
   }
 }
 
-export default function useSettings(): [
-  Settings,
-  Dispatch<SetStateAction<Settings>>
-] {
+export default function useSettings() {
   const [settings, setSettings] = useState<Settings>(loadSettings());
 
   useEffect(() => {
     if (typeof window === "undefined") return;
-    if (!settings) return;
     localStorage.setItem("settings", JSON.stringify(settings));
   }, [settings]);
 
-  return [settings, setSettings];
+  const updateSetting = useCallback(
+    <T extends keyof Settings, K extends keyof Settings[T]>(
+      section: T,
+      key: K,
+      newValue: Settings[T][K]
+    ) => {
+      const oldValue = settings[section][key];
+      setSettings((prev) => ({
+        ...prev,
+        [section]: {
+          ...prev[section],
+          [key]: newValue,
+        },
+      }));
+
+      logEvent(null, null, Action.TOGGLE_SETTING, {
+        section,
+        settingName: key,
+        oldValue,
+        newValue,
+      });
+    },
+    [settings]
+  );
+
+  return { settings, updateSetting };
 }

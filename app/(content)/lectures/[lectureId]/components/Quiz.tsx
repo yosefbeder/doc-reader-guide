@@ -4,11 +4,12 @@ import { useEffect, useState } from "react";
 import NextLink from "next/link";
 import Image from "next/image";
 
-import { QuestionState, Quiz as QuizType } from "@/types";
+import { Action, QuestionState, Quiz as QuizType, Resource } from "@/types";
 import ButtonPrintQuiz from "./ButtonPrintQuiz";
 import LogoImage from "@/public/logo.png";
 import ButtonIcon from "@/components/ButtonIcon";
 import { icons } from "@/components/icons";
+import { logEvent } from "@/lib/event-logger";
 
 export default function Quiz({
   quiz,
@@ -57,6 +58,14 @@ export default function Quiz({
           quiz.id
         }`}
         className="grow flex items-center gap-2"
+        onClick={() =>
+          logEvent(
+            type === "mcq" ? Resource.MCQ_QUIZ : Resource.WRITTEN_QUIZ,
+            quiz.id,
+            Action.NAVIGATE,
+            {}
+          )
+        }
       >
         <span>{type === "mcq" ? icons["queue-list"] : icons["pencil"]}</span>
         <div>

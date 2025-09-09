@@ -10,6 +10,8 @@ import getUser from "@/utils/getUserClient";
 import { icons } from "./icons";
 import Notifications from "./Notifications";
 import { useLogout } from "@/lib/hooks";
+import { logEvent } from "@/lib/event-logger";
+import { Action } from "@/types";
 
 export default function NavUser({ updateable }: { updateable?: boolean }) {
   const {
@@ -27,7 +29,14 @@ export default function NavUser({ updateable }: { updateable?: boolean }) {
     <div className="flex items-center gap-2">
       <Search yearId={user?.yearId || -1} />
       {user ? (
-        <NavLink href="/profile" className="p-1 rounded-full">
+        <NavLink
+          href="/profile"
+          className="p-1 rounded-full"
+          onClick={() =>
+            !pathname.startsWith("/profile") &&
+            logEvent(null, null, Action.NAVIGATE_TO_PROFILE, {})
+          }
+        >
           <img
             src={user.picture}
             alt="Picture"

@@ -1,9 +1,12 @@
+"use client";
+
 import Link from "next/link";
 import Script from "next/script";
 
 import BasePath from "@/components/Path";
-import { Lecture } from "@/types";
+import { Action, Lecture, Resource } from "@/types";
 import getPrefix from "@/utils/getPrefix";
+import { logEvent } from "@/lib/event-logger";
 
 export default function Path({
   lecture: {
@@ -25,6 +28,9 @@ export default function Path({
         <Link
           href={`/modules/${moduleId}`}
           className="link text-inherit hover:text-white"
+          onClick={() =>
+            logEvent(Resource.MODULE, moduleId, Action.NAVIGATE, {})
+          }
         >
           {moduleName}
         </Link>{" "}
@@ -32,6 +38,9 @@ export default function Path({
         <Link
           href={`/subjects/${subjectId}`}
           className="link text-inherit hover:text-white"
+          onClick={() =>
+            logEvent(Resource.SUBJECT, subjectId, Action.NAVIGATE, {})
+          }
         >
           {subjectName}
         </Link>{" "}

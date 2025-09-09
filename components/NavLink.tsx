@@ -11,13 +11,12 @@ export default function NavLink({
   ...props
 }: LinkProps & React.ComponentProps<"a">) {
   const pathname = usePathname();
+  const isSelected = pathname.startsWith(href);
 
   return (
     <Link
       href={href}
-      className={`radio ${
-        pathname.startsWith(href) ? "selected" : "normal"
-      } ${className}`}
+      className={`radio ${isSelected ? "selected" : "normal"} ${className}`}
       {...props}
     >
       {children}

@@ -2,12 +2,14 @@
 
 import ButtonIcon from "@/components/ButtonIcon";
 import Logo from "@/components/Logo";
-import { McqQuestion } from "@/types";
+import { logEvent } from "@/lib/event-logger";
+import { Action, McqQuestion, Resource } from "@/types";
 import isValidURL from "@/utils/isValidURL";
 import React from "react";
 import { useReactToPrint } from "react-to-print";
 
 interface SummaryProps {
+  id: number;
   title: string;
   questions: McqQuestion[];
   answers: Map<number, number>;
@@ -15,6 +17,7 @@ interface SummaryProps {
 }
 
 export default function Summary({
+  id,
   title,
   questions,
   answers,
@@ -45,8 +48,20 @@ export default function Summary({
   return (
     <>
       <div className="flex gap-2 mb-4">
-        <ButtonIcon icon="printer" onClick={reactToPrintFn} />
-        <ButtonIcon icon="arrow-path" onClick={resetState} />
+        <ButtonIcon
+          icon="printer"
+          onClick={() => {
+            logEvent(Resource.MCQ_QUIZ, id, Action.PRINT_SUMMARY, {});
+            reactToPrintFn();
+          }}
+        />
+        <ButtonIcon
+          icon="arrow-path"
+          onClick={() => {
+            logEvent(Resource.MCQ_QUIZ, id, Action.RESTART_QUIZ, {});
+            resetState();
+          }}
+        />
       </div>
       <div className="max-w-xl print-section" ref={contentRef}>
         <div className="print-only">

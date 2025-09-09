@@ -1,26 +1,27 @@
-import { DatabaseTable } from "@/types";
+import { DatabaseTable, Resource } from "@/types";
 import React, { Dispatch, SetStateAction } from "react";
 import Button from "./Button";
+import { logEvent } from "@/lib/event-logger";
 
 interface QuestionWrapperProps<T extends DatabaseTable> {
   questions: T[];
   currentQuestion: number;
-  setCurrentQuestion: Dispatch<SetStateAction<number>>;
+  goToQuestion: (id: number) => void;
   currentIndex: number;
   backQuestion: () => void;
   nextQuestion: () => void;
-  setShowingResults: Dispatch<SetStateAction<boolean>>;
+  endQuiz: () => void;
   children: React.ReactNode;
 }
 
 export default function QuestionWrapper<T extends DatabaseTable>({
   questions,
   currentQuestion,
-  setCurrentQuestion,
+  goToQuestion,
   currentIndex,
   backQuestion,
   nextQuestion,
-  setShowingResults,
+  endQuiz,
   children,
 }: QuestionWrapperProps<T>) {
   return (
@@ -32,7 +33,7 @@ export default function QuestionWrapper<T extends DatabaseTable>({
         </Button>
         <span className="text-base text-slate-500">
           <select
-            onChange={(e) => setCurrentQuestion(+e.target.value)}
+            onChange={(e) => goToQuestion(+e.target.value)}
             value={currentQuestion}
           >
             {questions.map(({ id }, index) => (
@@ -44,7 +45,7 @@ export default function QuestionWrapper<T extends DatabaseTable>({
           / {questions.length}
         </span>
         {currentIndex === questions.length - 1 ? (
-          <Button color="yellow" onClick={() => setShowingResults(true)}>
+          <Button color="yellow" onClick={endQuiz}>
             End
           </Button>
         ) : (

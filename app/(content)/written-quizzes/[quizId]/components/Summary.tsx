@@ -6,7 +6,7 @@ import {
   subQuestionMessageType,
   subQuestionText,
 } from "./QuestionsList";
-import { WrittenQuestion, QuestionState } from "@/types";
+import { WrittenQuestion, QuestionState, Resource, Action } from "@/types";
 import ButtonIcon from "@/components/ButtonIcon";
 import calcFactor from "@/utils/calcFactor";
 import Message from "@/components/Message";
@@ -14,6 +14,7 @@ import HtmlContentClient from "@/components/HtmlContentClient";
 import { SummaryDetail } from "@/components/SummaryDetail";
 import { useHotkeys } from "react-hotkeys-hook";
 import Toggle from "@/components/Toggle";
+import { logEvent } from "@/lib/event-logger";
 
 const border = new Map([
   [QuestionState.TRUE, "border-green-600"],
@@ -23,6 +24,7 @@ const border = new Map([
 ]);
 
 interface SummaryProps {
+  id: number;
   title: string;
   questions: WrittenQuestion[];
   answers: Answers;
@@ -30,6 +32,7 @@ interface SummaryProps {
 }
 
 export default function Summary({
+  id,
   questions,
   answers,
   resetState,
@@ -82,7 +85,13 @@ export default function Summary({
   return (
     <>
       <div className="flex gap-2">
-        <ButtonIcon icon="arrow-path" onClick={resetState} />
+        <ButtonIcon
+          icon="arrow-path"
+          onClick={() => {
+            logEvent(Resource.WRITTEN_QUIZ, id, Action.RESTART_QUIZ, {});
+            resetState();
+          }}
+        />
       </div>
       <h3 className="my-4">
         Result → {correct} / {total} (

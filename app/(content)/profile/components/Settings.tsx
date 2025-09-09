@@ -14,7 +14,7 @@ import useSettings, { Settings as SettingsType } from "@/lib/hooks/useSettings";
 
 export default function Settings() {
   const [openSection, setOpenSection] = useState<string | undefined>();
-  const [settings, setSettings] = useSettings();
+  const { settings, updateSetting } = useSettings();
 
   return (
     <>
@@ -49,43 +49,32 @@ export default function Settings() {
               checked={settings.mcqQuiz.shuffle}
               label="Shuffle"
               onClick={() =>
-                setSettings(({ mcqQuiz, ...rest }) => ({
-                  ...rest,
-                  mcqQuiz: { ...mcqQuiz, shuffle: !mcqQuiz.shuffle },
-                }))
+                updateSetting("mcqQuiz", "shuffle", !settings.mcqQuiz.shuffle)
               }
             />
             <Toggle
               checked={settings.mcqQuiz.autoMove}
               label="Auto move"
               onClick={() =>
-                setSettings(({ mcqQuiz, ...rest }) => ({
-                  ...rest,
-                  mcqQuiz: { ...mcqQuiz, autoMove: !mcqQuiz.autoMove },
-                }))
+                updateSetting("mcqQuiz", "autoMove", !settings.mcqQuiz.autoMove)
               }
             />
             <Toggle
               checked={settings.mcqQuiz.sounds}
               label="Sounds"
               onClick={() =>
-                setSettings(({ mcqQuiz, ...rest }) => ({
-                  ...rest,
-                  mcqQuiz: { ...mcqQuiz, sounds: !mcqQuiz.sounds },
-                }))
+                updateSetting("mcqQuiz", "sounds", !settings.mcqQuiz.sounds)
               }
             />
             <Toggle
               checked={settings.mcqQuiz.instantFeedback}
               label="Instant feedback"
               onClick={() =>
-                setSettings(({ mcqQuiz, ...rest }) => ({
-                  ...rest,
-                  mcqQuiz: {
-                    ...mcqQuiz,
-                    instantFeedback: !mcqQuiz.instantFeedback,
-                  },
-                }))
+                updateSetting(
+                  "mcqQuiz",
+                  "instantFeedback",
+                  !settings.mcqQuiz.instantFeedback
+                )
               }
             />
           </ul>
@@ -108,26 +97,22 @@ export default function Settings() {
               checked={settings.writtenQuiz.shuffle}
               label="Shuffle"
               onClick={() =>
-                setSettings(({ writtenQuiz, ...rest }) => ({
-                  ...rest,
-                  writtenQuiz: {
-                    ...writtenQuiz,
-                    shuffle: !writtenQuiz.shuffle,
-                  },
-                }))
+                updateSetting(
+                  "writtenQuiz",
+                  "shuffle",
+                  !settings.writtenQuiz.shuffle
+                )
               }
             />
             <Toggle
               checked={settings.writtenQuiz.sounds}
               label="Sounds"
               onClick={() =>
-                setSettings(({ writtenQuiz, ...rest }) => ({
-                  ...rest,
-                  writtenQuiz: {
-                    ...writtenQuiz,
-                    sounds: !writtenQuiz.sounds,
-                  },
-                }))
+                updateSetting(
+                  "writtenQuiz",
+                  "sounds",
+                  !settings.writtenQuiz.sounds
+                )
               }
             />
           </ul>

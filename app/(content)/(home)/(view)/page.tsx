@@ -13,6 +13,8 @@ import CardPlaceholder from "@/components/CardPlaceholder";
 import { SummaryDetail } from "@/components/SummaryDetail";
 import SelectClass from "./components/SelectClass";
 import Quiz from "../../lectures/[lectureId]/components/Quiz";
+import { logEvent } from "@/lib/event-logger";
+import { Action, Resource } from "@/types";
 
 function getLocalStorageItemsByPrefix(prefix: string) {
   if (typeof window === "undefined") return [];
@@ -204,7 +206,13 @@ export default function ModulesPage() {
                   .filter((m) => m.semesterName === semesterName)
                   .map(({ id, name, icon }, index) => (
                     <li key={index}>
-                      <Link href={`/modules/${id}`} className="card bg-white">
+                      <Link
+                        href={`/modules/${id}`}
+                        className="card bg-white"
+                        onClick={() =>
+                          logEvent(Resource.MODULE, id, Action.NAVIGATE, {})
+                        }
+                      >
                         <span>
                           <Image src={icon} alt={name} width={48} height={48} />
                         </span>

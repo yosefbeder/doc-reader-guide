@@ -69,13 +69,13 @@ export default async function LecturesPage({
             {[
               ...lectures
                 .filter((lecture) => lecture.type !== "Normal")
-                .map((lecture, index) => (
-                  <Lecture key={index} lecture={lecture} />
+                .map((lecture) => (
+                  <Lecture key={lecture.id} lecture={lecture} />
                 )),
               ...lectures
                 .filter((lecture) => lecture.type === "Normal")
-                .map((lecture, index) => (
-                  <Lecture key={index} lecture={lecture} />
+                .map((lecture) => (
+                  <Lecture key={lecture.id} lecture={lecture} />
                 )),
             ]}
           </MasonryCardContainer>

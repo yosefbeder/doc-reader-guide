@@ -11,7 +11,7 @@ export default function NotificationListener() {
   const [notifications, setNotifications] = useState<
     { id: string; title: string; body: string; closed: boolean }[]
   >([]);
-  const [settings] = useSettings();
+  const { settings } = useSettings();
 
   useEffect(() => {
     if (settings.notifications.allowed) {
