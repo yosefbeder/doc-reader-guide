@@ -11,7 +11,7 @@ export default function useNotifications() {
   const [isSupported, setIsSupported] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-  const [settings, setSettings] = useSettings();
+  const { settings, updateSetting } = useSettings();
   const toggle = useCallback(async () => {
     setIsLoading(true);
     try {
@@ -27,12 +27,11 @@ export default function useNotifications() {
         await allowNotifications();
       }
       setError("");
-      setSettings(({ notifications, ...rest }) => ({
-        notifications: {
-          allowed: !notifications.allowed,
-        },
-        ...rest,
-      }));
+      updateSetting(
+        "notifications",
+        "allowed",
+        !settings.notifications.allowed
+      );
       location.reload();
     } catch (err) {
       setError((err as Error).message);

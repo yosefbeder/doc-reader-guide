@@ -9,7 +9,7 @@ export default function useLogout() {
   const router = useRouter();
   const { mutate } = useSWRConfig();
   const { toggle } = useNotifications();
-  const [settings] = useSettings();
+  const { settings } = useSettings();
 
   return async () => {
     try {

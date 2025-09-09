@@ -1,10 +1,13 @@
-import { Link as LinkType } from "@/types";
+"use client";
+
+import { Action, Link as LinkType, Resource } from "@/types";
 import { typeIcons } from "./typeIcons";
 import ButtonIcon from "@/components/ButtonIcon";
 import getPrefix from "@/utils/getPrefix";
+import { logEvent } from "@/lib/event-logger";
 
 export default function Link({
-  link: { title, subTitle, type, urls },
+  link: { id, title, subTitle, type, urls },
   updateable = false,
   onUpdate,
 }: {
@@ -19,6 +22,9 @@ export default function Link({
           className="grow flex items-center gap-2 reset-link"
           target="_blank"
           href={urls[0]}
+          onClick={() =>
+            logEvent(Resource.LINK, id, Action.NAVIGATE, { url: urls[0] })
+          }
         >
           {typeIcons[type]}
           {subTitle?.trim() ? (
@@ -46,7 +52,14 @@ export default function Link({
           <ul className="flex items-center gap-2">
             {urls.map((url, index) => (
               <li key={index}>
-                <a className="link" href={url} target="_blank">
+                <a
+                  className="link"
+                  href={url}
+                  target="_blank"
+                  onClick={() =>
+                    logEvent(Resource.LINK, id, Action.NAVIGATE, { url })
+                  }
+                >
                   {index + 1}
                   <sup>{getPrefix(index + 1)}</sup>
                 </a>

@@ -4,10 +4,11 @@ import { useRef, useState } from "react";
 import { useReactToPrint } from "react-to-print";
 
 import ButtonIcon from "@/components/ButtonIcon";
-import { McqQuiz } from "@/types";
+import { Action, McqQuiz, Resource } from "@/types";
 import { getMcqQuiz } from "@/utils/getQuizClient";
 import Logo from "@/components/Logo";
 import isValidURL from "@/utils/isValidURL";
+import { logEvent } from "@/lib/event-logger";
 
 export default function ButtonPrintQuiz({
   id,
@@ -43,6 +44,7 @@ export default function ButtonPrintQuiz({
         icon={isLoading ? "arrow-path" : "printer"}
         onClick={() => {
           (async () => {
+            logEvent(Resource.MCQ_QUIZ, id, Action.PRINT_QUIZ, {});
             if (!quiz) {
               setIsLoading(true);
               try {

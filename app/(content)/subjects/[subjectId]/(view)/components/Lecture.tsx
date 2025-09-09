@@ -1,7 +1,10 @@
+"use client";
+
 import Link from "next/link";
 
-import { Lecture as LectureType } from "@/types";
+import { Action, Lecture as LectureType, Resource } from "@/types";
 import { icons } from "@/components/icons";
+import { logEvent } from "@/lib/event-logger";
 
 export default function Lecture({
   lecture: { id, title, date, type },
@@ -16,6 +19,7 @@ export default function Lecture({
           ? "bg-cyan-600 hover:bg-cyan-700 text-white transition-colors"
           : ""
       }`}
+      onClick={() => logEvent(Resource.LECTURE, id, Action.NAVIGATE, {})}
     >
       {type === "Practical" && (
         <span className="text-white">{icons["breaker-large"]}</span>

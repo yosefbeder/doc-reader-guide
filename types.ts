@@ -6,6 +6,40 @@ export interface FormState {
   resetKey?: number;
 }
 
+export enum Resource {
+  USER = "USER",
+  MODULE = "MODULE",
+  SUBJECT = "SUBJECT",
+  LECTURE = "LECTURE",
+  LINK = "LINK",
+  MCQ_QUIZ = "MCQ_QUIZ",
+  WRITTEN_QUIZ = "WRITTEN_QUIZ",
+  MCQ_QUESTION = "MCQ_QUESTION",
+  WRITTEN_QUESTION = "WRITTEN_QUESTION",
+  SUB_QUESTION = "SUB_QUESTION",
+  RECT = "RECT",
+}
+
+export enum Action {
+  NAVIGATE = "NAVIGATE",
+  NAVIGATE_TO_PROFILE = "NAVIGATE_TO_PROFILE",
+  UPDATE = "UPDATE",
+  TOGGLE_SETTING = "TOGGLE_SETTING",
+  NAVIGATE_TO_HOME = "NAVIGATE_TO_HOME",
+  SEARCH = "SEARCH",
+  APPLY_FILTER = "APPLY_FILTER",
+  END_QUIZ = "END_QUIZ",
+  RESTART_QUIZ = "RESTART_QUIZ",
+  PRINT_QUIZ = "PRINT_QUIZ",
+  PRINT_SUMMARY = "PRINT_SUMMARY",
+  GO_TO_QUESTION = "GO_TO_QUESTION",
+  SELECT_OPTION = "SELECT_OPTION",
+  DICUSS_WITH_CHATGPT = "DICUSS_WITH_CHATGPT",
+  SHOW_ANSWER = "SHOW_ANSWER",
+  TRUE_ANSWER = "TRUE_ANSWER",
+  FALSE_ANSWER = "FALSE_ANSWER",
+}
+
 export interface DatabaseTable {
   id: number;
   createdAt: string;
@@ -31,8 +65,8 @@ export interface User extends DatabaseTable {
   email: string;
   status: boolean;
   roleId: number;
-  facultyId: number;
-  yearId: number;
+  facultyId: number | null;
+  yearId: number | null;
   year: Year;
 }
 

@@ -7,6 +7,8 @@ import {
   QuestionState,
   FormStateType,
   WrittenQuiz,
+  Resource,
+  Action,
 } from "@/types";
 import { useQuestions } from "@/lib/hooks";
 import Summary from "./Summary";
@@ -17,6 +19,7 @@ import HtmlContentClient from "@/components/HtmlContentClient";
 import Message from "@/components/Message";
 import useSettings from "@/lib/hooks/useSettings";
 import { useSound } from "@/lib/hooks/useSound";
+import { logEvent } from "@/lib/event-logger";
 
 const border = new Map([
   [QuestionState.TRUE, "border-green-600"],
@@ -39,6 +42,12 @@ export const subQuestionText = new Map([
   [QuestionState.UNSELECTED, "Not specified"],
 ]);
 
+export const stateToAction = new Map([
+  [QuestionState.TRUE, Action.TRUE_ANSWER],
+  [QuestionState.FALSE, Action.FALSE_ANSWER],
+  [QuestionState.UNSELECTED, Action.SHOW_ANSWER],
+]);
+
 export interface Answers {
   tapes: Map<number, QuestionState>;
   subQuestions: Map<number, QuestionState>;
@@ -56,7 +65,9 @@ export default function QuestionsList({
   const playClick = useSound("/click.mp3");
   const playCorrect = useSound("/correct.mp3");
   const playIncorrect = useSound("/incorrect.mp3");
-  const [{ writtenQuiz: settings }] = useSettings();
+  const {
+    settings: { writtenQuiz: settings },
+  } = useSettings();
   const [answers, setAnswers] = useState<Answers>({
     tapes: new Map<number, QuestionState>(),
     subQuestions: new Map<number, QuestionState>(),
@@ -106,6 +117,7 @@ export default function QuestionsList({
     ...rest
   } = useQuestions({
     options: {
+      type: "written",
       quiz,
       questions,
       answers,
@@ -122,6 +134,7 @@ export default function QuestionsList({
   });
   const updateTapeState = useCallback(
     (id: number, newState: QuestionState) => {
+      logEvent(Resource.RECT, id, stateToAction.get(newState)!, {});
       setAnswers((prev) => {
         const temp = {
           subQuestions: prev.subQuestions,
@@ -136,16 +149,17 @@ export default function QuestionsList({
     },
     [currentQuestion]
   );
-  const updateWrittenQuestionState = useCallback(
+  const updateSubQuestionState = useCallback(
     (id: number, newState: QuestionState) => {
+      logEvent(Resource.SUB_QUESTION, id, stateToAction.get(newState)!, {});
       setAnswers((prev) => {
         const temp = {
           subQuestions: new Map(),
           tapes: prev.tapes,
         };
-        prev.subQuestions.forEach((answer, writtenQuestionId) => {
-          if (writtenQuestionId === id) temp.subQuestions.set(id, newState);
-          else temp.subQuestions.set(writtenQuestionId, answer);
+        prev.subQuestions.forEach((answer, subQuestionId) => {
+          if (subQuestionId === id) temp.subQuestions.set(id, newState);
+          else temp.subQuestions.set(subQuestionId, answer);
         });
         return temp;
       });
@@ -184,6 +198,7 @@ export default function QuestionsList({
   if (showingResults) {
     return (
       <Summary
+        id={quiz.id}
         title={title}
         questions={orderedQuestions}
         answers={answers}
@@ -302,11 +317,11 @@ export default function QuestionsList({
                     {questionState === QuestionState.UNSELECTED && (
                       <SelectAnswerDialogue
                         onTrue={() => {
-                          updateWrittenQuestionState(id, QuestionState.TRUE);
+                          updateSubQuestionState(id, QuestionState.TRUE);
                           if (settings.sounds) playCorrect();
                         }}
                         onFalse={() => {
-                          updateWrittenQuestionState(id, QuestionState.FALSE);
+                          updateSubQuestionState(id, QuestionState.FALSE);
                           if (settings.sounds) playIncorrect();
                         }}
                       />
@@ -328,10 +343,7 @@ export default function QuestionsList({
                       <button
                         className="font-bold text-cyan-600 self-start"
                         onClick={() => {
-                          updateWrittenQuestionState(
-                            id,
-                            QuestionState.UNSELECTED
-                          );
+                          updateSubQuestionState(id, QuestionState.UNSELECTED);
                           if (settings.sounds) playClick();
                         }}
                       >

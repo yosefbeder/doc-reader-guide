@@ -18,7 +18,9 @@ export default function QuestionsList({
   quizId: number;
   questions: WrittenQuestion[];
 }) {
-  const [{ writtenQuiz: settings }] = useSettings();
+  const {
+    settings: { writtenQuiz: settings },
+  } = useSettings();
   const {
     orderedQuestions,
     questionsOpen,

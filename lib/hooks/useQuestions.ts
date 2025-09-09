@@ -1,9 +1,11 @@
 import { useCallback, useEffect, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 
-import { DatabaseTable, Quiz } from "@/types";
+import { Action, DatabaseTable, Quiz, Resource } from "@/types";
+import { logEvent } from "../event-logger";
 
 export interface Options<T, U extends DatabaseTable> {
+  type: "mcq" | "written";
   quiz: Quiz;
   questions: U[];
   localStorageItem: string;
@@ -15,6 +17,7 @@ export interface Options<T, U extends DatabaseTable> {
 
 export default function useQuestions<T, U extends DatabaseTable>({
   options: {
+    type,
     quiz,
     questions,
     localStorageItem,
@@ -26,6 +29,7 @@ export default function useQuestions<T, U extends DatabaseTable>({
 }: {
   options: Options<T, U>;
 }) {
+  const resource = type === "mcq" ? Resource.MCQ_QUIZ : Resource.WRITTEN_QUIZ;
   const [orderedQuestions, setOrderedQuestions] = useState([...questions]);
   const [currentQuestion, setCurrentQuestion] = useState(
     orderedQuestions[0].id
@@ -35,13 +39,16 @@ export default function useQuestions<T, U extends DatabaseTable>({
   const currentIndex = orderedQuestions.findIndex(
     ({ id }) => id === currentQuestion
   );
+  const goToQuestion = (id: number) => {
+    setCurrentQuestion(id);
+    logEvent(resource, quiz.id, Action.GO_TO_QUESTION, { id });
+  };
   const backQuestion = useCallback(() => {
-    if (currentIndex !== 0)
-      setCurrentQuestion(() => orderedQuestions[currentIndex - 1].id);
+    if (currentIndex !== 0) goToQuestion(orderedQuestions[currentIndex - 1].id);
   }, [currentIndex, orderedQuestions]);
   const nextQuestion = useCallback(() => {
     if (currentIndex !== orderedQuestions.length - 1)
-      setCurrentQuestion(() => orderedQuestions[currentIndex + 1].id);
+      goToQuestion(orderedQuestions[currentIndex + 1].id);
   }, [currentIndex, orderedQuestions]);
   const resetState = useCallback(() => {
     setShowingResults(false);
@@ -57,6 +64,10 @@ export default function useQuestions<T, U extends DatabaseTable>({
     }
     setCurrentQuestion(newCurrentQuestion);
   }, [randomOrder]);
+  const endQuiz = useCallback(() => {
+    logEvent(resource, quiz.id, Action.END_QUIZ);
+    setShowingResults(true);
+  }, []);
   useHotkeys("left", backQuestion, [backQuestion]);
   useHotkeys("right", nextQuestion, [nextQuestion]);
 
@@ -135,12 +146,12 @@ export default function useQuestions<T, U extends DatabaseTable>({
   return {
     orderedQuestions,
     currentQuestion,
-    setCurrentQuestion,
+    goToQuestion,
     currentIndex,
     backQuestion,
     nextQuestion,
     showingResults,
-    setShowingResults,
+    endQuiz,
     isLoaded,
     resetState,
   };

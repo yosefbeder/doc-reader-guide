@@ -4,7 +4,7 @@ import React, { useCallback, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 
 import Message from "@/components/Message";
-import { McqQuestion, McqQuiz } from "@/types";
+import { Action, McqQuestion, McqQuiz, Resource } from "@/types";
 import isValidURL from "@/utils/isValidURL";
 import { useQuestions } from "@/lib/hooks";
 import Summary from "./Summary";
@@ -12,6 +12,7 @@ import QuestionWrapper from "@/components/QuestionWrapper";
 import useSettings from "@/lib/hooks/useSettings";
 import { useSound } from "@/lib/hooks/useSound";
 import Button from "@/components/Button";
+import { logEvent } from "@/lib/event-logger";
 
 const toUppercaseLetter = (index: number) => String.fromCharCode(65 + index);
 
@@ -52,7 +53,9 @@ export default function QuestionsList({
   title: string;
   questions: McqQuestion[];
 }) {
-  const [{ mcqQuiz: settings }] = useSettings();
+  const {
+    settings: { mcqQuiz: settings },
+  } = useSettings();
   const [answers, setAnswers] = useState(new Map<number, number>());
   const {
     orderedQuestions,
@@ -65,6 +68,7 @@ export default function QuestionsList({
     ...rest
   } = useQuestions({
     options: {
+      type: "mcq",
       quiz,
       questions,
       answers,
@@ -96,6 +100,9 @@ export default function QuestionsList({
           else playIncorrect();
         }
       }
+      logEvent(Resource.MCQ_QUESTION, currentQuestion, Action.SELECT_OPTION, {
+        index,
+      });
       setAnswers((prev) => {
         const newMap = new Map(prev);
         newMap.set(currentQuestion, index);
@@ -125,6 +132,7 @@ export default function QuestionsList({
   if (showingResults) {
     return (
       <Summary
+        id={quiz.id}
         title={title}
         questions={orderedQuestions}
         answers={answers}
@@ -163,6 +171,14 @@ export default function QuestionsList({
                   question,
                   answers.get(question.id)!
                 )}
+                onClick={() =>
+                  logEvent(
+                    Resource.MCQ_QUESTION,
+                    question.id,
+                    Action.DICUSS_WITH_CHATGPT,
+                    {}
+                  )
+                }
                 className="flex gap-2 items-center"
                 target="_blank"
               >

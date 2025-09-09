@@ -1,9 +1,12 @@
+"use client";
+
 import Link from "next/link";
 import Script from "next/script";
 
 import BasePath from "@/components/Path";
 import getPrefix from "@/utils/getPrefix";
-import { Subject } from "@/types";
+import { Action, Resource, Subject } from "@/types";
+import { logEvent } from "@/lib/event-logger";
 
 export default function Path({
   subject: {
@@ -21,6 +24,9 @@ export default function Path({
         <Link
           href={`/modules/${moduleId}`}
           className="link text-inherit hover:text-white"
+          onClick={() =>
+            logEvent(Resource.MODULE, moduleId, Action.NAVIGATE, {})
+          }
         >
           {moduleName}
         </Link>{" "}

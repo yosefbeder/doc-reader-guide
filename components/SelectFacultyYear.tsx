@@ -1,35 +1,22 @@
-"use client";
-
-import { useState } from "react";
-
+import getFaculty from "@/utils/getFaculty";
 import Select from "./Select";
 import { Faculty } from "@/types";
 
 interface SelectFacultyYearProps {
   faculties: Faculty[];
-  defaultValues?: {
-    facultyId: number;
-    yearId: number;
-  };
-}
-
-function getFaculty(faculties: Faculty[], facultyId: number): Faculty {
-  return faculties.find((faculty) => faculty.id === facultyId)!;
+  facultyId: number;
+  onFacultyChange: (id: number) => void;
+  yearId: number;
+  onYearChange: (id: number) => void;
 }
 
 export default function SelectFacultyYear({
   faculties,
-  defaultValues,
+  facultyId,
+  onFacultyChange,
+  yearId,
+  onYearChange,
 }: SelectFacultyYearProps) {
-  const [facultyId, setFacultyId] = useState(
-    defaultValues ? defaultValues.facultyId : faculties[0].id
-  );
-  const [yearId, setYearId] = useState(
-    defaultValues
-      ? defaultValues.yearId
-      : getFaculty(faculties, facultyId).years[0].id
-  );
-
   return (
     <>
       <Select
@@ -40,11 +27,7 @@ export default function SelectFacultyYear({
           value: id,
         }))}
         value={facultyId}
-        onChange={(e) => {
-          const newFacultyId = +e.target.value;
-          setFacultyId(newFacultyId);
-          setYearId(getFaculty(faculties, newFacultyId).years[0].id);
-        }}
+        onChange={(e) => onFacultyChange(+e.target.value)}
         name="facultyId"
         id="facultyId"
         required
@@ -59,7 +42,7 @@ export default function SelectFacultyYear({
           })
         )}
         value={yearId}
-        onChange={(e) => setYearId(+e.target.value)}
+        onChange={(e) => onYearChange(+e.target.value)}
         name="yearId"
         id="yearId"
         required
