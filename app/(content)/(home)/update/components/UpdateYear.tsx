@@ -39,7 +39,7 @@ export default function UpdateYear({
         name="year-id"
         id="year-id"
         className="hidden"
-        defaultValue={user.yearId}
+        defaultValue={user.yearId || ""}
       />
       <Select
         icon="academic-cap"

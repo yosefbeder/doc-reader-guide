@@ -6,13 +6,13 @@ import UpdateYear from "./components/UpdateYear";
 
 export default async function UpdateModulesPage() {
   const user = await getUser();
-  const modules = await getModules(user.yearId);
+  const modules = await getModules(user.yearId!);
 
   return (
     <main className="main">
       <ul className="card-container">
         <li>
-          <AddModuleForm yearId={user.yearId} />
+          <AddModuleForm yearId={user.yearId!} />
         </li>
         <li>
           <UpdateYear user={user} modules={modules} />

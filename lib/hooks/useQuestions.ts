@@ -65,7 +65,7 @@ export default function useQuestions<T, U extends DatabaseTable>({
     setCurrentQuestion(newCurrentQuestion);
   }, [randomOrder]);
   const endQuiz = useCallback(() => {
-    logEvent(resource, quiz.id, Action.END_QUIZ);
+    logEvent(resource, quiz.id, Action.END_QUIZ, {});
     setShowingResults(true);
   }, []);
   useHotkeys("left", backQuestion, [backQuestion]);
