@@ -164,7 +164,14 @@ export default function QuestionsList({
             <img src={question.image} alt="Question associated diagram" />
           ) : null}
           {answers.has(question.id) && (
-            <Button className="self-start" color="slate">
+            <Button
+              className="self-start"
+              color="slate"
+              shimmer={
+                settings.instantFeedback &&
+                question.correctOptionIndex !== answers.get(question.id)
+              }
+            >
               <a
                 href={buildChatGPTLink(
                   quiz,

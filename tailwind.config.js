@@ -10,6 +10,9 @@ module.exports = {
       fontFamily: {
         sans: ["var(--font-inter)"],
       },
+      animation: {
+        shimmer: "shimmer 3s linear infinite",
+      },
     },
   },
   plugins: [require("@tailwindcss/typography")],
