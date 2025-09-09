@@ -75,7 +75,7 @@ export default function NavUser({ updateable }: { updateable?: boolean }) {
               {icons["pencil-square"]}
             </button>
           )}
-          <Notifications yearId={user.yearId} />
+          <Notifications yearId={user.yearId!} />
           {user.roleId === 0 && (
             <NavLink href="/users" className="p-2">
               {icons["user-group"]}
