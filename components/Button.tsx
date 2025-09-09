@@ -32,7 +32,7 @@ export default function Button({
 
   return (
     <button
-      className={`relative py-1 border-2 rounded-md transition-colors disabled:bg-slate-600 disabled:hover:bg-slate-700 disabled:border-slate-600 disabled:hover:border-slate-700 disabled:cursor-not-allowed ${
+      className={`relative py-1 border-2 rounded-md transition-colors disabled:bg-slate-600 disabled:hover:bg-slate-700 disabled:border-slate-600 disabled:hover:border-slate-700 disabled:cursor-not-allowed overflow-hidden ${
         colorVariants[color]
       } ${fullWidth ? "w-full" : "px-2"} ${className}`}
       disabled={isLoading || disabled}
