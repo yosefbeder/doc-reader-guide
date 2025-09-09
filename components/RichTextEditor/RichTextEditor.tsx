@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { $generateHtmlFromNodes, $generateNodesFromDOM } from "@lexical/html";
 import { LexicalComposer } from "@lexical/react/LexicalComposer";
 import { ContentEditable } from "@lexical/react/LexicalContentEditable";
@@ -56,7 +57,14 @@ export default function RichTextEditor({
       if (typeof window === "undefined") return;
       const parser = new DOMParser();
       const dom = parser.parseFromString(value, "text/html");
-      const nodes = $generateNodesFromDOM(editor, dom);
+      let nodes = $generateNodesFromDOM(editor, dom).map((node) => {
+        if (node.getType && node.getType() === "text") {
+          const p = new ParagraphNode();
+          p.append(node);
+          return p;
+        }
+        return node;
+      });
       $getRoot().select();
       $getRoot().append(...nodes);
     },
@@ -82,37 +90,39 @@ export default function RichTextEditor({
   };
 
   return (
-    <LexicalComposer initialConfig={editorConfig}>
-      <div className="editor-container">
-        <ToolbarPlugin />
-        <div className="editor-inner">
-          <RichTextPlugin
-            contentEditable={
-              <ContentEditable
-                className="editor-input"
-                aria-placeholder={placeholder}
-                placeholder={
-                  <div className="editor-placeholder">{placeholder}</div>
-                }
-              />
-            }
-            ErrorBoundary={LexicalErrorBoundary}
-          />
-          <HistoryPlugin />
-          <ListPlugin />
-          <LinkPlugin />
-          <OnChangePlugin onChange={handleEditorChange} />
-          <input
-            type="text"
-            className="hidden"
-            name={name}
-            id={id}
-            value={value}
-            form={form}
-            readOnly
-          />
+    <Suspense>
+      <LexicalComposer initialConfig={editorConfig}>
+        <div className="editor-container">
+          <ToolbarPlugin />
+          <div className="editor-inner">
+            <RichTextPlugin
+              contentEditable={
+                <ContentEditable
+                  className="editor-input"
+                  aria-placeholder={placeholder}
+                  placeholder={
+                    <div className="editor-placeholder">{placeholder}</div>
+                  }
+                />
+              }
+              ErrorBoundary={LexicalErrorBoundary}
+            />
+            <HistoryPlugin />
+            <ListPlugin />
+            <LinkPlugin />
+            <OnChangePlugin onChange={handleEditorChange} />
+            <input
+              type="text"
+              className="hidden"
+              name={name}
+              id={id}
+              value={value}
+              form={form}
+              readOnly
+            />
+          </div>
         </div>
-      </div>
-    </LexicalComposer>
+      </LexicalComposer>
+    </Suspense>
   );
 }
