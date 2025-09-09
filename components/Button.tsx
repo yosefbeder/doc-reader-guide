@@ -4,12 +4,14 @@ export interface ButtonProps extends React.ComponentProps<"button"> {
   fullWidth?: boolean;
   color?: "cyan" | "yellow" | "rose" | "white" | "violet" | "slate";
   isLoading?: boolean;
+  shimmer?: boolean;
 }
 
 export default function Button({
   fullWidth = false,
   color = "cyan",
   isLoading = false,
+  shimmer = false,
   className,
   disabled,
   children,
@@ -30,12 +32,15 @@ export default function Button({
 
   return (
     <button
-      className={`py-1 border-2 rounded-md transition-colors disabled:bg-slate-600 disabled:hover:bg-slate-700 disabled:border-slate-600 disabled:hover:border-slate-700 disabled:cursor-not-allowed ${
+      className={`relative py-1 border-2 rounded-md transition-colors disabled:bg-slate-600 disabled:hover:bg-slate-700 disabled:border-slate-600 disabled:hover:border-slate-700 disabled:cursor-not-allowed ${
         colorVariants[color]
       } ${fullWidth ? "w-full" : "px-2"} ${className}`}
       disabled={isLoading || disabled}
       {...props}
     >
+      {shimmer && (
+        <div className="h-[45px] w-5 blur-sm -top-0.5 bg-gradient-to-r from-white/10 via-white/75 to-white/10 absolute rotate-45 animate-shimmer pointer-events-none" />
+      )}
       {isLoading ? "Loading..." : children}
     </button>
   );
