@@ -4,6 +4,7 @@ import ButtonIcon from "@/components/ButtonIcon";
 import Logo from "@/components/Logo";
 import { logEvent } from "@/lib/event-logger";
 import { Action, McqQuestion, Resource } from "@/types";
+import calcMcqResult from "@/utils/calcMcqResult";
 import isValidURL from "@/utils/isValidURL";
 import React from "react";
 import { useReactToPrint } from "react-to-print";
@@ -23,14 +24,7 @@ export default function Summary({
   answers,
   resetState,
 }: SummaryProps) {
-  const correct = Array.from(answers.entries()).reduce(
-    (acc, [questionId, optionIndex]) =>
-      optionIndex ===
-      questions.find(({ id }) => id === questionId)?.correctOptionIndex
-        ? acc + 1
-        : acc,
-    0
-  );
+  const { correct, total } = calcMcqResult(questions, answers);
   const contentRef = React.useRef<HTMLDivElement>(null);
   const reactToPrintFn = useReactToPrint({
     contentRef,
@@ -69,8 +63,8 @@ export default function Summary({
         </div>
         <h1 className="h1 my-4 print-only">{title}</h1>
         <h2 className="my-4">
-          Result → {correct} / {questions.length} (
-          {Math.round((correct / questions.length) * 10000) / 100}%)
+          Result → {correct} / {total} (
+          {Math.round((correct / total) * 10000) / 100}%)
         </h2>
         <h2 className="my-4">Summary</h2>
         <p className="my-4">

@@ -5,6 +5,8 @@ import Dialogue from "./Dialogue";
 import Button from "./Button";
 import { useNotifications } from "@/lib/hooks";
 import Message from "./Message";
+import { logEvent } from "@/lib/event-logger";
+import { Action } from "@/types";
 
 export default function NotificationsToast() {
   const [isShown, setIsShown] = useState(true);
@@ -18,6 +20,7 @@ export default function NotificationsToast() {
     toggle,
   } = useNotifications();
   const onClose = useCallback(() => {
+    logEvent(null, null, Action.NOTIFICATIONS_TOAST_DENIED, {});
     localStorage.setItem("notifications-toast-denied", "true");
     setIsShown(false);
   }, []);

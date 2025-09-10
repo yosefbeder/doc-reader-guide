@@ -4,6 +4,9 @@ import { GoogleLogin } from "@react-oauth/google";
 import { useRouter, useSearchParams } from "next/navigation";
 import Cookies from "js-cookie";
 
+import { logEvent } from "@/lib/event-logger";
+import { Action, Resource } from "@/types";
+
 export default function GoogleButton() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -40,10 +43,13 @@ export default function GoogleButton() {
       const json = await response.json();
       console.log("Backend response:", json);
 
-      if (json.data.user.yearId === null)
-        localStorage.setItem("select-class", "true");
+      const user = json.data.user;
+
+      if (user.yearId === null) localStorage.setItem("select-class", "true");
 
       Cookies.remove("guest");
+      localStorage.setItem("user-id", user.id);
+      logEvent(Resource.USER, user.id, Action.LOGIN, {});
       router.replace(redirect ?? "/");
 
       // Handle the backend's response (e.g., store a session token, redirect the user)

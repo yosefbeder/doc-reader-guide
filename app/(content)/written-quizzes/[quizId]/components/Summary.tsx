@@ -15,6 +15,7 @@ import { SummaryDetail } from "@/components/SummaryDetail";
 import { useHotkeys } from "react-hotkeys-hook";
 import Toggle from "@/components/Toggle";
 import { logEvent } from "@/lib/event-logger";
+import calcWrittenResult from "@/utils/calcWrittenResult";
 
 const border = new Map([
   [QuestionState.TRUE, "border-green-600"],
@@ -37,12 +38,7 @@ export default function Summary({
   answers,
   resetState,
 }: SummaryProps) {
-  let total = answers.tapes.size + answers.subQuestions.size;
-  let correct = 0;
-  answers.tapes.forEach((value) => value === QuestionState.TRUE && correct++);
-  answers.subQuestions.forEach(
-    (value) => value === QuestionState.TRUE && correct++
-  );
+  const { correct, total } = calcWrittenResult(answers);
   const calcFactors = useCallback(
     () =>
       questions.map((question) =>

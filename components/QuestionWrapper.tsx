@@ -1,7 +1,7 @@
-import { DatabaseTable, Resource } from "@/types";
-import React, { Dispatch, SetStateAction } from "react";
+import React from "react";
+
+import { DatabaseTable } from "@/types";
 import Button from "./Button";
-import { logEvent } from "@/lib/event-logger";
 
 interface QuestionWrapperProps<T extends DatabaseTable> {
   questions: T[];

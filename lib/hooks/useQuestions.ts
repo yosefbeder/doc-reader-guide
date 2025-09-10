@@ -3,6 +3,8 @@ import { useHotkeys } from "react-hotkeys-hook";
 
 import { Action, DatabaseTable, Quiz, Resource } from "@/types";
 import { logEvent } from "../event-logger";
+import calcMcqResult from "@/utils/calcMcqResult";
+import calcWrittenResult from "@/utils/calcWrittenResult";
 
 export interface Options<T, U extends DatabaseTable> {
   type: "mcq" | "written";
@@ -65,9 +67,14 @@ export default function useQuestions<T, U extends DatabaseTable>({
     setCurrentQuestion(newCurrentQuestion);
   }, [randomOrder]);
   const endQuiz = useCallback(() => {
-    logEvent(resource, quiz.id, Action.END_QUIZ, {});
+    logEvent(resource, quiz.id, Action.END_QUIZ, {
+      ...(type === "mcq"
+        ? calcMcqResult(questions as any, answers as any)
+        : calcWrittenResult(answers as any)),
+      answers: serializeAnswers(answers),
+    });
     setShowingResults(true);
-  }, []);
+  }, [answers]);
   useHotkeys("left", backQuestion, [backQuestion]);
   useHotkeys("right", nextQuestion, [nextQuestion]);
 
