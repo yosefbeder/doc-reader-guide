@@ -1,3 +1,4 @@
+import Cookies from "js-cookie";
 import { openDB } from "idb";
 
 import { Action, Resource } from "@/types";
@@ -11,7 +12,7 @@ const FLUSH_BATCH = 50;
 let dbPromise: any;
 let enqueue: any;
 let drainBatch: any;
-let flush: any;
+export let flush: any;
 
 if (typeof window !== "undefined") {
   dbPromise = openDB(DB_NAME, 1, {
@@ -21,7 +22,7 @@ if (typeof window !== "undefined") {
   });
 
   enqueue = async function (event: any) {
-    if (process.env.NODE_ENV !== "production") return;
+    // if (process.env.NODE_ENV !== "production") return;
     const db = await dbPromise;
     await db.add(STORE, event);
   };
@@ -52,8 +53,17 @@ if (typeof window !== "undefined") {
         `${process.env.NEXT_PUBLIC_API_URL}/events/bulk`,
         {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
-          credentials: "include",
+          ...(Cookies.get("guest")
+            ? {
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: `Bearer ${process.env.NEXT_PUBLIC_JWT}`,
+                },
+              }
+            : {
+                headers: { "Content-Type": "application/json" },
+                credentials: "include",
+              }),
           body: JSON.stringify(payload),
           keepalive: true,
         }
@@ -73,41 +83,26 @@ if (typeof window !== "undefined") {
 
   window.addEventListener("visibilitychange", () => {
     if (document.visibilityState === "hidden") {
+      // navigator.sendBeacon can't assign headers
+      if (Cookies.get("guest")) return;
       (async () => {
         const all = await drainBatch(1000);
         if (all.length === 0) return;
         const payloadObj = { events: all.map((e: any) => e.payload || e) };
         const payload = JSON.stringify(payloadObj);
-        let failed = false;
-        try {
-          if (navigator.sendBeacon) {
-            const ok = navigator.sendBeacon(
-              `${process.env.NEXT_PUBLIC_API_URL}/events/bulk`,
-              new Blob([payload], { type: "application/json" })
-            );
-            if (!ok) failed = true;
-          } else {
-            const res = await fetch(
-              `${process.env.NEXT_PUBLIC_API_URL}/events/bulk`,
-              {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                credentials: "include",
-                body: payload,
-                keepalive: true,
-              }
-            );
-            if (!res.ok) failed = true;
-          }
-        } catch (err) {
-          failed = true;
-        }
-        if (failed) {
-          // Usually doesn't get executed
-          const db = await dbPromise;
-          for (const e of all) {
-            await db.add(STORE, e);
-          }
+        if (navigator.sendBeacon) {
+          navigator.sendBeacon(
+            `${process.env.NEXT_PUBLIC_API_URL}/events/bulk`,
+            new Blob([payload], { type: "application/json" })
+          );
+        } else {
+          await fetch(`${process.env.NEXT_PUBLIC_API_URL}/events/bulk`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            credentials: "include",
+            body: payload,
+            keepalive: true,
+          });
         }
       })();
     }
@@ -148,23 +143,23 @@ function getSessionId() {
     return null;
   }
 }
+
 function getDeviceId() {
-  return localStorage.getItem("device-id") || null;
+  const stored = localStorage.getItem("device-id");
+  if (stored) return Number(stored);
+  return null;
 }
 async function getUserId() {
+  if (Cookies.get("guest")) return null;
   try {
-    let stored = localStorage.getItem("user-id");
-    let userId;
-    if (stored) {
-      userId = Number(stored);
-    } else {
-      const user = await getUser();
-      if (user) {
-        userId = user.id;
-        localStorage.setItem("user-id", userId.toString());
-      }
+    const stored = localStorage.getItem("user-id");
+    if (stored) return Number(stored);
+    const user = await getUser();
+    if (user) {
+      localStorage.setItem("user-id", user.id.toString());
+      return user.id;
     }
-    return userId;
+    return null;
   } catch (err) {
     console.error(err);
     return null;

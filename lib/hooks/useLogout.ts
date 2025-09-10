@@ -27,6 +27,7 @@ export default function useLogout() {
       await mutate(() => true, undefined, { revalidate: false });
       localStorage.removeItem("notifications-toast-denied");
       localStorage.removeItem("select-class");
+      localStorage.removeItem("user-id");
       googleLogout();
       router.replace("/login");
     } catch (err) {

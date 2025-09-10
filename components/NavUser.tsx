@@ -12,6 +12,7 @@ import Notifications from "./Notifications";
 import { useLogout } from "@/lib/hooks";
 import { logEvent } from "@/lib/event-logger";
 import { Action } from "@/types";
+import { useEffect } from "react";
 
 export default function NavUser({ updateable }: { updateable?: boolean }) {
   const {
@@ -22,6 +23,14 @@ export default function NavUser({ updateable }: { updateable?: boolean }) {
   const router = useRouter();
   const pathname = usePathname();
   const logout = useLogout();
+
+  useEffect(() => {
+    // Backward compatibility 😭
+    if (!user) return;
+    const stored = localStorage.getItem("user-id");
+    if (stored && Number(stored) !== user.id)
+      localStorage.setItem("user-id", user.id.toString());
+  }, [user]);
 
   if (error?.status === 401) logout();
 

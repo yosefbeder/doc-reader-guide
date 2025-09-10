@@ -222,7 +222,9 @@ export default function QuestionsList({
         return (
           <div
             key={`written-question-${question.id}`}
-            className={currentQuestion === question.id ? "" : "hidden"}
+            className={
+              currentQuestion === question.id ? "flex flex-col gap-4" : "hidden"
+            }
           >
             {question.image && factor && (
               <div className="relative">

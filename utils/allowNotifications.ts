@@ -35,4 +35,6 @@ export default async function allowNotifications() {
   if (!res.ok) throw new Error(json.message);
   localStorage.setItem("fcm-token", token);
   localStorage.setItem("device-id", json.data.device.id);
+  // To prevent reappearing after disabling notifications
+  localStorage.setItem("notifications-toast-denied", "true");
 }

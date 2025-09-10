@@ -4,6 +4,7 @@ import Cookies from "js-cookie";
 import allowNotifications from "@/utils/allowNotifications";
 import disableNotifications from "@/utils/disableNotifications";
 import useSettings from "./useSettings";
+import { flush } from "../event-logger";
 
 export default function useNotifications() {
   const [isGuest, setIsGuest] = useState(true);
@@ -16,6 +17,7 @@ export default function useNotifications() {
     setIsLoading(true);
     try {
       if (settings.notifications.allowed) {
+        flush && (await flush());
         await disableNotifications();
       } else {
         const permission =

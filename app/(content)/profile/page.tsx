@@ -39,7 +39,7 @@ export default function ProfilePage() {
               buttonLabel="Update"
             />
           ) : null}
-          <LogoutButton />
+          {user && <LogoutButton user={user} />}
         </div>
       </main>
     </Layout>
