@@ -11,11 +11,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const urls: MetadataRoute.Sitemap = [];
 
   urls.push({
-    url: `${origin}`,
-    priority: 1,
-  });
-
-  urls.push({
     url: `${origin}/android`,
     priority: 1,
   });
