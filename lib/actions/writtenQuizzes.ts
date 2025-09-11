@@ -7,7 +7,7 @@ import { FormState } from "@/types";
 import getNumber from "@/utils/getNumber";
 import parseSubQuestions from "@/utils/parseSubQuestions";
 
-async function addWrittenQuestions(
+export async function addWrittenQuestions(
   quizId: number,
   questions: any[]
 ): Promise<{ successCount: number; failCount: number }> {

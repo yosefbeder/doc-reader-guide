@@ -19,6 +19,7 @@ import { SummaryDetail } from "@/components/SummaryDetail";
 import notUpdateable from "@/utils/isUpdateable";
 import Button from "@/components/Button";
 import Checkbox from "@/components/Checkbox";
+import cleanWrittenQuestion from "@/utils/cleanWrittenQuestion";
 
 export default function LinksList({
   user,
@@ -44,6 +45,9 @@ export default function LinksList({
   }>();
   const [selectedLinks, setSelectedLinks] = useState<number[]>([]);
   const [selectedMcqQuizzes, setSelectedMcqQuizzes] = useState<number[]>([]);
+  const [selectedWrittenQuizzes, setSelectedWrittenQuizzes] = useState<
+    number[]
+  >([]);
 
   const handleLinkCheckbox = (id: number, checked: boolean) => {
     setSelectedLinks((prev) =>
@@ -52,6 +56,11 @@ export default function LinksList({
   };
   const handleMcqQuizCheckbox = (id: number, checked: boolean) => {
     setSelectedMcqQuizzes((prev) =>
+      checked ? [...prev, id] : prev.filter((x) => x !== id)
+    );
+  };
+  const handleWrittenQuizCheckbox = (id: number, checked: boolean) => {
+    setSelectedWrittenQuizzes((prev) =>
       checked ? [...prev, id] : prev.filter((x) => x !== id)
     );
   };
@@ -88,13 +97,19 @@ export default function LinksList({
             })
           ) || [],
       }));
+    const selectedWrittenQuizzesData = writtenQuizzes
+      .filter((q) => selectedWrittenQuizzes.includes(q.id))
+      .map(({ title, questions }) => ({
+        title,
+        questions: questions.map((question) => cleanWrittenQuestion(question)),
+      }));
     try {
       await navigator.clipboard.writeText(
-        JSON.stringify(
-          { links: selectedLinksData, mcqQuizzes: selectedMcqQuizzesData },
-          null,
-          2
-        )
+        JSON.stringify({
+          links: selectedLinksData,
+          mcqQuizzes: selectedMcqQuizzesData,
+          writtenQuizzes: selectedWrittenQuizzesData,
+        })
       );
       alert("Copied to clipboard!");
     } catch (error) {
@@ -115,7 +130,10 @@ export default function LinksList({
         <Button
           onClick={handleCopy}
           disabled={
-            selectedLinks.length === 0 && selectedMcqQuizzes.length === 0
+            selectedLinks.length +
+              selectedMcqQuizzes.length +
+              selectedWrittenQuizzes.length ===
+            0
           }
         >
           Export
@@ -124,23 +142,30 @@ export default function LinksList({
           onClick={() => {
             const allSelected =
               selectedLinks.length === links.length &&
-              selectedMcqQuizzes.length === mcqQuizzes.length;
+              selectedMcqQuizzes.length === mcqQuizzes.length &&
+              selectedWrittenQuizzes.length === writtenQuizzes.length;
             if (allSelected) {
               setSelectedLinks([]);
               setSelectedMcqQuizzes([]);
+              setSelectedWrittenQuizzes([]);
             } else {
               setSelectedLinks(links.map((l) => l.id));
               setSelectedMcqQuizzes(mcqQuizzes.map((q) => q.id));
+              setSelectedWrittenQuizzes(writtenQuizzes.map((q) => q.id));
             }
           }}
         >
           {selectedLinks.length === links.length &&
-          selectedMcqQuizzes.length === mcqQuizzes.length
+          selectedMcqQuizzes.length === mcqQuizzes.length &&
+          selectedWrittenQuizzes.length === writtenQuizzes.length
             ? "Deselect All"
             : "Select All"}
         </Button>
         <span className="text-xs text-slate-500">
-          {selectedLinks.length + selectedMcqQuizzes.length} selected
+          {selectedLinks.length +
+            selectedMcqQuizzes.length +
+            selectedWrittenQuizzes.length}{" "}
+          selected
         </span>
       </div>
       {categories.map((category, index) => {
@@ -209,25 +234,37 @@ export default function LinksList({
                       </li>
                     ))}
                     {writtenQuizzes.map((quiz) => (
-                      <li key={`written-${quiz.id}`}>
-                        {current &&
-                        current.type === "written" &&
-                        current.id === quiz.id ? (
-                          <UpdateWrittenQuizForm
-                            quiz={quiz}
-                            lectureId={lectureId}
-                            onClose={() => setCurrent(undefined)}
-                          />
-                        ) : (
-                          <Quiz
-                            type="written"
-                            quiz={quiz}
-                            updateable={!notUpdateable(user, quiz.creatorId)}
-                            onUpdate={() =>
-                              setCurrent({ type: "written", id: quiz.id })
-                            }
-                          />
-                        )}
+                      <li
+                        key={`written-${quiz.id}`}
+                        className="flex items-center gap-2"
+                      >
+                        <Checkbox
+                          color="cyan"
+                          checked={selectedWrittenQuizzes.includes(quiz.id)}
+                          onChange={(e) =>
+                            handleWrittenQuizCheckbox(quiz.id, e.target.checked)
+                          }
+                        />
+                        <div className="flex-1">
+                          {current &&
+                          current.type === "written" &&
+                          current.id === quiz.id ? (
+                            <UpdateWrittenQuizForm
+                              quiz={quiz}
+                              lectureId={lectureId}
+                              onClose={() => setCurrent(undefined)}
+                            />
+                          ) : (
+                            <Quiz
+                              type="written"
+                              quiz={quiz}
+                              updateable={!notUpdateable(user, quiz.creatorId)}
+                              onUpdate={() =>
+                                setCurrent({ type: "written", id: quiz.id })
+                              }
+                            />
+                          )}
+                        </div>
                       </li>
                     ))}
                   </>
