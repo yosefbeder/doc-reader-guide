@@ -1,6 +1,5 @@
 "use client";
 
-import Button from "@/components/Button";
 import useQuestionsDashboard from "@/lib/hooks/useQuestionsDashboard";
 import { User, WrittenQuestion } from "@/types";
 import React from "react";
@@ -8,6 +7,7 @@ import UpdateQuestionForm from "./UpdateQuestionForm";
 import { SummaryDetail } from "@/components/SummaryDetail";
 import useSettings from "@/lib/hooks/useSettings";
 import Toggle from "@/components/Toggle";
+import AddSection from "./AddSection";
 
 export default function QuestionsList({
   user,
@@ -34,51 +34,55 @@ export default function QuestionsList({
   );
 
   return (
-    <section>
-      <h3 className="mb-4">Update Questions</h3>
-      <div className="mb-4">
-        <Toggle
-          label="Open all questions"
-          checked={questionsOpen}
-          onChange={() => setQuestionsOpen((prev) => !prev)}
-        />
-      </div>
-      {orderedQuestions.map((question, index) => (
-        <div
-          key={`written-question-${question.id}`}
-          className="max-w-xl mb-4"
-          id={`question-${question.id}`}
-        >
-          {(() => {
-            const questionOpen =
-              questionsOpen || question.id === currentQuestion;
-            return (
-              <SummaryDetail
-                open={questionOpen}
-                toggle={() =>
-                  setCurrentQuestion((prev) =>
-                    question.id === prev ? undefined : question.id
-                  )
-                }
-              >
-                <SummaryDetail.Summary>
-                  Question {index + 1}
-                </SummaryDetail.Summary>
-
-                <SummaryDetail.Detail>
-                  <div className="p-2">
-                    <UpdateQuestionForm
-                      user={user}
-                      quizId={quizId}
-                      question={question}
-                    />
-                  </div>
-                </SummaryDetail.Detail>
-              </SummaryDetail>
-            );
-          })()}
+    <main className="main flex flex-col gap-4">
+      <AddSection quizId={quizId} questions={orderedQuestions} />
+      <hr />
+      <section>
+        <h3 className="mb-4">Update Questions</h3>
+        <div className="mb-4">
+          <Toggle
+            label="Open all questions"
+            checked={questionsOpen}
+            onChange={() => setQuestionsOpen((prev) => !prev)}
+          />
         </div>
-      ))}
-    </section>
+        {orderedQuestions.map((question, index) => (
+          <div
+            key={`written-question-${question.id}`}
+            className="max-w-xl mb-4"
+            id={`question-${question.id}`}
+          >
+            {(() => {
+              const questionOpen =
+                questionsOpen || question.id === currentQuestion;
+              return (
+                <SummaryDetail
+                  open={questionOpen}
+                  toggle={() =>
+                    setCurrentQuestion((prev) =>
+                      question.id === prev ? undefined : question.id
+                    )
+                  }
+                >
+                  <SummaryDetail.Summary>
+                    Question {index + 1}
+                  </SummaryDetail.Summary>
+
+                  <SummaryDetail.Detail>
+                    <div className="p-2">
+                      <UpdateQuestionForm
+                        user={user}
+                        quizId={quizId}
+                        question={question}
+                      />
+                    </div>
+                  </SummaryDetail.Detail>
+                </SummaryDetail>
+              );
+            })()}
+          </div>
+        ))}
+      </section>
+    </main>
   );
 }
