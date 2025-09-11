@@ -119,6 +119,8 @@ export default function useQuestions<T, U extends DatabaseTable>({
             return prev.toSorted(() => Math.random() - 0.5);
           }
         });
+      } else {
+        setOrderedQuestions((prev) => prev.toSorted((a, b) => a.id - b.id));
       }
       setShowingResults(quiz.showingResults);
       onLoad(quiz.answers);
