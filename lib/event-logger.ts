@@ -22,7 +22,7 @@ if (typeof window !== "undefined") {
   });
 
   enqueue = async function (event: any) {
-    // if (process.env.NODE_ENV !== "production") return;
+    if (process.env.NODE_ENV !== "production") return;
     const db = await dbPromise;
     await db.add(STORE, event);
   };
