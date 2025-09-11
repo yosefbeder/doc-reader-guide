@@ -12,7 +12,11 @@ export default async function getLecture(
       withQuestions
         ? ",mcqQuizzes.id,mcqQuizzes.title,mcqQuizzes.questions"
         : ""
-    },writtenQuizzes`,
+    },writtenQuizzes${
+      withQuestions
+        ? ",writtenQuizzes.id,writtenQuizzes.title,writtenQuizzes.questions,writtenQuizzes.questions.image,writtenQuizzes.questions.width,writtenQuizzes.questions.height,writtenQuizzes.questions.subQuestions,writtenQuizzes.questions.tapes,writtenQuizzes.questions.masks"
+        : ""
+    }`,
     {
       headers: {
         "Content-Type": "application/json",

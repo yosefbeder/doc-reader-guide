@@ -7,6 +7,7 @@ import { FormState } from "@/types";
 import { addMcqQuestions } from "./mcqQuizzes";
 import getNumber from "@/utils/getNumber";
 import replaceImgSrc from "@/utils/replaceImgSrc";
+import { addWrittenQuestions } from "./writtenQuizzes";
 
 export async function addLecture(
   _prevState: FormState,
@@ -132,8 +133,10 @@ export async function importSources(
   }
   let errors: string[] = [];
   let addedLinks = 0;
-  let addedQuizzes = 0;
-  let addedQuestions = 0;
+  let addedMcqQuizzes = 0;
+  let addedMcqQuestions = 0;
+  let addedWrittenQuizzes = 0;
+  let addedWrittenQuestions = 0;
 
   const linkResults = await Promise.all(
     (data.links || []).map(async (link: any) => {
@@ -159,7 +162,7 @@ export async function importSources(
   addedLinks = linkResults.filter((r) => r.ok).length;
   errors.push(...linkResults.filter((r) => !r.ok).map((r) => r.message));
 
-  const quizResults = await Promise.all(
+  const mcqQuizResults = await Promise.all(
     (data.mcqQuizzes || []).map(async (quiz: any) => {
       const res1 = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/lectures/${lectureId}/mcq-quizzes`,
@@ -183,9 +186,60 @@ export async function importSources(
       return { ok, totalCount };
     })
   );
-  addedQuizzes = quizResults.filter((r) => r.ok).length;
-  addedQuestions = quizResults.reduce((sum, r) => sum + (r.totalCount || 0), 0);
-  errors.push(...quizResults.filter((r) => !r.ok).map((r) => r.message));
+  addedMcqQuizzes = mcqQuizResults.filter((r) => r.ok).length;
+  addedMcqQuestions = mcqQuizResults.reduce(
+    (sum, r) => sum + (r.totalCount || 0),
+    0
+  );
+  errors.push(...mcqQuizResults.filter((r) => !r.ok).map((r) => r.message));
+
+  const writtenQuizResults = await Promise.all(
+    data.writtenQuizzes.map(async (writtenQuiz: any) => {
+      // Create written quiz
+      const res1 = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/lectures/${lectureId}/written-quizzes`,
+        {
+          method: "POST",
+          headers: {
+            "content-type": "application/json;charset=UTF-8",
+            authorization: `Bearer ${cookies().get("jwt")!.value}`,
+          },
+          body: JSON.stringify({ title: writtenQuiz.title }),
+        }
+      );
+      const json1 = await res1.json();
+      if (!res1.ok) {
+        return {
+          ok: false,
+          message: json1.message || "Failed to add written quiz",
+        };
+      }
+      // Add questions to written quiz
+      const { successCount, failCount } = await addWrittenQuestions(
+        json1.data.writtenQuiz.id,
+        writtenQuiz.questions || []
+      );
+      return {
+        ok: true,
+        title: writtenQuiz.title,
+        successCount,
+        failCount,
+      };
+    })
+  );
+  addedWrittenQuizzes = writtenQuizResults.filter((r) => r.ok).length;
+  addedWrittenQuestions = writtenQuizResults.reduce(
+    (sum, r) => sum + (r.successCount || 0),
+    0
+  );
+  errors.push(...writtenQuizResults.filter((r) => !r.ok).map((r) => r.message));
+  errors.push(
+    ...writtenQuizResults
+      .filter((r) => r.failCount > 0)
+      .map(
+        (r) => `Written quiz '${r.title}': ${r.failCount} question(s) failed`
+      )
+  );
 
   revalidatePath(`/lectures/${lectureId}`);
   revalidatePath(`/lectures/${lectureId}/update`);
@@ -193,7 +247,7 @@ export async function importSources(
   return {
     type: errors.length === 0 ? "success" : "fail",
     message:
-      `Added ${addedLinks} link(s), ${addedQuizzes} quiz(zes), ${addedQuestions} question(s).` +
+      `Added ${addedLinks} link(s), ${addedMcqQuizzes} mcq quiz(zes), ${addedMcqQuestions} mcq question(s), ${addedWrittenQuizzes} written quiz(zes), ${addedWrittenQuestions} written question(s).` +
       (errors.length ? ` Errors: ${errors.join("; ")}` : ""),
     resetKey: Date.now(),
   };
