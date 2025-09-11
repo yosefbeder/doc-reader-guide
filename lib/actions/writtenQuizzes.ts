@@ -9,7 +9,7 @@ import parseSubQuestions from "@/utils/parseSubQuestions";
 
 async function addWrittenQuestions(
   quizId: number,
-  questions: any[][]
+  questions: any[]
 ): Promise<{ successCount: number; failCount: number }> {
   if (!questions || questions.length === 0) {
     return { successCount: 0, failCount: 0 };
@@ -17,24 +17,31 @@ async function addWrittenQuestions(
 
   const jwt = cookies().get("jwt")!.value;
 
-  const requests = questions.map(async (x) => {
-    const fd = new FormData();
-    fd.append("subQuestions", JSON.stringify(x));
-    fd.append("tapes", JSON.stringify([]));
-    fd.append("masks", JSON.stringify([]));
-
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/written-quizzes/${quizId}/questions`,
-      {
-        method: "POST",
-        headers: { authorization: `Bearer ${jwt}` },
-        body: fd,
+  const requests = questions.map(
+    async ({ image, width, height, tapes, masks, subQuestions }) => {
+      const fd = new FormData();
+      if (image && width && height) {
+        fd.append("image", image);
+        fd.append("width", width);
+        fd.append("height", height);
       }
-    );
+      fd.append("subQuestions", JSON.stringify(subQuestions));
+      fd.append("tapes", JSON.stringify(tapes));
+      fd.append("masks", JSON.stringify(masks));
 
-    if (!res.ok) throw new Error("Request failed");
-    return res;
-  });
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/written-quizzes/${quizId}/questions`,
+        {
+          method: "POST",
+          headers: { authorization: `Bearer ${jwt}` },
+          body: fd,
+        }
+      );
+
+      if (!res.ok) throw new Error("Request failed");
+      return res;
+    }
+  );
 
   const results = await Promise.allSettled(requests);
 

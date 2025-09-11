@@ -192,6 +192,7 @@ export interface Rect extends DatabaseTable {
 export interface SubQuestion extends DatabaseTable {
   text: string;
   answer: string;
+  questionId: number;
 }
 
 export enum QuestionState {

@@ -4,19 +4,25 @@ import React, { useState } from "react";
 
 import { SummaryDetail } from "@/components/SummaryDetail";
 import ButtonCopy from "./ButtonCopy";
-import { McqQuiz } from "@/types";
+import { McqQuestion, McqQuiz } from "@/types";
 import AddQuestionForm from "./AddQuestionForm";
 import McqTemplates from "@/components/McqTemplates";
 import QuickAddForm from "./QuickAddForm";
 
-export default function AddSection({ quiz }: { quiz: McqQuiz }) {
+export default function AddSection({
+  quizId,
+  questions,
+}: {
+  quizId: number;
+  questions: McqQuestion[];
+}) {
   const [openSection, setOpenSection] = useState<string | undefined>();
 
   return (
     <>
       <ButtonCopy
         text={JSON.stringify(
-          quiz.questions.map(
+          questions.map(
             ({
               id,
               createdAt,
@@ -46,7 +52,7 @@ export default function AddSection({ quiz }: { quiz: McqQuiz }) {
         <SummaryDetail.Summary>New Question</SummaryDetail.Summary>
         <SummaryDetail.Detail>
           <div className="p-2">
-            <AddQuestionForm quizId={quiz.id} />
+            <AddQuestionForm quizId={quizId} />
           </div>
         </SummaryDetail.Detail>
       </SummaryDetail>
@@ -67,7 +73,7 @@ export default function AddSection({ quiz }: { quiz: McqQuiz }) {
               <h3>Templates</h3>
               <McqTemplates />
               <h3>Form</h3>
-              <QuickAddForm quizId={quiz.id} />
+              <QuickAddForm quizId={quizId} />
             </div>
           </div>
         </SummaryDetail.Detail>
