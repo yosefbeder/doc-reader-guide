@@ -66,7 +66,7 @@ export default function QuickAddForm({
     if (formState.resetKey) setQuestions("");
   }, [formState.resetKey]);
   return (
-    <form action={formAction} className="flex flex-col gap-4">
+    <form action={formAction} className="col">
       <h3>QUICK ADD</h3>
       <input
         type="number"

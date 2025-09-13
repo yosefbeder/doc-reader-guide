@@ -4,7 +4,7 @@ import Path from "../components/Path";
 import getSubject from "@/utils/getSubject";
 import MasonryCardContainer from "@/components/MasonryCardContainer";
 import getLectures from "@/utils/getLectures";
-import Lecture from "./components/Lecture";
+import LectureCard from "./components/LectureCard";
 import Message from "@/components/Message";
 import StructuredData from "../components/StructuredData";
 import buildCanonical from "@/utils/buildCanonical";
@@ -70,12 +70,12 @@ export default async function LecturesPage({
               ...lectures
                 .filter((lecture) => lecture.type !== "Normal")
                 .map((lecture) => (
-                  <Lecture key={lecture.id} lecture={lecture} />
+                  <LectureCard key={lecture.id} lecture={lecture} />
                 )),
               ...lectures
                 .filter((lecture) => lecture.type === "Normal")
                 .map((lecture) => (
-                  <Lecture key={lecture.id} lecture={lecture} />
+                  <LectureCard key={lecture.id} lecture={lecture} />
                 )),
             ]}
           </MasonryCardContainer>

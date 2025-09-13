@@ -5,7 +5,7 @@ export default function LinksLoadingPage() {
   return (
     <>
       <EmptyPath />
-      <main className="main flex flex-col gap-4">
+      <main className="main col">
         {[[], [], [], []].map((_, index) => (
           <button
             key={index}

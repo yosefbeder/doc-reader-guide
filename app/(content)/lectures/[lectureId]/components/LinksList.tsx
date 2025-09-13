@@ -4,8 +4,8 @@ import React from "react";
 
 import Message from "@/components/Message";
 import { Link as LinkType, WrittenQuiz, McqQuiz as QuizType } from "@/types";
-import Link from "./Link";
-import Quiz from "./Quiz";
+import LinkCard from "./LinkCard";
+import QuizCard from "./QuizCard";
 import { useCategories } from "@/lib/hooks";
 import { SummaryDetail } from "@/components/SummaryDetail";
 
@@ -32,7 +32,7 @@ export default function LinksList({
     );
 
   return (
-    <div className="flex flex-col gap-4 flex-1">
+    <div className="col flex-1">
       {categories.map((category, index) => {
         const categoryLinks = links.filter(
           (link) => link.category === category
@@ -65,12 +65,12 @@ export default function LinksList({
                   <>
                     {mcqQuizzes.map((quiz) => (
                       <li key={`mcq-quiz-${quiz.id}`}>
-                        <Quiz type="mcq" quiz={quiz} printable />
+                        <QuizCard type="mcq" quiz={quiz} printable />
                       </li>
                     ))}
                     {writtenQuizzes.map((quiz) => (
                       <li key={`written-quiz-${quiz.id}`}>
-                        <Quiz type="written" quiz={quiz} />
+                        <QuizCard type="written" quiz={quiz} />
                       </li>
                     ))}
                   </>
@@ -78,7 +78,7 @@ export default function LinksList({
 
                 {categoryLinks.map((link) => (
                   <li key={`link-${link.id}`}>
-                    <Link link={link} />
+                    <LinkCard link={link} />
                   </li>
                 ))}
               </ul>

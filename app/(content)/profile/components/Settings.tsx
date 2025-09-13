@@ -29,7 +29,7 @@ export default function Settings() {
       >
         <SummaryDetail.Summary>Notifications</SummaryDetail.Summary>
         <SummaryDetail.Detail>
-          <div className="flex flex-col gap-4 p-2">
+          <div className="col p-2">
             <ToggleNotifications />
           </div>
         </SummaryDetail.Detail>
@@ -44,7 +44,7 @@ export default function Settings() {
       >
         <SummaryDetail.Summary>MCQ Quiz</SummaryDetail.Summary>
         <SummaryDetail.Detail>
-          <ul className="flex flex-col gap-4 p-2">
+          <ul className="col p-2">
             <Toggle
               checked={settings.mcqQuiz.shuffle}
               label="Shuffle"
@@ -92,7 +92,7 @@ export default function Settings() {
       >
         <SummaryDetail.Summary>Written Quiz</SummaryDetail.Summary>
         <SummaryDetail.Detail>
-          <ul className="flex flex-col gap-4 p-2">
+          <ul className="col p-2">
             <Toggle
               checked={settings.writtenQuiz.shuffle}
               label="Shuffle"

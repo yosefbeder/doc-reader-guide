@@ -101,7 +101,7 @@ export default function Summary({
           onChange={() => setQuestionsOpen((prev) => !prev)}
         />
       </div>
-      <ol className="flex flex-col gap-4 max-w-xl">
+      <ol className="col max-w-xl">
         {questions.map((question, index) => {
           const factor = factors[index];
           return (
@@ -119,7 +119,7 @@ export default function Summary({
                   Question {index + 1}
                 </SummaryDetail.Summary>
                 <SummaryDetail.Detail>
-                  <div className="p-2 flex flex-col gap-4">
+                  <div className="p-2 col">
                     {factor && (
                       <div className="relative">
                         <img
@@ -159,14 +159,14 @@ export default function Summary({
                         ))}
                       </div>
                     )}
-                    <ol className="flex flex-col gap-4">
+                    <ol className="col">
                       {question.subQuestions.map(
                         ({ id, text, answer }, index) => {
                           const questionState = answers.subQuestions.get(id)!;
                           return (
                             <li
                               key={`written-question-${question.id}-sub-question-${id}`}
-                              className="flex flex-col gap-4"
+                              className="col"
                             >
                               <p className="font-bold">
                                 {question.subQuestions.length > 1

@@ -2,14 +2,14 @@
 
 import Link from "next/link";
 
-import { Action, Lecture as LectureType, Resource } from "@/types";
+import { Action, Lecture, Resource } from "@/types";
 import { icons } from "@/components/icons";
 import { logEvent } from "@/lib/event-logger";
 
-export default function Lecture({
+export default function LectureCard({
   lecture: { id, title, date, type },
 }: {
-  lecture: LectureType;
+  lecture: Lecture;
 }) {
   return (
     <Link

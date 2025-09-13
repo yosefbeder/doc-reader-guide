@@ -13,14 +13,16 @@ export default function AddSubjectForm({ moduleId }: { moduleId: number }) {
   const { hideMessage, setHideMessage, formKey } = useAddForm(formState);
 
   return (
-    <form action={formAction} onClickCapture={() => setHideMessage(true)}>
+    <form
+      action={formAction}
+      className="col"
+      onClickCapture={() => setHideMessage(true)}
+    >
       <SubjectFields key={formKey} moduleId={moduleId} />
       {formState.message && formState.type && !hideMessage && (
-        <Message type={formState.type} className="mb-4">
-          {formState.message}
-        </Message>
+        <Message type={formState.type}>{formState.message}</Message>
       )}
-      <ButtonSubmit>Add</ButtonSubmit>
+      <ButtonSubmit className="self-start">Add</ButtonSubmit>
     </form>
   );
 }

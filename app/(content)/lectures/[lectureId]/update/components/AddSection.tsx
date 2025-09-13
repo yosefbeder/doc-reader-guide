@@ -5,8 +5,7 @@ import React, { useState } from "react";
 import { SummaryDetail } from "@/components/SummaryDetail";
 import AddLinkForm from "./AddLinkForm";
 import McqTemplates from "@/components/McqTemplates";
-import AddMcqQuizForm from "./AddMcqQuizForm";
-import AddWrittenQuizForm from "./AddWrittenQuizForm";
+import AddQuizForm from "./AddQuizForm";
 import WrittenTemplates from "@/components/WrittenTemplates";
 import ImportSourcesForm from "./ImportSourcesForm";
 
@@ -38,11 +37,11 @@ export default function AddSection({ lectureId }: { lectureId: number }) {
         <SummaryDetail.Summary>Add MCQ Quiz</SummaryDetail.Summary>
         <SummaryDetail.Detail>
           <div className="p-2">
-            <div className="floating flex flex-col gap-4">
+            <div className="floating col">
               <h3>Templates</h3>
               <McqTemplates />
               <h3>Form</h3>
-              <AddMcqQuizForm lectureId={lectureId} />
+              <AddQuizForm type="mcq" lectureId={lectureId} />
             </div>
           </div>
         </SummaryDetail.Detail>
@@ -59,11 +58,11 @@ export default function AddSection({ lectureId }: { lectureId: number }) {
         <SummaryDetail.Summary>Add Written Quiz</SummaryDetail.Summary>
         <SummaryDetail.Detail>
           <div className="p-2">
-            <div className="floating flex flex-col gap-4">
+            <div className="floating col">
               <h3>Templates</h3>
               <WrittenTemplates />
               <h3>Form</h3>
-              <AddWrittenQuizForm lectureId={lectureId} />
+              <AddQuizForm type="written" lectureId={lectureId} />
             </div>
           </div>
         </SummaryDetail.Detail>

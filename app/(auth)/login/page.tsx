@@ -11,7 +11,7 @@ export default function LoginPage() {
       clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID as string}
     >
       <Suspense>
-        <main className="my-8 mx-auto max-w-xl flex flex-col gap-4 items-center">
+        <main className="my-8 mx-auto max-w-xl col items-center">
           <Image src={Logo} width={128} alt="Logo" />
           <span className="text-4xl font-extrabold text-cyan-700">
             DocReader Guide

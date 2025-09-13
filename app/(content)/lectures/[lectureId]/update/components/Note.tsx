@@ -43,7 +43,7 @@ export default function Note({
       <SummaryDetail.Summary>Note</SummaryDetail.Summary>
       <SummaryDetail.Detail>
         <form
-          className="p-2 flex flex-col gap-4"
+          className="p-2 col"
           action={formAction}
           onClickCapture={() => setHideMessage(true)}
         >

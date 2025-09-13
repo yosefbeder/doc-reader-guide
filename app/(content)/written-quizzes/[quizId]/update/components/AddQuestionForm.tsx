@@ -16,16 +16,8 @@ export default function AddQuestionForm({ quizId }: { quizId: number }) {
   const { hideMessage, setHideMessage, formKey } = useAddForm(formState);
 
   return (
-    <div
-      className="flex flex-col gap-4 max-w-xl"
-      onClickCapture={() => setHideMessage(true)}
-    >
-      <form
-        action={formAction}
-        key={formKey}
-        id={formId}
-        className="flex flex-col gap-4"
-      >
+    <div className="col max-w-xl" onClickCapture={() => setHideMessage(true)}>
+      <form action={formAction} key={formKey} id={formId} className="col">
         <QuestionFields quizId={quizId} formId={formId} />
         {formState.message && formState.type && !hideMessage && (
           <Message type={formState.type}>{formState.message}</Message>

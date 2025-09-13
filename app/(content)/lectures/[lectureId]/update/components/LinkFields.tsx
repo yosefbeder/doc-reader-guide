@@ -6,6 +6,7 @@ import Input from "@/components/Input";
 import Select from "@/components/Select";
 import { Link } from "@/types";
 import ButtonIcon from "@/components/ButtonIcon";
+import Checkbox from "@/components/Checkbox";
 
 export default function LinkFields({
   lectureId,
@@ -79,7 +80,6 @@ export default function LinkFields({
         required
         value={title}
         onChange={(e) => setTitle(e.target.value)}
-        className="mb-4"
         form={formId}
       />
       <Input
@@ -89,7 +89,6 @@ export default function LinkFields({
         name="sub-title"
         id={`link-${defaultValues?.id || "new"}-sub-title`}
         defaultValue={defaultValues?.subTitle}
-        className="mb-4"
         form={formId}
       />
       <ul className="flex flex-col gap-2 mb-4">
@@ -127,7 +126,7 @@ export default function LinkFields({
       <ButtonIcon
         icon="plus"
         type="button"
-        className="w-max mb-4"
+        className="self-start"
         onClick={() => {
           if (currentCounter >= +process.env.NEXT_PUBLIC_OPTIONS_LIMIT!) return;
           setUrls((prev) => [...prev, { id: currentCounter, value: "" }]);
@@ -148,7 +147,6 @@ export default function LinkFields({
         required
         value={type}
         onChange={(e) => setType(e.target.value as any)}
-        className="mb-4"
         form={formId}
       />
       <Select
@@ -165,7 +163,6 @@ export default function LinkFields({
         required
         value={category}
         onChange={(e) => setCategory(e.target.value as any)}
-        className="mb-4"
         form={formId}
       />
       <input

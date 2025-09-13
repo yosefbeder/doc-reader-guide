@@ -34,7 +34,6 @@ export default function ModuleFields({
         id={`module-${defaultValues?.id || "new"}-icon`}
         defaultValue={defaultValues?.icon}
         required
-        className="mb-4"
       />
       <Input
         form={formId}
@@ -45,7 +44,6 @@ export default function ModuleFields({
         id={`module-${defaultValues?.id || "new"}-name`}
         defaultValue={defaultValues?.name}
         required
-        className="mb-4"
       />
       <Input
         form={formId}
@@ -56,7 +54,6 @@ export default function ModuleFields({
         id={`module-${defaultValues?.id || "new"}-semester-name`}
         defaultValue={defaultValues?.semesterName || 1}
         required
-        className="mb-4"
       />
       <input
         form={formId}

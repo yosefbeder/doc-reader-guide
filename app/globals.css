@@ -110,6 +110,10 @@
 }
 
 @layer utilities {
+  .col {
+    @apply flex flex-col gap-4;
+  }
+
   .card {
     @apply flex flex-col items-center p-4 gap-4 rounded-xl text-center superficial;
   }

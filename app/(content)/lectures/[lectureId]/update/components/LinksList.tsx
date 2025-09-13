@@ -9,12 +9,11 @@ import {
   McqQuiz as QuizType,
   User,
 } from "@/types";
-import Link from "../../components/Link";
-import Quiz from "../../components/Quiz";
+import LinkCard from "../../components/LinkCard";
+import QuizCard from "../../components/QuizCard";
 import { useCategories } from "@/lib/hooks";
-import UpdateMcqQuizForm from "./UpdateMcqQuizForm";
+import UpdateQuizForm from "./UpdateQuizForm";
 import UpdateLinkForm from "./UpdateLinkForm";
-import UpdateWrittenQuizForm from "./UpdateWrittenQuizForm";
 import { SummaryDetail } from "@/components/SummaryDetail";
 import notUpdateable from "@/utils/isUpdateable";
 import Button from "@/components/Button";
@@ -125,7 +124,7 @@ export default function LinksList({
     );
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="col">
       <div className="flex gap-2 items-center">
         <Button
           onClick={handleCopy}
@@ -214,13 +213,14 @@ export default function LinksList({
                           {current &&
                           current.type === "mcq" &&
                           current.id === quiz.id ? (
-                            <UpdateMcqQuizForm
+                            <UpdateQuizForm
+                              type={current.type}
                               quiz={quiz}
                               lectureId={lectureId}
                               onClose={() => setCurrent(undefined)}
                             />
                           ) : (
-                            <Quiz
+                            <QuizCard
                               type="mcq"
                               quiz={quiz}
                               printable
@@ -249,13 +249,14 @@ export default function LinksList({
                           {current &&
                           current.type === "written" &&
                           current.id === quiz.id ? (
-                            <UpdateWrittenQuizForm
+                            <UpdateQuizForm
+                              type={current.type}
                               quiz={quiz}
                               lectureId={lectureId}
                               onClose={() => setCurrent(undefined)}
                             />
                           ) : (
-                            <Quiz
+                            <QuizCard
                               type="written"
                               quiz={quiz}
                               updateable={!notUpdateable(user, quiz.creatorId)}
@@ -292,7 +293,7 @@ export default function LinksList({
                           onClose={() => setCurrent(undefined)}
                         />
                       ) : (
-                        <Link
+                        <LinkCard
                           link={link}
                           updateable={!notUpdateable(user, link.creatorId)}
                           onUpdate={() =>

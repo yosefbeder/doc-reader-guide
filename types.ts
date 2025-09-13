@@ -148,6 +148,8 @@ export interface Link extends DatabaseTable {
   lectureData: LectureSimple;
 }
 
+export type QuizType = "mcq" | "written";
+
 export interface Quiz extends DatabaseTable {
   title: string;
   lectureData: LectureSimple;

@@ -1,5 +1,7 @@
 // lib/api.ts
 
+import { QuizType } from "@/types";
+
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 const JWT = process.env.NEXT_PUBLIC_JWT;
 
@@ -35,7 +37,7 @@ export async function listLectures(): Promise<any[]> {
   return (await fetchWithAuth<any>(`/lectures`)).lectures;
 }
 
-export async function listQuizzes(type: "mcq" | "written"): Promise<any[]> {
+export async function listQuizzes(type: QuizType): Promise<any[]> {
   const data = await fetchWithAuth<any>(`/${type}-quizzes`);
   return type === "mcq" ? data.mcqQuizzes : data.writtenQuizzes;
 }

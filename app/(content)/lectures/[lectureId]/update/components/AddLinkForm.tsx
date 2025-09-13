@@ -14,17 +14,15 @@ export default function AddLinkForm({ lectureId }: { lectureId: number }) {
 
   return (
     <form
-      className="floating"
+      className="floating col"
       action={formAction}
       onClickCapture={() => setHideMessage(true)}
     >
       <LinkFields key={formKey} lectureId={lectureId} />
       {formState.message && formState.type && !hideMessage && (
-        <Message type={formState.type} className="mb-4">
-          {formState.message}
-        </Message>
+        <Message type={formState.type}>{formState.message}</Message>
       )}
-      <ButtonSubmit>Add</ButtonSubmit>
+      <ButtonSubmit className="self-start">Add</ButtonSubmit>
     </form>
   );
 }

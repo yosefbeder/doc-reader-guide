@@ -37,7 +37,7 @@ export default function QuestionFields({
     init ? init.subQuestions.length : 1
   );
   return (
-    <div className="flex flex-col gap-4 mb-4">
+    <div className="col mb-4">
       <Canvas
         formId={formId}
         init={

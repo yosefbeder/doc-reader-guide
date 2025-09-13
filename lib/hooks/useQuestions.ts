@@ -1,13 +1,13 @@
 import { useCallback, useEffect, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 
-import { Action, DatabaseTable, Quiz, Resource } from "@/types";
+import { Action, DatabaseTable, Quiz, QuizType, Resource } from "@/types";
 import { logEvent } from "../event-logger";
 import calcMcqResult from "@/utils/calcMcqResult";
 import calcWrittenResult from "@/utils/calcWrittenResult";
 
 export interface Options<T, U extends DatabaseTable> {
-  type: "mcq" | "written";
+  type: QuizType;
   quiz: Quiz;
   questions: U[];
   localStorageItem: string;

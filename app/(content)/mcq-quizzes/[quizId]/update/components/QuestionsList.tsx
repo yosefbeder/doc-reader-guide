@@ -31,7 +31,7 @@ export default function QuestionsList({
   } = useQuestionsDashboard(questions, `mcq-quiz-${quizId}`, settings.shuffle);
 
   return (
-    <main className="main flex flex-col gap-4">
+    <main className="main col">
       <AddSection quizId={quizId} questions={orderedQuestions} />
       <hr />
       <section>

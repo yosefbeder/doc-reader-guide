@@ -1,17 +1,17 @@
 "use client";
 
-import { Action, Link as LinkType, Resource } from "@/types";
+import { Action, Link, Resource } from "@/types";
 import { typeIcons } from "./typeIcons";
 import ButtonIcon from "@/components/ButtonIcon";
 import getPrefix from "@/utils/getPrefix";
 import { logEvent } from "@/lib/event-logger";
 
-export default function Link({
+export default function LinkCard({
   link: { id, title, subTitle, type, urls },
   updateable = false,
   onUpdate,
 }: {
-  link: LinkType;
+  link: Link;
   updateable?: boolean;
   onUpdate?: () => void;
 }) {

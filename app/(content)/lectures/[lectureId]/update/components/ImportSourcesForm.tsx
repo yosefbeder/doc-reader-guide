@@ -15,7 +15,7 @@ export default function ImportSourcesForm({
   const [formState, formAction] = useFormState(importSources, {});
 
   return (
-    <form action={formAction} className="flex flex-col gap-4 floating p-2">
+    <form action={formAction} className="col floating p-2">
       <input type="hidden" name="lecture-id" value={lectureId} />
       <div>
         <label className="block mb-2" htmlFor="data">

@@ -222,9 +222,7 @@ export default function QuestionsList({
         return (
           <div
             key={`written-question-${question.id}`}
-            className={
-              currentQuestion === question.id ? "flex flex-col gap-4" : "hidden"
-            }
+            className={currentQuestion === question.id ? "col" : "hidden"}
           >
             {question.image && factor && (
               <div className="relative">
@@ -303,13 +301,13 @@ export default function QuestionsList({
                 })}
               </div>
             )}
-            <ol className="flex flex-col gap-4">
+            <ol className="col">
               {question.subQuestions.map(({ id, text, answer }, index) => {
                 const questionState = answers.subQuestions.get(id)!;
                 return (
                   <li
                     key={`written-question-${question.id}-sub-question-${id}`}
-                    className="flex flex-col gap-4"
+                    className="col"
                   >
                     <p className="font-bold">
                       {question.subQuestions.length > 1

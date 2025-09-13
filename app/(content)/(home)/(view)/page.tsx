@@ -12,7 +12,7 @@ import Message from "@/components/Message";
 import CardPlaceholder from "@/components/CardPlaceholder";
 import { SummaryDetail } from "@/components/SummaryDetail";
 import SelectClass from "./components/SelectClass";
-import Quiz from "../../lectures/[lectureId]/components/Quiz";
+import QuizCard from "../../lectures/[lectureId]/components/QuizCard";
 import { logEvent } from "@/lib/event-logger";
 import { Action, Resource } from "@/types";
 
@@ -101,7 +101,7 @@ export default function ModulesPage() {
 
   if (isLoading || !data) {
     return (
-      <main className="main flex flex-col gap-4">
+      <main className="main col">
         {/* Collapsed loading skeleton */}
         <SummaryDetail open={false} toggle={() => {}}>
           <SummaryDetail.Summary>
@@ -144,7 +144,7 @@ export default function ModulesPage() {
     );
 
   return (
-    <main className="main flex flex-col gap-4">
+    <main className="main col">
       {writtenQuizzes.length + mcqQuizzes.length > 0 && (
         <SummaryDetail
           open={selectedSection === "quizzes"}
@@ -161,7 +161,7 @@ export default function ModulesPage() {
                 const { quiz } = JSON.parse(value);
                 return (
                   <li key={`mcq-quiz-${quiz.id}`}>
-                    <Quiz type="mcq" quiz={quiz} printable />
+                    <QuizCard type="mcq" quiz={quiz} printable />
                   </li>
                 );
               })}
@@ -169,7 +169,7 @@ export default function ModulesPage() {
                 const { quiz } = JSON.parse(value);
                 return (
                   <li key={`written-quiz-${quiz.id}`}>
-                    <Quiz type="written" quiz={quiz} />
+                    <QuizCard type="written" quiz={quiz} />
                   </li>
                 );
               })}

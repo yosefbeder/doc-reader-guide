@@ -69,7 +69,7 @@ export default function AddSection({
         <SummaryDetail.Summary>Quick Add</SummaryDetail.Summary>
         <SummaryDetail.Detail>
           <div className="p-2">
-            <div className="floating flex flex-col gap-4">
+            <div className="floating col">
               <h3>Templates</h3>
               <McqTemplates />
               <h3>Form</h3>
