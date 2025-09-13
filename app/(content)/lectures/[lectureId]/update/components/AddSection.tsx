@@ -9,7 +9,13 @@ import AddQuizForm from "./AddQuizForm";
 import WrittenTemplates from "@/components/WrittenTemplates";
 import ImportSourcesForm from "./ImportSourcesForm";
 
-export default function AddSection({ lectureId }: { lectureId: number }) {
+export default function AddSection({
+  lectureId,
+  yearId,
+}: {
+  lectureId: number;
+  yearId: number;
+}) {
   const [openSection, setOpenSection] = useState<string | undefined>();
 
   return (
@@ -23,7 +29,7 @@ export default function AddSection({ lectureId }: { lectureId: number }) {
         <SummaryDetail.Summary>Add Link</SummaryDetail.Summary>
         <SummaryDetail.Detail>
           <div className="p-2">
-            <AddLinkForm lectureId={lectureId} />
+            <AddLinkForm lectureId={lectureId} yearId={yearId} />
           </div>
         </SummaryDetail.Detail>
       </SummaryDetail>
@@ -41,7 +47,7 @@ export default function AddSection({ lectureId }: { lectureId: number }) {
               <h3>Templates</h3>
               <McqTemplates />
               <h3>Form</h3>
-              <AddQuizForm type="mcq" lectureId={lectureId} />
+              <AddQuizForm type="mcq" lectureId={lectureId} yearId={yearId} />
             </div>
           </div>
         </SummaryDetail.Detail>
@@ -62,7 +68,11 @@ export default function AddSection({ lectureId }: { lectureId: number }) {
               <h3>Templates</h3>
               <WrittenTemplates />
               <h3>Form</h3>
-              <AddQuizForm type="written" lectureId={lectureId} />
+              <AddQuizForm
+                type="written"
+                lectureId={lectureId}
+                yearId={yearId}
+              />
             </div>
           </div>
         </SummaryDetail.Detail>

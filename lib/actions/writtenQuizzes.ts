@@ -3,9 +3,10 @@
 import { cookies } from "next/headers";
 import { revalidatePath } from "next/cache";
 
-import { FormState } from "@/types";
+import { FormState, Quiz } from "@/types";
 import getNumber from "@/utils/getNumber";
 import parseSubQuestions from "@/utils/parseSubQuestions";
+import { sendAutoNotification } from "@/utils/sendAutoNotification";
 
 export async function addWrittenQuestions(
   quizId: number,
@@ -93,14 +94,18 @@ export async function addQuiz(
     };
   }
 
+  const quiz = json1.data.writtenQuiz as Quiz;
+
   // Step 2: add questions
   const { successCount, failCount } = await addWrittenQuestions(
-    json1.data.writtenQuiz.id,
+    quiz.id,
     questions
   );
 
   revalidatePath(`/lectures/${lectureId}`);
   revalidatePath(`/lectures/${lectureId}/update`);
+  if (formData.get("notify"))
+    sendAutoNotification(getNumber(formData, "year-id"), "written", quiz.id);
 
   return {
     type: res1.ok && (failCount === 0 || successCount > 0) ? "success" : "fail",
@@ -141,6 +146,8 @@ export async function updateQuiz(
     revalidatePath(`/lectures/${lectureId}/update`);
     revalidatePath(`/written-quizzes/${quizId}`);
     revalidatePath(`/written-quizzes/${quizId}/update`);
+    if (formData.get("notify"))
+      sendAutoNotification(getNumber(formData, "year-id"), "written", quizId);
   }
 
   return {

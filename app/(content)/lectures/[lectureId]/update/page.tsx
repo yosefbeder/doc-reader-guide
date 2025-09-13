@@ -18,11 +18,15 @@ export default async function UpdateLinksPage({
       <main className="main col">
         <Note user={user} lecture={lecture} />
         <hr />
-        <AddSection lectureId={+lectureId} />
+        <AddSection
+          lectureId={+lectureId}
+          yearId={lecture.subject.module.year.id}
+        />
         <hr />
         <LinksList
           user={user}
           lectureId={+lectureId}
+          yearId={lecture.subject.module.year.id}
           links={lecture.links.toSorted((a, b) => a.id - b.id)}
           mcqQuizzes={lecture.mcqQuizzes.toSorted((a, b) => a.id - b.id)}
           writtenQuizzes={lecture.writtenQuizzes.toSorted(

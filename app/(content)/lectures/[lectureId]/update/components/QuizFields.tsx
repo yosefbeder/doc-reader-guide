@@ -1,3 +1,4 @@
+import Checkbox from "@/components/Checkbox";
 import Input from "@/components/Input";
 import { Quiz, QuizType } from "@/types";
 
@@ -6,11 +7,13 @@ const QuizFields = ({
   lectureId,
   defaultValues,
   formId,
+  yearId,
 }: {
   type: QuizType;
   lectureId: number;
   defaultValues?: Quiz;
   formId?: string;
+  yearId: number;
 }) => {
   return (
     <>
@@ -46,12 +49,21 @@ const QuizFields = ({
           ></textarea>
         </div>
       )}
+      <Checkbox label="Notify?" name="notify" form={formId} />
       <input
         type="number"
         id={`${type}-quiz-${defaultValues?.id || "new"}-lecture-id`}
         name="lecture-id"
         className="hidden"
         defaultValue={lectureId}
+        form={formId}
+      />
+      <input
+        type="number"
+        name="year-id"
+        id={`link-${defaultValues?.id || "new"}-year-id`}
+        className="hidden"
+        defaultValue={yearId}
         form={formId}
       />
     </>

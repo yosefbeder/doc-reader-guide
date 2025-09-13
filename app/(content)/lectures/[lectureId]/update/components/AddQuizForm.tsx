@@ -13,9 +13,11 @@ import { QuizType } from "@/types";
 export default function AddQuizForm({
   type,
   lectureId,
+  yearId,
 }: {
   type: QuizType;
   lectureId: number;
+  yearId: number;
 }) {
   const [formState, formAction] = useFormState(
     type === "mcq" ? addMcqQuiz : addWrittenQuiz,
@@ -29,7 +31,12 @@ export default function AddQuizForm({
       className="col"
       onClickCapture={() => setHideMessage(true)}
     >
-      <QuizFields type={type} key={formKey} lectureId={lectureId} />
+      <QuizFields
+        type={type}
+        key={formKey}
+        lectureId={lectureId}
+        yearId={yearId}
+      />
       {formState.message && formState.type && !hideMessage && (
         <Message type={formState.type}>{formState.message}</Message>
       )}
