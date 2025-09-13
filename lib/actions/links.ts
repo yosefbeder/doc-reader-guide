@@ -3,9 +3,10 @@
 import { cookies } from "next/headers";
 import { revalidatePath } from "next/cache";
 
-import { FormState } from "@/types";
+import { FormState, Link } from "@/types";
 import getNumber from "@/utils/getNumber";
 import parseUrls from "@/utils/parseUrls";
+import { sendAutoNotification } from "@/utils/sendAutoNotification";
 
 export async function addLink(
   _prevState: FormState,
@@ -35,8 +36,11 @@ export async function addLink(
   const json = await res.json();
 
   if (res.ok) {
+    const link = json.data.link as Link;
     revalidatePath(`/lectures/${lectureId}`);
     revalidatePath(`/lectures/${lectureId}/update`);
+    if (formData.get("notify"))
+      sendAutoNotification(getNumber(formData, "year-id"), "link", link.id);
   }
 
   return {
@@ -78,6 +82,8 @@ export async function updateLink(
   if (res.ok) {
     revalidatePath(`/lectures/${lectureId}`);
     revalidatePath(`/lectures/${lectureId}/update`);
+    if (formData.get("notify"))
+      sendAutoNotification(getNumber(formData, "year-id"), "link", linkId);
   }
 
   return {

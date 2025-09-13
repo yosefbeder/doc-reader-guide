@@ -16,10 +16,12 @@ export default function UpdateLinkForm({
   link,
   lectureId,
   onClose,
+  yearId,
 }: {
   link: Link;
   lectureId: number;
   onClose: () => void;
+  yearId: number;
 }) {
   const [updateFormState, updateFormAction] = useFormState(updateLink, {});
   const updateFormId = `update-link-${link.id}`;
@@ -40,6 +42,7 @@ export default function UpdateLinkForm({
         lectureId={lectureId}
         defaultValues={link}
         formId={updateFormId}
+        yearId={yearId}
       />
       {updateFormState.message && updateFormState.type && !hideMessage && (
         <Message type={updateFormState.type}>{updateFormState.message}</Message>

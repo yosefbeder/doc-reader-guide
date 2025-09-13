@@ -23,12 +23,14 @@ import cleanWrittenQuestion from "@/utils/cleanWrittenQuestion";
 export default function LinksList({
   user,
   lectureId,
+  yearId,
   links,
   mcqQuizzes,
   writtenQuizzes,
 }: {
   user: User;
   lectureId: number;
+  yearId: number;
   links: LinkType[];
   mcqQuizzes: QuizType[];
   writtenQuizzes: WrittenQuiz[];
@@ -218,6 +220,7 @@ export default function LinksList({
                               quiz={quiz}
                               lectureId={lectureId}
                               onClose={() => setCurrent(undefined)}
+                              yearId={yearId}
                             />
                           ) : (
                             <QuizCard
@@ -254,6 +257,7 @@ export default function LinksList({
                               quiz={quiz}
                               lectureId={lectureId}
                               onClose={() => setCurrent(undefined)}
+                              yearId={yearId}
                             />
                           ) : (
                             <QuizCard
@@ -291,6 +295,7 @@ export default function LinksList({
                           link={link}
                           lectureId={lectureId}
                           onClose={() => setCurrent(undefined)}
+                          yearId={yearId}
                         />
                       ) : (
                         <LinkCard

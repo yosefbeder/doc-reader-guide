@@ -24,11 +24,13 @@ export default function UpdateQuizForm({
   quiz,
   lectureId,
   onClose,
+  yearId,
 }: {
   type: QuizType;
   quiz: Quiz;
   lectureId: number;
   onClose: () => void;
+  yearId: number;
 }) {
   const [updateFormState, updateFormAction] = useFormState(
     type === "mcq" ? updateMcqQuiz : updateWrittenQuiz,
@@ -56,6 +58,7 @@ export default function UpdateQuizForm({
         lectureId={lectureId}
         defaultValues={quiz}
         formId={updateFormId}
+        yearId={yearId}
       />
       {updateFormState.message && updateFormState.type && !hideMessage && (
         <Message type={updateFormState.type}>{updateFormState.message}</Message>

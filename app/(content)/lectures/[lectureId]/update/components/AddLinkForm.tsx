@@ -8,7 +8,13 @@ import { addLink } from "@/lib/actions/links";
 import Message from "@/components/Message";
 import { useAddForm } from "@/lib/hooks";
 
-export default function AddLinkForm({ lectureId }: { lectureId: number }) {
+export default function AddLinkForm({
+  lectureId,
+  yearId,
+}: {
+  lectureId: number;
+  yearId: number;
+}) {
   const [formState, formAction] = useFormState(addLink, {});
   const { hideMessage, setHideMessage, formKey } = useAddForm(formState);
 
@@ -18,7 +24,7 @@ export default function AddLinkForm({ lectureId }: { lectureId: number }) {
       action={formAction}
       onClickCapture={() => setHideMessage(true)}
     >
-      <LinkFields key={formKey} lectureId={lectureId} />
+      <LinkFields key={formKey} lectureId={lectureId} yearId={yearId} />
       {formState.message && formState.type && !hideMessage && (
         <Message type={formState.type}>{formState.message}</Message>
       )}

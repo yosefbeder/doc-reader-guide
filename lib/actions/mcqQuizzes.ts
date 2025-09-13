@@ -3,9 +3,10 @@
 import { cookies } from "next/headers";
 import { revalidatePath } from "next/cache";
 
-import { FormState } from "@/types";
+import { FormState, Quiz } from "@/types";
 import getNumber from "@/utils/getNumber";
 import parseOptions from "@/utils/parseOptions";
+import { sendAutoNotification } from "@/utils/sendAutoNotification";
 
 export async function addMcqQuestions(
   quizId: number,
@@ -78,14 +79,15 @@ export async function addQuiz(
     };
   }
 
+  const quiz = json1.data.mcqQuiz as Quiz;
+
   // Step 2: add questions
-  const { totalCount, ok } = await addMcqQuestions(
-    json1.data.mcqQuiz.id,
-    questions
-  );
+  const { totalCount, ok } = await addMcqQuestions(quiz.id, questions);
 
   revalidatePath(`/lectures/${lectureId}`);
   revalidatePath(`/lectures/${lectureId}/update`);
+  if (formData.get("notify"))
+    sendAutoNotification(getNumber(formData, "year-id"), "mcq", quiz.id);
 
   return {
     type: res1.ok && ok ? "success" : "fail",
@@ -124,6 +126,8 @@ export async function updateQuiz(
     revalidatePath(`/lectures/${lectureId}/update`);
     revalidatePath(`/mcq-quizzes/${quizId}`);
     revalidatePath(`/mcq-quizzes/${quizId}/update`);
+    if (formData.get("notify"))
+      sendAutoNotification(getNumber(formData, "year-id"), "mcq", quizId);
   }
 
   return {

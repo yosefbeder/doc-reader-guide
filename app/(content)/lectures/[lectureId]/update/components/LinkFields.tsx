@@ -12,10 +12,12 @@ export default function LinkFields({
   lectureId,
   defaultValues,
   formId,
+  yearId,
 }: {
   lectureId: number;
   defaultValues?: Link;
   formId?: string;
+  yearId: number;
 }) {
   const [title, setTitle] = useState(defaultValues?.title || "");
   const [category, setCategory] = useState(
@@ -165,12 +167,21 @@ export default function LinkFields({
         onChange={(e) => setCategory(e.target.value as any)}
         form={formId}
       />
+      <Checkbox label="Notify?" name="notify" form={formId} />
       <input
         type="number"
         name="lecture-id"
         id={`link-${defaultValues?.id || "new"}-lecture-id`}
         className="hidden"
         defaultValue={lectureId}
+        form={formId}
+      />
+      <input
+        type="number"
+        name="year-id"
+        id={`link-${defaultValues?.id || "new"}-year-id`}
+        className="hidden"
+        defaultValue={yearId}
         form={formId}
       />
     </>

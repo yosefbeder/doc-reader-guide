@@ -98,8 +98,8 @@ interface ModuleSimple {
   id: number;
   semesterName: number;
   name: string;
-  yearId: number;
   year: {
+    id: number;
     faculty: Faculty;
   };
 }
