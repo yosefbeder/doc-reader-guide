@@ -41,7 +41,7 @@ export default function PersonalInfoForm({
   }, [formState]);
 
   return (
-    <form action={formAction} className="max-w-xl w-full flex flex-col gap-4">
+    <form action={formAction} className="max-w-xl w-full col">
       <SelectFacultyYear
         faculties={faculties}
         facultyId={facultyId}

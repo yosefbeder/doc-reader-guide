@@ -31,8 +31,8 @@ export default function UpdateLinkForm({
   );
 
   return (
-    <div className="floating" onClickCapture={() => setHideMessage(true)}>
-      <div className="flex justify-between items-center mb-4">
+    <div className="floating col" onClickCapture={() => setHideMessage(true)}>
+      <div className="flex justify-between items-center">
         <h3>Update Link</h3>
         <ButtonIcon icon="x-mark" onClick={onClose} />
       </div>
@@ -42,20 +42,16 @@ export default function UpdateLinkForm({
         formId={updateFormId}
       />
       {updateFormState.message && updateFormState.type && !hideMessage && (
-        <Message type={updateFormState.type} className="mb-4">
-          {updateFormState.message}
-        </Message>
+        <Message type={updateFormState.type}>{updateFormState.message}</Message>
       )}
       {deleteFormState.message && deleteFormState.type && !hideMessage && (
-        <Message type={deleteFormState.type} className="mb-4">
-          {deleteFormState.message}
-        </Message>
+        <Message type={deleteFormState.type}>{deleteFormState.message}</Message>
       )}
       <div className="flex gap-2">
-        <form action={updateFormAction} className="inline" id={updateFormId}>
+        <form action={updateFormAction} id={updateFormId}>
           <ButtonSubmit color="yellow">Update</ButtonSubmit>
         </form>
-        <form action={deleteFormAction} className="inline" ref={formRef}>
+        <form action={deleteFormAction} ref={formRef}>
           <input
             type="number"
             name="link-id"

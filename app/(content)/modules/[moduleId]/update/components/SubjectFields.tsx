@@ -34,7 +34,6 @@ export default function SubjectFields({
         id={`subject-${defaultValues?.id || "new"}-icon`}
         defaultValue={defaultValues?.icon}
         required
-        className="mb-4"
         form={formId}
       />
       <Input
@@ -45,7 +44,6 @@ export default function SubjectFields({
         id={`subject-${defaultValues?.id || "new"}-name`}
         defaultValue={defaultValues?.name}
         required
-        className="mb-4"
         form={formId}
       />
       <input

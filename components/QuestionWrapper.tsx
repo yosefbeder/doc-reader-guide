@@ -26,7 +26,7 @@ export default function QuestionWrapper<T extends DatabaseTable>({
 }: QuestionWrapperProps<T>) {
   return (
     <>
-      <div className="flex flex-col gap-4 pb-[73px]">{children}</div>
+      <div className="col pb-[73px]">{children}</div>
       <div className="w-full max-w-screen-lg fixed bottom-0 left-1/2 -translate-x-1/2 flex justify-between items-center py-4 px-2 bg-white border-t border-slate-200">
         <Button onClick={backQuestion} disabled={currentIndex === 0}>
           Back

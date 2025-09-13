@@ -22,7 +22,7 @@ export default function User({
 }) {
   const user = users[index];
   return (
-    <div className="floating flex flex-col gap-4">
+    <div className="floating col">
       <div className="flex items-center gap-2">
         <img
           src={user.picture}

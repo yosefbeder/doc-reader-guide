@@ -30,7 +30,6 @@ export default function LectureFields({
         id={`lecture-${defaultValues?.id || "new"}-title`}
         defaultValue={defaultValues?.title}
         required
-        className="mb-4"
         form={formId}
       />
       <Input
@@ -44,7 +43,6 @@ export default function LectureFields({
           new Date(defaultValues.date).toISOString().substring(0, 10)
         }
         required
-        className="mb-4"
         form={formId}
       />
       <input

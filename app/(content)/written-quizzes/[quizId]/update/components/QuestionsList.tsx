@@ -34,7 +34,7 @@ export default function QuestionsList({
   );
 
   return (
-    <main className="main flex flex-col gap-4">
+    <main className="main col">
       <AddSection quizId={quizId} questions={orderedQuestions} />
       <hr />
       <section>

@@ -149,7 +149,7 @@ export default function WrittenTemplates() {
   const [model, setModel] = useState(models[0].value);
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="col">
       <Select
         label="AI model"
         icon="chat-bubble-left-ellipsis"

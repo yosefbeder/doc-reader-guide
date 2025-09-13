@@ -30,29 +30,25 @@ export default function UpdateSubjectForm({
   const disabled = notUpdateable(user, creatorId);
 
   return (
-    <div onClickCapture={() => setHideMessage(true)}>
+    <div className="col" onClickCapture={() => setHideMessage(true)}>
       <SubjectFields
         moduleId={moduleId}
         defaultValues={{ id, icon, name, moduleId }}
         formId={updateFormId}
       />
       {updateFormState.message && updateFormState.type && !hideMessage && (
-        <Message type={updateFormState.type} className="mb-4">
-          {updateFormState.message}
-        </Message>
+        <Message type={updateFormState.type}>{updateFormState.message}</Message>
       )}
       {deleteFormState.message && deleteFormState.type && !hideMessage && (
-        <Message type={deleteFormState.type} className="mb-4">
-          {deleteFormState.message}
-        </Message>
+        <Message type={deleteFormState.type}>{deleteFormState.message}</Message>
       )}
       <div className="flex gap-2">
-        <form action={updateFormAction} className="inline" id={updateFormId}>
+        <form action={updateFormAction} id={updateFormId}>
           <ButtonSubmit color="yellow" disabled={disabled}>
             Update
           </ButtonSubmit>
         </form>
-        <form action={deleteFormAction} className="inline" ref={formRef}>
+        <form action={deleteFormAction} ref={formRef}>
           <input
             type="number"
             name="subject-id"

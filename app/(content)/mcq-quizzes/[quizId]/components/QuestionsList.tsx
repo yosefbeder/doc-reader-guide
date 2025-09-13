@@ -155,8 +155,8 @@ export default function QuestionsList({
       {orderedQuestions.map((question) => (
         <div
           key={question.id}
-          className={`max-w-xl flex flex-col gap-4 ${
-            currentQuestion === question.id ? "" : "hidden"
+          className={`max-w-xl ${
+            currentQuestion === question.id ? "col" : "hidden"
           }`}
         >
           <h3 className="p-4 rounded-xl bg-cyan-50">{question.text}</h3>

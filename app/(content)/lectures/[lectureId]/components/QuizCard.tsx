@@ -4,22 +4,22 @@ import { useEffect, useState } from "react";
 import NextLink from "next/link";
 import Image from "next/image";
 
-import { Action, QuestionState, Quiz as QuizType, Resource } from "@/types";
+import { Action, QuestionState, Quiz, QuizType, Resource } from "@/types";
 import ButtonPrintQuiz from "./ButtonPrintQuiz";
 import LogoImage from "@/public/logo.png";
 import ButtonIcon from "@/components/ButtonIcon";
 import { icons } from "@/components/icons";
 import { logEvent } from "@/lib/event-logger";
 
-export default function Quiz({
+export default function QuizCard({
   quiz,
   type,
   printable = false,
   updateable = false,
   onUpdate,
 }: {
-  quiz: QuizType;
-  type: "mcq" | "written";
+  quiz: Quiz;
+  type: QuizType;
   printable?: boolean;
   updateable?: boolean;
   onUpdate?: () => void;

@@ -23,7 +23,7 @@ export default function DeleteSpecial({
   return (
     <>
       <h3 className="mb-4">DANGER ZONE</h3>
-      <ul className="flex flex-col gap-4">
+      <ul className="col">
         {lectures.map((lecture) => (
           <li key={lecture.id}>
             {(() => {

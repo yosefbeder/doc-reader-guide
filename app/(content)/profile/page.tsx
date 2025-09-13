@@ -23,7 +23,7 @@ export default function ProfilePage() {
   return (
     <Layout title="Profile" border>
       <main className="main">
-        <div className="max-w-md flex flex-col gap-4 items-start">
+        <div className="max-w-md col items-start">
           <h3>Settings</h3>
           <Settings />
           <h3>Account</h3>

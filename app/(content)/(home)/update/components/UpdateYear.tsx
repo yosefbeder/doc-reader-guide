@@ -31,7 +31,7 @@ export default function UpdateYear({
   return (
     <form
       action={formAction}
-      className="flex flex-col gap-4"
+      className="col"
       onClick={() => setHideMessage(true)}
     >
       <input

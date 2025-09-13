@@ -1,12 +1,12 @@
 import Script from "next/script";
 
-import { Quiz } from "@/types";
+import { Quiz, QuizType } from "@/types";
 
 export default function QuizStructuredData({
   type,
   quiz,
 }: {
-  type: "mcq" | "written";
+  type: QuizType;
   quiz: Quiz;
 }) {
   const faculty = `${quiz.lectureData.subject.module.year.faculty.name} ${quiz.lectureData.subject.module.year.faculty.city}`;

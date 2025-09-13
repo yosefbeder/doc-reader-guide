@@ -30,21 +30,17 @@ export default function UpdateModuleForm({
   const disabled = notUpdateable(user, creatorId);
 
   return (
-    <div onClickCapture={() => setHideMessage(true)}>
+    <div className="col" onClickCapture={() => setHideMessage(true)}>
       <ModuleFields
         yearId={yearId}
         defaultValues={{ id, icon, name, semesterName }}
         formId={updateFormId}
       />
       {updateFormState.message && updateFormState.type && !hideMessage && (
-        <Message type={updateFormState.type} className="mb-4">
-          {updateFormState.message}
-        </Message>
+        <Message type={updateFormState.type}>{updateFormState.message}</Message>
       )}
       {deleteFormState.message && deleteFormState.type && !hideMessage && (
-        <Message type={deleteFormState.type} className="mb-4">
-          {deleteFormState.message}
-        </Message>
+        <Message type={deleteFormState.type}>{deleteFormState.message}</Message>
       )}
       <div className="flex gap-2">
         <form action={updateFormAction} id={updateFormId}>
@@ -52,7 +48,7 @@ export default function UpdateModuleForm({
             Update
           </ButtonSubmit>
         </form>
-        <form action={deleteFormAction} className="inline" ref={deleteFormRef}>
+        <form action={deleteFormAction} ref={deleteFormRef}>
           <input
             type="number"
             name="module-id"

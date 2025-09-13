@@ -32,29 +32,25 @@ export default function UpdateLectureForm({
   const disabled = notUpdateable(user, lecture.creatorId);
 
   return (
-    <div onClickCapture={() => setHideMessage(true)}>
+    <div className="col" onClickCapture={() => setHideMessage(true)}>
       <LectureFields
         subjectId={subjectId}
         defaultValues={lecture}
         formId={updateFormId}
       />
       {updateFormState.message && updateFormState.type && !hideMessage && (
-        <Message type={updateFormState.type} className="mb-4">
-          {updateFormState.message}
-        </Message>
+        <Message type={updateFormState.type}>{updateFormState.message}</Message>
       )}
       {deleteFormState.message && deleteFormState.type && !hideMessage && (
-        <Message type={deleteFormState.type} className="mb-4">
-          {deleteFormState.message}
-        </Message>
+        <Message type={deleteFormState.type}>{deleteFormState.message}</Message>
       )}
       <div className="flex gap-2">
-        <form action={updateFormAction} className="inline" id={updateFormId}>
+        <form action={updateFormAction} id={updateFormId}>
           <ButtonSubmit disabled={disabled} color="yellow">
             Update
           </ButtonSubmit>
         </form>
-        <form action={deleteFormAction} className="inline" ref={formRef}>
+        <form action={deleteFormAction} ref={formRef}>
           <input
             type="number"
             name="lecture-id"
