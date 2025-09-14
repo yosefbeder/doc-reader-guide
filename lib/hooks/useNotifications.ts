@@ -15,7 +15,6 @@ export default function useNotifications() {
   const toggle = useCallback(async () => {
     setIsLoading(true);
     try {
-      throw new Error("Not yet stable 😭.");
       if (settings.notifications.allowed) {
         await disableNotifications();
       } else {

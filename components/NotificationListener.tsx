@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
-import Cookies from "js-cookie";
 
 import ButtonIcon from "./ButtonIcon";
 import { app } from "@/lib/firebase";
@@ -21,18 +20,14 @@ export default function NotificationListener() {
         vapidKey: process.env.NEXT_PUBLIC_VAPID_KEY,
       }).then(async (token) => {
         const storedToken = localStorage.getItem("fcm-token");
+        const deviceId = localStorage.getItem("device-id");
         if (token !== storedToken) {
           console.log("Token was revalidated!\nSyncing database...");
-          const jwt = Cookies.get("jwt")!;
           const deleteRes = await fetch(
-            `${process.env.NEXT_PUBLIC_API_URL}/user/unregister-device`,
+            `${process.env.NEXT_PUBLIC_API_URL}/users/me/devices/${deviceId}`,
             {
               method: "DELETE",
-              headers: {
-                authorization: `Bearer ${jwt}`,
-                "content-type": "application/json;charset=UTF-8",
-              },
-              body: JSON.stringify({ storedToken }),
+              credentials: "include",
             }
           );
           const deleteJson = await deleteRes.json();
@@ -42,11 +37,11 @@ export default function NotificationListener() {
               deleteJson.message
             );
           const addRes = await fetch(
-            `${process.env.NEXT_PUBLIC_API_URL}/user/register-device`,
+            `${process.env.NEXT_PUBLIC_API_URL}/users/me/devices`,
             {
               method: "POST",
+              credentials: "include",
               headers: {
-                authorization: `Bearer ${jwt}`,
                 "content-type": "application/json;charset=UTF-8",
               },
               body: JSON.stringify({ token }),
@@ -55,8 +50,11 @@ export default function NotificationListener() {
           const json = await addRes.json();
           if (!addRes.ok)
             console.error("Adding new token to database failed!", json.message);
-          localStorage.setItem("fcm-token", token);
-          location.reload();
+          else {
+            localStorage.setItem("device-id", json.data.device.id);
+            localStorage.setItem("fcm-token", token);
+            location.reload();
+          }
         }
       });
 

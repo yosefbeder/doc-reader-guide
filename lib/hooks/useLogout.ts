@@ -13,6 +13,9 @@ export default function useLogout() {
 
   return async () => {
     try {
+      if (settings.notifications.allowed) {
+        await toggle();
+      }
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/logout`, {
         method: "POST",
         credentials: "include",
@@ -20,9 +23,6 @@ export default function useLogout() {
       const json = await res.json();
       if (!res.ok) {
         throw new Error(json.message || "Logout failed");
-      }
-      if (settings.notifications.allowed) {
-        await toggle();
       }
       await mutate(() => true, undefined, { revalidate: false });
       localStorage.removeItem("notifications-toast-denied");
