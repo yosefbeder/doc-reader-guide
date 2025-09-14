@@ -196,7 +196,7 @@ export default function LinksList({
             </SummaryDetail.Summary>
 
             <SummaryDetail.Detail>
-              <ul className="flex flex-col gap-2 p-2">
+              <ul className="flex flex-col gap-2 p-2 overflow-y-scroll">
                 {category === "Questions" && (
                   <>
                     {mcqQuizzes.map((quiz) => (
