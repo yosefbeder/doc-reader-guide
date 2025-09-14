@@ -3,12 +3,7 @@
 import React, { useState } from "react";
 
 import Message from "@/components/Message";
-import {
-  Link as LinkType,
-  WrittenQuiz,
-  McqQuiz as QuizType,
-  User,
-} from "@/types";
+import { Link, WrittenQuiz, McqQuiz, User, QuizType } from "@/types";
 import LinkCard from "../../components/LinkCard";
 import QuizCard from "../../components/QuizCard";
 import { useCategories } from "@/lib/hooks";
@@ -19,6 +14,8 @@ import notUpdateable from "@/utils/isUpdateable";
 import Button from "@/components/Button";
 import Checkbox from "@/components/Checkbox";
 import cleanWrittenQuestion from "@/utils/cleanWrittenQuestion";
+import { useRouter } from "next/navigation";
+import revalidate from "@/utils/revalidate";
 
 export default function LinksList({
   user,
@@ -31,17 +28,19 @@ export default function LinksList({
   user: User;
   lectureId: number;
   yearId: number;
-  links: LinkType[];
-  mcqQuizzes: QuizType[];
+  links: Link[];
+  mcqQuizzes: McqQuiz[];
   writtenQuizzes: WrittenQuiz[];
 }) {
+  const router = useRouter();
+  const [isDeleting, setIsDeleting] = useState(false);
   const { categories, currentCategory, setCurrentCategory } = useCategories(
     links,
     mcqQuizzes,
     writtenQuizzes
   );
   const [current, setCurrent] = useState<{
-    type: "link" | "mcq" | "written";
+    type: "link" | QuizType;
     id: number;
   }>();
   const [selectedLinks, setSelectedLinks] = useState<number[]>([]);
@@ -118,6 +117,114 @@ export default function LinksList({
     }
   };
 
+  const handleDelete = async () => {
+    const confirmationText = `DELETE ${
+      selectedLinks.length +
+      selectedMcqQuizzes.length +
+      selectedWrittenQuizzes.length
+    } ITEMS`;
+    const input = prompt(`Enter ${confirmationText} to confirm deletion`);
+    if (input !== confirmationText) {
+      alert("Deletion cancelled");
+      return;
+    }
+
+    setIsDeleting(true);
+
+    let successLinks = 0,
+      failLinks = 0,
+      successMcq = 0,
+      failMcq = 0,
+      successWritten = 0,
+      failWritten = 0;
+    let errors: string[] = [];
+
+    const linkResults = await Promise.allSettled(
+      selectedLinks.map(async (id) => {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/links/${id}`,
+          {
+            method: "DELETE",
+            headers: { "content-type": "application/json;charset=UTF-8" },
+            credentials: "include",
+          }
+        );
+        if (!res.ok) throw new Error(`Link ${id}`);
+      })
+    );
+    successLinks = linkResults.filter((r) => r.status === "fulfilled").length;
+    failLinks = linkResults.length - successLinks;
+    errors.push(
+      ...linkResults
+        .filter((r) => r.status === "rejected")
+        .map((r) => `Link: ${r.reason}`)
+    );
+
+    const mcqResults = await Promise.allSettled(
+      selectedMcqQuizzes.map(async (id) => {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/mcq-quizzes/${id}`,
+          {
+            method: "DELETE",
+            headers: { "content-type": "application/json;charset=UTF-8" },
+            credentials: "include",
+          }
+        );
+        if (!res.ok) throw new Error(`MCQ Quiz ${id}`);
+      })
+    );
+    successMcq = mcqResults.filter((r) => r.status === "fulfilled").length;
+    failMcq = mcqResults.length - successMcq;
+    errors.push(
+      ...mcqResults
+        .filter((r) => r.status === "rejected")
+        .map((r) => `MCQ Quiz: ${r.reason}`)
+    );
+
+    const writtenResults = await Promise.allSettled(
+      selectedWrittenQuizzes.map(async (id) => {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/written-quizzes/${id}`,
+          {
+            method: "DELETE",
+            headers: { "content-type": "application/json;charset=UTF-8" },
+            credentials: "include",
+          }
+        );
+        if (!res.ok) throw new Error(`Written Quiz ${id}`);
+      })
+    );
+    successWritten = writtenResults.filter(
+      (r) => r.status === "fulfilled"
+    ).length;
+    failWritten = writtenResults.length - successWritten;
+    errors.push(
+      ...writtenResults
+        .filter((r) => r.status === "rejected")
+        .map((r) => `Written Quiz: ${r.reason}`)
+    );
+
+    await Promise.all([
+      revalidate(`/lectures/${lectureId}`),
+      revalidate(`/lectures/${lectureId}/update`),
+    ]);
+
+    setIsDeleting(false);
+    setSelectedLinks([]);
+    setSelectedMcqQuizzes([]);
+    setSelectedWrittenQuizzes([]);
+
+    let message = `Deleted:\nLinks: ${successLinks}/${linkResults.length}\nMCQ Quizzes: ${successMcq}/${mcqResults.length}\nWritten Quizzes: ${successWritten}/${writtenResults.length}`;
+    if (failLinks + failMcq + failWritten > 0) {
+      message += `\nFailed: ${
+        failLinks + failMcq + failWritten
+      }\nErrors:\n${errors.join("\n")}`;
+    }
+    alert(message);
+
+    router.refresh();
+  };
+
   if (categories.length === 0)
     return (
       <Message type="warning" className="my-2">
@@ -138,6 +245,19 @@ export default function LinksList({
           }
         >
           Export
+        </Button>
+        <Button
+          color="rose"
+          onClick={handleDelete}
+          disabled={
+            selectedLinks.length +
+              selectedMcqQuizzes.length +
+              selectedWrittenQuizzes.length ===
+            0
+          }
+          isLoading={isDeleting}
+        >
+          Delete
         </Button>
         <Button
           onClick={() => {
