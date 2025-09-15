@@ -59,16 +59,13 @@ export default function useQuestionsDashboard<T extends DatabaseTable>(
         ...questions.slice(orderedQuestions.length),
       ]);
     } else if (questions.length < orderedQuestions.length) {
+      const nextOrderedQuestions = [];
       for (let i = 0; i < orderedQuestions.length; i++) {
-        if (!questions.find(({ id }) => id === orderedQuestions[i].id)) {
-          setOrderedQuestions((prev) => [
-            ...prev.slice(0, i),
-            ...prev.slice(i + 1),
-          ]);
-          // Only one question can be deleted at once
-          break;
-        }
+        if (!questions.find(({ id }) => id === orderedQuestions[i].id))
+          continue;
+        nextOrderedQuestions.push(orderedQuestions[i]);
       }
+      setOrderedQuestions(nextOrderedQuestions);
     }
   }, [questions]);
 

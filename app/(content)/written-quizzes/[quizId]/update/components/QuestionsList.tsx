@@ -6,8 +6,10 @@ import React from "react";
 import UpdateQuestionForm from "./UpdateQuestionForm";
 import { SummaryDetail } from "@/components/SummaryDetail";
 import useSettings from "@/lib/hooks/useSettings";
-import Toggle from "@/components/Toggle";
 import AddSection from "./AddSection";
+import { useSelectQuestions } from "@/lib/hooks/useSelectQuestions";
+import QuestionsListToolbar from "@/components/QuestionsListToolbar";
+import Checkbox from "@/components/Checkbox";
 
 export default function QuestionsList({
   user,
@@ -18,6 +20,7 @@ export default function QuestionsList({
   quizId: number;
   questions: WrittenQuestion[];
 }) {
+  console.log(questions);
   const {
     settings: { writtenQuiz: settings },
   } = useSettings();
@@ -32,20 +35,24 @@ export default function QuestionsList({
     `written-quiz-${quizId}`,
     settings.shuffle
   );
+  const { selectedQuestions, handleCheckbox, ...rest } = useSelectQuestions({
+    type: "written",
+    quizId,
+    questions: orderedQuestions,
+  });
 
   return (
     <main className="main col">
-      <AddSection quizId={quizId} questions={orderedQuestions} />
+      <AddSection quizId={quizId} />
       <hr />
       <section>
         <h3 className="mb-4">Update Questions</h3>
-        <div className="mb-4">
-          <Toggle
-            label="Open all questions"
-            checked={questionsOpen}
-            onChange={() => setQuestionsOpen((prev) => !prev)}
-          />
-        </div>
+        <QuestionsListToolbar
+          questionsOpen={questionsOpen}
+          toggleQuestionsOpen={() => setQuestionsOpen((prev) => !prev)}
+          selectedQuestions={selectedQuestions}
+          {...rest}
+        />
         {orderedQuestions.map((question, index) => (
           <div
             key={`written-question-${question.id}`}
@@ -56,28 +63,38 @@ export default function QuestionsList({
               const questionOpen =
                 questionsOpen || question.id === currentQuestion;
               return (
-                <SummaryDetail
-                  open={questionOpen}
-                  toggle={() =>
-                    setCurrentQuestion((prev) =>
-                      question.id === prev ? undefined : question.id
-                    )
-                  }
-                >
-                  <SummaryDetail.Summary>
-                    Question {index + 1}
-                  </SummaryDetail.Summary>
+                <div className={`flex gap-2 ${questionOpen ? "flex-col" : ""}`}>
+                  <Checkbox
+                    color="cyan"
+                    checked={selectedQuestions.includes(question.id)}
+                    onChange={(e) =>
+                      handleCheckbox(question.id, e.target.checked)
+                    }
+                  />
+                  <SummaryDetail
+                    className="grow"
+                    open={questionOpen}
+                    toggle={() =>
+                      setCurrentQuestion((prev) =>
+                        question.id === prev ? undefined : question.id
+                      )
+                    }
+                  >
+                    <SummaryDetail.Summary>
+                      Question {index + 1}
+                    </SummaryDetail.Summary>
 
-                  <SummaryDetail.Detail>
-                    <div className="p-2">
-                      <UpdateQuestionForm
-                        user={user}
-                        quizId={quizId}
-                        question={question}
-                      />
-                    </div>
-                  </SummaryDetail.Detail>
-                </SummaryDetail>
+                    <SummaryDetail.Detail>
+                      <div className="p-2">
+                        <UpdateQuestionForm
+                          user={user}
+                          quizId={quizId}
+                          question={question}
+                        />
+                      </div>
+                    </SummaryDetail.Detail>
+                  </SummaryDetail>
+                </div>
               );
             })()}
           </div>

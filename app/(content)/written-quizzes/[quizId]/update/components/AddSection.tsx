@@ -3,30 +3,15 @@
 import React, { useState } from "react";
 
 import { SummaryDetail } from "@/components/SummaryDetail";
-import { WrittenQuestion } from "@/types";
 import AddQuestionForm from "./AddQuestionForm";
 import WrittenTemplates from "@/components/WrittenTemplates";
 import QuickAddForm from "./QuickAddForm";
-import ButtonCopy from "@/app/(content)/mcq-quizzes/[quizId]/update/components/ButtonCopy";
-import cleanWrittenQuestion from "@/utils/cleanWrittenQuestion";
 
-export default function AddSection({
-  quizId,
-  questions,
-}: {
-  quizId: number;
-  questions: WrittenQuestion[];
-}) {
+export default function AddSection({ quizId }: { quizId: number }) {
   const [openSection, setOpenSection] = useState<string | undefined>();
 
   return (
     <>
-      <ButtonCopy
-        text={JSON.stringify(
-          questions.map((question) => cleanWrittenQuestion(question))
-        )}
-      />
-
       <SummaryDetail
         className="max-w-xl"
         open={openSection === "newQuestion"}

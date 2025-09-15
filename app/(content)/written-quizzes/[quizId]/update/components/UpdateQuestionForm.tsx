@@ -11,7 +11,6 @@ import QuestionFields from "./QuestionFields";
 import { useUpdateDeleteForms } from "@/lib/hooks";
 import { updateQuestion, deleteQuestion } from "@/lib/actions/writtenQuizzes";
 import notUpdateable from "@/utils/isUpdateable";
-import ButtonCopy from "@/app/(content)/mcq-quizzes/[quizId]/update/components/ButtonCopy";
 import cleanWrittenQuestion from "@/utils/cleanWrittenQuestion";
 
 export default function UpdateQuestionForm({
@@ -108,7 +107,6 @@ export default function UpdateQuestionForm({
             formRef={formRef}
           />
         </form>
-        <ButtonCopy text={JSON.stringify([cleanWrittenQuestion(question)])} />
       </div>
     </div>
   );

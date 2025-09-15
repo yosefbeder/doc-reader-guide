@@ -76,5 +76,7 @@ SummaryDetail.Detail = function Detail({ children }: DetailProps) {
   if (!ctx) throw new Error("Detail must be used within SummaryDetail");
   const { open } = ctx;
 
-  return <div className={open ? "" : "hidden"}> {children} </div>;
+  return (
+    <div className={open ? "overflow-y-scroll" : "hidden"}> {children} </div>
+  );
 };

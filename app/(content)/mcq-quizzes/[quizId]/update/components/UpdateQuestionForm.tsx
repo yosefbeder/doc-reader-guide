@@ -9,7 +9,6 @@ import Message from "@/components/Message";
 import ButtonSubmit from "@/components/ButtonSubmit";
 import { McqQuestion, User } from "@/types";
 import ButtonDelete from "@/components/ButtonDelete";
-import ButtonCopy from "./ButtonCopy";
 import { useUpdateDeleteForms } from "@/lib/hooks";
 import notUpdateable from "@/utils/isUpdateable";
 
@@ -50,12 +49,12 @@ export default function UpdateQuestionForm({
         </Message>
       )}
       <div className="flex gap-2">
-        <form action={updateFormAction} className="inline" id={updateFormId}>
+        <form action={updateFormAction} id={updateFormId}>
           <ButtonSubmit disabled={disabled} color="yellow">
             Update
           </ButtonSubmit>
         </form>
-        <form action={deleteFormAction} className="inline" ref={formRef}>
+        <form action={deleteFormAction} ref={formRef}>
           <input
             type="number"
             name="question-id"
@@ -69,17 +68,6 @@ export default function UpdateQuestionForm({
             formRef={formRef}
           />
         </form>
-        <ButtonCopy
-          text={JSON.stringify([
-            {
-              image: question.image || undefined,
-              explanation: question.explanation || undefined,
-              text: question.text,
-              options: question.options,
-              correctOptionIndex: question.correctOptionIndex,
-            },
-          ])}
-        />
       </div>
     </div>
   );
