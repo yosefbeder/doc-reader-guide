@@ -39,15 +39,6 @@
       margin: 1rem;
     }
   }
-
-  @keyframes shimmer {
-    0% {
-      left: -16px;
-    }
-    100% {
-      left: 200%;
-    }
-  }
 }
 
 @layer components {

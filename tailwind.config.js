@@ -7,6 +7,19 @@ module.exports = {
   ],
   theme: {
     extend: {
+      keyframes: {
+        shimmer: {
+          "0%": {
+            left: "-16px",
+          },
+          "75%": {
+            left: "110%",
+          },
+          "100%": {
+            left: "110%",
+          },
+        },
+      },
       fontFamily: {
         sans: ["var(--font-inter)"],
       },

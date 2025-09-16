@@ -166,7 +166,6 @@ export default function QuestionsList({
           {answers.has(question.id) && (
             <Button
               className="self-start"
-              color="slate"
               shimmer={
                 settings.instantFeedback &&
                 question.correctOptionIndex !== answers.get(question.id)
