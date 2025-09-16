@@ -142,7 +142,7 @@ export default function useQuestions<T, U extends DatabaseTable>({
       localStorage.setItem(
         localStorageItem,
         JSON.stringify({
-          quiz,
+          quiz: { ...quiz, questions: undefined },
           currentQuestion,
           currentIndex,
           answers: serializeAnswers(answers),
