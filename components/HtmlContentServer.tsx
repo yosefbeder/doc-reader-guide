@@ -10,7 +10,7 @@ interface HtmlContentProps extends React.ComponentProps<"div"> {
   html: string;
 }
 
-export default function HtmlContentClient({
+export default function HtmlContentServer({
   html,
   className,
   ...rest
