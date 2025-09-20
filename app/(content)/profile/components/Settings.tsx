@@ -3,6 +3,7 @@ import ToggleNotifications from "./ToggleNotifications";
 import { SummaryDetail } from "@/components/SummaryDetail";
 import Toggle from "@/components/Toggle";
 import useSettings, { Settings as SettingsType } from "@/lib/hooks/useSettings";
+import Select from "@/components/Select";
 
 // const sections: (keyof SettingsType)[] = [
 //   "notifications",
@@ -18,6 +19,39 @@ export default function Settings() {
 
   return (
     <>
+      <SummaryDetail
+        className="w-full"
+        open={openSection === "appearance"}
+        toggle={() =>
+          setOpenSection((prev) =>
+            prev === "appearance" ? undefined : "appearance"
+          )
+        }
+      >
+        <SummaryDetail.Summary>Appearance</SummaryDetail.Summary>
+        <SummaryDetail.Detail>
+          <div className="col p-2">
+            <Select
+              label="Theme"
+              icon="swatch"
+              options={[
+                { label: "System", value: "system" },
+                { label: "Light", value: "light" },
+                { label: "Dark", value: "dark" },
+              ]}
+              value={settings.appearance.theme}
+              onChange={(e) =>
+                updateSetting(
+                  "appearance",
+                  "theme",
+                  e.target.value as "light" | "dark" | "system"
+                )
+              }
+            />
+          </div>
+        </SummaryDetail.Detail>
+      </SummaryDetail>
+
       <SummaryDetail
         className="w-full"
         open={openSection === "notifications"}

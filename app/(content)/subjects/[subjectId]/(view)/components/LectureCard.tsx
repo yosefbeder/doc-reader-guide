@@ -17,7 +17,7 @@ export default function LectureCard({
       href={`/lectures/${id}`}
       className={`relative card min-h-36 max-[512px]:min-h-max group ${
         type !== "Normal"
-          ? "bg-cyan-600 hover:bg-cyan-700 text-white transition-colors"
+          ? "bg-cyan-600 hover:bg-cyan-700 text-white dark:bg-cyan-600 dark:hover:bg-cyan-700"
           : ""
       }`}
       onClick={() => logEvent(Resource.LECTURE, id, Action.NAVIGATE, {})}
@@ -35,7 +35,7 @@ export default function LectureCard({
           </div>
           <HtmlContentClient
             html={note}
-            className="absolute top-3 left-3 hidden hover:block rounded-xl shadow-xl peer-hover:block w-full h-full p-2 bg-white overflow-y-scroll"
+            className="absolute top-3 left-3 hidden hover:block rounded-xl shadow-xl peer-hover:block w-full h-full p-2 bg-white dark:bg-slate-600 overflow-y-scroll"
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();

@@ -81,9 +81,9 @@ export default function QuizCard({
               </div>
             )}
           <div className="flex items-center gap-1 text-sm">
-            <div className="text-slate-700">Presented by</div>
+            <div>Presented by</div>
             <Image src={LogoImage} className="w-3" alt="Logo" />
-            <div className="text-cyan-700 font-extrabold">DocReader Guide</div>
+            <div className="text-cyan-600 font-extrabold">DocReader Guide</div>
           </div>
         </div>
       </NextLink>

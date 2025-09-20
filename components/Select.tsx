@@ -35,7 +35,7 @@ export default function Select({
     >
       <select
         id={id}
-        className="grow disabled:pointer-events-none focus:outline-none disabled:bg-transparent"
+        className="grow disabled:pointer-events-none focus:outline-none"
         onFocus={(e) => {
           setFocus(true);
           if (onFocus) onFocus(e);

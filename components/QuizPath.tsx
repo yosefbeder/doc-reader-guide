@@ -31,7 +31,7 @@ export default function Path({
         <sup>{getPrefix(semesterName)}</sup> Semester →{" "}
         <Link
           href={`/modules/${moduleId}`}
-          className="link text-inherit hover:text-white"
+          className="underline"
           onClick={() =>
             logEvent(Resource.MODULE, moduleId, Action.NAVIGATE, {})
           }
@@ -41,7 +41,7 @@ export default function Path({
         →{" "}
         <Link
           href={`/subjects/${subjectId}`}
-          className="link text-inherit hover:text-white"
+          className="underline"
           onClick={() =>
             logEvent(Resource.SUBJECT, subjectId, Action.NAVIGATE, {})
           }
@@ -51,7 +51,7 @@ export default function Path({
         →{" "}
         <Link
           href={`/lectures/${lectureId}`}
-          className="link text-inherit hover:text-white"
+          className="underline"
           onClick={() =>
             logEvent(Resource.LECTURE, lectureId, Action.NAVIGATE, {})
           }

@@ -1,8 +1,11 @@
 import { useEffect, useState, useCallback } from "react";
 import { logEvent } from "../event-logger";
-import { Action, Resource } from "@/types";
+import { Action } from "@/types";
 
 export interface Settings {
+  appearance: {
+    theme: "light" | "dark" | "system";
+  };
   notifications: {
     allowed: boolean;
   };
@@ -19,6 +22,7 @@ export interface Settings {
 }
 
 export const DEFAULT_SETTINGS: Settings = {
+  appearance: { theme: "system" },
   notifications: { allowed: false },
   mcqQuiz: {
     shuffle: false,
@@ -50,6 +54,33 @@ export default function useSettings() {
     if (typeof window === "undefined") return;
     localStorage.setItem("settings", JSON.stringify(settings));
   }, [settings]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const applyTheme = (theme: "light" | "dark" | "system") => {
+      const html = document.documentElement;
+      html.classList.remove("light", "dark");
+
+      if (theme === "system") {
+        const prefersDark = window.matchMedia(
+          "(prefers-color-scheme: dark)"
+        ).matches;
+        html.classList.add(prefersDark ? "dark" : "light");
+      } else {
+        html.classList.add(theme);
+      }
+    };
+
+    applyTheme(settings.appearance.theme);
+
+    if (settings.appearance.theme === "system") {
+      const media = window.matchMedia("(prefers-color-scheme: dark)");
+      const handler = () => applyTheme("system");
+      media.addEventListener("change", handler);
+      return () => media.removeEventListener("change", handler);
+    }
+  }, [settings.appearance.theme]);
 
   const updateSetting = useCallback(
     <T extends keyof Settings, K extends keyof Settings[T]>(

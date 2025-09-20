@@ -33,7 +33,7 @@ export default function TextArea({
     >
       <textarea
         id={id}
-        className="grow disabled:pointer-events-none focus:outline-none disabled:bg-transparent"
+        className="grow disabled:pointer-events-none focus:outline-none"
         onFocus={(e) => {
           setFocus(true);
           if (onFocus) onFocus(e);

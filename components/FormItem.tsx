@@ -28,11 +28,16 @@ export function FormItemNoIcon({
       })()}
 
       <div
-        className={`flex items-center gap-1 rounded-md p-1 border-2 bg-white transition-colors ${
-          focus ? "border-cyan-600" : "border-slate-200"
-        } ${
-          disabled && "text-slate-400 bg-slate-50 cursor-not-allowed"
-        } ${className}`}
+        className={`
+    flex items-center gap-1 rounded-md p-1 border-2 transition-colors
+    ${focus ? "border-cyan-600" : "border-slate-200 dark:border-slate-700"}
+    bg-white dark:bg-slate-900
+    ${
+      disabled &&
+      "text-slate-400 dark:text-slate-500 bg-slate-50 dark:bg-slate-800 cursor-not-allowed"
+    }
+    ${className}
+  `}
       >
         {children}
       </div>

@@ -21,7 +21,7 @@ export default function HtmlContentServer({
       dangerouslySetInnerHTML={{
         __html: addLinkAttributes(replaceImgSrc(cleanHtml)),
       }}
-      className={`prose prose-slate prose-cyan ${className}`}
+      className={`prose prose-slate prose-cyan dark:prose-invert ${className}`}
       {...rest}
     />
   );

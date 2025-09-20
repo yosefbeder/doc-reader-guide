@@ -23,7 +23,7 @@ export default function Path({
         <sup>{getPrefix(semesterName)}</sup> Semester →{" "}
         <Link
           href={`/modules/${moduleId}`}
-          className="link text-inherit hover:text-white"
+          className="underline"
           onClick={() =>
             logEvent(Resource.MODULE, moduleId, Action.NAVIGATE, {})
           }

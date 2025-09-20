@@ -20,9 +20,9 @@ export default function Button({
   const colorVariants = {
     cyan: "text-white bg-cyan-600 hover:bg-cyan-700 active:bg-cyan-800 border-cyan-600 hover:border-cyan-700 active:border-cyan-800",
     white:
-      "text-cyan-600 border-2 border-cyan-600 hover:bg-cyan-50 active:bg-cyan-100",
+      "text-cyan-600 border-2 border-cyan-600 hover:bg-cyan-50 active:bg-cyan-100 dark:text-cyan-400 dark:border-cyan-400 dark:hover:bg-cyan-950 dark:active:bg-cyan-900",
     yellow:
-      "text-inherit bg-yellow-400 hover:bg-yellow-500 active:bg-yellow-600 border-yellow-400 hover:border-yellow-500 active:border-yellow-600 disabled:text-white",
+      "text-slate-700 bg-yellow-400 hover:bg-yellow-500 active:bg-yellow-600 border-yellow-400 hover:border-yellow-500 active:border-yellow-600 disabled:text-white",
     rose: "text-white bg-rose-600 hover:bg-rose-700 active:bg-rose-800 border-rose-600 hover:border-rose-700 active:border-rose-800",
     violet:
       "text-white bg-violet-600 hover:bg-violet-700 active:bg-violet-800 border-violet-600 hover:border-violet-700 active:border-violet-800",

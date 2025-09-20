@@ -14,7 +14,10 @@ export default function ButtonIcon({
 }: ButtonIconProps) {
   return (
     <button
-      className={`rounded-full p-2 hover:bg-slate-50 active:bg-slate-100 ${className}`}
+      className={`rounded-full p-2 
+              hover:bg-slate-50 active:bg-slate-100 
+              dark:hover:bg-slate-800 dark:active:bg-slate-700 
+              transition-colors ${className}`}
       {...props}
     >
       {icons[icon]}

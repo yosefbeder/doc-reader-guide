@@ -36,8 +36,10 @@ function getLocalStorageItemsByPrefix(prefix: string) {
 function CurrentTag({ semesterOpen }: { semesterOpen: boolean }) {
   return (
     <span
-      className={` inline-block px-2 rounded-md ${
-        semesterOpen ? "bg-slate-50 text-slate-700" : "bg-cyan-600 text-white"
+      className={`inline-block px-2 rounded-md ${
+        semesterOpen
+          ? "bg-slate-50 text-slate-700 dark:bg-slate-700 dark:text-slate-200"
+          : "bg-cyan-600 text-white"
       }`}
     >
       #current
@@ -105,14 +107,14 @@ export default function ModulesPage() {
         {/* Collapsed loading skeleton */}
         <SummaryDetail open={false} toggle={() => {}}>
           <SummaryDetail.Summary>
-            <div className="w-28 h-7 rounded bg-slate-700 animate-pulse" />
+            <div className="w-28 h-7 rounded bg-slate-200 dark:bg-slate-700 animate-pulse" />
           </SummaryDetail.Summary>
         </SummaryDetail>
 
         {/* Expanded loading skeleton */}
         <SummaryDetail open={true} toggle={() => {}}>
           <SummaryDetail.Summary>
-            <div className="w-28 h-7 rounded bg-white animate-pulse" />
+            <div className="w-28 h-7 rounded bg-slate-200 dark:bg-slate-700 animate-pulse" />
             <CurrentTag semesterOpen={true} />
           </SummaryDetail.Summary>
           <SummaryDetail.Detail>
@@ -208,13 +210,19 @@ export default function ModulesPage() {
                     <li key={index}>
                       <Link
                         href={`/modules/${id}`}
-                        className="card bg-white"
+                        className="card floating-in-details"
                         onClick={() =>
                           logEvent(Resource.MODULE, id, Action.NAVIGATE, {})
                         }
                       >
                         <span>
-                          <Image src={icon} alt={name} width={48} height={48} />
+                          <Image
+                            className="dark:invert dark:brightness-200"
+                            src={icon}
+                            alt={name}
+                            width={48}
+                            height={48}
+                          />
                         </span>
                         <h3>{name}</h3>
                       </Link>

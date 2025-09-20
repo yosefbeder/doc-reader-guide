@@ -22,7 +22,7 @@ export default function User({
 }) {
   const user = users[index];
   return (
-    <div className="floating col">
+    <div className="col superficial rounded-xl p-2 dark:bg-slate-800 dark:hover:bg-slate-700 transition-colors">
       <div className="flex items-center gap-2">
         <img
           src={user.picture}
@@ -32,7 +32,9 @@ export default function User({
         <div className="flex-1 truncate">
           <div>{getHighlightedText(user.email, search)}</div>
           {!isUpdating && (
-            <div className="text-gray-500 text-sm">{ROLES[user.roleId]}</div>
+            <p className="text-sm text-slate-500 dark:text-slate-300">
+              {ROLES[user.roleId]}
+            </p>
           )}
         </div>
         <ButtonIcon

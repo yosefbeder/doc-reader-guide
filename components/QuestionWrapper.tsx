@@ -27,11 +27,11 @@ export default function QuestionWrapper<T extends DatabaseTable>({
   return (
     <>
       <div className="col pb-[73px]">{children}</div>
-      <div className="w-full max-w-screen-lg fixed bottom-0 left-1/2 -translate-x-1/2 flex justify-between items-center py-4 px-2 bg-white border-t border-slate-200">
+      <div className="w-full max-w-screen-lg fixed bottom-0 left-1/2 -translate-x-1/2 flex justify-between items-center py-4 px-2 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-700">
         <Button onClick={backQuestion} disabled={currentIndex === 0}>
           Back
         </Button>
-        <span className="text-base text-slate-500">
+        <span className="text-base text-slate-500 dark:text-slate-300">
           <select
             onChange={(e) => goToQuestion(+e.target.value)}
             value={currentQuestion}

@@ -16,7 +16,7 @@ export default function LinkCard({
   onUpdate?: () => void;
 }) {
   return (
-    <div className="flex flex-col superficial rounded-xl bg-white">
+    <div className="flex flex-col superficial rounded-xl floating-in-details">
       <div
         onClick={() => {
           if (urls.length === 1) {
@@ -33,7 +33,9 @@ export default function LinkCard({
           {subTitle?.trim() ? (
             <>
               <div>{title}</div>
-              <div className="text-sm text-slate-500">{subTitle}</div>
+              <div className="text-sm text-slate-500 dark:text-slate-300">
+                {subTitle}
+              </div>
             </>
           ) : (
             title

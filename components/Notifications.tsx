@@ -13,7 +13,7 @@ export default function Notifications({ yearId }: { yearId: number }) {
 
   return (
     <>
-      <button className="radio p-2" onClick={onOpen}>
+      <button className="radio normal p-2" onClick={onOpen}>
         {icons["bell"]}
       </button>
       {isDialogueOpen && (

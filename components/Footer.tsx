@@ -120,7 +120,7 @@ const contributers = [
 
 export default function Footer() {
   return (
-    <footer className="border-t-2 border-slate-200">
+    <footer className="border-t-2 border-slate-200 dark:border-slate-700">
       <div className="main">
         <div className="flex justify-center items-center gap-4 mb-4">
           {links.map(({ link, color, icon }, index) =>
@@ -144,7 +144,7 @@ export default function Footer() {
                   width={40}
                   height={40}
                   alt={name}
-                  className="border-2 border-slate-50 rounded-full"
+                  className="border-2 border-slate-50 dark:border-slate-800 rounded-full"
                 />
               );
               return (

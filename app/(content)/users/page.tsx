@@ -83,7 +83,7 @@ export default function UsersPage() {
           <Button onClick={backPage} disabled={page === 1}>
             Previous
           </Button>
-          <span className="text-base text-slate-500">
+          <span className="text-base text-slate-500 dark:text-slate-300">
             <select
               onChange={(e) => {
                 setPage(+e.target.value);

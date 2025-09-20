@@ -31,7 +31,7 @@ export function SummaryDetail({
     <SummaryDetailContext.Provider value={{ open, toggle }}>
       <div
         id={id}
-        className={`overflow-hidden rounded-xl bg-slate-50 ${className}`}
+        className={`overflow-hidden rounded-xl bg-slate-50 dark:bg-slate-800 ${className}`}
       >
         {children}
       </div>
@@ -47,8 +47,8 @@ interface SummaryProps {
 
 SummaryDetail.Summary = function Summary({
   children,
-  activeClasses = "bg-cyan-600 hover:bg-cyan-700 text-white",
-  inactiveClasses = "hover:bg-slate-100",
+  activeClasses = "bg-cyan-600 hover:bg-cyan-700 text-white dark:bg-cyan-500 dark:hover:bg-cyan-400 dark:text-black",
+  inactiveClasses = "hover:bg-slate-100 dark:hover:bg-slate-700 dark:text-slate-200",
 }: SummaryProps) {
   const ctx = useContext(SummaryDetailContext);
   if (!ctx) throw new Error("Summary must be used within SummaryDetail");
@@ -77,6 +77,6 @@ SummaryDetail.Detail = function Detail({ children }: DetailProps) {
   const { open } = ctx;
 
   return (
-    <div className={open ? "overflow-y-scroll" : "hidden"}> {children} </div>
+    <div className={open ? "overflow-y-scroll" : "hidden"}>{children}</div>
   );
 };
