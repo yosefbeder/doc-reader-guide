@@ -159,7 +159,9 @@ export default function QuestionsList({
             currentQuestion === question.id ? "col" : "hidden"
           }`}
         >
-          <h3 className="p-4 rounded-xl bg-cyan-50">{question.text}</h3>
+          <h3 className="p-4 rounded-xl bg-cyan-50 dark:bg-slate-800">
+            {question.text}
+          </h3>
           {question.image ? (
             <img src={question.image} alt="Question associated diagram" />
           ) : null}
@@ -224,15 +226,15 @@ export default function QuestionsList({
                     if (answer !== undefined) {
                       if (settings.instantFeedback) {
                         if (question.correctOptionIndex === index)
-                          return "bg-green-100 hover:bg-green-200 border-green-600";
+                          return "bg-green-100 hover:bg-green-200 border-green-600 dark:bg-green-900 dark:hover:bg-green-800 dark:border-green-400";
                         else if (answer === index)
-                          return "bg-red-100 hover:bg-red-200 border-red-600";
+                          return "bg-red-100 hover:bg-red-200 border-red-600 dark:bg-red-900 dark:hover:bg-red-800 dark:border-red-400";
                       } else {
                         if (answer === index)
-                          return "bg-blue-100 hover:bg-blue-200 border-blue-600";
+                          return "bg-blue-100 hover:bg-blue-200 border-blue-600 dark:bg-blue-900 dark:hover:bg-blue-800 dark:border-blue-400";
                       }
                     }
-                    return "bg-slate-50 hover:bg-slate-100 border-slate-300";
+                    return "bg-slate-50 hover:bg-slate-100 border-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 dark:border-slate-600";
                   })()}`}
                   disabled={answer !== undefined && settings.instantFeedback}
                   onClick={() => answerQuestion(answer, index)}
