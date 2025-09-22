@@ -77,7 +77,7 @@ export default function NotificationListener() {
       {notifications.map(
         ({ id, title, body, closed }) =>
           !closed && (
-            <li key={id} className="w-full bg-white rounded-xl p-2 shadow-lg">
+            <li key={id} className="w-full rounded-xl p-2 layer-3">
               <div className="flex justify-between items-center">
                 <h3>{title}</h3>
                 <ButtonIcon

@@ -22,7 +22,7 @@ export default function User({
 }) {
   const user = users[index];
   return (
-    <div className="col superficial rounded-xl p-2 dark:bg-slate-800 dark:hover:bg-slate-700 transition-colors">
+    <div className="col rounded-xl p-2 layer-1">
       <div className="flex items-center gap-2">
         <img
           src={user.picture}

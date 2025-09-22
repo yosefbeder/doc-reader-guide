@@ -41,7 +41,7 @@ export default function AddSection({ quizId }: { quizId: number }) {
         <SummaryDetail.Summary>Quick Add</SummaryDetail.Summary>
         <SummaryDetail.Detail>
           <div className="p-2">
-            <div className="floating col">
+            <div className="layer-1-form col">
               <h3>Templates</h3>
               <McqTemplates />
               <h3>Form</h3>

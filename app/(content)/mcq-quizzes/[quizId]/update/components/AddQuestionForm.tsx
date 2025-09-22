@@ -15,7 +15,7 @@ export default function AddQuestionForm({ quizId }: { quizId: number }) {
   return (
     <form
       action={formAction}
-      className="floating"
+      className="layer-1-form"
       onClickCapture={() => setHideMessage(true)}
     >
       <QuestionFields key={formKey} quizId={quizId} />

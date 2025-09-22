@@ -20,7 +20,7 @@ export default function AddLinkForm({
 
   return (
     <form
-      className="floating col"
+      className="layer-1-form col"
       action={formAction}
       onClickCapture={() => setHideMessage(true)}
     >

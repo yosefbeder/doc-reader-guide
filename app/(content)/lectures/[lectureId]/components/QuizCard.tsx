@@ -52,7 +52,7 @@ export default function QuizCard({
   }, []);
 
   return (
-    <div className="flex items-center gap-2 floating">
+    <div className="flex items-center gap-2 p-2 rounded-xl layer-1 clickable">
       <NextLink
         href={`/${type === "mcq" ? "mcq-quizzes" : "written-quizzes"}/${
           quiz.id
@@ -83,7 +83,9 @@ export default function QuizCard({
           <div className="flex items-center gap-1 text-sm">
             <div>Presented by</div>
             <Image src={LogoImage} className="w-3" alt="Logo" />
-            <div className="text-cyan-600 font-extrabold">DocReader Guide</div>
+            <div className="text-cyan-700 dark:text-cyan-500 font-extrabold">
+              DocReader Guide
+            </div>
           </div>
         </div>
       </NextLink>

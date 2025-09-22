@@ -7,9 +7,9 @@ import getHighlightedText from "@/utils/getHighlightedText";
 function LecturePlaceholder() {
   return (
     <div className="animate-pulse py-2">
-      <div className="w-2/3 h-6 mb-1.5 rounded bg-slate-200 dark:bg-slate-700"></div>
-      <div className="w-2/5 h-5 mb-1 rounded bg-slate-200 dark:bg-slate-700"></div>
-      <div className="w-1/5 h-5 rounded bg-slate-200 dark:bg-slate-700"></div>
+      <div className="w-2/3 h-6 mb-1.5 rounded bg-slate-200 dark:bg-slate-500"></div>
+      <div className="w-2/5 h-5 mb-1 rounded bg-slate-200 dark:bg-slate-600"></div>
+      <div className="w-1/5 h-5 rounded bg-slate-200 dark:bg-slate-600"></div>
     </div>
   );
 }

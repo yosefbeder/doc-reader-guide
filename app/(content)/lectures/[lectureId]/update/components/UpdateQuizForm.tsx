@@ -48,7 +48,10 @@ export default function UpdateQuizForm({
   );
 
   return (
-    <div className="floating col" onClickCapture={() => setHideMessage(true)}>
+    <div
+      className="layer-1-form col"
+      onClickCapture={() => setHideMessage(true)}
+    >
       <div className="flex justify-between items-center">
         <h3>Update {type === "mcq" ? "MCQ" : "Written"} Quiz</h3>
         <ButtonIcon icon="x-mark" onClick={onClose} />

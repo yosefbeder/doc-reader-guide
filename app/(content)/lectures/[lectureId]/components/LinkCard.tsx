@@ -16,7 +16,11 @@ export default function LinkCard({
   onUpdate?: () => void;
 }) {
   return (
-    <div className="flex flex-col superficial rounded-xl floating-in-details">
+    <div
+      className={`flex flex-col rounded-xl layer-1 ${
+        urls.length === 1 ? "clickable" : ""
+      }`}
+    >
       <div
         onClick={() => {
           if (urls.length === 1) {

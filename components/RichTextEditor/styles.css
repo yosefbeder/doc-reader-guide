@@ -1,3 +1,126 @@
+/* --- DARK MODE SUPPORT --- */
+
+/* --- DARK MODE SUPPORT (Tailwind palette) --- */
+.dark .editor-container {
+  background: #0f172a; /* slate-900 */
+  color: #cbd5e1; /* slate-300 */
+}
+.dark .editor-inner {
+  background: #0f172a;
+  color: #cbd5e1;
+}
+.dark .editor-input {
+  background: #0f172a;
+  color: #cbd5e1;
+  caret-color: #67e8f9; /* cyan-300 */
+}
+.dark .editor-placeholder {
+  color: #64748b; /* slate-500 */
+}
+.dark .editor-text-bold {
+  color: #f1f5f9; /* slate-50 */
+}
+.dark .editor-text-italic {
+  color: #bae6fd; /* cyan-200 */
+}
+.dark .editor-text-underline,
+.dark .editor-text-strikethrough,
+.dark .editor-text-underlineStrikethrough {
+  color: #cbd5e1;
+}
+.dark .editor-text-code {
+  background-color: #1e293b; /* slate-800 */
+  color: #67e8f9; /* cyan-300 */
+}
+.dark .editor-link {
+  color: #22d3ee; /* cyan-400 */
+}
+.dark .tree-view-output {
+  background: #1e293b;
+  color: #cbd5e1;
+}
+.dark .editor-code {
+  background-color: #1e293b;
+  color: #cbd5e1;
+}
+.dark .editor-code:before {
+  background-color: #0f172a;
+  color: #64748b;
+  border-right: 1px solid #334155; /* slate-700 */
+}
+.dark .editor-code:after {
+  color: #64748b;
+}
+.dark .editor-tokenComment {
+  color: #64748b; /* slate-500 */
+}
+.dark .editor-tokenPunctuation {
+  color: #94a3b8; /* slate-400 */
+}
+.dark .editor-tokenProperty {
+  color: #06b6d4; /* cyan-500 */
+}
+.dark .editor-tokenSelector {
+  color: #22d3ee; /* cyan-400 */
+}
+.dark .editor-tokenOperator {
+  color: #67e8f9; /* cyan-300 */
+}
+.dark .editor-tokenAttr {
+  color: #22d3ee; /* cyan-400 */
+}
+.dark .editor-tokenVariable {
+  color: #67e8f9; /* cyan-300 */
+}
+.dark .editor-tokenFunction {
+  color: #38bdf8; /* cyan-400 */
+}
+.dark .editor-paragraph {
+  color: #cbd5e1;
+}
+.dark .editor-heading-h1 {
+  color: #f1f5f9;
+}
+.dark .editor-heading-h2 {
+  color: #94a3b8;
+}
+.dark .editor-quote {
+  color: #94a3b8;
+  border-left-color: #334155;
+}
+.dark .editor-list-ol,
+.dark .editor-list-ul {
+  color: #cbd5e1;
+}
+.dark .editor-listitem {
+  color: #cbd5e1;
+}
+.dark .editor-nested-listitem {
+  color: #cbd5e1;
+}
+.dark pre::-webkit-scrollbar-thumb {
+  background: #334155;
+}
+.dark pre::-webkit-scrollbar {
+  background: transparent;
+}
+.dark .toolbar {
+  background: #1e293b;
+  color: #cbd5e1;
+}
+.dark .toolbar button.toolbar-item.active {
+  background-color: rgba(34, 211, 238, 0.15); /* cyan-400 */
+}
+.dark .toolbar .toolbar-item:hover:not([disabled]) {
+  background-color: #0f172a;
+}
+.dark .toolbar .divider {
+  background-color: #334155;
+}
+.dark .toolbar .toolbar-item .text {
+  color: #94a3b8;
+}
+
 .ltr {
   text-align: left;
 }

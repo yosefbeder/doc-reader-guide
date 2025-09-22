@@ -210,7 +210,7 @@ export default function ModulesPage() {
                     <li key={index}>
                       <Link
                         href={`/modules/${id}`}
-                        className="card floating-in-details"
+                        className="card layer-1"
                         onClick={() =>
                           logEvent(Resource.MODULE, id, Action.NAVIGATE, {})
                         }

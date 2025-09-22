@@ -91,20 +91,17 @@
   }
 
   .radio.selected {
-    @apply bg-slate-100 dark:bg-slate-700;
+    @apply bg-slate-100 dark:bg-slate-500;
   }
 
   .radio.normal {
     @apply hover:bg-slate-50 active:bg-slate-100 
-         dark:hover:bg-slate-800 dark:active:bg-slate-700;
-  }
-
-  .react-checkbox-tree {
-    @apply !text-lg;
+         dark:hover:bg-slate-600 dark:active:bg-slate-500;
   }
 
   .react-checkbox-tree label {
-    @apply hover:!bg-cyan-50 rounded-md p-0.5;
+    @apply hover:!bg-slate-50 active:!bg-slate-100 
+         dark:hover:!bg-slate-600 dark:active:!bg-slate-500 rounded-md;
   }
 }
 
@@ -114,19 +111,24 @@
   }
 
   .card {
-    @apply col items-center p-4 rounded-xl text-center superficial dark:bg-slate-800 dark:hover:bg-slate-700 transition-colors;
+    @apply col items-center p-4 rounded-xl text-center clickable;
   }
 
-  .superficial {
-    @apply shadow-md hover:shadow-lg transition-shadow;
+  .layer-1 {
+    @apply bg-white shadow-md dark:shadow-none dark:bg-slate-800;
+  }
+  .layer-1.clickable {
+    @apply hover:shadow-lg dark:hover:shadow-none dark:hover:bg-slate-700 transition-shadow dark:transition-colors;
+  }
+  .layer-1-form {
+    @apply p-2 layer-1 rounded-xl;
   }
 
-  .floating {
-    @apply superficial p-2 rounded-xl floating-in-details;
+  .layer-2 {
+    @apply bg-white shadow-lg dark:shadow-none dark:bg-slate-700;
   }
-
-  .floating-in-details {
-    @apply bg-white dark:bg-slate-700 dark:hover:bg-slate-600 transition-colors;
+  .layer-2.clickable {
+    @apply hover:shadow-xl dark:hover:shadow-none dark:hover:bg-slate-600 transition-shadow dark:transition-colors;
   }
 
   .main {

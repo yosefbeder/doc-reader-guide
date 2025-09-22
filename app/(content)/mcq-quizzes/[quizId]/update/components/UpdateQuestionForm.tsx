@@ -32,7 +32,7 @@ export default function UpdateQuestionForm({
   const disabled = notUpdateable(user, question.creatorId);
 
   return (
-    <div className="floating" onClickCapture={() => setHideMessage(true)}>
+    <div className="layer-1-form" onClickCapture={() => setHideMessage(true)}>
       <QuestionFields
         quizId={quizId}
         defaultValues={question}

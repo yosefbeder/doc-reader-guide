@@ -31,7 +31,7 @@ export function SummaryDetail({
     <SummaryDetailContext.Provider value={{ open, toggle }}>
       <div
         id={id}
-        className={`overflow-hidden rounded-xl bg-slate-50 dark:bg-slate-800 ${className}`}
+        className={`overflow-hidden rounded-xl bg-slate-50 dark:bg-slate-800/50 ${className}`}
       >
         {children}
       </div>

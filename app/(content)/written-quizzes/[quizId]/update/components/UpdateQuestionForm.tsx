@@ -39,7 +39,7 @@ export default function UpdateQuestionForm({
   }, [updateFormState]);
 
   return (
-    <div className="floating" onClickCapture={() => setHideMessage(true)}>
+    <div className="layer-1-form" onClickCapture={() => setHideMessage(true)}>
       <QuestionFields
         quizId={quizId}
         formId={updateFormId}

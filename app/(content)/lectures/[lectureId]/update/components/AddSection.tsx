@@ -43,7 +43,7 @@ export default function AddSection({
         <SummaryDetail.Summary>Add MCQ Quiz</SummaryDetail.Summary>
         <SummaryDetail.Detail>
           <div className="p-2">
-            <div className="floating col">
+            <div className="layer-1-form col">
               <h3>Templates</h3>
               <McqTemplates />
               <h3>Form</h3>
@@ -64,7 +64,7 @@ export default function AddSection({
         <SummaryDetail.Summary>Add Written Quiz</SummaryDetail.Summary>
         <SummaryDetail.Detail>
           <div className="p-2">
-            <div className="floating col">
+            <div className="layer-1-form col">
               <h3>Templates</h3>
               <WrittenTemplates />
               <h3>Form</h3>

@@ -28,11 +28,7 @@ export default function CardPlaceholder({
   type: "module" | "subject" | "lecture";
 }) {
   return (
-    <div
-      className={`card bg-white ${
-        type === "module" ? "dark:bg-slate-700" : "dark:bg-slate-800"
-      } animate-pulse`}
-    >
+    <div className={`card clickable layer-1 animate-pulse`}>
       {cardContent[type]}
     </div>
   );

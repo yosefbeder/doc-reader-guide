@@ -20,7 +20,7 @@ export default function SubjectCard({
   return (
     <Link
       href={`/subjects/${id}`}
-      className="card relative group"
+      className="card layer-1 relative group"
       onClick={() => logEvent(Resource.SUBJECT, id, Action.NAVIGATE, {})}
     >
       <span>
