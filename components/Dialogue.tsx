@@ -19,7 +19,7 @@ export default function Dialogue({
         onClick={onClose}
       />
       <div
-        className={`fixed z-20 inset-0 my-8 mx-auto max-[512px]:m-0 p-2 max-[512px]:py-4 w-full max-w-lg h-max max-h-96 max-[512px]:h-screen overflow-y-scroll max-[512px]:rounded-none 
+        className={`fixed z-20 inset-0 my-8 mx-auto max-[512px]:m-0 p-2 max-[512px]:py-4 w-full max-w-lg h-max max-h-96 max-[512px]:h-screen max-[512px]:max-h-none overflow-y-scroll max-[512px]:rounded-none 
           layer-2
           ${className}`}
       >
