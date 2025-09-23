@@ -8,6 +8,7 @@ import { quickAdd } from "@/lib/actions/subjects";
 import Message from "@/components/Message";
 import Select from "@/components/Select";
 import Button from "@/components/Button";
+import { Subject } from "@/types";
 
 const models = [
   {
@@ -51,16 +52,21 @@ Only include these subjects with their exact names and corresponding icon URLs:
 
 Ignore any additional information outside these properties. If a subject has no lectures, omit it from the array. Please return only the JSON output without explanations or extra text.`;
 
-export default function QuickAddForm({
-  moduleId,
-  disabled,
-}: {
+export default function QuickAddForm(props: {
   moduleId: number;
+  subjects: Subject[];
   disabled?: boolean;
 }) {
+  const { moduleId, subjects: presentSubjects = [], disabled } = props;
   const [formState, formAction] = useFormState(quickAdd, {});
   const [subjects, setQuestions] = useState("");
   const [model, setModel] = useState(models[0].value);
+
+  // Encode present subjects for server
+  const encodedSubjects = React.useMemo(
+    () => JSON.stringify(presentSubjects.map(({ id, name }) => ({ id, name }))),
+    [presentSubjects]
+  );
 
   useEffect(() => {
     if (formState.resetKey) setQuestions("");
@@ -75,6 +81,8 @@ export default function QuickAddForm({
         defaultValue={moduleId}
         className="hidden"
       />
+      {/* Pass present subjects as hidden input */}
+      <input type="hidden" name="present-subjects" value={encodedSubjects} />
       <Select
         label="AI model"
         icon="chat-bubble-left-ellipsis"

@@ -12,6 +12,7 @@ export async function quickAdd(
 ): Promise<FormState> {
   const moduleId = formData.get("module-id") as string;
   const subjectsJson = formData.get("subjects") as string;
+  const presentSubjectsJson = formData.get("present-subjects") as string;
 
   if (!moduleId || !subjectsJson) {
     return {
@@ -26,9 +27,13 @@ export async function quickAdd(
     icon: string;
     lectures: { title: string; date: string }[];
   }[];
+  let presentSubjects: { name: string; icon: string; id: number }[] = [];
 
   try {
     subjects = JSON.parse(subjectsJson);
+    if (presentSubjectsJson) {
+      presentSubjects = JSON.parse(presentSubjectsJson);
+    }
   } catch {
     return {
       type: "fail",
@@ -52,28 +57,37 @@ export async function quickAdd(
   let lectureFail = 0;
 
   const subjectPromises = subjects.map(async (subj) => {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/modules/${moduleId}/subjects`,
-      {
-        method: "POST",
-        headers: {
-          "content-type": "application/json;charset=UTF-8",
-          authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ name: subj.name, icon: subj.icon }),
-      }
+    // Check if subject already exists by name (case-insensitive)
+    const existing = presentSubjects.find(
+      (s) => s.name.trim().toLowerCase() === subj.name.trim().toLowerCase()
     );
-
-    if (!res.ok) throw new Error("Subject add failed");
-
-    const subjectData = await res.json();
-    subjectSuccess++;
+    let subjectId: number | undefined;
+    if (existing) {
+      subjectId = existing.id;
+    } else {
+      // Create new subject
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/modules/${moduleId}/subjects`,
+        {
+          method: "POST",
+          headers: {
+            "content-type": "application/json;charset=UTF-8",
+            authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ name: subj.name, icon: subj.icon }),
+        }
+      );
+      if (!res.ok) throw new Error("Subject add failed");
+      const subjectData = await res.json();
+      subjectSuccess++;
+      subjectId = subjectData.data.subject.id;
+    }
 
     // Add lectures for this subject
     const lectureResults = await Promise.allSettled(
       subj.lectures.map((lec) =>
         fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/subjects/${subjectData.data.subject.id}/lectures`,
+          `${process.env.NEXT_PUBLIC_API_URL}/subjects/${subjectId}/lectures`,
           {
             method: "POST",
             headers: {
@@ -92,16 +106,13 @@ export async function quickAdd(
         })
       )
     );
-
     lectureResults.forEach((r) =>
       r.status === "fulfilled" ? lectureSuccess++ : lectureFail++
     );
-
-    return subjectData;
+    return subjectId;
   });
 
   const results = await Promise.allSettled(subjectPromises);
-
   results.forEach((r) => {
     if (r.status === "rejected") subjectFail++;
   });
