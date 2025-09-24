@@ -24,7 +24,7 @@ export default function NotificationsDialogue({
   onClose,
 }: {
   yearId: number;
-  onClose: React.MouseEventHandler<HTMLDivElement | HTMLButtonElement>;
+  onClose: () => void;
 }) {
   const fetcher = useCallback(
     async (key: string) => {

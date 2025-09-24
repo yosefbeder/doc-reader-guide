@@ -1,5 +1,8 @@
+"use client";
+
 import React from "react";
 import ButtonIcon from "./ButtonIcon";
+import { useHotkeys } from "react-hotkeys-hook";
 
 export default function Dialogue({
   header,
@@ -9,9 +12,11 @@ export default function Dialogue({
 }: {
   header: string;
   className?: string;
-  onClose: React.MouseEventHandler<HTMLDivElement | HTMLButtonElement>;
+  onClose: () => void;
   children: React.ReactNode;
 }) {
+  useHotkeys("Escape", onClose, [onClose]);
+
   return (
     <>
       <div

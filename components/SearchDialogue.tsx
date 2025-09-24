@@ -6,7 +6,7 @@ export default function SearchDialogue({
   onClose,
   children,
 }: {
-  onClose: React.MouseEventHandler<HTMLDivElement | HTMLButtonElement>;
+  onClose: () => void;
   children: React.ReactNode;
 }) {
   return (
