@@ -42,6 +42,7 @@ export default function LectureCard({
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
+              logEvent(Resource.LECTURE, id, Action.VIEW_NOTE, {});
               setNoteOpen(true);
             }}
           >

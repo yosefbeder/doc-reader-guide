@@ -41,6 +41,7 @@ export enum Action {
   SHOW_ANSWER = "SHOW_ANSWER",
   TRUE_ANSWER = "TRUE_ANSWER",
   FALSE_ANSWER = "FALSE_ANSWER",
+  VIEW_NOTE = "VIEW_NOTE",
 }
 
 export interface DatabaseTable {
