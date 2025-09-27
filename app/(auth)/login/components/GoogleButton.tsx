@@ -8,8 +8,10 @@ import { logEvent } from "@/lib/event-logger";
 import { Action, Resource } from "@/types";
 import Message from "@/components/Message";
 import { useState } from "react";
+import useSettings from "@/lib/hooks/useSettings";
 
 export default function GoogleButton() {
+  const { currentTheme } = useSettings();
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirect = searchParams.get("redirect");
@@ -89,6 +91,7 @@ export default function GoogleButton() {
         shape="circle"
         onSuccess={onSuccess}
         onError={onError}
+        theme={currentTheme === "dark" ? "filled_black" : "outline"}
       />
     </>
   );

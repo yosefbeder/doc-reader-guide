@@ -49,6 +49,7 @@ function loadSettings(): Settings {
 
 export default function useSettings() {
   const [settings, setSettings] = useState<Settings>(loadSettings());
+  const [currentTheme, setCurrentTheme] = useState<"light" | "dark">("light");
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -66,7 +67,9 @@ export default function useSettings() {
         const prefersDark = window.matchMedia(
           "(prefers-color-scheme: dark)"
         ).matches;
-        html.classList.add(prefersDark ? "dark" : "light");
+        const newTheme = prefersDark ? "dark" : "light";
+        html.classList.add(newTheme);
+        setCurrentTheme(newTheme);
       } else {
         html.classList.add(theme);
       }
@@ -107,5 +110,5 @@ export default function useSettings() {
     [settings]
   );
 
-  return { settings, updateSetting };
+  return { settings, updateSetting, currentTheme };
 }

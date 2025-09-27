@@ -13,7 +13,7 @@ export default function LoginPage() {
       <Suspense>
         <main className="my-8 mx-auto max-w-xl col items-center">
           <Image src={Logo} width={128} alt="Logo" />
-          <span className="text-4xl font-extrabold text-cyan-700">
+          <span className="text-4xl font-extrabold text-cyan-700 dark:text-cyan-500">
             DocReader Guide
           </span>
           <GoogleButton />
