@@ -62,17 +62,17 @@ export default function useSettings() {
     const applyTheme = (theme: "light" | "dark" | "system") => {
       const html = document.documentElement;
       html.classList.remove("light", "dark");
-
+      let newTheme: "dark" | "light";
       if (theme === "system") {
         const prefersDark = window.matchMedia(
           "(prefers-color-scheme: dark)"
         ).matches;
-        const newTheme = prefersDark ? "dark" : "light";
-        html.classList.add(newTheme);
-        setCurrentTheme(newTheme);
+        newTheme = prefersDark ? "dark" : "light";
       } else {
-        html.classList.add(theme);
+        newTheme = theme;
       }
+      html.classList.add(newTheme);
+      setCurrentTheme(newTheme);
     };
 
     applyTheme(settings.appearance.theme);
