@@ -6,11 +6,14 @@ import Cookies from "js-cookie";
 
 import { logEvent } from "@/lib/event-logger";
 import { Action, Resource } from "@/types";
+import Message from "@/components/Message";
+import { useState } from "react";
 
 export default function GoogleButton() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirect = searchParams.get("redirect");
+  const [errors, setErrors] = useState<string[]>([]);
 
   const onSuccess = (credentialResponse: any) => {
     console.log("Login Success:", credentialResponse);
@@ -23,7 +26,7 @@ export default function GoogleButton() {
   };
 
   const onError = () => {
-    console.log("Login Failed");
+    setErrors((prev) => [...prev, "Login Failed"]);
   };
 
   const sendTokenToBackend = async (id_token: string) => {
@@ -57,19 +60,36 @@ export default function GoogleButton() {
         // Example: Redirect or update UI
         console.log("User authenticated successfully on the backend!");
       } else {
-        console.error("Authentication failed on the backend:", json.error);
+        setErrors((prev) => [
+          ...prev,
+          "Authentication failed on the backend: " + JSON.stringify(json),
+        ]);
       }
     } catch (error) {
-      console.error("Error sending token to backend:", error);
+      setErrors((prev) => [
+        ...prev,
+        "Error sending token to backend: " + JSON.stringify(error),
+      ]);
     }
   };
 
   return (
-    <GoogleLogin
-      text="continue_with"
-      shape="circle"
-      onSuccess={onSuccess}
-      onError={onError}
-    />
+    <>
+      {errors.length > 0 && (
+        <ul className="col">
+          {errors.map((error) => (
+            <li key={error}>
+              <Message type="fail">{error}</Message>
+            </li>
+          ))}
+        </ul>
+      )}
+      <GoogleLogin
+        text="continue_with"
+        shape="circle"
+        onSuccess={onSuccess}
+        onError={onError}
+      />
+    </>
   );
 }
