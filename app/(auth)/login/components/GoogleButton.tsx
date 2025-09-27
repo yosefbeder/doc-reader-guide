@@ -18,8 +18,6 @@ export default function GoogleButton() {
   const [errors, setErrors] = useState<string[]>([]);
 
   const onSuccess = (credentialResponse: any) => {
-    console.log("Login Success:", credentialResponse);
-
     // Get the ID token from the response
     const id_token = credentialResponse.credential;
 
@@ -46,21 +44,19 @@ export default function GoogleButton() {
       );
 
       const json = await response.json();
-      console.log("Backend response:", json);
 
-      const user = json.data.user;
-
-      if (user.yearId === null) localStorage.setItem("select-class", "true");
-
-      Cookies.remove("guest");
-      localStorage.setItem("user-id", user.id);
-      logEvent(Resource.USER, user.id, Action.LOGIN, {});
-      router.replace(redirect ?? "/");
-
-      // Handle the backend's response (e.g., store a session token, redirect the user)
       if (response.ok) {
-        // Example: Redirect or update UI
-        console.log("User authenticated successfully on the backend!");
+        const user = json.data.user;
+        if (user.yearId === null) localStorage.setItem("select-class", "true");
+        Cookies.remove("guest");
+        localStorage.setItem("user-id", user.id);
+        logEvent(Resource.USER, user.id, Action.LOGIN, {});
+        router.replace(redirect ?? "/");
+        setErrors((prev) => [
+          ...prev,
+          "Redirection failed: ",
+          JSON.stringify(json),
+        ]);
       } else {
         setErrors((prev) => [
           ...prev,
