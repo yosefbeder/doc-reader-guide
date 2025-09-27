@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Cookies from "js-cookie";
 
 import { logEvent } from "@/lib/event-logger";
-import { Action, Resource } from "@/types";
+import { Action, FormStateType, Resource } from "@/types";
 import Message from "@/components/Message";
 import { useState } from "react";
 import useSettings from "@/lib/hooks/useSettings";
@@ -15,7 +15,12 @@ export default function GoogleButton() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirect = searchParams.get("redirect");
-  const [errors, setErrors] = useState<string[]>([]);
+  const [messages, setMessages] = useState<
+    {
+      type: FormStateType;
+      content: string;
+    }[]
+  >([]);
 
   const onSuccess = (credentialResponse: any) => {
     // Get the ID token from the response
@@ -26,7 +31,7 @@ export default function GoogleButton() {
   };
 
   const onError = () => {
-    setErrors((prev) => [...prev, "Login Failed"]);
+    setMessages((prev) => [...prev, { type: "fail", content: "Login Failed" }]);
   };
 
   const sendTokenToBackend = async (id_token: string) => {
@@ -51,33 +56,50 @@ export default function GoogleButton() {
         Cookies.remove("guest");
         localStorage.setItem("user-id", user.id);
         logEvent(Resource.USER, user.id, Action.LOGIN, {});
-        router.replace(redirect ?? "/");
-        setErrors((prev) => [
+        setMessages((prev) => [
           ...prev,
-          "Redirection failed: ",
-          JSON.stringify(json),
+          {
+            type: "success",
+            content: "Authentication succeeded!\nRedirecting...",
+          },
         ]);
+        router.replace(redirect ?? "/");
       } else {
-        setErrors((prev) => [
+        setMessages((prev) => [
           ...prev,
-          "Authentication failed on the backend: " + JSON.stringify(json),
+          {
+            type: "fail",
+            content:
+              "Authentication failed on the backend:\n" +
+              JSON.stringify(json, null, 2),
+          },
         ]);
       }
     } catch (error) {
-      setErrors((prev) => [
+      setMessages((prev) => [
         ...prev,
-        "Error sending token to backend: " + JSON.stringify(error),
+        {
+          type: "fail",
+          content:
+            "Error sending token to backend:\n" +
+            JSON.stringify(error, null, 2),
+        },
       ]);
     }
   };
 
   return (
     <>
-      {errors.length > 0 && (
-        <ul className="col">
-          {errors.map((error) => (
-            <li key={error}>
-              <Message type="fail">{error}</Message>
+      {messages.length > 0 && (
+        <ul className="col w-full px-2 items-center">
+          {messages.map((message) => (
+            <li key={message.content}>
+              <Message
+                className="whitespace-pre overflow-scroll"
+                type={message.type}
+              >
+                {message.content}
+              </Message>
             </li>
           ))}
         </ul>
