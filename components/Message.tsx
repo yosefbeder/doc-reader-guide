@@ -7,10 +7,13 @@ interface MessageProps extends React.ComponentProps<"p"> {
 }
 
 const styles = {
-  fail: "bg-red-100 border-red-700 text-red-700",
-  warning: "bg-yellow-100 text-yellow-700 border-yellow-700",
-  success: "bg-green-100 border-green-700 text-green-700",
-  information: "bg-blue-100 border-blue-700 text-blue-700",
+  fail: "bg-red-100 border-red-700 text-red-700 dark:bg-red-900 dark:border-red-200 dark:text-red-200",
+  warning:
+    "bg-yellow-100 text-yellow-700 border-yellow-700 dark:bg-yellow-900 dark:text-yellow-300 dark:border-yellow-200",
+  success:
+    "bg-green-100 border-green-700 text-green-700 dark:bg-green-900 dark:border-green-200 dark:text-green-200",
+  information:
+    "bg-blue-100 border-blue-700 text-blue-700 dark:bg-blue-900 dark:border-blue-200 dark:text-blue-200",
 };
 
 const icons = {
