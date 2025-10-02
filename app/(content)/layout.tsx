@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 import "../globals.css";
 import NotificationListener from "@/components/NotificationListener";
 import SWRWrapper from "@/components/SWRWrapper";
+import themeScript from "@/utils/themeScript";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
@@ -18,8 +19,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html>
+    <html suppressHydrationWarning>
       <body className={`${inter.variable} font-sans`}>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         <SWRWrapper>{children}</SWRWrapper>
         <NotificationListener />
       </body>

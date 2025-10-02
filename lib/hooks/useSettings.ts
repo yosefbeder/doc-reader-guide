@@ -61,7 +61,6 @@ export default function useSettings() {
 
     const applyTheme = (theme: "light" | "dark" | "system") => {
       const html = document.documentElement;
-      html.classList.remove("light", "dark");
       let newTheme: "dark" | "light";
       if (theme === "system") {
         const prefersDark = window.matchMedia(
@@ -71,6 +70,7 @@ export default function useSettings() {
       } else {
         newTheme = theme;
       }
+      html.classList.remove("light", "dark");
       html.classList.add(newTheme);
       setCurrentTheme(newTheme);
     };

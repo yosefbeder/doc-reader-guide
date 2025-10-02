@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 import "../globals.css";
 import { Inter } from "next/font/google";
+import themeScript from "@/utils/themeScript";
 
 export const metadata: Metadata = {
   title: "DocReader Guide",
@@ -17,7 +18,10 @@ export default function RootLayout({
 }>) {
   return (
     <html>
-      <body className={`${inter.variable} font-sans`}>{children}</body>
+      <body className={`${inter.variable} font-sans`}>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+        {children}
+      </body>
     </html>
   );
 }
