@@ -19,7 +19,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html suppressHydrationWarning>
+    <html>
       <body className={`${inter.variable} font-sans`}>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         <SWRWrapper>{children}</SWRWrapper>
