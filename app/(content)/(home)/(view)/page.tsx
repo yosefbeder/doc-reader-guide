@@ -163,7 +163,7 @@ export default function ModulesPage() {
                 const { quiz } = JSON.parse(value);
                 return (
                   <li key={`mcq-quiz-${quiz.id}`}>
-                    <QuizCard type="mcq" quiz={quiz} printable />
+                    <QuizCard type="mcq" quiz={quiz} printable showPath />
                   </li>
                 );
               })}
@@ -171,7 +171,7 @@ export default function ModulesPage() {
                 const { quiz } = JSON.parse(value);
                 return (
                   <li key={`written-quiz-${quiz.id}`}>
-                    <QuizCard type="written" quiz={quiz} />
+                    <QuizCard type="written" quiz={quiz} showPath />
                   </li>
                 );
               })}

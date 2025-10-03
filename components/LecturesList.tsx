@@ -45,7 +45,7 @@ export default function LecturesList({
                 onClick={onClose}
               >
                 <p>{getHighlightedText(title, search)}</p>
-                <p className="text-sm text-slate-500 dark:text-slate-300">
+                <p className="caption">
                   {semesterName}
                   <sup>{getPrefix(semesterName)}</sup> Semester → {moduleName} →{" "}
                   {subjectName}

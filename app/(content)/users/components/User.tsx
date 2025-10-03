@@ -31,11 +31,7 @@ export default function User({
         />
         <div className="flex-1 truncate">
           <div>{getHighlightedText(user.email, search)}</div>
-          {!isUpdating && (
-            <p className="text-sm text-slate-500 dark:text-slate-300">
-              {ROLES[user.roleId]}
-            </p>
-          )}
+          {!isUpdating && <p className="caption">{ROLES[user.roleId]}</p>}
         </div>
         <ButtonIcon
           icon={isUpdating ? "x-mark" : "pencil-square"}

@@ -103,6 +103,10 @@
     @apply hover:!bg-slate-50 active:!bg-slate-100 
          dark:hover:!bg-slate-600 dark:active:!bg-slate-500 rounded-md;
   }
+
+  .caption {
+    @apply text-sm text-slate-500 dark:text-slate-300;
+  }
 }
 
 @layer utilities {

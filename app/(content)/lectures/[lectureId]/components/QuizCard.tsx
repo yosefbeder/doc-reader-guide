@@ -10,17 +10,20 @@ import LogoImage from "@/public/logo.png";
 import ButtonIcon from "@/components/ButtonIcon";
 import { icons } from "@/components/icons";
 import { logEvent } from "@/lib/event-logger";
+import getPrefix from "@/utils/getPrefix";
 
 export default function QuizCard({
   quiz,
   type,
   printable = false,
   updateable = false,
+  showPath = false,
   onUpdate,
 }: {
   quiz: Quiz;
   type: QuizType;
   printable?: boolean;
+  showPath?: boolean;
   updateable?: boolean;
   onUpdate?: () => void;
 }) {
@@ -72,21 +75,42 @@ export default function QuizCard({
           <div className={showingResults ? "line-through" : ""}>
             {quiz.title}
           </div>
+          {showPath &&
+            (() => {
+              const {
+                lectureData: {
+                  title: lectureTitle,
+                  subject: {
+                    name: subjectName,
+                    module: { name: moduleName, semesterName },
+                  },
+                },
+              } = quiz;
+              return (
+                <div className="caption">
+                  {semesterName}
+                  <sup>{getPrefix(semesterName)}</sup> Semester → {moduleName}→{" "}
+                  {subjectName}→ {lectureTitle}
+                </div>
+              );
+            })()}
           {!showingResults &&
             typeof answered !== "undefined" &&
             typeof total !== "undefined" && (
-              <div className="text-sm">
+              <div className="caption">
                 {answered} / {total} (
                 {Math.round((answered / total) * 10000) / 100}%)
               </div>
             )}
-          <div className="flex items-center gap-1 text-sm">
-            <div>Presented by</div>
-            <Image src={LogoImage} className="w-3" alt="Logo" />
-            <div className="text-cyan-700 dark:text-cyan-500 font-extrabold">
-              DocReader Guide
+          {!showPath && (
+            <div className="flex items-center gap-1 caption">
+              <div>Presented by</div>
+              <Image src={LogoImage} className="w-3" alt="Logo" />
+              <div className="text-cyan-700 dark:text-cyan-500 font-extrabold">
+                DocReader Guide
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </NextLink>
       {printable && <ButtonPrintQuiz id={quiz.id} title={quiz.title} />}
