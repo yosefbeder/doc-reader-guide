@@ -22,10 +22,8 @@ export default function FeatureSection({
       }`}
     >
       <div className="md:w-1/2">
-        <h3 className="text-3xl font-bold text-blue-900 dark:text-blue-200 mb-4">
-          {title}
-        </h3>
-        <p className="text-lg">{description}</p>
+        <h3 className="mb-4">{title}</h3>
+        <p>{description}</p>
       </div>
       <div className="md:w-1/2">
         <Image
@@ -40,7 +38,7 @@ export default function FeatureSection({
           alt={`${title} screenshot (dark mode)`}
           width={1200}
           height={750}
-          className="rounded-lg shadow-xl hidden dark:block"
+          className="rounded-lg hidden dark:block"
         />
       </div>
     </div>

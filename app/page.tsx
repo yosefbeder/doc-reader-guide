@@ -45,35 +45,37 @@ const features = [
 
 export default function LandingPage() {
   return (
-    <main className="bg-white text-gray-800 font-sans dark:bg-gray-900 dark:text-gray-200">
+    <main>
       {/* Hero Section */}
-      <section className="text-center py-20 px-4 bg-blue-50 dark:bg-blue-900/20">
-        <div className="flex justify-center items-center mb-4">
-            <Image src={Logo} width={128} alt="DocReader Guide Logo" />
+      <section className="text-center py-20 bg-slate-50 dark:bg-slate-800">
+        <div className="main">
+            <div className="flex justify-center items-center mb-4">
+                <Image src={Logo} width={128} alt="DocReader Guide Logo" />
+            </div>
+            <h1 className="h1">The Ultimate Study Companion for Medical Students</h1>
+            <p className="mt-4">Organize, Practice, and Ace Your Medical Exams with DocReader Guide.</p>
+            <Link href="/api/auth/login">
+              <Button color="cyan" className="mt-8 font-bold py-3 px-6 rounded-lg text-lg">
+                Get Started Now (Free Sign-Up)
+              </Button>
+            </Link>
         </div>
-        <h1 className="text-5xl font-bold text-blue-900 dark:text-blue-200">The Ultimate Study Companion for Medical Students</h1>
-        <p className="text-xl text-blue-800 dark:text-blue-300 mt-4">Organize, Practice, and Ace Your Medical Exams with DocReader Guide.</p>
-        <Link href="/api/auth/login">
-          <Button color="cyan" className="mt-8 font-bold py-3 px-6 rounded-lg text-lg">
-            Get Started Now (Free Sign-Up)
-          </Button>
-        </Link>
       </section>
 
       {/* Problem/Solution Section */}
-      <section className="py-20 px-4">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl font-bold text-blue-900 dark:text-blue-200">Overwhelmed by Medical School?</h2>
-          <p className="text-lg mt-4">
+      <section className="py-20">
+        <div className="main text-center">
+          <h2>Overwhelmed by Medical School?</h2>
+          <p className="mt-4">
             Scattered resources, endless notes, and inefficient practice methods make studying a chore. DocReader Guide brings structure to your studies, providing an all-in-one solution to keep you organized and on track.
           </p>
         </div>
       </section>
 
       {/* Features Section */}
-      <section className="py-20 px-4 bg-gray-50 dark:bg-gray-800">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl font-bold text-center text-blue-900 dark:text-blue-200 mb-16">Powerful Features to Enhance Your Learning</h2>
+      <section className="py-20 bg-slate-50 dark:bg-slate-800">
+        <div className="main">
+          <h2 className="text-center mb-16">Powerful Features to Enhance Your Learning</h2>
           <div className="flex flex-col gap-16">
             {features.map((feature, index) => (
               <FeatureSection key={feature.title} {...feature} reverse={index % 2 === 1} />
@@ -83,24 +85,24 @@ export default function LandingPage() {
       </section>
 
       {/* Social Proof / Numbers */}
-      <section className="py-20 px-4">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl font-bold text-blue-900 dark:text-blue-200">Trusted by Thousands of Future Doctors</h2>
+      <section className="py-20">
+        <div className="main text-center">
+          <h2>Trusted by Thousands of Future Doctors</h2>
           <div className="flex justify-around mt-8">
             <div>
-              <p className="text-4xl font-bold text-blue-600 dark:text-blue-400">2,500+</p>
+              <p className="text-4xl font-bold text-cyan-600 dark:text-cyan-400">2,500+</p>
               <p>Students Using Our Platform</p>
             </div>
             <div>
-              <p className="text-4xl font-bold text-blue-600 dark:text-blue-400">14,400+</p>
+              <p className="text-4xl font-bold text-cyan-600 dark:text-cyan-400">14,400+</p>
               <p>Shared Study Resources</p>
             </div>
             <div>
-              <p className="text-4xl font-bold text-blue-600 dark:text-blue-400">38,500+</p>
+              <p className="text-4xl font-bold text-cyan-600 dark:text-cyan-400">38,500+</p>
               <p>Practice Questions Available</p>
             </div>
              <div>
-              <p className="text-4xl font-bold text-blue-600 dark:text-blue-400">80+</p>
+              <p className="text-4xl font-bold text-cyan-600 dark:text-cyan-400">80+</p>
               <p>MCQs Inserted Daily via AI Pipeline</p>
             </div>
           </div>
@@ -108,13 +110,15 @@ export default function LandingPage() {
       </section>
 
       {/* Final CTA Section */}
-      <section className="py-20 px-4 bg-blue-600 text-white text-center">
-        <h2 className="text-4xl font-bold">Stop Wasting Time, Start Mastering Medicine.</h2>
-        <Link href="/api/auth/login">
-            <Button color="white" className="mt-8 font-bold py-3 px-6 rounded-lg text-lg">
-                Join DocReader Guide Today!
-            </Button>
-        </Link>
+      <section className="py-20 bg-cyan-600 text-white text-center">
+        <div className="main">
+            <h2 className="text-4xl font-bold">Stop Wasting Time, Start Mastering Medicine.</h2>
+            <Link href="/api/auth/login">
+                <Button color="white" className="mt-8 font-bold py-3 px-6 rounded-lg text-lg">
+                    Join DocReader Guide Today!
+                </Button>
+            </Link>
+        </div>
       </section>
     </main>
   );
