@@ -21,24 +21,24 @@ export default function FeatureSection({
         reverse ? "md:flex-row-reverse" : ""
       }`}
     >
-      <div className="md:w-1/2">
+      <div className="md:w-1/2 card layer-1">
         <h3 className="mb-4">{title}</h3>
         <p>{description}</p>
       </div>
       <div className="md:w-1/2">
-        <Image
+        <img
           src={lightScreenshot}
           alt={`${title} screenshot (light mode)`}
           width={1200}
           height={750}
-          className="rounded-lg shadow-xl dark:hidden"
+          className="dark:hidden"
         />
-        <Image
+        <img
           src={darkScreenshot}
           alt={`${title} screenshot (dark mode)`}
           width={1200}
           height={750}
-          className="rounded-lg hidden dark:block"
+          className="hidden dark:block"
         />
       </div>
     </div>
