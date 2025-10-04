@@ -41,10 +41,15 @@ export async function generateMetadata({
 }
 
 export async function generateStaticParams() {
-  const modules = await listModules();
-  return modules.map(({ id }: { id: number }) => ({
-    moduleId: id.toString(),
-  }));
+  try {
+    const modules = await listModules();
+    return modules.map(({ id }: { id: number }) => ({
+      moduleId: id.toString(),
+    }));
+  } catch (error) {
+    console.warn("Could not connect to the API to generate static params for modules. Skipping.");
+    return [];
+  }
 }
 
 export default async function SubjectsPage({ params: { moduleId } }: Props) {

@@ -42,10 +42,15 @@ export async function generateMetadata({
 }
 
 export async function generateStaticParams() {
-  const subjects = await listSubjects();
-  return subjects.map(({ id }: { id: number }) => ({
-    subjectId: id.toString(),
-  }));
+  try {
+    const subjects = await listSubjects();
+    return subjects.map(({ id }: { id: number }) => ({
+      subjectId: id.toString(),
+    }));
+  } catch (error) {
+    console.warn("Could not connect to the API to generate static params for subjects. Skipping.");
+    return [];
+  }
 }
 
 export default async function LecturesPage({

@@ -3,42 +3,60 @@ import { decodeJwt } from "jose";
 
 export async function middleware(req: NextRequest): Promise<NextResponse> {
   const { pathname } = req.nextUrl;
-  let jwt = req.cookies.get("jwt")?.value;
-  const toLogin = pathname.startsWith("/login");
+  const jwt = req.cookies.get("jwt")?.value;
+
+  const isAppRoute = pathname.startsWith("/app");
+  const isLandingPage = pathname === "/";
+  const isLoginPage = pathname.startsWith("/login");
+
+  // Define protected routes
   const toDashboard =
     pathname.endsWith("/update") || pathname.startsWith("/users");
-  const toHome = pathname === "/";
   const toProfile = pathname.startsWith("/profile");
 
   if (jwt) {
+    // User is AUTHENTICATED
     try {
-      const isAdmin = decodeJwt(jwt).role !== 3;
-      if (toLogin || (!isAdmin && toDashboard))
-        return NextResponse.redirect(new URL("/", req.url));
+      const decodedToken = decodeJwt(jwt);
+      const isAdmin = decodedToken.role !== 3;
+
+      // If user is on login or landing page, redirect to the app's home
+      if (isLoginPage || isLandingPage) {
+        return NextResponse.redirect(new URL("/app", req.url));
+      }
+
+      // If a non-admin tries to access admin-only routes, redirect to app home
+      if (!isAdmin && toDashboard) {
+        return NextResponse.redirect(new URL("/app", req.url));
+      }
     } catch (err) {
-      console.error(err);
-      jwt = undefined;
+      console.error("JWT decoding failed:", err);
+      // If token is invalid, it's corrupt. Treat as unauthenticated.
+      // Redirect to login and delete the invalid cookie to prevent loops.
+      const response = NextResponse.redirect(new URL("/login", req.url));
+      response.cookies.delete("jwt");
+      return response;
     }
-  }
+  } else {
+    // User is NOT AUTHENTICATED
+    const isProtectedRoute = isAppRoute || toProfile || toDashboard;
 
-  if (!jwt) {
-    // Prepare response based on redirect condition
-    const res =
-      toHome || toProfile || toDashboard
-        ? NextResponse.redirect(new URL("/login", req.url))
-        : NextResponse.next();
+    const response = isProtectedRoute
+      ? NextResponse.redirect(new URL("/login", req.url))
+      : NextResponse.next();
 
-    // Set cookie on the response (req.cookies is read-only)
-    res.cookies.set({
+    // Set guest cookie for all unauthenticated users
+    response.cookies.set({
       name: "guest",
       value: "true",
       path: "/",
       secure: process.env.NODE_ENV === "production",
     });
 
-    return res;
+    return response;
   }
 
+  // Allow all other valid requests to proceed
   return NextResponse.next();
 }
 
