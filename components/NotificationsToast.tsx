@@ -16,6 +16,7 @@ export default function NotificationsToast() {
     isAllowed,
     isSupported,
     isLoading,
+    hasClass,
     error,
     toggle,
   } = useNotifications();
@@ -30,6 +31,7 @@ export default function NotificationsToast() {
     !isMounted ||
     !isSupported ||
     isAllowed ||
+    !hasClass ||
     localStorage.getItem("notifications-toast-denied")
   )
     return;

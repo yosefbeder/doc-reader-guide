@@ -71,17 +71,7 @@ export default function ModulesPage() {
   const [hasClass, setHasClass] = useState(false);
 
   useEffect(() => {
-    const checkStorage = () => {
-      setHasClass(!!localStorage.getItem("select-class"));
-    };
-
-    checkStorage();
-
-    window.addEventListener("storage", checkStorage);
-
-    return () => {
-      window.removeEventListener("storage", checkStorage);
-    };
+    setHasClass(!localStorage.getItem("select-class"));
   }, []);
 
   const mcqQuizzes = Object.entries(
@@ -97,7 +87,7 @@ export default function ModulesPage() {
     return !showingResults && quiz;
   });
 
-  if (hasClass) {
+  if (!hasClass) {
     return <SelectClass />;
   }
 

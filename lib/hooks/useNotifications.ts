@@ -11,6 +11,7 @@ export default function useNotifications() {
   const [isMounted, setIsMounted] = useState(false);
   const [isSupported, setIsSupported] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+  const [hasClass, setHasClass] = useState(false);
   const [error, setError] = useState("");
   const { settings, updateSetting } = useSettings();
   const toggle = useCallback(async () => {
@@ -47,6 +48,7 @@ export default function useNotifications() {
       setIsSupported(false);
       return;
     }
+    setHasClass(!localStorage.getItem("select-class"));
     if (!Cookies.get("guest")) setIsGuest(false);
   }, []);
 
@@ -57,6 +59,7 @@ export default function useNotifications() {
     isSupported,
     isLoading,
     error,
+    hasClass,
     toggle,
   };
 }
