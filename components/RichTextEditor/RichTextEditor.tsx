@@ -21,6 +21,7 @@ import ExampleTheme from "./ExampleTheme";
 import "./styles.css";
 import { LinkNode } from "@lexical/link";
 import { ImageNode } from "./ImageNode";
+import PastePlugin from "./plugins/PastePlugin";
 
 interface RichTextEditorProps {
   id: string;
@@ -110,6 +111,7 @@ export default function RichTextEditor({
             <HistoryPlugin />
             <ListPlugin />
             <LinkPlugin />
+            <PastePlugin />
             <OnChangePlugin onChange={handleEditorChange} />
             <input
               type="text"
