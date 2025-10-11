@@ -176,6 +176,7 @@ export default function QuestionsList({
   const [factors, setFactors] = useState(calcFactors());
   useEffect(() => {
     const adjustImages = () => setFactors(calcFactors());
+    adjustImages();
     window.addEventListener("resize", adjustImages);
     return () => window.removeEventListener("resize", adjustImages);
   }, [calcFactors]);
