@@ -220,17 +220,25 @@ export default function QuestionsList({
     >
       {orderedQuestions.map((question, index) => {
         const factor = factors[index];
+        const width = factor && question.width! * factor;
+        const height = factor && question.height! * factor;
         return (
           <div
             key={`written-question-${question.id}`}
             className={currentQuestion === question.id ? "col" : "hidden"}
           >
-            {question.image && factor && (
-              <div className="relative">
+            {question.image && factor && width && height && (
+              <div
+                className="relative"
+                style={{
+                  width,
+                  height,
+                }}
+              >
                 <img
                   src={`${process.env.NEXT_PUBLIC_STATIC_URL}/image/${question.image}`}
-                  width={question.width! * factor}
-                  height={question.height! * factor}
+                  width={width}
+                  height={height}
                   alt="Question"
                   loading="eager"
                 />
