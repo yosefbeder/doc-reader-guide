@@ -8,7 +8,8 @@ export default function useAddForm(formState: FormState) {
 
   useEffect(() => {
     setHideMessage(false);
-    if (formState.type === "success") setFormKey(formState.resetKey!);
+    if (formState.type === "success")
+      setFormKey(formState.resetKey || Date.now());
   }, [formState.resetKey]);
 
   return { hideMessage, setHideMessage, formKey };
