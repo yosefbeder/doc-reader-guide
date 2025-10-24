@@ -84,7 +84,7 @@ export default function QuestionsList({
                       Question {index + 1}
                     </SummaryDetail.Summary>
 
-                    <SummaryDetail.Detail>
+                    <SummaryDetail.Detail optimizeForSEO={false}>
                       <div className="p-2">
                         <UpdateQuestionForm
                           user={user}

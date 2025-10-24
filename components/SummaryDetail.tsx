@@ -68,15 +68,21 @@ SummaryDetail.Summary = function Summary({
 };
 
 interface DetailProps {
+  optimizeForSEO?: boolean;
   children: ReactNode;
 }
 
-SummaryDetail.Detail = function Detail({ children }: DetailProps) {
+SummaryDetail.Detail = function Detail({
+  children,
+  optimizeForSEO = true,
+}: DetailProps) {
   const ctx = useContext(SummaryDetailContext);
   if (!ctx) throw new Error("Detail must be used within SummaryDetail");
   const { open } = ctx;
 
   return (
-    <div className={open ? "overflow-y-scroll" : "hidden"}>{children}</div>
+    <div className={open ? "overflow-y-scroll" : "hidden"}>
+      {optimizeForSEO ? children : open ? children : null}
+    </div>
   );
 };
