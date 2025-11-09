@@ -6,6 +6,7 @@ import Path from "../components/Path";
 import HtmlContentServer from "@/components/HtmlContentServer";
 import StructuredData from "../components/StructuredData";
 import buildCanonical from "@/utils/buildCanonical";
+import ChatGPTButton from "@/components/ChatGPTButton";
 
 interface Props {
   params: { lectureId: string };
@@ -67,6 +68,7 @@ export default async function LinksPage({ params: { lectureId } }: Props) {
           />
         )}
       </main>
+      <ChatGPTButton moduleId={lecture.subject.module.id} />
       <StructuredData lecture={lecture} />
     </>
   );

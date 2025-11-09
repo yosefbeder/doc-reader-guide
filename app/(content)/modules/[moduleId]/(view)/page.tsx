@@ -10,6 +10,7 @@ import StructuredData from "../components/StructuredData";
 import buildCanonical from "@/utils/buildCanonical";
 import { listModules } from "@/utils/allData";
 import SubjectCard from "../components/SubjectCard";
+import ChatGPTButton from "@/components/ChatGPTButton";
 
 type Props = { params: { moduleId: string } };
 
@@ -69,6 +70,7 @@ export default async function SubjectsPage({ params: { moduleId } }: Props) {
           </ul>
         )}
       </main>
+      <ChatGPTButton moduleId={myModule.id} />
       <StructuredData myModule={myModule} subjects={subjects} />
     </>
   );
