@@ -3,6 +3,7 @@ export const customGPTs = new Map([
     3,
     "https://chatgpt.com/g/g-6910e107c9d88191a2c9df32230e255f-shtr-kyn-renal-aud",
   ],
+  [143, "https://chatgpt.com/g/g-6910f1a0babc819186b990c531ab874b-cns-afmg"],
 ]);
 
 export default function buildChatGPTLink(
