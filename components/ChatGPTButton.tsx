@@ -18,7 +18,7 @@ export default function ChatGPTButton({ moduleId }: ChatGPTButtonProps) {
     <Link
       href={buildChatGPTLink("", moduleId)}
       target="_blank"
-      className="fixed bottom-4 right-4"
+      className="fixed bottom-4 right-4 z-10"
       aria-label="Ask ChatGPT"
     >
       <Button className="flex gap-2 items-center">

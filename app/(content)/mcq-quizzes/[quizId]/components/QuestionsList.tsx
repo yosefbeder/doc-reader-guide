@@ -149,7 +149,7 @@ export default function QuestionsList({
             >
               <a
                 href={buildChatGPTLink(
-                  `${question.text} ${question.options
+                  `${question.text}\n${question.options
                     .map((opt, i) => `${toUppercaseLetter(i)}. ${opt}`)
                     .join("\n")}`,
                   quiz.lectureData.subject.module.id
