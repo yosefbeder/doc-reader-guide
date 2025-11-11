@@ -82,7 +82,7 @@ export default async function LecturesPage({
           </MasonryCardContainer>
         )}
       </main>
-      <ChatGPTButton moduleId={subject.module.id} />
+      <ChatGPTButton customGPT={subject.module.customGPT} />
       <StructuredData subject={subject} lectures={lectures} />
     </>
   );

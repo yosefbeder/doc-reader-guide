@@ -15,6 +15,7 @@ export async function addModule(
     icon: formData.get("icon"),
     name: formData.get("name"),
     semesterName: getNumber(formData, "semester-name"),
+    customGPT: formData.get("custom-gpt") || undefined,
   };
 
   const res = await fetch(
@@ -52,7 +53,10 @@ export async function updateModule(
     icon: formData.get("icon"),
     name: formData.get("name"),
     semesterName: getNumber(formData, "semester-name"),
+    customGPT: formData.get("custom-gpt") || null,
   };
+
+  console.log(data);
 
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/modules/${moduleId}`,

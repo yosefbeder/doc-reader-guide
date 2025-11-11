@@ -90,6 +90,7 @@ export interface Module extends DatabaseTable {
   icon: string;
   yearId: number;
   semesterName: number;
+  customGPT: string | null;
   year: {
     faculty: Faculty;
   };
@@ -99,6 +100,7 @@ interface ModuleSimple {
   id: number;
   semesterName: number;
   name: string;
+  customGPT: string | null;
   year: {
     id: number;
     faculty: Faculty;

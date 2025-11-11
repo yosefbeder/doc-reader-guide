@@ -14,7 +14,7 @@ import notUpdateable from "@/utils/isUpdateable";
 
 export default function UpdateModuleForm({
   user,
-  myModule: { id, icon, name, semesterName, yearId, creatorId },
+  myModule: { id, icon, name, semesterName, customGPT, yearId, creatorId },
 }: {
   user: User;
   myModule: Module;
@@ -33,7 +33,7 @@ export default function UpdateModuleForm({
     <div className="col" onClickCapture={() => setHideMessage(true)}>
       <ModuleFields
         yearId={yearId}
-        defaultValues={{ id, icon, name, semesterName }}
+        defaultValues={{ id, icon, name, semesterName, customGPT }}
         formId={updateFormId}
       />
       {updateFormState.message && updateFormState.type && !hideMessage && (

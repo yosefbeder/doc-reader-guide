@@ -68,7 +68,7 @@ export default async function LinksPage({ params: { lectureId } }: Props) {
           />
         )}
       </main>
-      <ChatGPTButton moduleId={lecture.subject.module.id} />
+      <ChatGPTButton customGPT={lecture.subject.module.customGPT} />
       <StructuredData lecture={lecture} />
     </>
   );

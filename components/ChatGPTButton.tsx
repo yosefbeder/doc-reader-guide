@@ -1,22 +1,20 @@
 "use client";
 
 import Link from "next/link";
-import buildChatGPTLink, { customGPTs } from "@/utils/buildChatGPTLink";
+import buildChatGPTLink from "@/utils/buildChatGPTLink";
 import { icons } from "./icons";
 import Button from "./Button";
 
 interface ChatGPTButtonProps {
-  moduleId: number;
+  customGPT: string | null;
 }
 
-export default function ChatGPTButton({ moduleId }: ChatGPTButtonProps) {
-  if (!customGPTs.has(moduleId)) {
-    return null;
-  }
+export default function ChatGPTButton({ customGPT }: ChatGPTButtonProps) {
+  if (!customGPT) return null;
 
   return (
     <Link
-      href={buildChatGPTLink("", moduleId)}
+      href={buildChatGPTLink("", customGPT)}
       target="_blank"
       className="fixed bottom-4 right-4 z-10"
       aria-label="Ask ChatGPT"

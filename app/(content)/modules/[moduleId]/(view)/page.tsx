@@ -70,7 +70,7 @@ export default async function SubjectsPage({ params: { moduleId } }: Props) {
           </ul>
         )}
       </main>
-      <ChatGPTButton moduleId={myModule.id} />
+      <ChatGPTButton customGPT={myModule.customGPT} />
       <StructuredData myModule={myModule} subjects={subjects} />
     </>
   );

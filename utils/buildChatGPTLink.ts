@@ -8,9 +8,9 @@ export const customGPTs = new Map([
 
 export default function buildChatGPTLink(
   prompt: string,
-  moduleId: number
+  customGPT: string | null
 ): string {
-  return customGPTs.has(moduleId)
-    ? `${customGPTs.get(moduleId)!}?prompt=${encodeURIComponent(prompt)}`
+  return customGPT
+    ? `${customGPT}?prompt=${encodeURIComponent(prompt)}`
     : `https://chat.openai.com/?model=auto&q=${encodeURIComponent(prompt)}`;
 }

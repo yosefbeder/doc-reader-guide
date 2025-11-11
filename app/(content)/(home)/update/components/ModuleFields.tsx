@@ -11,6 +11,7 @@ export default function ModuleFields({
     icon: string;
     name: string;
     semesterName: number;
+    customGPT: string | null;
   };
   formId?: string;
 }) {
@@ -54,6 +55,15 @@ export default function ModuleFields({
         id={`module-${defaultValues?.id || "new"}-semester-name`}
         defaultValue={defaultValues?.semesterName || 1}
         required
+      />
+      <Input
+        form={formId}
+        label="CustomGPT"
+        icon="link"
+        type="url"
+        name="custom-gpt"
+        id={`module-${defaultValues?.id || "new"}-custom-gpt`}
+        defaultValue={defaultValues?.customGPT || ""}
       />
       <input
         form={formId}

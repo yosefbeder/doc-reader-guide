@@ -152,7 +152,7 @@ export default function QuestionsList({
                   `${question.text}\n${question.options
                     .map((opt, i) => `${toUppercaseLetter(i)}. ${opt}`)
                     .join("\n")}`,
-                  quiz.lectureData.subject.module.id
+                  quiz.lectureData.subject.module.customGPT
                 )}
                 onClick={() =>
                   logEvent(
