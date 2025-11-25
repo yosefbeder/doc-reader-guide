@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-import AnonymousSlateAvatar from "@/public/anonymous-slate.jpg";
+import YosefAvatar from "@/public/yosefbeder.jpg";
 import AnonymousCyanAvatar from "@/public/anonymous-cyan.jpg";
 import AnonymousPinkAvatar from "@/public/anonymous-pink.jpg";
 import AbdulrahmanAvatar from "@/public/abdulrahmansaber.jpeg";
@@ -79,9 +79,10 @@ const links = [
 
 const contributers = [
   {
-    avatar: AnonymousSlateAvatar,
-    name: "مجهول",
+    avatar: YosefAvatar,
+    name: "يوسف بدير",
     contribution: "مبرمج الموقع + أجزاء من السيرفر",
+    profile: "https://yosefbeder.com/",
   },
   {
     avatar: AnonymousCyanAvatar,
