@@ -28,8 +28,8 @@ export default function Dialogue({
           layer-2
           ${className}`}
       >
-        <div className="hidden max-[512px]:flex items-center justify-between">
-          <h2 className="text-lg">{header}</h2>
+        <div className="hidden max-[512px]:flex w-full items-center justify-between">
+          <h2>{header}</h2>
           <ButtonIcon icon="x-mark" onClick={onClose} />
         </div>
         {children}

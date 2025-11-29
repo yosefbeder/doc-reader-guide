@@ -1,4 +1,10 @@
+"use client";
+
+import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
+import Dialogue from "./Dialogue";
+import Button from "./Button";
 
 import YosefAvatar from "@/public/yosefbeder.jpg";
 import AnonymousCyanAvatar from "@/public/anonymous-cyan.jpg";
@@ -7,8 +13,6 @@ import AbdulrahmanAvatar from "@/public/abdulrahmansaber.jpeg";
 import OmarAvatar from "@/public/omarabdelaleem.jpeg";
 import MohammedAvatar from "@/public/mohammedalzayat.jpeg";
 import OthersAvatar from "@/public/others.jpg";
-import Tooltip from "./Tooltip";
-import Link from "next/link";
 
 const links = [
   {
@@ -80,46 +84,48 @@ const links = [
 const contributers = [
   {
     avatar: YosefAvatar,
-    name: "يوسف بدير",
-    contribution: "مبرمج الموقع + أجزاء من السيرفر",
+    name: "Yosef Beder",
+    contribution: "Frontend Developer (Web Site)",
     profile: "https://yosefbeder.com/",
   },
   {
     avatar: AnonymousCyanAvatar,
-    name: "مجهول تو",
-    contribution: "مبرمج السيرفر الجديد (الحالي)",
+    name: "Unknown",
+    contribution: "New Server Developer (Current)",
   },
   {
     avatar: OmarAvatar,
-    name: "عمر عبد العليم",
-    contribution: "مبرمج تطبيق الأندرويد",
+    name: "Omar Abdel Aleem",
+    contribution: "Android App Developer",
     profile: "https://www.facebook.com/omar.abdelaleem.144",
   },
   {
     avatar: AbdulrahmanAvatar,
-    name: "عبد الرحمن صابر",
-    contribution: "مبرمج السيرفر القديم",
-    profile: "https://www.facebook.com/asaber.25",
+    name: "Abdulrahman Saber",
+    contribution: "Old Server Developer",
+    profile: "https://asaber.vercel.app/",
   },
   {
     avatar: AnonymousPinkAvatar,
-    name: "مجهولة",
-    contribution: "نشر التطبيق + اقتراح الإضافات وتطويرات تجربة المستخدم",
+    name: "Unknown",
+    contribution: "App Publisher + Suggesting Features and Improvements",
   },
   {
     avatar: MohammedAvatar,
-    name: "محمد الزيات",
-    contribution: "مصمم اللوجو",
+    name: "Mohammed El Zayat",
+    contribution: "Logo Designer",
     profile: "https://www.facebook.com/mohamedelzayat321",
   },
   {
     avatar: OthersAvatar,
-    name: "الأدمينز",
-    contribution: "إضافة المصادر والاختبارات",
+    name: "Admins",
+    contribution: "Adding Sources and Quizzes",
   },
 ];
 
 export default function Footer() {
+  const [selectedContributor, setSelectedContributor] = useState<(typeof contributers)[0] | null>(null);
+
   return (
     <footer className="border-t-2 border-slate-200 dark:border-slate-700">
       <div className="main">
@@ -136,31 +142,24 @@ export default function Footer() {
             )
           )}
         </div>
-        <div className="flex -space-x-4 rtl:space-x-reverse justify-center mb-4">
-          {contributers.map(
-            ({ avatar, name, contribution, profile }, index) => {
-              const image = (
-                <Image
-                  src={avatar}
-                  width={40}
-                  height={40}
-                  alt={name}
-                  className="border-2 border-slate-50 dark:border-slate-800 rounded-full"
-                />
-              );
-              return (
-                <Tooltip key={index} content={`${name} - ${contribution}`}>
-                  {profile ? (
-                    <a href={profile} target="_blank">
-                      {image}
-                    </a>
-                  ) : (
-                    <>{image}</>
-                  )}
-                </Tooltip>
-              );
-            }
-          )}
+        <div className="flex -space-x-2 rtl:space-x-reverse justify-center mb-4">
+          {contributers.map((contributor, index) => (
+            <button
+              key={index}
+              onClick={() => setSelectedContributor(contributor)}
+              className="relative transition-transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-cyan-500 rounded-full"
+              aria-label={`View details for ${contributor.name}`}
+            >
+              <Image
+                src={contributor.avatar}
+                width={40}
+                height={40}
+                alt={`${contributor.name} - ${contributor.contribution}`}
+                title={`${contributor.name}'s avatar`}
+                className="border-2 border-white dark:border-slate-900 rounded-full"
+              />
+            </button>
+          ))}
         </div>
         <div className="text-center">
           Sources are regularly updated ·{" "}
@@ -173,6 +172,39 @@ export default function Footer() {
           </a>
         </div>
       </div>
+
+      {selectedContributor && (
+        <Dialogue
+          header="Contributor"
+          onClose={() => setSelectedContributor(null)}
+          className="flex flex-col items-center text-center p-4 gap-4 rounded-3xl"
+        >
+            <Image
+              src={selectedContributor.avatar}
+              alt={`${selectedContributor.name} - ${selectedContributor.contribution}`}
+              title={`${selectedContributor.name}'s avatar`}
+              width={160}
+              height={160}
+              className="rounded-full"
+            />
+          <h3>{selectedContributor.name}</h3>
+          <p>
+            {selectedContributor.contribution}
+          </p>
+          {selectedContributor.profile && (
+              <a 
+                href={selectedContributor.profile} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="inline-block"
+              >
+                <Button color="cyan">
+                  View Profile
+                </Button>
+              </a>
+          )}
+        </Dialogue>
+      )}
     </footer>
   );
 }
