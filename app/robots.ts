@@ -8,10 +8,10 @@ export default function robots(): MetadataRoute.Robots {
         userAgent: "*",
         allow: "/",
         disallow: [
-          "/", // home is private/personalized
+          "/app",
           "/profile",
           "/users",
-          "/*/update", // any update pages
+          "/*/update",
         ],
       },
     ],

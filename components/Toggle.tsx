@@ -50,9 +50,8 @@ export default function Toggle({
   return (
     <label
       htmlFor={id}
-      className={`flex items-center gap-2 ${
-        disabled ? "cursor-not-allowed" : "cursor-pointer"
-      }`}
+      className={`flex items-center gap-2 ${disabled ? "cursor-not-allowed" : "cursor-pointer"
+        }`}
     >
       <button
         type="button"

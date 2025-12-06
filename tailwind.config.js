@@ -23,6 +23,7 @@ module.exports = {
       },
       fontFamily: {
         sans: ["var(--font-inter)"],
+        arabic: ["var(--font-cairo)"],
       },
       animation: {
         shimmer: "shimmer 3s linear infinite",

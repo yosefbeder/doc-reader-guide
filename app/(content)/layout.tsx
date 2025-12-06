@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Cairo, Inter } from "next/font/google";
 
 import "../globals.css";
 import NotificationListener from "@/components/NotificationListener";
@@ -7,11 +7,10 @@ import SWRWrapper from "@/components/SWRWrapper";
 import themeScript from "@/utils/themeScript";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
-
-export const metadata: Metadata = {
-  title: "DocReader Guide",
-  description: "Organizes studying material for medical students",
-};
+const cairo = Cairo({
+  subsets: ["arabic"],
+  variable: "--font-cairo",
+});
 
 export default function RootLayout({
   children,
@@ -20,7 +19,7 @@ export default function RootLayout({
 }>) {
   return (
     <html>
-      <body className={`${inter.variable} font-sans`}>
+      <body className={`${inter.variable} ${cairo.variable} font-sans`}>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         <SWRWrapper>{children}</SWRWrapper>
         <NotificationListener />

@@ -118,11 +118,10 @@ export default function LinksList({
   };
 
   const handleDelete = async () => {
-    const confirmationText = `DELETE ${
-      selectedLinks.length +
+    const confirmationText = `DELETE ${selectedLinks.length +
       selectedMcqQuizzes.length +
       selectedWrittenQuizzes.length
-    } ITEMS`;
+      } ITEMS`;
     const input = prompt(`Enter ${confirmationText} to confirm deletion`);
     if (input !== confirmationText) {
       alert("Deletion cancelled");
@@ -216,9 +215,8 @@ export default function LinksList({
 
     let message = `Deleted:\nLinks: ${successLinks}/${linkResults.length}\nMCQ Quizzes: ${successMcq}/${mcqResults.length}\nWritten Quizzes: ${successWritten}/${writtenResults.length}`;
     if (failLinks + failMcq + failWritten > 0) {
-      message += `\nFailed: ${
-        failLinks + failMcq + failWritten
-      }\nErrors:\n${errors.join("\n")}`;
+      message += `\nFailed: ${failLinks + failMcq + failWritten
+        }\nErrors:\n${errors.join("\n")}`;
     }
     alert(message);
 
@@ -239,8 +237,8 @@ export default function LinksList({
           onClick={handleCopy}
           disabled={
             selectedLinks.length +
-              selectedMcqQuizzes.length +
-              selectedWrittenQuizzes.length ===
+            selectedMcqQuizzes.length +
+            selectedWrittenQuizzes.length ===
             0
           }
         >
@@ -251,8 +249,8 @@ export default function LinksList({
           onClick={handleDelete}
           disabled={
             selectedLinks.length +
-              selectedMcqQuizzes.length +
-              selectedWrittenQuizzes.length ===
+            selectedMcqQuizzes.length +
+            selectedWrittenQuizzes.length ===
             0
           }
           isLoading={isDeleting}
@@ -277,8 +275,8 @@ export default function LinksList({
           }}
         >
           {selectedLinks.length === links.length &&
-          selectedMcqQuizzes.length === mcqQuizzes.length &&
-          selectedWrittenQuizzes.length === writtenQuizzes.length
+            selectedMcqQuizzes.length === mcqQuizzes.length &&
+            selectedWrittenQuizzes.length === writtenQuizzes.length
             ? "Deselect All"
             : "Select All"}
         </Button>
@@ -333,8 +331,8 @@ export default function LinksList({
                         />
                         <div className="flex-1">
                           {current &&
-                          current.type === "mcq" &&
-                          current.id === quiz.id ? (
+                            current.type === "mcq" &&
+                            current.id === quiz.id ? (
                             <UpdateQuizForm
                               type={current.type}
                               quiz={quiz}
@@ -370,8 +368,8 @@ export default function LinksList({
                         />
                         <div className="flex-1">
                           {current &&
-                          current.type === "written" &&
-                          current.id === quiz.id ? (
+                            current.type === "written" &&
+                            current.id === quiz.id ? (
                             <UpdateQuizForm
                               type={current.type}
                               quiz={quiz}
@@ -409,8 +407,8 @@ export default function LinksList({
                     />
                     <div className="flex-1">
                       {current &&
-                      current.type === "link" &&
-                      current.id === link.id ? (
+                        current.type === "link" &&
+                        current.id === link.id ? (
                         <UpdateLinkForm
                           link={link}
                           lectureId={lectureId}

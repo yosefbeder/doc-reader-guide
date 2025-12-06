@@ -2,9 +2,10 @@ import React from "react";
 
 export interface ButtonProps extends React.ComponentProps<"button"> {
   fullWidth?: boolean;
-  color?: "cyan" | "yellow" | "rose" | "white" | "violet";
+  color?: "cyan" | "yellow" | "rose" | "white" | "violet" | "pink";
   isLoading?: boolean;
   shimmer?: boolean;
+  cta?: boolean;
 }
 
 export default function Button({
@@ -12,6 +13,7 @@ export default function Button({
   color = "cyan",
   isLoading = false,
   shimmer = false,
+  cta = false,
   className,
   disabled,
   children,
@@ -26,13 +28,25 @@ export default function Button({
     rose: "text-white bg-rose-600 hover:bg-rose-700 active:bg-rose-800 border-rose-600 hover:border-rose-700 active:border-rose-800",
     violet:
       "text-white bg-violet-600 hover:bg-violet-700 active:bg-violet-800 border-violet-600 hover:border-violet-700 active:border-violet-800",
+    pink: "text-white bg-pink-600 hover:bg-pink-700 active:bg-pink-800 border-pink-600 hover:border-pink-700 active:border-pink-800",
+  };
+
+  const shadowVariants = {
+    cyan: "shadow-cyan-600/20",
+    white: "shadow-white-600/20",
+    yellow: "shadow-yellow-600/20",
+    rose: "shadow-rose-600/20",
+    violet: "shadow-violet-600/20",
+    pink: "shadow-pink-600/20",
   };
 
   return (
     <button
       className={`relative py-1 border-2 rounded-md transition-colors disabled:bg-slate-600 disabled:hover:bg-slate-700 disabled:border-slate-600 disabled:hover:border-slate-700 disabled:cursor-not-allowed overflow-hidden ${
         colorVariants[color]
-      } ${fullWidth ? "w-full" : "px-2"} ${className}`}
+      } ${fullWidth ? "w-full" : "px-2"} ${
+        cta ? "shadow-md " + shadowVariants[color] : ""
+      } ${className}`}
       disabled={isLoading || disabled}
       {...props}
     >

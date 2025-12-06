@@ -21,7 +21,7 @@ export default function Nav({
   return (
     <div
       className={
-        border ? "border-b-2 border-slate-200 dark:border-slate-700" : ""
+        border ? "border-b border-slate-200 dark:border-slate-700" : ""
       }
     >
       <nav className="main flex items-center justify-between max-sm:flex-col max-sm:gap-4 text-slate-900 dark:text-slate-100">

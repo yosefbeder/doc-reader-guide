@@ -7,14 +7,15 @@ export async function middleware(req: NextRequest): Promise<NextResponse> {
   const toLogin = pathname.startsWith("/login");
   const toDashboard =
     pathname.endsWith("/update") || pathname.startsWith("/users");
-  const toHome = pathname === "/";
+  const toLandingPage = pathname === "/";
+  const toHome = pathname === "/app";
   const toProfile = pathname.startsWith("/profile");
 
   if (jwt) {
     try {
       const isAdmin = decodeJwt(jwt).role !== 3;
-      if (toLogin || (!isAdmin && toDashboard))
-        return NextResponse.redirect(new URL("/", req.url));
+      if (toLogin || toLandingPage || (!isAdmin && toDashboard))
+        return NextResponse.redirect(new URL("/app", req.url));
     } catch (err) {
       console.error(err);
       jwt = undefined;
@@ -25,7 +26,7 @@ export async function middleware(req: NextRequest): Promise<NextResponse> {
     // Prepare response based on redirect condition
     const res =
       toHome || toProfile || toDashboard
-        ? NextResponse.redirect(new URL("/login", req.url))
+        ? NextResponse.redirect(new URL("/", req.url))
         : NextResponse.next();
 
     // Set cookie on the response (req.cookies is read-only)
