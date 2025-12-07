@@ -64,7 +64,8 @@ export default function Testimonials({ lang }: { lang: "en" | "ar" }) {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {testimonials.map((item) => (
-            <div key={item.id} className="card layer-1 clickable">
+            <div key={item.id} className="relative card layer-1 clickable">
+              <span className="absolute">"</span>
               <p className="caption text-base italic">
                 {isAr ? item.original : item.translation}
               </p>

@@ -15,12 +15,16 @@ export default function Hero({ lang }: { lang: "en" | "ar" }) {
             <>
               <span className="inline-block mb-2">رفيقك في كلية الطب،</span>
               <br />
-              <span className="text-cyan-600">مصمم لمنهج كليتك.</span>
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-cyan-600 to-blue-600 dark:from-cyan-400 dark:to-blue-400">
+                مصمم لمنهج كليتك.
+              </span>
             </>
           ) : (
             <>
               Your Medical Study Companion, <br />
-              <span className="text-cyan-600">Tailored to Your Faculty.</span>
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-cyan-600 to-blue-600 dark:from-cyan-400 dark:to-blue-400">
+                Tailored to Your Faculty.
+              </span>
             </>
           )}
         </h1>
