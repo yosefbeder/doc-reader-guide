@@ -9,7 +9,7 @@ export default function Hero({ lang }: { lang: "en" | "ar" }) {
     <section
       className={`pt-32 max-md:pt-48 pb-16 ${isAr ? "font-arabic" : ""}`}
     >
-      <div className="main flex flex-col items-center text-center max-w-3xl mx-auto gap-6">
+      <div className="main flex flex-col items-center text-center max-w-3xl mx-auto gap-8">
         <h1 className="text-3xl md:text-5xl font-black text-slate-900 dark:text-white">
           {isAr ? (
             <>

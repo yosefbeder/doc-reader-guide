@@ -27,8 +27,8 @@ export default function Testimonials({ lang }: { lang: "en" | "ar" }) {
   return (
     <section className="py-8 bg-slate-50 dark:bg-slate-900/50 border-t border-slate-200 dark:border-slate-800">
       <div className="main col">
-        <div className="text-center mb-4">
-          <h2 className="mb-4">
+        <div className="text-center mb-8">
+          <h2 className="mb-2">
             {isAr ? "ماذا يقول زملاؤك؟" : "Loved by Students"}
           </h2>
           <p>

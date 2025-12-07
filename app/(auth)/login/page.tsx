@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 import Logo from "@/public/logo.png";
 import { GoogleOAuthProvider } from "@react-oauth/google";
@@ -17,6 +18,9 @@ export default function LoginPage() {
             DocReader Guide
           </span>
           <GoogleButton />
+          <Link href="/" className="link">
+            ← Back to Home
+          </Link>
         </main>
       </Suspense>
     </GoogleOAuthProvider>
