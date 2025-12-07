@@ -26,12 +26,14 @@ export default function Nav({
             aria-label="Switch Language"
           >
             {icons["language"]}
-            <span className="text-sm font-medium">
-              {isAr ? "العربية" : "English"}
+            <span
+              className={`text-sm font-medium ${isAr ? "" : "font-arabic"}`}
+            >
+              {isAr ? "English" : "العربية"}
             </span>
           </button>
           <Link href="/login">
-            <Button cta color="cyan">
+            <Button cta color="cyan" className={isAr ? "font-arabic" : ""}>
               {isAr ? "ابدأ الآن" : "Get Started Now"}
             </Button>
           </Link>

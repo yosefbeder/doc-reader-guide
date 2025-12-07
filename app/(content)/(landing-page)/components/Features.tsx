@@ -13,7 +13,7 @@ const features: Feature[] = [
     icon: "queue-list",
     titleEn: "Curriculum Hierarchy",
     descEn:
-      "Links are organized strictly by Year → Module → Subject, exactly like your faculty schedule.",
+      "Links are organized strictly by Year → Module → Subject, exactly like your faculty timetables.",
     titleAr: "نظام وترتيب",
     descAr:
       "المحاضرات مترتبة بنظام (السنة ← الموديول ← المادة) بالظبط زي جدول كليتك.",
@@ -22,7 +22,7 @@ const features: Feature[] = [
     icon: "magnifying-glass",
     titleEn: "Smart Search",
     descEn:
-      "Find any lecture instantly by title or date. No more scrolling through endless chat history.",
+      "Find any lecture instantly by title or date. No more scrolling through endless Telegram chats.",
     titleAr: "بحث سريع",
     descAr:
       "دور على أي محاضرة بعنوانها أو تاريخها. مش محتاج تقلب في شات التليجرام تاني.",
@@ -31,35 +31,33 @@ const features: Feature[] = [
     icon: "open-ai",
     titleEn: "Custom AI Tutor",
     descEn:
-      "Ask a Custom GPT model trained specifically on your university's curriculum and data.",
-    titleAr: "مساعد ذكي (AI)",
+      "Ask Custom GPT models trained specifically on your faculty curriculum.",
+    titleAr: "مساعد ذكي",
     descAr:
       "اسأل الـ AI أي سؤال في المنهج أو خليه يشرحلك نقطة صعبة. ال Custom GPT مدرب على داتا كليتك.",
   },
   {
     icon: "pencil-square",
-    titleEn: "Interactive MCQs",
+    titleEn: "MCQs",
     descEn:
-      "Solve questions with instant feedback, explanations, and diagrams.",
-    titleAr: "أسئلة MCQ",
+      "Solve department books and previous year exams with explanations and diagrams.",
+    titleAr: "أسئلة اختيار من متعدد",
     descAr:
       "حل أسئلة كتب الأقسام والسنوات السابقة مع دعم إضافة دياجرام للسؤال وتوضيح للإجابة.",
   },
   {
     icon: "eye-slash",
     titleEn: "Image Occlusion",
-    descEn:
-      "Master practical exams (Anatomy/Histology) by hiding labels to test your memory.",
+    descEn: "Master practical exams by hiding labels to test your memory.",
     titleAr: "مذاكرة العملي",
-    descAr:
-      "اختبر ذاكرتك في العملي (Anatomy & Histology) بخاصية إخفاء البيانات على الصور.",
+    descAr: "اختبر ذاكرتك في العملي بخاصية إخفاء البيانات على الصور.",
   },
   {
     icon: "book-open",
     titleEn: "High-Yield Notes",
     descEn:
       "Access notes focused on exactly what doctors emphasized during the lectures.",
-    titleAr: "الخلاصة",
+    titleAr: "ملاحظات المحاضرات",
     descAr: "بتركز على النقط اللي الدكاترة أكدوا عليها في الشرح.",
   },
 ];
@@ -69,8 +67,9 @@ export default function Features({ lang }: { lang: "en" | "ar" }) {
 
   return (
     <section
-      className={`py-8 dark:bg-slate-900/50 border-t border-slate-200 dark:border-slate-800 ${isAr ? "font-arabic" : ""
-        }`}
+      className={`py-8 dark:bg-slate-900/50 border-t border-slate-200 dark:border-slate-800 ${
+        isAr ? "font-arabic" : ""
+      }`}
     >
       <div className="main col">
         <div className="text-center mb-4">
