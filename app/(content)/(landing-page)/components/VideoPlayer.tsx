@@ -13,16 +13,17 @@ import {
 interface VideoPlayerProps {
   src: string;
   chaptersSrc: string;
+  title: string;
 }
 
-export default function VideoPlayer({ src, chaptersSrc }: VideoPlayerProps) {
+export default function VideoPlayer({
+  src,
+  chaptersSrc,
+  title,
+}: VideoPlayerProps) {
   return (
     <div className="w-full h-full">
-      <MediaPlayer
-        src={src}
-        title="DocReader Guide Features"
-        playsInline
-      >
+      <MediaPlayer src={src} title={title} playsInline>
         <MediaProvider>
           <Track
             src={chaptersSrc}

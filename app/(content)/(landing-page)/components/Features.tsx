@@ -74,8 +74,9 @@ export default function Features({ lang }: { lang: "en" | "ar" }) {
 
   return (
     <section
-      className={`py-8 dark:bg-slate-900/50 border-t border-slate-200 dark:border-slate-800 ${isAr ? "font-arabic" : ""
-        }`}
+      className={`py-8 dark:bg-slate-900/50 border-t border-slate-200 dark:border-slate-800 ${
+        isAr ? "font-arabic" : ""
+      }`}
     >
       <div className="main flex flex-col gap-8">
         <div className="text-center">
@@ -107,23 +108,29 @@ export default function Features({ lang }: { lang: "en" | "ar" }) {
 
         <Button
           cta
-          onClick={() => setIsVideoOpen(prev => !prev)}
+          onClick={() => setIsVideoOpen((prev) => !prev)}
           className="flex gap-2 items-center self-center"
         >
           <span>{isVideoOpen ? icons["x-mark"] : icons["play-circle"]}</span>
-          {isVideoOpen ? (isAr ? "إخفاء الفيديو" : "Hide Video") : (isAr ? "شاهد الفيديو التوضيحي" : "Watch Demo Video")}
+          {isVideoOpen
+            ? isAr
+              ? "إخفاء الفيديو"
+              : "Hide Video"
+            : isAr
+            ? "شاهد الفيديو التوضيحي"
+            : "Watch Demo Video"}
         </Button>
-
 
         {isVideoOpen && (
           <div dir="ltr">
             <VideoPlayer
+              title="DocReader Guide Features"
               src="https://pub-d294382d28b74f91b351a88295dbb5f1.r2.dev/DocReader%20Guide%20-%20Users.mp4"
               chaptersSrc="/chapters.vtt"
             />
           </div>
         )}
       </div>
-    </section >
+    </section>
   );
 }
