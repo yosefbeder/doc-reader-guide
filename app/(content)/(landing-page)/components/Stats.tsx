@@ -8,14 +8,20 @@ const stats = [
     icon: "user-group",
   },
   {
-    labelEn: "Practice Questions",
-    labelAr: "سؤال تدريبي",
-    value: "140,000+",
-    icon: "pencil-square",
+    labelEn: "MCQs",
+    labelAr: "سؤال اختيار من متعدد",
+    value: "55,000+",
+    icon: "queue-list",
   },
   {
-    labelEn: "Lectures & Resources",
-    labelAr: "محاضرة وملف",
+    labelEn: "Written Qs",
+    labelAr: "سؤال مقالي",
+    value: "11,000+",
+    icon: "pencil",
+  },
+  {
+    labelEn: "Resources",
+    labelAr: "مصدر مذاكرة",
     value: "16,000+",
     icon: "building-library",
   },
@@ -31,7 +37,7 @@ export default function Stats({ lang }: { lang: "en" | "ar" }) {
       }`}
     >
       <div className="main">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {stats.map((stat, index) => (
             <div key={index} className="grow card layer-1 clickable">
               <div className="bg-cyan-50 dark:bg-cyan-900 p-2 rounded-xl">
