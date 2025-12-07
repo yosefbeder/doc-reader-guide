@@ -67,9 +67,8 @@ export default function Features({ lang }: { lang: "en" | "ar" }) {
 
   return (
     <section
-      className={`py-8 dark:bg-slate-900/50 border-t border-slate-200 dark:border-slate-800 ${
-        isAr ? "font-arabic" : ""
-      }`}
+      className={`py-8 dark:bg-slate-900/50 border-t border-slate-200 dark:border-slate-800 ${isAr ? "font-arabic" : ""
+        }`}
     >
       <div className="main col">
         <div className="text-center mb-4">

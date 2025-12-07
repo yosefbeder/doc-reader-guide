@@ -68,50 +68,77 @@ const links = [
 const contributers = [
   {
     avatar: YosefAvatar,
-    name: "Yosef Beder",
-    contribution: "Frontend Developer (Web Site)",
+    name: { en: "Yosef Beder", ar: "يوسف بدير" },
+    contribution: {
+      en: "Frontend Developer (Web Site)",
+      ar: "مطور الواجهة الأمامية (الموقع)",
+    },
     profile: "https://yosefbeder.com/",
   },
   {
     avatar: AnonymousCyanAvatar,
-    name: "Unknown",
-    contribution: "New Server Developer (Current)",
+    name: { en: "Unknown", ar: "مجهول" },
+    contribution: {
+      en: "New Server Developer (Current)",
+      ar: "مطور الخادم الجديد (الحالي)",
+    },
   },
   {
     avatar: OmarAvatar,
-    name: "Omar Abdel Aleem",
-    contribution: "Android App Developer",
+    name: { en: "Omar Abdel Aleem", ar: "عمر عبد العليم" },
+    contribution: { en: "Android App Developer", ar: "مطور تطبيق الأندرويد" },
     profile: "https://www.facebook.com/omar.abdelaleem.144",
   },
   {
     avatar: AbdulrahmanAvatar,
-    name: "Abdulrahman Saber",
-    contribution: "Old Server Developer",
+    name: { en: "Abdulrahman Saber", ar: "عبد الرحمن صابر" },
+    contribution: { en: "Old Server Developer", ar: "مطور الخادم القديم" },
     profile: "https://asaber.vercel.app/",
   },
   {
     avatar: AnonymousPinkAvatar,
-    name: "Unknown",
-    contribution: "App Publisher + Suggesting Features and Improvements",
+    name: { en: "Unknown", ar: "مجهولة" },
+    contribution: {
+      en: "App Publisher + Suggesting Features and Improvements",
+      ar: "نشر التطبيق + اقتراح مميزات وتحسينات",
+    },
   },
   {
     avatar: MohammedAvatar,
-    name: "Mohammed El Zayat",
-    contribution: "Logo Designer",
+    name: { en: "Mohammed El Zayat", ar: "محمد الزيات" },
+    contribution: { en: "Logo Designer", ar: "مصمم الشعار" },
     profile: "https://www.facebook.com/mohamedelzayat321",
   },
   {
     avatar: OthersAvatar,
-    name: "Admins",
-    contribution: "Adding Sources and Quizzes",
+    name: { en: "Admins", ar: "المشرفون" },
+    contribution: {
+      en: "Adding Sources and Quizzes",
+      ar: "إضافة المصادر والاختبارات",
+    },
   },
 ];
 
-export default function Footer({ lang = "en", isLandingPage = false }: { lang?: "en" | "ar"; isLandingPage?: boolean }) {
+export default function Footer({
+  lang = "en",
+  isLandingPage = false,
+}: {
+  lang?: "en" | "ar";
+  isLandingPage?: boolean;
+}) {
   const [selectedContributor, setSelectedContributor] = useState<
     (typeof contributers)[0] | null
   >(null);
   const isAr = lang === "ar";
+
+  const t = {
+    sourcesUpdated: isAr
+      ? "يتم تحديث المصادر بانتظام"
+      : "Sources are regularly updated",
+    donate: isAr ? "تبرع" : "Donate",
+    contributorHeader: isAr ? "مساهم" : "Contributor",
+    viewProfile: isAr ? "عرض الملف الشخصي" : "View Profile",
+  };
 
   return (
     <footer className="border-t border-slate-200 dark:border-slate-700">
@@ -135,28 +162,34 @@ export default function Footer({ lang = "en", isLandingPage = false }: { lang?: 
               key={index}
               onClick={() => setSelectedContributor(contributor)}
               className="relative transition-transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-cyan-500 rounded-full"
-              aria-label={`View details for ${contributor.name}`}
+              aria-label={`View details for ${contributor.name[lang]}`}
             >
               <Image
                 src={contributor.avatar}
                 width={40}
                 height={40}
-                alt={`${contributor.name} - ${contributor.contribution}`}
-                title={`${contributor.name}'s avatar`}
+                alt={`${contributor.name[lang]} - ${contributor.contribution[lang]}`}
+                title={`${contributor.name[lang]}'s avatar`}
                 className="border-2 border-white dark:border-slate-900 rounded-full"
               />
             </button>
           ))}
         </div>
-        {isLandingPage ? <p className="caption text-center">{isAr ? "جميع الحقوق محفوظة لـ DocReader Guide © 2025." : "© 2025 DocReader Guide. All rights reserved."} </p> : (
+        {isLandingPage ? (
+          <p className="caption text-center">
+            {isAr
+              ? "جميع الحقوق محفوظة لـ DocReader Guide © 2025."
+              : "© 2025 DocReader Guide. All rights reserved."}{" "}
+          </p>
+        ) : (
           <div className="text-center">
-            Sources are regularly updated ·{" "}
+            {t.sourcesUpdated} ·{" "}
             <a
               className="link"
               href="https://t.me/DocReader_Guide_app/110"
               target="_blank"
             >
-              Donate
+              {t.donate}
             </a>
           </div>
         )}
@@ -164,20 +197,20 @@ export default function Footer({ lang = "en", isLandingPage = false }: { lang?: 
 
       {selectedContributor && (
         <Dialogue
-          header="Contributor"
+          header={t.contributorHeader}
           onClose={() => setSelectedContributor(null)}
           className="flex flex-col items-center text-center p-4 gap-4 rounded-3xl"
         >
           <Image
             src={selectedContributor.avatar}
-            alt={`${selectedContributor.name} - ${selectedContributor.contribution}`}
-            title={`${selectedContributor.name}'s avatar`}
+            alt={`${selectedContributor.name[lang]} - ${selectedContributor.contribution[lang]}`}
+            title={`${selectedContributor.name[lang]}'s avatar`}
             width={160}
             height={160}
             className="rounded-full"
           />
-          <h3>{selectedContributor.name}</h3>
-          <p>{selectedContributor.contribution}</p>
+          <h3>{selectedContributor.name[lang]}</h3>
+          <p>{selectedContributor.contribution[lang]}</p>
           {selectedContributor.profile && (
             <a
               href={selectedContributor.profile}
@@ -185,7 +218,7 @@ export default function Footer({ lang = "en", isLandingPage = false }: { lang?: 
               rel="noopener noreferrer"
               className="inline-block"
             >
-              <Button color="cyan">View Profile</Button>
+              <Button color="cyan">{t.viewProfile}</Button>
             </a>
           )}
         </Dialogue>

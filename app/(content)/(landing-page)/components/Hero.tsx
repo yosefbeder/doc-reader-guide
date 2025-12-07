@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Button from "@/components/Button";
-import { icons } from "@/components/icons"; // Importing icons for the Android logo
+import { icons } from "@/components/icons";
 
 export default function Hero({ lang }: { lang: "en" | "ar" }) {
   const isAr = lang === "ar";

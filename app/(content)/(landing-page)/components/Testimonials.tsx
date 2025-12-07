@@ -1,43 +1,19 @@
 import { icons } from "@/components/icons";
 
-const stats = [
-  {
-    labelEn: "Active Students",
-    labelAr: "طالب وطالبة",
-    value: "5,000+",
-    icon: "user-group",
-  },
-  {
-    labelEn: "Practice Questions",
-    labelAr: "سؤال تدريبي",
-    value: "140,000+",
-    icon: "pencil-square",
-  },
-  {
-    labelEn: "Resources",
-    labelAr: "مصدر مذاكرة",
-    value: "16,000+",
-    icon: "building-library",
-  },
-];
-
 const testimonials = [
   {
-    id: 1,
-    original:
-      "الله يرضى عنكم ويرضيكم.. كنت أكررره الضياع بين القنوات والمصادر والملفات والتسجيلات، يضيع وقتي وأتعب نفسيا، صارت الدنيا كلها بمكان واحد ورتبتوها بشكل يفتح النفس ومريح ويساعد كثير صدق.. الله يوفقكم ويجزيكم خير الجزاء جميعًا.",
-    translation:
-      "May God be pleased with you. I used to hate getting lost between channels, sources, and files... I wasted time and got mentally exhausted. Now everything is in one place, arranged in a way that is encouraging and comfortable. May God grant you success.",
-  },
-  {
-    id: 2,
     original:
       "جزيتم خيرًا جميعا جعله الله في ميزان حسناتكم.. حقيقة كنتم سببا في تيسير الوصول للداتا والملفات وكل ما هو متعلق بجميع المواد.. التطبيق منظم جدا جدا مما ييسر الوصول للفيديو او المحاضرة التي أبحث عنها وأيضا التحديث المستمر والدائم يجعل التطبيق رائع.. جزى الله خيرا كل من عمل عليه وساهم فيه.",
     translation:
       "May God reward you all. You truly facilitated access to data and files for all subjects. The app is very organized, making it easy to reach the video or lecture I'm looking for. The continuous updates make the app wonderful.",
   },
   {
-    id: 3,
+    original:
+      "الله يرضى عنكم ويرضيكم.. كنت أكررره الضياع بين القنوات والمصادر والملفات والتسجيلات، يضيع وقتي وأتعب نفسيا، صارت الدنيا كلها بمكان واحد ورتبتوها بشكل يفتح النفس ومريح ويساعد كثير صدق.. الله يوفقكم ويجزيكم خير الجزاء جميعًا.",
+    translation:
+      "May God be pleased with you. I used to hate getting lost between channels, sources, and files... I wasted time and got mentally exhausted. Now everything is in one place, arranged in a way that is encouraging and comfortable. May God grant you success.",
+  },
+  {
     original:
       "الابليكشن فكرته جميله ومنظم جدا لما عرفته مبقتش افتح بي دي افات الكليه غير من عليه ربنا يجازيكم خير عنا.",
     translation:
@@ -63,12 +39,28 @@ export default function Testimonials({ lang }: { lang: "en" | "ar" }) {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {testimonials.map((item) => (
-            <div key={item.id} className="relative card layer-1 clickable">
-              <span className="absolute">"</span>
-              <p className="caption text-base italic">
+          {testimonials.map((item, index) => (
+            <div key={index} className="relative card layer-1 clickable h-max">
+              <div
+                className={`flex gap-1 text-amber-400 ${isAr ? "justify-end" : "justify-start"
+                  }`}
+              >
+                {icons.star}
+                {icons.star}
+                {icons.star}
+                {icons.star}
+                {icons.star}
+              </div>
+              <p
+                className={`caption text-base leading-relaxed ${isAr ? "text-right" : "text-left"
+                  }`}
+              >
                 {isAr ? item.original : item.translation}
               </p>
+              <div className="caption flex items-center gap-1">
+                <div className="text-green-500">{icons["check-badge"]}</div>
+                <span>{isAr ? "مستخدم موثق" : "Verified User"}</span>
+              </div>
             </div>
           ))}
         </div>
