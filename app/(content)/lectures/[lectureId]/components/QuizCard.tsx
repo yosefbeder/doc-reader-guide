@@ -18,14 +18,18 @@ export default function QuizCard({
   printable = false,
   updateable = false,
   showPath = false,
+  discardable = false,
   onUpdate,
+  onDiscard,
 }: {
   quiz: Quiz;
   type: QuizType;
   printable?: boolean;
   showPath?: boolean;
   updateable?: boolean;
+  discardable?: boolean;
   onUpdate?: () => void;
+  onDiscard?: () => void;
 }) {
   const [showingResults, setShowingResults] = useState(false);
   const [total, setTotal] = useState<number>();
@@ -118,6 +122,25 @@ export default function QuizCard({
         <ButtonIcon
           icon="pencil-square"
           onClick={() => onUpdate && onUpdate()}
+        />
+      )}
+      {discardable && !showingResults && (
+        <ButtonIcon
+          icon="x-mark"
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+
+            const key = `${type}-quiz-${quiz.id}`;
+            const stored = localStorage.getItem(key);
+            if (stored) {
+              const data = JSON.parse(stored);
+              data.showingResults = true;
+              localStorage.setItem(key, JSON.stringify(data));
+              setShowingResults(true);
+              if (onDiscard) onDiscard();
+            }
+          }}
         />
       )}
     </div>

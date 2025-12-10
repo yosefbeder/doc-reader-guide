@@ -70,6 +70,7 @@ export default function ModulesPage() {
   );
 
   const [hasClass, setHasClass] = useState(false);
+  const [refreshKey, setRefreshKey] = useState(0);
 
   useEffect(() => {
     setHasClass(!localStorage.getItem("select-class"));
@@ -154,7 +155,14 @@ export default function ModulesPage() {
                 const { quiz } = JSON.parse(value);
                 return (
                   <li key={`mcq-quiz-${quiz.id}`}>
-                    <QuizCard type="mcq" quiz={quiz} printable showPath />
+                    <QuizCard
+                      type="mcq"
+                      quiz={quiz}
+                      printable
+                      showPath
+                      discardable
+                      onDiscard={() => setRefreshKey((k) => k + 1)}
+                    />
                   </li>
                 );
               })}
@@ -162,7 +170,13 @@ export default function ModulesPage() {
                 const { quiz } = JSON.parse(value);
                 return (
                   <li key={`written-quiz-${quiz.id}`}>
-                    <QuizCard type="written" quiz={quiz} showPath />
+                    <QuizCard
+                      type="written"
+                      quiz={quiz}
+                      showPath
+                      discardable
+                      onDiscard={() => setRefreshKey((k) => k + 1)}
+                    />
                   </li>
                 );
               })}
