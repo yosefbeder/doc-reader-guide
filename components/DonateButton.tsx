@@ -8,7 +8,7 @@ import Button from "./Button";
 const Vodafone = () => (
   <svg
     fill="currentColor"
-    className="size-6 inline-block"
+    className="size-5 inline-block"
     role="img"
     viewBox="0 0 24 24"
     xmlns="http://www.w3.org/2000/svg"
@@ -57,7 +57,7 @@ export default function DonateButton({
           </h2>
           <div>
             {isAr ? "قم بإرسال المال عبر " : "Send us via "}
-            <span className="text-[#E60000] font-medium font-sans">
+            <span className="text-[#E60000] dark:text-white font-medium font-sans">
               <Vodafone /> Vodafone Cash
             </span>{" "}
             {isAr ? "على الرقم التالي:" : "on the following number:"}
