@@ -25,7 +25,11 @@ export default function Testimonials({ lang }: { lang: "en" | "ar" }) {
   const isAr = lang === "ar";
 
   return (
-    <section className="py-8 bg-slate-50 dark:bg-slate-900/50 border-t border-slate-200 dark:border-slate-800">
+    <section
+      className={`py-8 bg-slate-50 dark:bg-slate-900/50 border-t border-slate-200 dark:border-slate-800 ${
+        isAr ? "font-arabic" : ""
+      }`}
+    >
       <div className="main col">
         <div className="text-center mb-8">
           <h2 className="mb-2">
@@ -42,8 +46,9 @@ export default function Testimonials({ lang }: { lang: "en" | "ar" }) {
           {testimonials.map((item, index) => (
             <div key={index} className="relative card layer-1 clickable h-max">
               <div
-                className={`flex gap-1 text-amber-400 ${isAr ? "justify-end" : "justify-start"
-                  }`}
+                className={`flex gap-1 text-amber-400 ${
+                  isAr ? "justify-end" : "justify-start"
+                }`}
               >
                 {icons.star}
                 {icons.star}
@@ -52,8 +57,9 @@ export default function Testimonials({ lang }: { lang: "en" | "ar" }) {
                 {icons.star}
               </div>
               <p
-                className={`caption text-base leading-relaxed ${isAr ? "text-right" : "text-left"
-                  }`}
+                className={`caption text-base leading-relaxed ${
+                  isAr ? "text-right" : "text-left"
+                }`}
               >
                 {isAr ? item.original : item.translation}
               </p>
