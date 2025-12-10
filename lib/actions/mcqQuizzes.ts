@@ -309,6 +309,8 @@ export async function quickAdd(
   if (ok) {
     revalidatePath(`/written-quizzes/${quizId}`);
     revalidatePath(`/written-quizzes/${quizId}/update`);
+    if (formData.get("notify"))
+      sendAutoNotification(getNumber(formData, "year-id"), "mcq", quizId);
   }
 
   return {

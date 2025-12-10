@@ -6,6 +6,7 @@ import { useFormState } from "react-dom";
 import ButtonSubmit from "@/components/ButtonSubmit";
 import { quickAdd } from "@/lib/actions/mcqQuizzes";
 import Message from "@/components/Message";
+import Checkbox from "@/components/Checkbox";
 
 export default function QuickAddForm({ quizId }: { quizId: number }) {
   const [formState, formAction] = useFormState(quickAdd, {});
@@ -33,6 +34,9 @@ export default function QuickAddForm({ quizId }: { quizId: number }) {
         value={questions}
         onChange={(e) => setQuestions(e.target.value)}
       ></textarea>
+      <div className="block mb-4">
+        <Checkbox label="Notify?" name="notify" />
+      </div>
       {formState.message && formState.type && (
         <Message type={formState.type} className="mb-4">
           {formState.message}
