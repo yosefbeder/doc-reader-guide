@@ -29,7 +29,7 @@ export default function LandingPage() {
       <Testimonials lang={lang} />
       <Sponsership lang={lang} />
       <UniversityRequest lang={lang} />
-      <Footer lang={lang} isLandingPage />
+      <Footer lang={lang} />
     </>
   );
 }

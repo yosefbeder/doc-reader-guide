@@ -105,7 +105,7 @@
   }
 
   .caption {
-    @apply text-sm text-slate-500 dark:text-slate-300;
+    @apply text-sm text-slate-600 dark:text-slate-300;
   }
 }
 

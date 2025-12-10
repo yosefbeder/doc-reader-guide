@@ -119,13 +119,7 @@ const contributers = [
   },
 ];
 
-export default function Footer({
-  lang = "en",
-  isLandingPage = false,
-}: {
-  lang?: "en" | "ar";
-  isLandingPage?: boolean;
-}) {
+export default function Footer({ lang = "en" }: { lang?: "en" | "ar" }) {
   const [selectedContributor, setSelectedContributor] = useState<
     (typeof contributers)[0] | null
   >(null);
@@ -175,24 +169,11 @@ export default function Footer({
             </button>
           ))}
         </div>
-        {isLandingPage ? (
-          <p className="caption text-center">
-            {isAr
-              ? "جميع الحقوق محفوظة لـ DocReader Guide © 2025."
-              : "© 2025 DocReader Guide. All rights reserved."}{" "}
-          </p>
-        ) : (
-          <div className="text-center">
-            {t.sourcesUpdated} ·{" "}
-            <a
-              className="link"
-              href="https://t.me/DocReader_Guide_app/110"
-              target="_blank"
-            >
-              {t.donate}
-            </a>
-          </div>
-        )}
+        <p className="caption text-center">
+          {isAr
+            ? "جميع الحقوق محفوظة لـ DocReader Guide © 2025. يتم تحديث المصادر بانتظام."
+            : "© 2025 DocReader Guide. Sources are updated regularly."}
+        </p>
       </div>
 
       {selectedContributor && (

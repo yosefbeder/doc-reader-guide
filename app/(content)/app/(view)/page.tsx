@@ -15,6 +15,7 @@ import SelectClass from "./components/SelectClass";
 import QuizCard from "../../lectures/[lectureId]/components/QuizCard";
 import { logEvent } from "@/lib/event-logger";
 import { Action, Resource } from "@/types";
+import DonateButton from "@/components/DonateButton";
 
 function getLocalStorageItemsByPrefix(prefix: string) {
   if (typeof window === "undefined") return [];
@@ -223,6 +224,9 @@ export default function ModulesPage() {
           </SummaryDetail>
         );
       })}
+      <div className="fixed bottom-4 right-4 z-10">
+        <DonateButton lang="en" />
+      </div>
     </main>
   );
 }
