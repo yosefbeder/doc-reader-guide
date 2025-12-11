@@ -2,11 +2,12 @@
 
 import ButtonIcon from "@/components/ButtonIcon";
 import Logo from "@/components/Logo";
+import FilterButton from "./FilterButton";
 import { logEvent } from "@/lib/event-logger";
 import { Action, McqQuestion, Resource } from "@/types";
 import calcMcqResult from "@/utils/calcMcqResult";
 import isValidURL from "@/utils/isValidURL";
-import React from "react";
+import React, { useState } from "react";
 import { useReactToPrint } from "react-to-print";
 
 interface SummaryProps {
@@ -25,6 +26,12 @@ export default function Summary({
   resetState,
 }: SummaryProps) {
   const { correct, total } = calcMcqResult(questions, answers);
+  const [filter, setFilter] = useState<
+    "all" | "correct" | "incorrect" | "skipped"
+  >("all");
+
+  const skipped = questions.filter((q) => !answers.has(q.id)).length;
+  const incorrect = total - correct - skipped;
   const contentRef = React.useRef<HTMLDivElement>(null);
   const reactToPrintFn = useReactToPrint({
     contentRef,
@@ -67,7 +74,37 @@ export default function Summary({
           {Math.round((correct / total) * 10000) / 100}%)
         </h2>
         <h2 className="my-4">Summary</h2>
-        <p className="my-4">
+        <div className="flex flex-wrap gap-2 my-4 print:hidden">
+          <FilterButton
+            onClick={() => setFilter("all")}
+            active={filter === "all"}
+            color="gray"
+          >
+            All ({total})
+          </FilterButton>
+          <FilterButton
+            onClick={() => setFilter("correct")}
+            active={filter === "correct"}
+            color="green"
+          >
+            Correct ({correct})
+          </FilterButton>
+          <FilterButton
+            onClick={() => setFilter("incorrect")}
+            active={filter === "incorrect"}
+            color="red"
+          >
+            Incorrect ({incorrect})
+          </FilterButton>
+          <FilterButton
+            onClick={() => setFilter("skipped")}
+            active={filter === "skipped"}
+            color="yellow"
+          >
+            Skipped ({skipped})
+          </FilterButton>
+        </div>
+        <p className="my-4 hidden print:block">
           <span className="text-green-600">* Correct</span>
           <br />
           <span className="text-red-600">* Incorrect</span>
@@ -76,6 +113,18 @@ export default function Summary({
         </p>
         <ol>
           {questions.map((question, questionIndex) => {
+            const isSkipped = !answers.has(question.id);
+            const isCorrect =
+              !isSkipped &&
+              answers.get(question.id) === question.correctOptionIndex;
+            const isIncorrect = !isSkipped && !isCorrect;
+
+            let status = "skipped";
+            if (isCorrect) status = "correct";
+            if (isIncorrect) status = "incorrect";
+
+            if (filter !== "all" && filter !== status) return null;
+
             return (
               <li key={question.id}>
                 <span className="font-bold">
