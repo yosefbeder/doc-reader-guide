@@ -83,7 +83,7 @@ export default function QuestionsList({
         return newMap;
       });
       if (settings.autoMove && answer === undefined)
-        setTimeout(() => nextQuestion(), 1000);
+        setTimeout(() => nextQuestion(), 250);
     },
     [settings, orderedQuestions, currentQuestion]
   );
