@@ -139,6 +139,47 @@ export default function QuestionsList({
           {question.image ? (
             <img src={question.image} alt="Question associated diagram" />
           ) : null}
+          <ol className="list-[upper-alpha] list-inside flex flex-col gap-2 px-2">
+            {question.options.map((option, index) => {
+              const answer = answers.get(currentQuestion);
+              return (
+                <button
+                  key={`${question.id}-${index}`}
+                  className={`block w-full text-left p-2 rounded-xl border transition-colors disabled:cursor-not-allowed ${(() => {
+                    if (answer !== undefined) {
+                      if (settings.instantFeedback) {
+                        if (question.correctOptionIndex === index)
+                          return "bg-green-100 hover:bg-green-200 border-green-600 dark:bg-green-900 dark:hover:bg-green-800 dark:border-green-400";
+                        else if (answer === index)
+                          return "bg-red-100 hover:bg-red-200 border-red-600 dark:bg-red-900 dark:hover:bg-red-800 dark:border-red-400";
+                      } else {
+                        if (answer === index)
+                          return "bg-blue-100 hover:bg-blue-200 border-blue-600 dark:bg-blue-900 dark:hover:bg-blue-800 dark:border-blue-400";
+                      }
+                    }
+                    return "bg-slate-50 hover:bg-slate-100 border-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 dark:border-slate-600";
+                  })()}`}
+                  disabled={answer !== undefined && settings.instantFeedback}
+                  onClick={() => answerQuestion(answer, index)}
+                >
+                  <li>{option}</li>
+                </button>
+              );
+            })}
+          </ol>
+          {answers.has(question.id) &&
+          explanation &&
+          settings.instantFeedback ? (
+            <Message type="information">
+              {isValidURL(explanation) ? (
+                <a href={explanation} target="_blank">
+                  {explanation}
+                </a>
+              ) : (
+                explanation
+              )}
+            </Message>
+          ) : null}
           {answers.has(question.id) && (
             <Button
               className="self-start"
@@ -170,47 +211,6 @@ export default function QuestionsList({
               </a>
             </Button>
           )}
-          {answers.has(question.id) &&
-          explanation &&
-          settings.instantFeedback ? (
-            <Message type="information">
-              {isValidURL(explanation) ? (
-                <a href={explanation} target="_blank">
-                  {explanation}
-                </a>
-              ) : (
-                explanation
-              )}
-            </Message>
-          ) : null}
-          <ol className="list-[upper-alpha] list-inside flex flex-col gap-2 px-2">
-            {question.options.map((option, index) => {
-              const answer = answers.get(currentQuestion);
-              return (
-                <button
-                  key={`${question.id}-${index}`}
-                  className={`block w-full text-left p-2 rounded-xl border transition-colors disabled:cursor-not-allowed ${(() => {
-                    if (answer !== undefined) {
-                      if (settings.instantFeedback) {
-                        if (question.correctOptionIndex === index)
-                          return "bg-green-100 hover:bg-green-200 border-green-600 dark:bg-green-900 dark:hover:bg-green-800 dark:border-green-400";
-                        else if (answer === index)
-                          return "bg-red-100 hover:bg-red-200 border-red-600 dark:bg-red-900 dark:hover:bg-red-800 dark:border-red-400";
-                      } else {
-                        if (answer === index)
-                          return "bg-blue-100 hover:bg-blue-200 border-blue-600 dark:bg-blue-900 dark:hover:bg-blue-800 dark:border-blue-400";
-                      }
-                    }
-                    return "bg-slate-50 hover:bg-slate-100 border-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 dark:border-slate-600";
-                  })()}`}
-                  disabled={answer !== undefined && settings.instantFeedback}
-                  onClick={() => answerQuestion(answer, index)}
-                >
-                  <li>{option}</li>
-                </button>
-              );
-            })}
-          </ol>
         </div>
       ))}
     </QuestionWrapper>
