@@ -7,6 +7,8 @@ import { usePathname, useRouter } from "next/navigation";
 import { icons } from "./icons";
 import useSWR from "swr";
 import getUser from "@/utils/getUserClient";
+import { logEvent } from "@/lib/event-logger";
+import { Action, Resource } from "@/types";
 
 export default function QuizNav({
   title,
@@ -41,7 +43,19 @@ export default function QuizNav({
             {icons["pencil-square"]}
           </button>
         )}
-        <Link href={`/lectures/${lectureId}`}>
+        <Link
+          href="/profile"
+          className="mr-2"
+          onClick={() => logEvent(null, null, Action.NAVIGATE_TO_PROFILE, {})}
+        >
+          <ButtonIcon icon="cog-6-tooth" />
+        </Link>
+        <Link
+          href={`/lectures/${lectureId}`}
+          onClick={() =>
+            logEvent(Resource.LECTURE, lectureId, Action.NAVIGATE, {})
+          }
+        >
           <ButtonIcon icon="x-mark" />
         </Link>
       </div>
