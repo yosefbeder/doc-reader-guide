@@ -1,3 +1,5 @@
+import Layout from "@/components/Layout";
+
 export const metadata = {
   title: "Subject Dashboard | DocReader Guide",
   robots: {
@@ -12,5 +14,9 @@ export default function AdminLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <>{children}</>;
+  return (
+    <Layout title="Lectures" updateable>
+      {children}
+    </Layout>
+  );
 }
