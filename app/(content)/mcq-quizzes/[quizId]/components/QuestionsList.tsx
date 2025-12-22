@@ -142,7 +142,7 @@ export default function QuestionsList({ quiz }: { quiz: McqQuiz }) {
           {question.image ? (
             <img src={question.image} alt="Question associated diagram" />
           ) : null}
-          <ol className="list-[upper-alpha] list-inside flex flex-col gap-2">
+          <ol className="flex flex-col gap-2">
             {question.options.map((option, index) => {
               const answer = answers.get(currentQuestion);
               return (
@@ -165,7 +165,22 @@ export default function QuestionsList({ quiz }: { quiz: McqQuiz }) {
                   disabled={answer !== undefined && settings.instantFeedback}
                   onClick={() => answerQuestion(answer, index)}
                 >
-                  <li>{option}</li>
+                  <li className="flex w-full items-center justify-between">
+                    <span>
+                      {toUppercaseLetter(index)}. {option}
+                    </span>
+                    {settings.instantFeedback &&
+                      answer !== undefined &&
+                      (question.correctOptionIndex === index ? (
+                        <span className="text-green-700 dark:text-inherit">
+                          {icons["check-circle"]}
+                        </span>
+                      ) : answer === index ? (
+                        <span className="text-red-700 dark:text-inherit">
+                          {icons["x-circle"]}
+                        </span>
+                      ) : null)}
+                  </li>
                 </button>
               );
             })}
