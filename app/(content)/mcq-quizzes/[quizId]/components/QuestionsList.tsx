@@ -75,7 +75,11 @@ export default function QuestionsList({ quiz }: { quiz: McqQuiz }) {
         newMap.set(currentQuestion, index);
         return newMap;
       });
-      if (settings.autoMove && answer === undefined)
+      if (
+        settings.autoMove &&
+        index === orderedQuestions[currentIndex].correctOptionIndex &&
+        answer === undefined
+      )
         setTimeout(() => nextQuestion(), 250);
     },
     [settings, orderedQuestions, currentQuestion]
