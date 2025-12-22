@@ -2,13 +2,14 @@
 
 import ButtonIcon from "@/components/ButtonIcon";
 import Logo from "@/components/Logo";
-import FilterButton from "./FilterButton";
+import FilterButton from "@/components/FilterButton";
 import { logEvent } from "@/lib/event-logger";
 import { Action, McqQuestion, Resource } from "@/types";
 import calcMcqResult from "@/utils/calcMcqResult";
 import isValidURL from "@/utils/isValidURL";
 import React, { useState } from "react";
 import { useReactToPrint } from "react-to-print";
+import ResultPieChart from "@/components/ResultPieChart";
 
 interface SummaryProps {
   id: number;
@@ -47,7 +48,7 @@ export default function Summary({
   });
 
   return (
-    <>
+    <main className="quiz-main mx-auto">
       <div className="flex gap-2 mb-4">
         <ButtonIcon
           icon="printer"
@@ -69,11 +70,14 @@ export default function Summary({
           <Logo />
         </div>
         <h1 className="h1 my-4 print-only">{title}</h1>
-        <h2 className="my-4">
-          Result → {correct} / {total} (
-          {Math.round((correct / total) * 10000) / 100}%)
-        </h2>
-        <h2 className="my-4">Summary</h2>
+        <div className="my-4">
+          <ResultPieChart
+            correct={correct}
+            skipped={skipped}
+            incorrect={incorrect}
+            total={total}
+          />
+        </div>
         <div className="flex flex-wrap gap-2 my-4 print:hidden">
           <FilterButton
             onClick={() => setFilter("all")}
@@ -82,36 +86,35 @@ export default function Summary({
           >
             All ({total})
           </FilterButton>
-          <FilterButton
-            onClick={() => setFilter("correct")}
-            active={filter === "correct"}
-            color="green"
-          >
-            Correct ({correct})
-          </FilterButton>
-          <FilterButton
-            onClick={() => setFilter("incorrect")}
-            active={filter === "incorrect"}
-            color="red"
-          >
-            Incorrect ({incorrect})
-          </FilterButton>
-          <FilterButton
-            onClick={() => setFilter("skipped")}
-            active={filter === "skipped"}
-            color="yellow"
-          >
-            Skipped ({skipped})
-          </FilterButton>
+          {correct ? (
+            <FilterButton
+              onClick={() => setFilter("correct")}
+              active={filter === "correct"}
+              color="green"
+            >
+              Correct ({correct})
+            </FilterButton>
+          ) : null}
+          {incorrect ? (
+            <FilterButton
+              onClick={() => setFilter("incorrect")}
+              active={filter === "incorrect"}
+              color="red"
+            >
+              Incorrect ({incorrect})
+            </FilterButton>
+          ) : null}
+          {skipped ? (
+            <FilterButton
+              onClick={() => setFilter("skipped")}
+              active={filter === "skipped"}
+              color="yellow"
+            >
+              Skipped ({skipped})
+            </FilterButton>
+          ) : null}
         </div>
-        <p className="my-4 hidden print:block">
-          <span className="text-green-600">* Correct</span>
-          <br />
-          <span className="text-red-600">* Incorrect</span>
-          <br />
-          <span className="text-yellow-600">* Skipped</span>
-        </p>
-        <ol>
+        <ol className="col">
           {questions.map((question, questionIndex) => {
             const isSkipped = !answers.has(question.id);
             const isCorrect =
@@ -126,7 +129,10 @@ export default function Summary({
             if (filter !== "all" && filter !== status) return null;
 
             return (
-              <li key={question.id}>
+              <li
+                key={question.id}
+                className="layer-1 p-2 rounded-xl print:shadow-none"
+              >
                 <span className="font-bold">
                   {questionIndex + 1}. {question.text}
                 </span>
@@ -174,6 +180,6 @@ export default function Summary({
           })}
         </ol>
       </div>
-    </>
+    </main>
   );
 }

@@ -21,7 +21,7 @@ export default function ProfilePage() {
     error: facultiesError,
   } = useSWR("faculties", getFaculties);
   return (
-    <Layout title="Profile" border>
+    <Layout border>
       <main className="main">
         <div className="max-w-md col items-start">
           <h3>Settings</h3>

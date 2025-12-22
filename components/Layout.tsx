@@ -9,7 +9,7 @@ export default function Layout({
   footer = true,
   children,
 }: Readonly<{
-  title: string;
+  title?: string;
   updateable?: boolean;
   border?: boolean;
   footer?: boolean;

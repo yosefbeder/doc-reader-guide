@@ -4,29 +4,22 @@ import React, { useCallback, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 
 import Message from "@/components/Message";
-import { Action, McqQuestion, McqQuiz, Resource } from "@/types";
+import { Action, McqQuiz, Resource } from "@/types";
 import isValidURL from "@/utils/isValidURL";
 import { useQuestions } from "@/lib/hooks";
 import Summary from "./Summary";
-import QuestionWrapper from "@/components/QuestionWrapper";
+import QuizLayout from "@/components/QuizLayout";
 import useSettings from "@/lib/hooks/useSettings";
 import { useSound } from "@/lib/hooks/useSound";
 import Button from "@/components/Button";
 import { logEvent } from "@/lib/event-logger";
 import buildChatGPTLink from "@/utils/buildChatGPTLink";
 import { icons } from "@/components/icons";
+import QuizNav from "@/components/QuizNav";
 
 const toUppercaseLetter = (index: number) => String.fromCharCode(65 + index);
 
-export default function QuestionsList({
-  quiz,
-  title,
-  questions,
-}: {
-  quiz: McqQuiz;
-  title: string;
-  questions: McqQuestion[];
-}) {
+export default function QuestionsList({ quiz }: { quiz: McqQuiz }) {
   const {
     settings: { mcqQuiz: settings },
   } = useSettings();
@@ -44,7 +37,7 @@ export default function QuestionsList({
     options: {
       type: "mcq",
       quiz,
-      questions,
+      questions: quiz.questions,
       answers,
       localStorageItem: `mcq-quiz-${quiz.id}`,
       serializeAnswers: (x) => Array.from(x),
@@ -105,21 +98,29 @@ export default function QuestionsList({
 
   if (showingResults) {
     return (
-      <Summary
-        id={quiz.id}
-        title={title}
-        questions={orderedQuestions}
-        answers={answers}
-        resetState={() => {
-          resetState();
-          setAnswers(new Map());
-        }}
-      />
+      <>
+        <QuizNav
+          title={quiz.title}
+          progress={1}
+          lectureId={quiz.lectureData.id}
+        />
+        <Summary
+          id={quiz.id}
+          title={quiz.title}
+          questions={orderedQuestions}
+          answers={answers}
+          resetState={() => {
+            resetState();
+            setAnswers(new Map());
+          }}
+        />
+      </>
     );
   }
 
   return (
-    <QuestionWrapper
+    <QuizLayout
+      quiz={quiz}
       questions={orderedQuestions}
       currentQuestion={currentQuestion}
       currentIndex={currentIndex}
@@ -129,9 +130,7 @@ export default function QuestionsList({
       {orderedQuestions.map((question) => (
         <div
           key={question.id}
-          className={`max-w-xl ${
-            currentQuestion === question.id ? "col" : "hidden"
-          }`}
+          className={currentQuestion === question.id ? "col" : "hidden"}
         >
           <h3 className="p-4 rounded-xl bg-cyan-50 dark:bg-slate-800">
             {question.text}
@@ -139,7 +138,7 @@ export default function QuestionsList({
           {question.image ? (
             <img src={question.image} alt="Question associated diagram" />
           ) : null}
-          <ol className="list-[upper-alpha] list-inside flex flex-col gap-2 px-2">
+          <ol className="list-[upper-alpha] list-inside flex flex-col gap-2">
             {question.options.map((option, index) => {
               const answer = answers.get(currentQuestion);
               return (
@@ -213,6 +212,6 @@ export default function QuestionsList({
           )}
         </div>
       ))}
-    </QuestionWrapper>
+    </QuizLayout>
   );
 }

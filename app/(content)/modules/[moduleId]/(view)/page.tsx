@@ -1,5 +1,3 @@
-import Link from "next/link";
-import Image from "next/image";
 import { Metadata } from "next";
 
 import getSubjects from "@/utils/getSubjects";
@@ -11,6 +9,7 @@ import buildCanonical from "@/utils/buildCanonical";
 import { listModules } from "@/utils/allData";
 import SubjectCard from "../components/SubjectCard";
 import ChatGPTButton from "@/components/ChatGPTButton";
+import Layout from "@/components/Layout";
 
 type Props = { params: { moduleId: string } };
 
@@ -55,7 +54,7 @@ export default async function SubjectsPage({ params: { moduleId } }: Props) {
   ]);
 
   return (
-    <>
+    <Layout title={myModule.name} updateable>
       <Path myModule={myModule} />
       <main className="main">
         {subjects.length === 0 ? (
@@ -72,6 +71,6 @@ export default async function SubjectsPage({ params: { moduleId } }: Props) {
       </main>
       <ChatGPTButton customGPT={myModule.customGPT} />
       <StructuredData myModule={myModule} subjects={subjects} />
-    </>
+    </Layout>
   );
 }

@@ -11,11 +11,9 @@ import ButtonIcon from "@/components/ButtonIcon";
 import calcFactor from "@/utils/calcFactor";
 import Message from "@/components/Message";
 import HtmlContentClient from "@/components/HtmlContentClient";
-import { SummaryDetail } from "@/components/SummaryDetail";
-import { useHotkeys } from "react-hotkeys-hook";
-import Toggle from "@/components/Toggle";
 import { logEvent } from "@/lib/event-logger";
-import calcWrittenResult from "@/utils/calcWrittenResult";
+import ResultPieChart from "@/components/ResultPieChart";
+import FilterButton from "@/components/FilterButton";
 
 const border = new Map([
   [QuestionState.TRUE, "border-green-600"],
@@ -38,7 +36,26 @@ export default function Summary({
   answers,
   resetState,
 }: SummaryProps) {
-  const { correct, total } = calcWrittenResult(answers);
+  const [filter, setFilter] = useState<
+    "all" | QuestionState.TRUE | QuestionState.FALSE | QuestionState.UNANSWERED
+  >("all");
+
+  const correct =
+    Array.from(answers.tapes.values()).filter((v) => v === QuestionState.TRUE)
+      .length +
+    Array.from(answers.subQuestions.values()).filter(
+      (v) => v === QuestionState.TRUE
+    ).length;
+
+  const incorrect =
+    Array.from(answers.tapes.values()).filter((v) => v === QuestionState.FALSE)
+      .length +
+    Array.from(answers.subQuestions.values()).filter(
+      (v) => v === QuestionState.FALSE
+    ).length;
+
+  const total = answers.tapes.size + answers.subQuestions.size;
+  const skipped = total - correct - incorrect;
   const calcFactors = useCallback(
     () =>
       questions.map((question) =>
@@ -53,148 +70,159 @@ export default function Summary({
     window.addEventListener("resize", adjustImages);
     return () => window.removeEventListener("resize", adjustImages);
   }, [calcFactors]);
-  const [questionsOpen, setQuestionsOpen] = useState(false);
-  const [currentIndex, setCurrentIndex] = useState<number>();
-  const backQuestion = useCallback(() => {
-    if (typeof currentIndex === "undefined") setCurrentIndex(0);
-    else if (currentIndex > 0) setCurrentIndex((prev) => prev! - 1);
-  }, [currentIndex]);
-  const nextQuestion = useCallback(() => {
-    if (typeof currentIndex === "undefined") setCurrentIndex(0);
-    else if (currentIndex < questions.length - 1)
-      setCurrentIndex((prev) => prev! + 1);
-  }, [currentIndex]);
-  useHotkeys("left", backQuestion, [backQuestion]);
-  useHotkeys("right", nextQuestion, [nextQuestion]);
-
-  useEffect(() => {
-    if (currentIndex) {
-      const questionElement = document.getElementById(
-        `question-${questions[currentIndex].id}`
-      );
-      if (questionElement) {
-        questionElement.scrollIntoView({ behavior: "smooth" });
-      }
-    }
-  }, [currentIndex]);
 
   return (
-    <>
-      <div className="flex gap-2">
-        <ButtonIcon
-          icon="arrow-path"
-          onClick={() => {
-            logEvent(Resource.WRITTEN_QUIZ, id, Action.RESTART_QUIZ, {});
-            resetState();
-          }}
-        />
-      </div>
-      <h3 className="my-4">
-        Result → {correct} / {total} (
-        {Math.round((correct / total) * 10000) / 100}%)
-      </h3>
-      <h3 className="my-4">Summary</h3>
+    <main className="quiz-main">
+      <ButtonIcon
+        icon="arrow-path"
+        onClick={() => {
+          logEvent(Resource.WRITTEN_QUIZ, id, Action.RESTART_QUIZ, {});
+          resetState();
+        }}
+      />
       <div className="my-4">
-        <Toggle
-          label="Open all questions"
-          checked={questionsOpen}
-          onChange={() => setQuestionsOpen((prev) => !prev)}
+        <ResultPieChart
+          correct={correct}
+          skipped={skipped}
+          incorrect={incorrect}
+          total={total}
         />
       </div>
-      <ol className="col max-w-xl">
+      <div className="flex flex-wrap gap-2 my-4 print:hidden">
+        <FilterButton
+          onClick={() => setFilter("all")}
+          active={filter === "all"}
+          color="gray"
+        >
+          All ({total})
+        </FilterButton>
+        {correct ? (
+          <FilterButton
+            onClick={() => setFilter(QuestionState.TRUE)}
+            active={filter === QuestionState.TRUE}
+            color="green"
+          >
+            Correct ({correct})
+          </FilterButton>
+        ) : null}
+        {incorrect ? (
+          <FilterButton
+            onClick={() => setFilter(QuestionState.FALSE)}
+            active={filter === QuestionState.FALSE}
+            color="red"
+          >
+            Incorrect ({incorrect})
+          </FilterButton>
+        ) : null}
+        {skipped ? (
+          <FilterButton
+            onClick={() => setFilter(QuestionState.UNANSWERED)}
+            active={filter === QuestionState.UNANSWERED}
+            color="yellow"
+          >
+            Skipped ({skipped})
+          </FilterButton>
+        ) : null}
+      </div>
+      <ol className="col">
         {questions.map((question, index) => {
           const factor = factors[index];
+          let hasCorrect = false;
+          let hasIncorrect = false;
+          let hasSkipped = false;
+          const check = (s: QuestionState) => {
+            if (s === QuestionState.FALSE) hasIncorrect = true;
+            if (
+              s === QuestionState.UNANSWERED ||
+              s === QuestionState.UNSELECTED
+            )
+              hasSkipped = true;
+            if (s === QuestionState.TRUE) hasCorrect = true;
+          };
+          question.tapes.forEach((t) => check(answers.tapes.get(t.id)!));
+          question.subQuestions.forEach((s) =>
+            check(answers.subQuestions.get(s.id)!)
+          );
+
+          if (filter !== "all") {
+            if (filter === QuestionState.TRUE && !hasCorrect) return null;
+            if (filter === QuestionState.FALSE && !hasIncorrect) return null;
+            if (filter === QuestionState.UNANSWERED && !hasSkipped) return null;
+          }
+
           return (
-            <li key={`written-question-${question.id}`}>
-              <SummaryDetail
-                id={`question-${question.id}`}
-                open={currentIndex === index || questionsOpen}
-                toggle={() =>
-                  setCurrentIndex((prev) =>
-                    prev === index ? undefined : index
-                  )
-                }
-              >
-                <SummaryDetail.Summary>
-                  Question {index + 1}
-                </SummaryDetail.Summary>
-                <SummaryDetail.Detail>
-                  <div className="p-2 col">
-                    {factor && (
-                      <div className="relative">
-                        <img
-                          src={`${process.env.NEXT_PUBLIC_STATIC_URL}/image/${question.image}`}
-                          width={question.width! * factor}
-                          height={question.height! * factor}
-                          alt="Question"
-                        />
-                        {question.masks.map(({ id, x, y, w, h }) => (
-                          <div
-                            key={`written-question-${question.id}-mask-${id}`}
-                            style={{
-                              position: "absolute",
-                              left: x * factor,
-                              top: y * factor,
-                              width: w * factor,
-                              height: h * factor,
-                              background: "white",
-                              border: "2px solid black",
-                            }}
-                          ></div>
-                        ))}
-                        {question.tapes.map(({ id, x, y, w, h }) => (
-                          <div
-                            key={`written-question-${question.id}-tape-${id}`}
-                            className={`border-2 ${border.get(
-                              answers.tapes.get(id)!
-                            )}`}
-                            style={{
-                              position: "absolute",
-                              left: x * factor,
-                              top: y * factor,
-                              width: w * factor,
-                              height: h * factor,
-                            }}
-                          ></div>
-                        ))}
-                      </div>
-                    )}
-                    <ol className="col">
-                      {question.subQuestions.map(
-                        ({ id, text, answer }, index) => {
-                          const questionState = answers.subQuestions.get(id)!;
-                          return (
-                            <li
-                              key={`written-question-${question.id}-sub-question-${id}`}
-                              className="col"
-                            >
-                              <p className="font-bold">
-                                {question.subQuestions.length > 1
-                                  ? `${index + 1}. ${text}`
-                                  : text}
-                              </p>
-                              <>
-                                <Message
-                                  type={
-                                    subQuestionMessageType.get(questionState)!
-                                  }
-                                >
-                                  {subQuestionText.get(questionState)}
-                                </Message>
-                                <HtmlContentClient html={answer} />
-                              </>
-                            </li>
-                          );
-                        }
-                      )}
-                    </ol>
+            <li
+              key={`written-question-${question.id}`}
+              className="layer-1 p-2 rounded-xl col"
+            >
+              <h3>Question {index + 1}</h3>
+              <div>
+                {factor && (
+                  <div className="relative">
+                    <img
+                      src={`${process.env.NEXT_PUBLIC_STATIC_URL}/image/${question.image}`}
+                      width={question.width! * factor}
+                      height={question.height! * factor}
+                      alt="Question"
+                    />
+                    {question.tapes
+                      .filter(
+                        ({ id }) =>
+                          filter === "all" || answers.tapes.get(id) === filter
+                      )
+                      .map(({ id, x, y, w, h }) => (
+                        <div
+                          key={`written-question-${question.id}-tape-${id}`}
+                          className={`border-2 ${border.get(
+                            answers.tapes.get(id)!
+                          )}`}
+                          style={{
+                            position: "absolute",
+                            left: x * factor,
+                            top: y * factor,
+                            width: w * factor,
+                            height: h * factor,
+                          }}
+                        ></div>
+                      ))}
                   </div>
-                </SummaryDetail.Detail>
-              </SummaryDetail>
+                )}
+                <ol className="col list-decimal list-inside">
+                  {question.subQuestions
+                    .filter(
+                      ({ id }) =>
+                        filter === "all" ||
+                        answers.subQuestions.get(id) === filter
+                    )
+                    .map(({ id, text, answer }, index) => {
+                      const questionState = answers.subQuestions.get(id)!;
+                      return (
+                        <li
+                          key={`written-question-${question.id}-sub-question-${id}`}
+                          className="col ml-4 mt-2"
+                        >
+                          <p className="font-bold inline">
+                            {question.subQuestions.length > 1
+                              ? `${index + 1}. ${text}`
+                              : text}
+                          </p>
+                          <div className="ml-2">
+                            <Message
+                              type={subQuestionMessageType.get(questionState)!}
+                            >
+                              {subQuestionText.get(questionState)}
+                            </Message>
+                            <HtmlContentClient html={answer} />
+                          </div>
+                        </li>
+                      );
+                    })}
+                </ol>
+              </div>
             </li>
           );
         })}
       </ol>
-    </>
+    </main>
   );
 }

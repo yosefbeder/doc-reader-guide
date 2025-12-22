@@ -10,6 +10,7 @@ import StructuredData from "../components/StructuredData";
 import buildCanonical from "@/utils/buildCanonical";
 import { listSubjects } from "@/utils/allData";
 import ChatGPTButton from "@/components/ChatGPTButton";
+import Layout from "@/components/Layout";
 
 interface Props {
   params: { subjectId: string };
@@ -60,7 +61,7 @@ export default async function LecturesPage({
   ]);
 
   return (
-    <>
+    <Layout title={subject.name} updateable>
       <Path subject={subject} />
       <main className="main">
         {lectures.length === 0 ? (
@@ -84,6 +85,6 @@ export default async function LecturesPage({
       </main>
       <ChatGPTButton customGPT={subject.module.customGPT} />
       <StructuredData subject={subject} lectures={lectures} />
-    </>
+    </Layout>
   );
 }

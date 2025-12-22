@@ -7,6 +7,8 @@ import HtmlContentServer from "@/components/HtmlContentServer";
 import StructuredData from "../components/StructuredData";
 import buildCanonical from "@/utils/buildCanonical";
 import ChatGPTButton from "@/components/ChatGPTButton";
+import Layout from "@/components/Layout";
+import formatLectureTitle from "@/utils/formatLectureTitle";
 
 interface Props {
   params: { lectureId: string };
@@ -51,7 +53,7 @@ export default async function LinksPage({ params: { lectureId } }: Props) {
   const lecture = await getLecture(+lectureId);
 
   return (
-    <>
+    <Layout title={formatLectureTitle(lecture.title)} updateable>
       <Path lecture={lecture} />
       <main className="main flex max-md:flex-col-reverse gap-4">
         <LinksList
@@ -70,6 +72,6 @@ export default async function LinksPage({ params: { lectureId } }: Props) {
       </main>
       <ChatGPTButton customGPT={lecture.subject.module.customGPT} />
       <StructuredData lecture={lecture} />
-    </>
+    </Layout>
   );
 }

@@ -1,18 +1,25 @@
+"use client";
+
 import Script from "next/script";
+import Link from "next/link";
 
 import BasePath from "@/components/Path";
-import { Module } from "@/types";
+import { Action, Module } from "@/types";
 import getPrefix from "@/utils/getPrefix";
+import { logEvent } from "@/lib/event-logger";
 
 export default function Path({ myModule }: { myModule: Module }) {
   return (
     <>
       <BasePath>
-        <h1>
+        <Link
+          href={`/app`}
+          className="underline"
+          onClick={() => logEvent(null, null, Action.NAVIGATE_TO_HOME, {})}
+        >
           {myModule.semesterName}
-          <sup>{getPrefix(myModule.semesterName)}</sup> Semester →{" "}
-          {myModule.name}
-        </h1>
+          <sup>{getPrefix(myModule.semesterName)}</sup> Semester
+        </Link>
       </BasePath>
       <Script
         id="breadcrumb-jsonld-module"

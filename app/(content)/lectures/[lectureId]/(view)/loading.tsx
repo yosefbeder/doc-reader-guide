@@ -1,9 +1,10 @@
 import EmptyPath from "@/components/EmptyPath";
 import { icons } from "@/components/icons";
+import Layout from "@/components/Layout";
 
 export default function LinksLoadingPage() {
   return (
-    <>
+    <Layout updateable>
       <EmptyPath />
       <main className="main col">
         {[[], [], [], []].map((_, index) => (
@@ -23,6 +24,6 @@ export default function LinksLoadingPage() {
           </button>
         ))}
       </main>
-    </>
+    </Layout>
   );
 }

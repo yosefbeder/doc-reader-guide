@@ -23,8 +23,15 @@ export default function Path({
   return (
     <>
       <BasePath>
-        {semesterName}
-        <sup>{getPrefix(semesterName)}</sup> Semester →{" "}
+        <Link
+          href={`/app`}
+          className="underline"
+          onClick={() => logEvent(null, null, Action.NAVIGATE_TO_HOME, {})}
+        >
+          {semesterName}
+          <sup>{getPrefix(semesterName)}</sup> Semester
+        </Link>
+        {" > "}
         <Link
           href={`/modules/${moduleId}`}
           className="underline"
@@ -33,8 +40,8 @@ export default function Path({
           }
         >
           {moduleName}
-        </Link>{" "}
-        →{" "}
+        </Link>
+        {" > "}
         <Link
           href={`/subjects/${subjectId}`}
           className="underline"
@@ -43,8 +50,7 @@ export default function Path({
           }
         >
           {subjectName}
-        </Link>{" "}
-        → <h1 className="inline-block">{title}</h1>
+        </Link>
       </BasePath>
 
       <Script

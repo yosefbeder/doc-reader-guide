@@ -7,10 +7,10 @@ import BasePath from "./Path";
 import { WrittenQuiz, McqQuiz, Resource, Action } from "@/types";
 import getPrefix from "@/utils/getPrefix";
 import { logEvent } from "@/lib/event-logger";
+import formatLectureTitle from "@/utils/formatLectureTitle";
 
 export default function Path({
   quiz: {
-    title,
     lectureData: {
       id: lectureId,
       title: lectureTitle,
@@ -27,8 +27,15 @@ export default function Path({
   return (
     <>
       <BasePath>
-        {semesterName}
-        <sup>{getPrefix(semesterName)}</sup> Semester →{" "}
+        <Link
+          href={`/app`}
+          className="underline"
+          onClick={() => logEvent(null, null, Action.NAVIGATE_TO_HOME, {})}
+        >
+          {semesterName}
+          <sup>{getPrefix(semesterName)}</sup> Semester
+        </Link>
+        {" > "}
         <Link
           href={`/modules/${moduleId}`}
           className="underline"
@@ -38,7 +45,7 @@ export default function Path({
         >
           {moduleName}
         </Link>{" "}
-        →{" "}
+        {"> "}
         <Link
           href={`/subjects/${subjectId}`}
           className="underline"
@@ -48,7 +55,7 @@ export default function Path({
         >
           {subjectName}
         </Link>{" "}
-        →{" "}
+        {"> "}
         <Link
           href={`/lectures/${lectureId}`}
           className="underline"
@@ -56,9 +63,8 @@ export default function Path({
             logEvent(Resource.LECTURE, lectureId, Action.NAVIGATE, {})
           }
         >
-          {lectureTitle}
-        </Link>{" "}
-        → <h1 className="inline-block">{title}</h1>
+          {formatLectureTitle(lectureTitle)}
+        </Link>
       </BasePath>
       <Script
         id="breadcrumb-jsonld-quiz"
@@ -88,11 +94,6 @@ export default function Path({
                     ? lectureTitle.slice(0, 35) + "…"
                     : lectureTitle,
                 item: `${process.env.NEXT_PUBLIC_FRONTEND_URL}/lectures/${lectureId}`,
-              },
-              {
-                "@type": "ListItem",
-                position: 4,
-                name: title,
               },
             ],
           }),

@@ -14,12 +14,15 @@ import { useQuestions } from "@/lib/hooks";
 import Summary from "./Summary";
 import calcFactor from "@/utils/calcFactor";
 import SelectAnswerDialogue from "./SelectAnswerDialogue";
-import QuestionWrapper from "@/components/QuestionWrapper";
+import QuizLayout from "@/components/QuizLayout";
 import HtmlContentClient from "@/components/HtmlContentClient";
 import Message from "@/components/Message";
 import useSettings from "@/lib/hooks/useSettings";
 import { useSound } from "@/lib/hooks/useSound";
 import { logEvent } from "@/lib/event-logger";
+import Layout from "@/components/Layout";
+import Path from "@/components/QuizPath";
+import QuizNav from "@/components/QuizNav";
 
 const border = new Map([
   [QuestionState.TRUE, "border-green-600"],
@@ -198,21 +201,29 @@ export default function QuestionsList({
 
   if (showingResults) {
     return (
-      <Summary
-        id={quiz.id}
-        title={title}
-        questions={orderedQuestions}
-        answers={answers}
-        resetState={() => {
-          resetState();
-          resetAnswers();
-        }}
-      />
+      <>
+        <QuizNav
+          title={quiz.title}
+          progress={1}
+          lectureId={quiz.lectureData.id}
+        />
+        <Summary
+          id={quiz.id}
+          title={title}
+          questions={orderedQuestions}
+          answers={answers}
+          resetState={() => {
+            resetState();
+            resetAnswers();
+          }}
+        />
+      </>
     );
   }
 
   return (
-    <QuestionWrapper
+    <QuizLayout
+      quiz={quiz}
       questions={orderedQuestions}
       currentQuestion={currentQuestion}
       currentIndex={currentIndex}
@@ -366,6 +377,6 @@ export default function QuestionsList({
           </div>
         );
       })}
-    </QuestionWrapper>
+    </QuizLayout>
   );
 }

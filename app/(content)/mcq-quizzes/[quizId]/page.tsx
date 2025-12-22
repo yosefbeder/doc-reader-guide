@@ -51,19 +51,12 @@ export default async function QuizPage({ params: { quizId } }: Props) {
 
   return (
     <>
-      <Path quiz={quiz} />
       {quiz.questions.length === 0 ? (
         <main className="main">
           <Message type="warning">No questions have been added yet</Message>
         </main>
       ) : (
-        <main className="main">
-          <QuestionsList
-            quiz={quiz}
-            title={quiz.title}
-            questions={quiz.questions}
-          />
-        </main>
+        <QuestionsList quiz={quiz} />
       )}
       <QuizStructuredData type="mcq" quiz={quiz} />
     </>
