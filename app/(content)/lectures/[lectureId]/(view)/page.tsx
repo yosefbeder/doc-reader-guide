@@ -9,6 +9,7 @@ import buildCanonical from "@/utils/buildCanonical";
 import ChatGPTButton from "@/components/ChatGPTButton";
 import Layout from "@/components/Layout";
 import formatLectureTitle from "@/utils/formatLectureTitle";
+import LectureNote from "@/components/LectureNote";
 
 interface Props {
   params: { lectureId: string };
@@ -64,10 +65,9 @@ export default async function LinksPage({ params: { lectureId } }: Props) {
           )}
         />
         {lecture.note && lecture.note !== "<p><br></p>" && (
-          <HtmlContentServer
-            className="flex-1 rounded-xl p-2 bg-slate-50 dark:bg-slate-800"
-            html={lecture.note}
-          />
+          <LectureNote>
+            <HtmlContentServer className="p-2" html={lecture.note} />
+          </LectureNote>
         )}
       </main>
       <ChatGPTButton customGPT={lecture.subject.module.customGPT} />
