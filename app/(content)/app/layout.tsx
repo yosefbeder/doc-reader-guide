@@ -11,7 +11,7 @@ export default function ModulesPageLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <Layout updateable border>
+    <Layout title="Home" updateable border>
       {children}
     </Layout>
   );

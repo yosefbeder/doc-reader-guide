@@ -155,7 +155,7 @@ export default function Summary({
               key={`written-question-${question.id}`}
               className="layer-1 p-2 rounded-xl col"
             >
-              <h3>Question {index + 1}</h3>
+              <h2>Question {index + 1}</h2>
               <div>
                 {factor && (
                   <div className="relative">

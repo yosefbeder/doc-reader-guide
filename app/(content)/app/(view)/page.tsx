@@ -229,7 +229,7 @@ export default function ModulesPage() {
                             height={48}
                           />
                         </span>
-                        <h3>{name}</h3>
+                        <h2>{name}</h2>
                       </Link>
                     </li>
                   ))}

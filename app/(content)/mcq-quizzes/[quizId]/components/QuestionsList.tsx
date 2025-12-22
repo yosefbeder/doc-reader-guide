@@ -136,9 +136,9 @@ export default function QuestionsList({ quiz }: { quiz: McqQuiz }) {
           key={question.id}
           className={currentQuestion === question.id ? "col" : "hidden"}
         >
-          <h3 className="p-4 rounded-xl bg-cyan-50 dark:bg-slate-800">
+          <h2 className="p-4 rounded-xl bg-cyan-50 dark:bg-slate-800">
             {question.text}
-          </h3>
+          </h2>
           {question.image ? (
             <img src={question.image} alt="Question associated diagram" />
           ) : null}

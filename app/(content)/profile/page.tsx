@@ -24,9 +24,9 @@ export default function ProfilePage() {
     <Layout border>
       <main className="main">
         <div className="max-w-md col items-start">
-          <h3>Settings</h3>
+          <h2>Settings</h2>
           <Settings />
-          <h3>Account</h3>
+          <h2>Account</h2>
           {isUserLoading || areFacultiesLoading ? (
             <p>Loading...</p>
           ) : userError || facultiesError ? (
