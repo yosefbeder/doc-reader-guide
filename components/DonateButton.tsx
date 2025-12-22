@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Dialogue from "./Dialogue";
 import { icons } from "./icons";
 import Button from "./Button";
+import Message from "./Message";
 
 const Vodafone = () => (
   <svg
@@ -62,7 +63,7 @@ export default function DonateButton({
             </span>{" "}
             {isAr ? "على الرقم التالي:" : "on the following number:"}
           </div>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2">
             <div className="font-mono">{phoneNumber}</div>
             <button
               onClick={handleCopy}
@@ -71,6 +72,11 @@ export default function DonateButton({
               {copied ? icons["check"] : icons["clipboard-document-list"]}
             </button>
           </div>
+          <Message type="information">
+            {isAr
+              ? "جميع التبرعات تستخدم في دفع إيجار السيرفر وتطوير التطبيق فقط."
+              : "All donations are only used to pay for the server subscription and application development."}
+          </Message>
         </Dialogue>
       )}
     </>

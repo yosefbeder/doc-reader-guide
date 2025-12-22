@@ -48,7 +48,7 @@ const links = [
     ),
   },
   {
-    link: "https://t.me/DocReader_Guide_app",
+    link: "https://t.me/DOCREADER_Guide_0",
     color: "hover:text-[#0088cc]",
     icon: (
       <svg

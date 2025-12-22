@@ -18,7 +18,7 @@ export default function UniversityRequest({ lang }: { lang: "en" | "ar" }) {
             ? "هل أنت من ممثلي الدفعة أو اتحاد الطلاب؟ تواصل معنا الآن لإنشاء مساحة مخصصة وتنظيم المحتوى العلمي لدفعتك بالكامل على التطبيق."
             : "Are you a student union member or batch leader? Partner with us to create a dedicated, organized space for your entire faculty on DocReader."}
         </p>
-        <a href="https://t.me/Omar_AbdelAleem" target="_blank">
+        <a href="https://t.me/DOCREADER_Guide_0" target="_blank">
           <Button cta>{isAr ? "تعاون معنا" : "Partner with Us"}</Button>
         </a>
       </div>
