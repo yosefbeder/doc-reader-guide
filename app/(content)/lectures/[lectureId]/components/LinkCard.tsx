@@ -3,8 +3,11 @@
 import { Action, Link, Resource } from "@/types";
 import { typeIcons } from "./typeIcons";
 import ButtonIcon from "@/components/ButtonIcon";
-import getPrefix from "@/utils/getPrefix";
+
 import { logEvent } from "@/lib/event-logger";
+import { useState, useRef, useEffect } from "react";
+import { icons } from "@/components/icons";
+import getPrefix from "@/utils/getPrefix";
 
 export default function LinkCard({
   link: { id, title, subTitle, type, urls },
@@ -15,25 +18,40 @@ export default function LinkCard({
   updateable?: boolean;
   onUpdate?: () => void;
 }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const containerRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
-    <div
-      className={`flex flex-col rounded-xl layer-1 ${
-        urls.length === 1 ? "clickable" : ""
-      }`}
-    >
-      <div
+    <>
+      <button
+        ref={containerRef}
+        className="w-full flex items-center gap-2 p-2 rounded-xl layer-1"
         onClick={() => {
           if (urls.length === 1) {
             window.open(urls[0], "_blank");
             logEvent(Resource.LINK, id, Action.NAVIGATE, { url: urls[0] });
+          } else if (urls.length > 1) {
+            setIsOpen(!isOpen);
           }
         }}
-        className={`w-full flex items-center gap-2 p-2 ${
-          urls.length === 1 ? "cursor-pointer" : ""
-        }`}
       >
-        <div className="w-max">{typeIcons[type]}</div>
-        <div className="grow">
+        <span>{typeIcons[type]}</span>
+        <div className="text-left grow">
           {subTitle?.trim() ? (
             <>
               <div>{title}</div>
@@ -43,6 +61,7 @@ export default function LinkCard({
             title
           )}
         </div>
+        {urls.length === 1 && <span>{icons["arrow-top-right-on-square"]}</span>}
         {updateable && (
           <ButtonIcon
             icon="pencil-square"
@@ -53,25 +72,29 @@ export default function LinkCard({
             }}
           />
         )}
-      </div>
-      {urls.length > 1 && (
-        <ul className="w-full rounded-b-xl flex items-center gap-4 px-4 py-1 bg-cyan-600 text-white underline">
+      </button>
+      {isOpen && urls.length > 1 && (
+        <div className="flex flex-col p-2 gap-2 rounded-xl layer-1 mt-2">
           {urls.map((url, index) => (
-            <li key={index}>
-              <a
-                href={url}
-                target="_blank"
-                onClick={() =>
-                  logEvent(Resource.LINK, id, Action.NAVIGATE, { url })
-                }
-              >
+            <a
+              key={index}
+              href={url}
+              target="_blank"
+              onClick={() => {
+                logEvent(Resource.LINK, id, Action.NAVIGATE, { url });
+                setIsOpen(false);
+              }}
+              className="flex items-center justify-between rounded-lg p-2 text-sm hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
+            >
+              <span>
                 {index + 1}
-                <sup>{getPrefix(index + 1)}</sup>
-              </a>
-            </li>
+                <sup>{getPrefix(index + 1)}</sup> Part
+              </span>
+              {icons["arrow-top-right-on-square"]}
+            </a>
           ))}
-        </ul>
+        </div>
       )}
-    </div>
+    </>
   );
 }
