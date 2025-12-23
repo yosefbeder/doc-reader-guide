@@ -6,6 +6,7 @@ import QuestionsList from "./components/QuestionsList";
 import Message from "@/components/Message";
 import QuizStructuredData from "@/components/QuizStructuredData";
 import buildCanonical from "@/utils/buildCanonical";
+import Layout from "@/components/Layout";
 
 type Props = { params: { quizId: string } };
 
@@ -52,9 +53,12 @@ export default async function QuizPage({ params: { quizId } }: Props) {
   return (
     <>
       {quiz.questions.length === 0 ? (
-        <main className="main">
-          <Message type="warning">No questions have been added yet</Message>
-        </main>
+        <Layout title={quiz.title} updateable>
+          <main className="main">
+            <Path quiz={quiz} />
+            <Message type="warning">No questions have been added yet</Message>
+          </main>
+        </Layout>
       ) : (
         <QuestionsList quiz={quiz} />
       )}
