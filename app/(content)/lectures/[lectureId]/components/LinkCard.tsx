@@ -19,7 +19,7 @@ export default function LinkCard({
   onUpdate?: () => void;
 }) {
   const [isOpen, setIsOpen] = useState(false);
-  const containerRef = useRef<HTMLButtonElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -37,9 +37,8 @@ export default function LinkCard({
   }, []);
 
   return (
-    <>
+    <div ref={containerRef}>
       <button
-        ref={containerRef}
         className="w-full flex items-center gap-2 p-2 rounded-xl layer-1"
         onClick={() => {
           if (urls.length === 1) {
@@ -80,7 +79,7 @@ export default function LinkCard({
               key={index}
               href={url}
               target="_blank"
-              onClick={() => {
+              onClick={(e) => {
                 logEvent(Resource.LINK, id, Action.NAVIGATE, { url });
                 setIsOpen(false);
               }}
@@ -95,6 +94,6 @@ export default function LinkCard({
           ))}
         </div>
       )}
-    </>
+    </div>
   );
 }
