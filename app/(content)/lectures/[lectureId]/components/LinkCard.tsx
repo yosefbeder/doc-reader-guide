@@ -39,7 +39,7 @@ export default function LinkCard({
   return (
     <div ref={containerRef}>
       <button
-        className="w-full flex items-center gap-2 p-2 rounded-xl layer-1"
+        className="w-full flex items-center gap-2 p-2 rounded-xl layer-1 clickable"
         onClick={() => {
           if (urls.length === 1) {
             window.open(urls[0], "_blank");
