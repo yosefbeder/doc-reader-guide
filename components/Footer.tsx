@@ -16,7 +16,7 @@ import OthersAvatar from "@/public/others.jpg";
 
 const links = [
   {
-    link: process.env.NEXT_PUBLIC_DOWNLOAD_LATEST!,
+    link: "/android-app",
     color: "hover:text-[#3DDC84]",
     icon: (
       <svg

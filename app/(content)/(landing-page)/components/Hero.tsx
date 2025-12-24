@@ -42,12 +42,12 @@ export default function Hero({ lang }: { lang: "en" | "ar" }) {
             </Button>
           </Link>
 
-          <a href={process.env.NEXT_PUBLIC_DOWNLOAD_LATEST} target="_blank">
+          <Link href="/android-app">
             <Button color="white" className="flex items-center gap-2">
               {icons["android"]}
               {isAr ? "حمل تطبيق الأندرويد" : "Download Android App"}
             </Button>
-          </a>
+          </Link>
         </div>
       </div>
     </section>
