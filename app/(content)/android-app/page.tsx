@@ -66,7 +66,7 @@ export default async function AndroidAppPage() {
 
             <div className="prose prose-sm prose-slate dark:prose-invert max-w-none mb-6 text-slate-600 dark:text-slate-300">
               <p className="font-medium mb-2 text-slate-900 dark:text-slate-200">
-                What's New:
+                What&apos;s New:
               </p>
               <ul className="list-disc pl-5 space-y-1">
                 {release.notes.split("\n").map((line, index) => {
