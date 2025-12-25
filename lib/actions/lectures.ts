@@ -8,6 +8,7 @@ import { addMcqQuestions } from "./mcqQuizzes";
 import getNumber from "@/utils/getNumber";
 import replaceImgSrc from "@/utils/replaceImgSrc";
 import { addWrittenQuestions } from "./writtenQuizzes";
+import getLectures from "@/utils/getLectures";
 
 export async function addLecture(
   _prevState: FormState,
@@ -251,4 +252,18 @@ export async function importSources(
       (errors.length ? ` Errors: ${errors.join("; ")}` : ""),
     resetKey: Date.now(),
   };
+}
+
+export async function fetchLectures(subjectId: number) {
+  return await getLectures(subjectId);
+}
+
+export async function transferSources(
+  targetLectureId: number,
+  dataString: string
+): Promise<FormState> {
+  const formData = new FormData();
+  formData.append("lecture-id", targetLectureId.toString());
+  formData.append("data", dataString);
+  return await importSources({} as FormState, formData);
 }

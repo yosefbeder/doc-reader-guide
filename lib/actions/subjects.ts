@@ -5,6 +5,11 @@ import { revalidatePath } from "next/cache";
 
 import getNumber from "@/utils/getNumber";
 import { FormState } from "@/types";
+import getSubjects from "@/utils/getSubjects";
+
+export async function fetchSubjects(moduleId: number) {
+  return await getSubjects(moduleId);
+}
 
 export async function quickAdd(
   _prevState: FormState,

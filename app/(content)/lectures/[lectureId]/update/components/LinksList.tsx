@@ -16,6 +16,8 @@ import Checkbox from "@/components/Checkbox";
 import cleanWrittenQuestion from "@/utils/cleanWrittenQuestion";
 import { useRouter } from "next/navigation";
 import revalidate from "@/utils/revalidate";
+import TransferDialogue from "./TransferDialogue";
+import { transferSources } from "@/lib/actions/lectures";
 
 export default function LinksList({
   user,
@@ -117,11 +119,80 @@ export default function LinksList({
     }
   };
 
+  const [isTransferring, setIsTransferring] = useState(false);
+  const [showTransferDialogue, setShowTransferDialogue] = useState(false);
+
+  const handleTransfer = async (targetLectureId: number) => {
+    setIsTransferring(true);
+
+    const selectedLinksData = links
+      .filter((l) => selectedLinks.includes(l.id))
+      .map((l) => ({
+        title: l.title,
+        subTitle: l.subTitle || undefined,
+        urls: l.urls,
+        type: l.type,
+        category: l.category,
+      }));
+    const selectedMcqQuizzesData = mcqQuizzes
+      .filter((q) => selectedMcqQuizzes.includes(q.id))
+      .map((q) => ({
+        title: q.title,
+        questions:
+          q.questions.map(
+            ({
+              id,
+              creatorId,
+              createdAt,
+              updatedAt,
+              quizId,
+              image,
+              explanation,
+              ...rest
+            }) => ({
+              image: image || undefined,
+              explanation: explanation || undefined,
+              ...rest,
+            })
+          ) || [],
+      }));
+    const selectedWrittenQuizzesData = writtenQuizzes
+      .filter((q) => selectedWrittenQuizzes.includes(q.id))
+      .map(({ title, questions }) => ({
+        title,
+        questions: questions.map((question) => cleanWrittenQuestion(question)),
+      }));
+
+    const dataString = JSON.stringify({
+      links: selectedLinksData,
+      mcqQuizzes: selectedMcqQuizzesData,
+      writtenQuizzes: selectedWrittenQuizzesData,
+    });
+
+    try {
+      const result = await transferSources(targetLectureId, dataString);
+      if (result.type === "success") {
+        alert("Transfer successful: " + result.message);
+        setSelectedLinks([]);
+        setSelectedMcqQuizzes([]);
+        setSelectedWrittenQuizzes([]);
+        setShowTransferDialogue(false);
+      } else {
+        alert("Transfer failed: " + result.message);
+      }
+    } catch (error) {
+      alert("An error occurred during transfer: " + error);
+    } finally {
+      setIsTransferring(false);
+    }
+  };
+
   const handleDelete = async () => {
-    const confirmationText = `DELETE ${selectedLinks.length +
+    const confirmationText = `DELETE ${
+      selectedLinks.length +
       selectedMcqQuizzes.length +
       selectedWrittenQuizzes.length
-      } ITEMS`;
+    } ITEMS`;
     const input = prompt(`Enter ${confirmationText} to confirm deletion`);
     if (input !== confirmationText) {
       alert("Deletion cancelled");
@@ -215,8 +286,9 @@ export default function LinksList({
 
     let message = `Deleted:\nLinks: ${successLinks}/${linkResults.length}\nMCQ Quizzes: ${successMcq}/${mcqResults.length}\nWritten Quizzes: ${successWritten}/${writtenResults.length}`;
     if (failLinks + failMcq + failWritten > 0) {
-      message += `\nFailed: ${failLinks + failMcq + failWritten
-        }\nErrors:\n${errors.join("\n")}`;
+      message += `\nFailed: ${
+        failLinks + failMcq + failWritten
+      }\nErrors:\n${errors.join("\n")}`;
     }
     alert(message);
 
@@ -232,13 +304,31 @@ export default function LinksList({
 
   return (
     <div className="col">
+      {showTransferDialogue && (
+        <TransferDialogue
+          isTransferring={isTransferring}
+          onClose={() => setShowTransferDialogue(false)}
+          onTransfer={handleTransfer}
+        />
+      )}
       <div className="flex gap-2 items-center">
+        <Button
+          onClick={() => setShowTransferDialogue(true)}
+          disabled={
+            selectedLinks.length +
+              selectedMcqQuizzes.length +
+              selectedWrittenQuizzes.length ===
+            0
+          }
+        >
+          Transfer
+        </Button>
         <Button
           onClick={handleCopy}
           disabled={
             selectedLinks.length +
-            selectedMcqQuizzes.length +
-            selectedWrittenQuizzes.length ===
+              selectedMcqQuizzes.length +
+              selectedWrittenQuizzes.length ===
             0
           }
         >
@@ -249,8 +339,8 @@ export default function LinksList({
           onClick={handleDelete}
           disabled={
             selectedLinks.length +
-            selectedMcqQuizzes.length +
-            selectedWrittenQuizzes.length ===
+              selectedMcqQuizzes.length +
+              selectedWrittenQuizzes.length ===
             0
           }
           isLoading={isDeleting}
@@ -275,8 +365,8 @@ export default function LinksList({
           }}
         >
           {selectedLinks.length === links.length &&
-            selectedMcqQuizzes.length === mcqQuizzes.length &&
-            selectedWrittenQuizzes.length === writtenQuizzes.length
+          selectedMcqQuizzes.length === mcqQuizzes.length &&
+          selectedWrittenQuizzes.length === writtenQuizzes.length
             ? "Deselect All"
             : "Select All"}
         </Button>
@@ -331,8 +421,8 @@ export default function LinksList({
                         />
                         <div className="flex-1">
                           {current &&
-                            current.type === "mcq" &&
-                            current.id === quiz.id ? (
+                          current.type === "mcq" &&
+                          current.id === quiz.id ? (
                             <UpdateQuizForm
                               type={current.type}
                               quiz={quiz}
@@ -368,8 +458,8 @@ export default function LinksList({
                         />
                         <div className="flex-1">
                           {current &&
-                            current.type === "written" &&
-                            current.id === quiz.id ? (
+                          current.type === "written" &&
+                          current.id === quiz.id ? (
                             <UpdateQuizForm
                               type={current.type}
                               quiz={quiz}
@@ -407,8 +497,8 @@ export default function LinksList({
                     />
                     <div className="flex-1">
                       {current &&
-                        current.type === "link" &&
-                        current.id === link.id ? (
+                      current.type === "link" &&
+                      current.id === link.id ? (
                         <UpdateLinkForm
                           link={link}
                           lectureId={lectureId}
