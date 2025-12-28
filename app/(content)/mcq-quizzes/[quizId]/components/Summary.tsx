@@ -65,7 +65,7 @@ export default function Summary({
           }}
         />
       </div>
-      <div className="max-w-xl print-section" ref={contentRef}>
+      <div className="max-w-2xl print-section" ref={contentRef}>
         <div className="print-only">
           <Logo />
         </div>

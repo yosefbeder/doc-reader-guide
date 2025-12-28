@@ -35,7 +35,7 @@ export default function QuizLayout<T extends DatabaseTable>({
         progress={(currentIndex + 1) / questions.length}
         lectureId={quiz.lectureData.id}
       />
-      <div className="max-w-xl mx-auto px-2 pt-4 pb-[72px] col">
+      <div className="max-w-2xl mx-auto px-2 pt-4 pb-[72px] col">
         <span className="text-base text-slate-500 dark:text-slate-300">
           Question{" "}
           <select

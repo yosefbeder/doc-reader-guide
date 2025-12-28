@@ -158,7 +158,7 @@ export default function Summary({
               <h2>Question {index + 1}</h2>
               <div>
                 {factor && (
-                  <div className="relative">
+                  <div className="relative mb-4">
                     <img
                       src={`${process.env.NEXT_PUBLIC_STATIC_URL}/image/${question.image}`}
                       width={question.width! * factor}
@@ -188,35 +188,31 @@ export default function Summary({
                   </div>
                 )}
                 <ol className="col list-decimal list-inside">
-                  {question.subQuestions
-                    .filter(
-                      ({ id }) =>
-                        filter === "all" ||
-                        answers.subQuestions.get(id) === filter
-                    )
-                    .map(({ id, text, answer }, index) => {
-                      const questionState = answers.subQuestions.get(id)!;
-                      return (
-                        <li
-                          key={`written-question-${question.id}-sub-question-${id}`}
-                          className="col ml-4 mt-2"
-                        >
-                          <p className="font-bold inline">
-                            {question.subQuestions.length > 1
-                              ? `${index + 1}. ${text}`
-                              : text}
-                          </p>
-                          <div className="ml-2">
-                            <Message
-                              type={subQuestionMessageType.get(questionState)!}
-                            >
-                              {subQuestionText.get(questionState)}
-                            </Message>
-                            <HtmlContentClient html={answer} />
-                          </div>
-                        </li>
-                      );
-                    })}
+                  {question.subQuestions.map(({ id, text, answer }, index) => {
+                    const questionState = answers.subQuestions.get(id)!;
+                    if (filter !== "all" && questionState !== filter)
+                      return null;
+                    return (
+                      <li
+                        key={`written-question-${question.id}-sub-question-${id}`}
+                        className="col"
+                      >
+                        <p className="font-bold inline">
+                          {question.subQuestions.length > 1
+                            ? `${index + 1}. ${text}`
+                            : text}
+                        </p>
+                        <div>
+                          <Message
+                            type={subQuestionMessageType.get(questionState)!}
+                          >
+                            {subQuestionText.get(questionState)}
+                          </Message>
+                        </div>
+                        <HtmlContentClient html={answer} />
+                      </li>
+                    );
+                  })}
                 </ol>
               </div>
             </li>

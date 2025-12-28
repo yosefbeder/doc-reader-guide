@@ -24,7 +24,7 @@ export default function QuizNav({
   const router = useRouter();
 
   return (
-    <nav className="max-w-xl mx-auto w-full">
+    <nav className="max-w-2xl mx-auto w-full">
       <div className="flex items-center px-2 py-4">
         <h1 className="mr-auto line-clamp-2">{title}</h1>
         {user?.roleId !== 3 && (

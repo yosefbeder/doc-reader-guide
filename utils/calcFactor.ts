@@ -1,5 +1,5 @@
 const X_MARGIN = 8;
-const MAX_WIDTH = 576;
+const MAX_WIDTH = 672;
 
 export default function calcFactor(width: number, xMargin: number = X_MARGIN) {
   if (typeof window === "undefined") return 1;

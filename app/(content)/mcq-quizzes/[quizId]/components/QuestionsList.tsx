@@ -136,7 +136,7 @@ export default function QuestionsList({ quiz }: { quiz: McqQuiz }) {
           key={question.id}
           className={currentQuestion === question.id ? "col" : "hidden"}
         >
-          <h2 className="p-4 rounded-xl bg-cyan-50 dark:bg-slate-800">
+          <h2 className="p-4 text-2xl font-semibold rounded-xl bg-cyan-50 dark:bg-slate-800">
             {question.text}
           </h2>
           {question.image ? (
