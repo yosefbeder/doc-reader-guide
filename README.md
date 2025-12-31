@@ -1,36 +1,73 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Doc Reader Guide
+
+A comprehensive educational platform designed to help medical students study effectively.
+
+## Features
+
+- **Interactive Quizzes**: Test your knowledge with MCQ and Written quizzes, complete with detailed results analytics, progress tracking, and visualization (Pie Charts).
+- **Lecture Management**: Watch lectures with our advanced video player (Vidstack) featuring timestamp support. Seamlessly transfer notes and quiz results between lectures.
+- **Structured Content**: Navigate through a hierarchical content system: Faculty -> Year -> Module -> Subject.
+- **Admin Dashboard**: comprehensive tools for managing students, including secure signup and data management.
+- **Android App Integration**: Dedicated routes for app downloads and deep linking.
+- **User Accounts**: Secure authentication and profile management.
+
+## Tech Stack
+
+- **Framework**: [Next.js 14](https://nextjs.org/)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS, heroicons, Health icons, FontAwesome
+- **Authentication**: Firebase, JWT
+- **State & Storage**: SWR, Immer, IndexedDB (idb)
+- **Editor**: Lexical
+- **Video**: Vidstack
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js (LTS recommended)
+- Yarn
+
+### Installation
+
+1.  Clone the repository:
+    ```bash
+    git clone https://github.com/yosefbeder/doc-reader-guide.git
+    ```
+2.  Install dependencies:
+    ```bash
+    yarn install
+    ```
+
+### Environment Variables
+
+Create a `.env` file in the root directory and configure your environment variables.
+
+| Variable                           | Description                                                                         |
+| :--------------------------------- | :---------------------------------------------------------------------------------- |
+| `PORT`                             | The port the application runs on.                                                   |
+| `NEXT_PUBLIC_API_URL`              | The URL of the backend API.                                                         |
+| `NEXT_PUBLIC_JWT`                  | The guest JWT for non authenticated users and data collection at build time.        |
+| `NEXT_PUBLIC_FRONTEND_URL`         | The URL of the frontend application (used for structured data and canonical links). |
+| `NEXT_PUBLIC_VAPID_KEY`            | Public VAPID key for Firebase Cloud Messaging (Push Notifications).                 |
+| `NEXT_PUBLIC_STATIC_URL`           | URL for serving static assets.                                                      |
+| `NEXT_PUBLIC_OPTIONS_LIMIT`        | Limit for the number of options, sub questions, and url links.                      |
+| `NEXT_PUBLIC_GOOGLE_CLIENT_ID`     | Google OAuth Client ID for authentication.                                          |
+| `NEXT_PUBLIC_ANDROID_RELEASE_DATA` | URL/Data source for the latest Android app release.                                 |
+
+### Running the App
+
+Run the development server:
 
 ```bash
-npm run dev
-# or
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- `app/(auth)`: Authentication related routes and components.
+- `app/(content)`: Main application content including Quizzes, Lectures, and Subjects.
+- `app/(landing-page)`: Public facing landing page.
+- `app/api/revalidate`: Single route for pages revalidation.
