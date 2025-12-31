@@ -71,3 +71,5 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 - `app/(content)`: Main application content including Quizzes, Lectures, and Subjects.
 - `app/(landing-page)`: Public facing landing page.
 - `app/api/revalidate`: Single route for pages revalidation.
+
+© 2025 Yosef Beder. All Rights Reserved.
