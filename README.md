@@ -17,7 +17,7 @@ A comprehensive educational platform designed to help medical students study eff
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS, heroicons, Health icons, FontAwesome
 - **Authentication**: Firebase, JWT
-- **State & Storage**: SWR, Immer, IndexedDB (idb)
+- **State & Storage**: SWR, IndexedDB (idb)
 - **Editor**: Lexical
 - **Video**: Vidstack
 
