@@ -2,12 +2,13 @@
 
 import React, { useState } from "react";
 
-import { DatabaseTable, Quiz } from "@/types";
+import { DatabaseTable, Quiz, QuizType } from "@/types";
 import Button from "./Button";
 import { icons } from "./icons";
 import QuizNav from "./QuizNav";
 
 interface QuestionWrapperProps<T extends DatabaseTable> {
+  type: QuizType;
   quiz: Quiz;
   questions: T[];
   currentQuestion: number;
@@ -21,6 +22,7 @@ interface QuestionWrapperProps<T extends DatabaseTable> {
 }
 
 export default function QuizLayout<T extends DatabaseTable>({
+  type,
   quiz,
   questions,
   currentQuestion,
@@ -43,7 +45,7 @@ export default function QuizLayout<T extends DatabaseTable>({
       />
       <div className="max-w-2xl mx-auto px-2 pt-4 pb-[72px] col">
         <div className="flex justify-between items-center">
-          <span className="caption">
+          <span className="caption text-base">
             Question{" "}
             <select
               onChange={(e) => goToQuestion(+e.target.value)}
@@ -82,7 +84,8 @@ export default function QuizLayout<T extends DatabaseTable>({
           Back
         </Button>
         <p className="caption max-sm:hidden">
-          Press number keys to answer, ← / → to navigate
+          Press {type === "mcq" ? "number keys to answer, " : ""}← / → to
+          navigate
         </p>
         {currentIndex === questions.length - 1 ? (
           <Button

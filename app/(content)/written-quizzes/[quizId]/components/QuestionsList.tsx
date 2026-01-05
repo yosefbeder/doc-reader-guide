@@ -221,6 +221,7 @@ export default function QuestionsList({
 
   return (
     <QuizLayout
+      type="written"
       quiz={quiz}
       questions={orderedQuestions}
       currentQuestion={currentQuestion}

@@ -147,6 +147,7 @@ export default function QuestionsList({ quiz }: { quiz: McqQuiz }) {
 
   return (
     <QuizLayout
+      type="mcq"
       quiz={quiz}
       questions={orderedQuestions}
       currentQuestion={currentQuestion}
