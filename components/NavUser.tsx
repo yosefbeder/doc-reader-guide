@@ -40,7 +40,7 @@ export default function NavUser({ updateable }: { updateable?: boolean }) {
       {user ? (
         <NavLink
           href="/profile"
-          className="p-1 rounded-full"
+          className="p-1"
           onClick={() =>
             !pathname.startsWith("/profile") &&
             logEvent(null, null, Action.NAVIGATE_TO_PROFILE, {})

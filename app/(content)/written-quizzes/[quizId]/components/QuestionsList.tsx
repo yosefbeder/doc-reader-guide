@@ -20,8 +20,6 @@ import Message from "@/components/Message";
 import useSettings from "@/lib/hooks/useSettings";
 import { useSound } from "@/lib/hooks/useSound";
 import { logEvent } from "@/lib/event-logger";
-import Layout from "@/components/Layout";
-import Path from "@/components/QuizPath";
 import QuizNav from "@/components/QuizNav";
 
 const border = new Map([

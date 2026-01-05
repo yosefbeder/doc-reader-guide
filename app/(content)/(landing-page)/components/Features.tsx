@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Button from "@/components/Button";
-import Dialogue from "@/components/Dialogue";
 import { icons } from "@/components/icons";
 import VideoPlayer from "./VideoPlayer";
 
@@ -107,7 +106,6 @@ export default function Features({ lang }: { lang: "en" | "ar" }) {
         </div>
 
         <Button
-          cta
           onClick={() => setIsVideoOpen((prev) => !prev)}
           className="flex gap-2 items-center self-center"
         >

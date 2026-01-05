@@ -33,7 +33,7 @@ export default function Nav({
             </span>
           </button>
           <Link href="/login">
-            <Button cta color="cyan" className={isAr ? "font-arabic" : ""}>
+            <Button color="cyan" className={isAr ? "font-arabic" : ""}>
               {isAr ? "ابدأ الآن" : "Get Started Now"}
             </Button>
           </Link>

@@ -52,25 +52,29 @@ export default function QuizLayout<T extends DatabaseTable>({
         </span>
         {children}
       </div>
-      <div className="w-full quiz-main fixed bottom-0 left-1/2 -translate-x-1/2 flex justify-between items-center bg-white dark:bg-slate-900">
+      <div className="w-full quiz-main fixed bottom-0 left-1/2 -translate-x-1/2 flex justify-between items-center bg-white dark:bg-slate-900 max-sm:gap-2">
         <Button
           onClick={backQuestion}
           color="white"
-          className="flex gap-2 items-center"
+          className="flex gap-2 items-center max-sm:w-1/2 max-sm:justify-center"
           disabled={currentIndex === 0}
         >
           {icons["arrow-left"]}
           Back
         </Button>
         {currentIndex === questions.length - 1 ? (
-          <Button color="yellow" onClick={endQuiz}>
+          <Button
+            onClick={endQuiz}
+            className="flex gap-2 items-center max-sm:w-1/2 max-sm:justify-center"
+          >
             End
+            {icons["chart-pie"]}
           </Button>
         ) : (
           <Button
             onClick={nextQuestion}
             disabled={currentIndex === questions.length - 1}
-            className="flex gap-2 items-center"
+            className="flex gap-2 items-center max-sm:w-1/2 max-sm:justify-center"
           >
             Next
             {icons["arrow-right"]}

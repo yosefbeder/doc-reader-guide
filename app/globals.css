@@ -87,7 +87,7 @@
   }
 
   .radio {
-    @apply rounded-md transition-colors;
+    @apply rounded-full transition-colors;
   }
 
   .radio.selected {

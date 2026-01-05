@@ -212,13 +212,7 @@ export default function QuestionsList({ quiz }: { quiz: McqQuiz }) {
             </Message>
           ) : null}
           {answers.has(question.id) && (
-            <Button
-              className="self-start"
-              shimmer={
-                settings.instantFeedback &&
-                question.correctOptionIndex !== answers.get(question.id)
-              }
-            >
+            <Button className="self-start">
               <a
                 href={buildChatGPTLink(
                   `${question.text}\n${question.options

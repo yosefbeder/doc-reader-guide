@@ -1,19 +1,13 @@
 import React from "react";
 
 export interface ButtonProps extends React.ComponentProps<"button"> {
-  fullWidth?: boolean;
   color?: "cyan" | "yellow" | "rose" | "white" | "pink";
   isLoading?: boolean;
-  shimmer?: boolean;
-  cta?: boolean;
 }
 
 export default function Button({
-  fullWidth = false,
   color = "cyan",
   isLoading = false,
-  shimmer = false,
-  cta = false,
   className,
   disabled,
   children,
@@ -29,28 +23,12 @@ export default function Button({
     pink: "text-white bg-pink-600 hover:bg-pink-700 active:bg-pink-800 border-pink-600 hover:border-pink-700 active:border-pink-800",
   };
 
-  const shadowVariants = {
-    cyan: "shadow-cyan-600/20",
-    white: "shadow-white-600/20",
-    yellow: "shadow-yellow-600/20",
-    rose: "shadow-rose-600/20",
-    violet: "shadow-violet-600/20",
-    pink: "shadow-pink-600/20",
-  };
-
   return (
     <button
-      className={`relative py-1 border-2 rounded-md transition-colors disabled:cursor-not-allowed overflow-hidden ${
-        colorVariants[color]
-      } ${fullWidth ? "w-full" : "px-2"} ${
-        cta ? "shadow-md " + shadowVariants[color] : ""
-      } ${className}`}
+      className={`py-1 px-4 border-2 rounded-full transition-colors disabled:cursor-not-allowed overflow-hidden ${colorVariants[color]} ${className}`}
       disabled={isLoading || disabled}
       {...props}
     >
-      {shimmer && (
-        <div className="h-[80px] w-2 blur-sm -top-[20px] bg-gradient-to-r from-white/10 via-white/50 to-white/10 absolute rotate-45 animate-shimmer pointer-events-none" />
-      )}
       {isLoading ? "Loading..." : children}
     </button>
   );

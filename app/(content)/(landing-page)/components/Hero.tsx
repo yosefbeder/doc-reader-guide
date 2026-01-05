@@ -37,7 +37,7 @@ export default function Hero({ lang }: { lang: "en" | "ar" }) {
 
         <div className="flex flex-wrap justify-center gap-3 w-full sm:w-auto">
           <Link href="/login">
-            <Button cta color="cyan">
+            <Button color="cyan">
               {isAr ? "ابدأ الآن" : "Get Started Now"}
             </Button>
           </Link>
