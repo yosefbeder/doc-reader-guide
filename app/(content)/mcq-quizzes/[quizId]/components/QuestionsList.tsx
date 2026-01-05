@@ -86,10 +86,23 @@ export default function QuestionsList({ quiz }: { quiz: McqQuiz }) {
   );
 
   useHotkeys(
-    "1,2,3,4,5",
+    "1,2,3,4,5,١,٢,٣,٤,٥",
     (event) => {
-      const optionIndex = parseInt(event.key) - 1;
+      const keyMap: Record<string, number> = {
+        "1": 0,
+        "2": 1,
+        "3": 2,
+        "4": 3,
+        "5": 4,
+        "١": 0,
+        "٢": 1,
+        "٣": 2,
+        "٤": 3,
+        "٥": 4,
+      };
+      const optionIndex = keyMap[event.key];
       if (
+        optionIndex !== undefined &&
         optionIndex >= 0 &&
         optionIndex < orderedQuestions[currentIndex].options.length
       )
