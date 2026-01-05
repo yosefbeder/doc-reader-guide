@@ -42,7 +42,7 @@ export default function LinkFields({
     const summaryKeyword =
       /summary|notes|vip|important|imp|transcription|comparison|mind map|ملخص|تفريغ|تلخيص|أهم النقاط|اهم النقاط/gi;
     const questionKeyword =
-      /quiz|mcq|written|department book|exam|bank|كويز|(أ|ا)سئل(ة|ه)|(إ|ا)متحان|كتاب القسم|بنك|مقالي|اختبار|اختياري/gi;
+      /quiz|mcq|written|department book|exam|bank|notebooklm|كويز|(أ|ا)سئل(ة|ه)|(إ|ا)متحان|كتاب القسم|بنك|مقالي|اختبار|اختياري/gi;
     if (title.match(externalKeyword)) {
       setCategory("Data");
       if (title.match(documentKeyword)) setType("PDF");
@@ -52,7 +52,8 @@ export default function LinkFields({
       setType("PDF");
     } else if (title.match(questionKeyword)) {
       setCategory("Questions");
-      if (title.match(documentKeyword)) setType("PDF");
+      if (title.match(/notebooklm/gi)) setType("Data");
+      else if (title.match(documentKeyword)) setType("PDF");
       else setType("Data");
     } else {
       setCategory("College");
