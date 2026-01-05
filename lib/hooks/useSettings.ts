@@ -26,7 +26,7 @@ export const DEFAULT_SETTINGS: Settings = {
   notifications: { allowed: false },
   mcqQuiz: {
     shuffle: false,
-    autoMove: false,
+    autoMove: true,
     sounds: true,
     instantFeedback: true,
   },
