@@ -63,18 +63,7 @@ export default function ModulesPage() {
       ).toSorted(),
     [data]
   );
-  const [selectedSection, setSelectedSection] = useState<string>();
-  useEffect(
-    () => setSelectedSection(data?.currentSemester.toString() || undefined),
-    [data]
-  );
-
-  const [hasClass, setHasClass] = useState(false);
-  const [refreshKey, setRefreshKey] = useState(0);
-
-  useEffect(() => {
-    setHasClass(!localStorage.getItem("select-class"));
-  }, []);
+  const [_refreshKey, setRefreshKey] = useState(0);
 
   const mcqQuizzes = Object.entries(
     getLocalStorageItemsByPrefix("mcq-quiz-")
@@ -88,6 +77,21 @@ export default function ModulesPage() {
     const { showingResults, quiz } = JSON.parse(value);
     return !showingResults && quiz;
   });
+
+  const [selectedSection, setSelectedSection] = useState<string>();
+  useEffect(() => {
+    if (mcqQuizzes.length + writtenQuizzes.length > 0) {
+      setSelectedSection("quizzes");
+    } else {
+      setSelectedSection(data?.currentSemester.toString() || undefined);
+    }
+  }, [data]);
+
+  const [hasClass, setHasClass] = useState(false);
+
+  useEffect(() => {
+    setHasClass(!localStorage.getItem("select-class"));
+  }, []);
 
   if (!hasClass) {
     return <SelectClass />;
