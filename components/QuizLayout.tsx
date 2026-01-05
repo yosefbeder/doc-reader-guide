@@ -43,7 +43,7 @@ export default function QuizLayout<T extends DatabaseTable>({
       />
       <div className="max-w-2xl mx-auto px-2 pt-4 pb-[72px] col">
         <div className="flex justify-between items-center">
-          <span className="text-base text-slate-500 dark:text-slate-300">
+          <span className="caption">
             Question{" "}
             <select
               onChange={(e) => goToQuestion(+e.target.value)}
@@ -81,6 +81,9 @@ export default function QuizLayout<T extends DatabaseTable>({
           {icons["arrow-left"]}
           Back
         </Button>
+        <p className="caption max-sm:hidden">
+          Press number keys to answer, ← / → to navigate
+        </p>
         {currentIndex === questions.length - 1 ? (
           <Button
             onClick={endQuiz}
