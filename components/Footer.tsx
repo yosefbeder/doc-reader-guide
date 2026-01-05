@@ -187,8 +187,8 @@ export default function Footer({ lang = "en" }: { lang?: "en" | "ar" }) {
         </div>
         <p className="caption text-center">
           {isAr
-            ? "جميع الحقوق محفوظة لـ DocReader Guide © 2025. يتم تحديث المصادر بانتظام."
-            : "© 2025 DocReader Guide. Sources are updated regularly."}
+            ? "جميع الحقوق محفوظة لـ DocReader Guide © 2026. يتم تحديث المصادر بانتظام."
+            : "© 2026 DocReader Guide. Sources are updated regularly."}
         </p>
       </div>
 
