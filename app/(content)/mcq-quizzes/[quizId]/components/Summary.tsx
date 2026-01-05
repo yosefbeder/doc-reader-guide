@@ -7,7 +7,8 @@ import { logEvent } from "@/lib/event-logger";
 import { Action, McqQuestion, Resource } from "@/types";
 import calcMcqResult from "@/utils/calcMcqResult";
 import isValidURL from "@/utils/isValidURL";
-import React, { useState } from "react";
+import { useSearchParams } from "next/navigation";
+import React, { useState, useEffect } from "react";
 import { useReactToPrint } from "react-to-print";
 import ResultPieChart from "@/components/ResultPieChart";
 
@@ -46,6 +47,23 @@ export default function Summary({
     ],
     preserveAfterPrint: true,
   });
+
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    const questionIdParam = searchParams.get("questionId");
+    if (questionIdParam) {
+      const element = document.getElementById(`question-${questionIdParam}`);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth", block: "center" });
+        // Add a highlight effect
+        element.classList.add("ring-2", "ring-primary");
+        setTimeout(() => {
+          element.classList.remove("ring-2", "ring-primary");
+        }, 2000);
+      }
+    }
+  }, [searchParams]);
 
   return (
     <main className="quiz-main mx-auto">
@@ -130,6 +148,7 @@ export default function Summary({
 
             return (
               <li
+                id={`question-${question.id}`}
                 key={question.id}
                 className="layer-1 p-2 rounded-xl print:shadow-none"
               >
