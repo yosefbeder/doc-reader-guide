@@ -7,10 +7,16 @@ import Cookies from "js-cookie";
 import { logEvent } from "@/lib/event-logger";
 import { Action, FormStateType, Resource } from "@/types";
 import Message from "@/components/Message";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import useSettings from "@/lib/hooks/useSettings";
 
-export default function GoogleButton() {
+export default function GoogleButton({
+  scriptLoaded = false,
+  scriptError = false,
+}: {
+  scriptLoaded?: boolean;
+  scriptError?: boolean;
+}) {
   const { currentTheme } = useSettings();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -21,6 +27,15 @@ export default function GoogleButton() {
       content: string;
     }[]
   >([]);
+
+  useEffect(() => {
+    if (scriptError) {
+      setMessages((prev) => [
+        ...prev,
+        { type: "fail", content: "Google Script Failed to Load" },
+      ]);
+    }
+  }, [scriptError]);
 
   const onSuccess = (credentialResponse: any) => {
     // Get the ID token from the response
@@ -104,13 +119,19 @@ export default function GoogleButton() {
           ))}
         </ul>
       )}
-      <GoogleLogin
-        text="continue_with"
-        shape="circle"
-        onSuccess={onSuccess}
-        onError={onError}
-        theme={currentTheme === "dark" ? "filled_black" : "outline"}
-      />
+      <div className="relative min-h-[40px] min-w-[200px] flex justify-center items-center">
+        {!scriptLoaded && !scriptError ? (
+          "Loading..."
+        ) : (
+          <GoogleLogin
+            text="continue_with"
+            shape="circle"
+            onSuccess={onSuccess}
+            onError={onError}
+            theme={currentTheme === "dark" ? "filled_black" : "outline"}
+          />
+        )}
+      </div>
     </>
   );
 }
