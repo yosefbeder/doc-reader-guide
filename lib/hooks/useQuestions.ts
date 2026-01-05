@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
+import { useSearchParams } from "next/navigation";
 
 import { Action, DatabaseTable, Quiz, QuizType, Resource } from "@/types";
 import { logEvent } from "../event-logger";
@@ -78,6 +79,9 @@ export default function useQuestions<T, U extends DatabaseTable>({
   useHotkeys("left", backQuestion, [backQuestion]);
   useHotkeys("right", nextQuestion, [nextQuestion]);
 
+  const searchParams = useSearchParams();
+  const questionIdParam = searchParams.get("questionId");
+
   useEffect(() => {
     const quizJSON = localStorage.getItem(localStorageItem);
     if (quizJSON) {
@@ -134,6 +138,14 @@ export default function useQuestions<T, U extends DatabaseTable>({
       }
       onLoad();
     }
+
+    if (questionIdParam) {
+      const qId = parseInt(questionIdParam);
+      if (!isNaN(qId) && questions.some((q) => q.id === qId)) {
+        setCurrentQuestion(qId);
+      }
+    }
+
     setIsLoaded(true);
   }, [randomOrder]);
 

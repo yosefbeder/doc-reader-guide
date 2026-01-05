@@ -111,6 +111,16 @@ export default function QuestionsList({ quiz }: { quiz: McqQuiz }) {
     [currentIndex, orderedQuestions, answers, currentQuestion]
   );
 
+  const copyQuestion = async () => {
+    const question = orderedQuestions[currentIndex];
+    const url = new URL(window.location.href);
+    url.searchParams.set("questionId", question.id.toString());
+    const text = `${question.text}\n\n${question.options
+      .map((opt, i) => `${toUppercaseLetter(i)}. ${opt}`)
+      .join("\n")}\n\nLink: ${url.toString()}`;
+    await navigator.clipboard.writeText(text);
+  };
+
   if (!isLoaded) return;
 
   if (showingResults) {
@@ -142,6 +152,7 @@ export default function QuestionsList({ quiz }: { quiz: McqQuiz }) {
       currentQuestion={currentQuestion}
       currentIndex={currentIndex}
       nextQuestion={nextQuestion}
+      onCopy={copyQuestion}
       {...rest}
     >
       {orderedQuestions.map((question) => (
