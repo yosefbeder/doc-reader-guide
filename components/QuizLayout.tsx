@@ -19,6 +19,7 @@ interface QuestionWrapperProps<T extends DatabaseTable> {
   endQuiz: () => void;
   children: React.ReactNode;
   onCopy?: () => Promise<void> | void;
+  onShare?: () => Promise<void> | void;
 }
 
 export default function QuizLayout<T extends DatabaseTable>({
@@ -33,6 +34,7 @@ export default function QuizLayout<T extends DatabaseTable>({
   endQuiz,
   children,
   onCopy,
+  onShare,
 }: QuestionWrapperProps<T>) {
   const [copied, setCopied] = useState(false);
 
@@ -59,17 +61,20 @@ export default function QuizLayout<T extends DatabaseTable>({
             </select>{" "}
             of {questions.length}
           </span>
-          {onCopy && (
-            <button
-              onClick={async () => {
-                await onCopy();
-                setCopied(true);
-                setTimeout(() => setCopied(false), 2000);
-              }}
-            >
-              {copied ? icons["check"] : icons["clipboard-document-list"]}
-            </button>
-          )}
+          <div className="flex items-center gap-4">
+            {onCopy && (
+              <button
+                onClick={async () => {
+                  await onCopy();
+                  setCopied(true);
+                  setTimeout(() => setCopied(false), 2000);
+                }}
+              >
+                {copied ? icons["check"] : icons["clipboard-document-list"]}
+              </button>
+            )}
+            {onShare && <button onClick={onShare}>{icons["share"]}</button>}
+          </div>
         </div>
         {children}
       </div>

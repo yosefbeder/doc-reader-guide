@@ -111,14 +111,30 @@ export default function QuestionsList({ quiz }: { quiz: McqQuiz }) {
     [currentIndex, orderedQuestions, answers, currentQuestion]
   );
 
-  const copyQuestion = async () => {
+  const getQuestionData = () => {
     const question = orderedQuestions[currentIndex];
     const url = new URL(window.location.href);
     url.searchParams.set("questionId", question.id.toString());
-    const text = `${question.text}\n\n${question.options
+    const text = `${question.text}\n${question.options
       .map((opt, i) => `${toUppercaseLetter(i)}. ${opt}`)
-      .join("\n")}\n\nLink: ${url.toString()}`;
+      .join("\n")}\nSolve at: ${url.toString()}`;
+    return { text, url: url.toString() };
+  };
+
+  const copyQuestion = async () => {
+    const { text } = getQuestionData();
     await navigator.clipboard.writeText(text);
+  };
+
+  const shareQuestion = async () => {
+    const { text, url } = getQuestionData();
+    if (navigator.share) {
+      await navigator.share({
+        title: quiz.title,
+        text,
+        url,
+      });
+    }
   };
 
   if (!isLoaded) return;
@@ -154,6 +170,7 @@ export default function QuestionsList({ quiz }: { quiz: McqQuiz }) {
       currentIndex={currentIndex}
       nextQuestion={nextQuestion}
       onCopy={copyQuestion}
+      onShare={shareQuestion}
       {...rest}
     >
       {orderedQuestions.map((question) => (
