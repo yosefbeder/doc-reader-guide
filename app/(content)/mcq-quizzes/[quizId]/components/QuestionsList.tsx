@@ -118,7 +118,7 @@ export default function QuestionsList({ quiz }: { quiz: McqQuiz }) {
     const text = `${question.text}\n${question.options
       .map((opt, i) => `${toUppercaseLetter(i)}. ${opt}`)
       .join("\n")}\nSolve at: ${url.toString()}`;
-    return { text, url: url.toString() };
+    return { text };
   };
 
   const copyQuestion = async () => {
@@ -127,12 +127,11 @@ export default function QuestionsList({ quiz }: { quiz: McqQuiz }) {
   };
 
   const shareQuestion = async () => {
-    const { text, url } = getQuestionData();
+    const { text } = getQuestionData();
     if (navigator.share) {
       await navigator.share({
         title: quiz.title,
         text,
-        url,
       });
     }
   };
