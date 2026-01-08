@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { useSwipeable } from "react-swipeable";
 
 import { DatabaseTable, Quiz, QuizType } from "@/types";
 import Button from "./Button";
@@ -38,8 +39,17 @@ export default function QuizLayout<T extends DatabaseTable>({
 }: QuestionWrapperProps<T>) {
   const [copied, setCopied] = useState(false);
 
+  const handlers = useSwipeable({
+    onSwipedLeft: () => {
+      if (currentIndex < questions.length - 1) nextQuestion();
+    },
+    onSwipedRight: () => {
+      if (currentIndex > 0) backQuestion();
+    },
+  });
+
   return (
-    <>
+    <div {...handlers}>
       <QuizNav
         title={quiz.title}
         progress={(currentIndex + 1) / questions.length}
@@ -113,6 +123,6 @@ export default function QuizLayout<T extends DatabaseTable>({
           </Button>
         )}
       </div>
-    </>
+    </div>
   );
 }
