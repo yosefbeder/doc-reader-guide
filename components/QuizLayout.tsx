@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useDragControls } from "framer-motion";
 
 import { DatabaseTable, Quiz, QuizType } from "@/types";
 import Button from "./Button";
@@ -40,6 +40,7 @@ export default function QuizLayout<T extends DatabaseTable>({
   const [copied, setCopied] = useState(false);
 
   const [tuple, setTuple] = useState([currentIndex, currentIndex]);
+  const dragControls = useDragControls();
 
   if (tuple[1] !== currentIndex) {
     setTuple([tuple[1], currentIndex]);
@@ -49,13 +50,16 @@ export default function QuizLayout<T extends DatabaseTable>({
   const direction = currentIndex > prev ? 1 : currentIndex < prev ? -1 : 0;
 
   return (
-    <div>
+    <>
       <QuizNav
         title={quiz.title}
         progress={(currentIndex + 1) / questions.length}
         lectureId={quiz.lectureData.id}
       />
-      <div className="max-w-2xl mx-auto px-2 pt-4 pb-[72px] col overflow-x-hidden relative">
+      <div
+        className="max-w-2xl mx-auto px-2 pt-4 pb-[72px] col overflow-x-hidden relative touch-pan-y min-h-[calc(100dvh-150px)]"
+        onPointerDown={(e) => dragControls.start(e)}
+      >
         <div className="flex justify-between items-center">
           <span className="caption text-base">
             Question{" "}
@@ -112,11 +116,12 @@ export default function QuizLayout<T extends DatabaseTable>({
               duration: 0.15,
             }}
             drag="x"
+            dragControls={dragControls}
+            dragListener={false}
             dragConstraints={{ left: 0, right: 0 }}
             dragElastic={1}
             onDragEnd={(e, { offset, velocity }) => {
               const swipe = Math.abs(offset.x) * velocity.x;
-
               if (swipe < -10000) {
                 if (currentIndex < questions.length - 1) nextQuestion();
               } else if (swipe > 10000) {
@@ -163,6 +168,6 @@ export default function QuizLayout<T extends DatabaseTable>({
           </Button>
         )}
       </div>
-    </div>
+    </>
   );
 }
