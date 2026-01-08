@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { useSwipeable } from "react-swipeable";
+import { AnimatePresence, motion } from "framer-motion";
 
 import { DatabaseTable, Quiz, QuizType } from "@/types";
 import Button from "./Button";
@@ -39,23 +39,23 @@ export default function QuizLayout<T extends DatabaseTable>({
 }: QuestionWrapperProps<T>) {
   const [copied, setCopied] = useState(false);
 
-  const handlers = useSwipeable({
-    onSwipedLeft: () => {
-      if (currentIndex < questions.length - 1) nextQuestion();
-    },
-    onSwipedRight: () => {
-      if (currentIndex > 0) backQuestion();
-    },
-  });
+  const [tuple, setTuple] = useState([currentIndex, currentIndex]);
+
+  if (tuple[1] !== currentIndex) {
+    setTuple([tuple[1], currentIndex]);
+  }
+
+  const prev = tuple[0];
+  const direction = currentIndex > prev ? 1 : currentIndex < prev ? -1 : 0;
 
   return (
-    <div {...handlers}>
+    <div>
       <QuizNav
         title={quiz.title}
         progress={(currentIndex + 1) / questions.length}
         lectureId={quiz.lectureData.id}
       />
-      <div className="max-w-2xl mx-auto px-2 pt-4 pb-[72px] col">
+      <div className="max-w-2xl mx-auto px-2 pt-4 pb-[72px] col overflow-x-hidden relative">
         <div className="flex justify-between items-center">
           <span className="caption text-base">
             Question{" "}
@@ -86,7 +86,47 @@ export default function QuizLayout<T extends DatabaseTable>({
             {onShare && <button onClick={onShare}>{icons["share"]}</button>}
           </div>
         </div>
-        {children}
+        <AnimatePresence mode="popLayout" custom={direction}>
+          <motion.div
+            key={currentQuestion}
+            custom={direction}
+            variants={{
+              enter: (direction: number) => ({
+                x: direction > 0 ? "100%" : direction < 0 ? "-100%" : 0,
+                opacity: 0,
+              }),
+              center: {
+                x: 0,
+                opacity: 1,
+              },
+              exit: (direction: number) => ({
+                x: direction < 0 ? "100%" : direction > 0 ? "-100%" : 0,
+                opacity: 0,
+              }),
+            }}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={{
+              ease: "easeOut",
+              duration: 0.15,
+            }}
+            drag="x"
+            dragConstraints={{ left: 0, right: 0 }}
+            dragElastic={1}
+            onDragEnd={(e, { offset, velocity }) => {
+              const swipe = Math.abs(offset.x) * velocity.x;
+
+              if (swipe < -10000) {
+                if (currentIndex < questions.length - 1) nextQuestion();
+              } else if (swipe > 10000) {
+                if (currentIndex > 0) backQuestion();
+              }
+            }}
+          >
+            {children}
+          </motion.div>
+        </AnimatePresence>
       </div>
       <div className="w-full quiz-main fixed bottom-0 left-1/2 -translate-x-1/2 flex justify-between items-center bg-white dark:bg-slate-900 max-sm:gap-2">
         <Button

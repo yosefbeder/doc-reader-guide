@@ -61,7 +61,7 @@ export default function QuizNav({
       </div>
       <div className="w-full bg-slate-100 dark:bg-slate-800 h-1">
         <div
-          className="bg-cyan-600 dark:bg-cyan-500 h-full transition-all duration-500 ease-out"
+          className="bg-cyan-600 dark:bg-cyan-500 h-full transition-all duration-150 ease-out"
           style={{
             width: `${progress * 100}%`,
           }}
