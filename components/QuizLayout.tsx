@@ -19,7 +19,6 @@ interface QuestionWrapperProps<T extends DatabaseTable> {
   nextQuestion: () => void;
   endQuiz: () => void;
   children: React.ReactNode;
-  onCopy?: () => Promise<void> | void;
   onShare?: () => Promise<void> | void;
 }
 
@@ -34,11 +33,8 @@ export default function QuizLayout<T extends DatabaseTable>({
   nextQuestion,
   endQuiz,
   children,
-  onCopy,
   onShare,
 }: QuestionWrapperProps<T>) {
-  const [copied, setCopied] = useState(false);
-
   const [tuple, setTuple] = useState([currentIndex, currentIndex]);
   const dragControls = useDragControls();
 
@@ -75,28 +71,15 @@ export default function QuizLayout<T extends DatabaseTable>({
             </select>{" "}
             of {questions.length}
           </span>
-          <div className="flex items-center gap-4">
-            {onCopy && (
-              <button
-                onClick={async () => {
-                  await onCopy();
-                  setCopied(true);
-                  setTimeout(() => setCopied(false), 2000);
-                }}
-              >
-                {copied ? icons["check"] : icons["clipboard-document-list"]}
-              </button>
-            )}
-            {onShare && <button onClick={onShare}>{icons["share"]}</button>}
-          </div>
+          {onShare && <button onClick={onShare}>{icons["share"]}</button>}
         </div>
-        <AnimatePresence mode="popLayout" custom={direction}>
+        <AnimatePresence mode="popLayout" custom={direction} initial={false}>
           <motion.div
             key={currentQuestion}
             custom={direction}
             variants={{
               enter: (direction: number) => ({
-                x: direction > 0 ? "100%" : direction < 0 ? "-100%" : 0,
+                x: direction > 0 ? "25%" : direction < 0 ? "-25%" : 0,
                 opacity: 0,
               }),
               center: {
@@ -104,7 +87,7 @@ export default function QuizLayout<T extends DatabaseTable>({
                 opacity: 1,
               },
               exit: (direction: number) => ({
-                x: direction < 0 ? "100%" : direction > 0 ? "-100%" : 0,
+                x: direction < 0 ? "25%" : direction > 0 ? "-25%" : 0,
                 opacity: 0,
               }),
             }}
@@ -122,9 +105,9 @@ export default function QuizLayout<T extends DatabaseTable>({
             dragElastic={1}
             onDragEnd={(e, { offset, velocity }) => {
               const swipe = Math.abs(offset.x) * velocity.x;
-              if (swipe < -10000) {
+              if (swipe < -1000) {
                 if (currentIndex < questions.length - 1) nextQuestion();
-              } else if (swipe > 10000) {
+              } else if (swipe > 1000) {
                 if (currentIndex > 0) backQuestion();
               }
             }}
@@ -154,7 +137,7 @@ export default function QuizLayout<T extends DatabaseTable>({
             onClick={endQuiz}
             className="flex gap-2 items-center max-sm:w-1/2 max-sm:justify-center"
           >
-            End
+            Done
             {icons["chart-pie"]}
           </Button>
         ) : (

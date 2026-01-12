@@ -121,11 +121,6 @@ export default function QuestionsList({ quiz }: { quiz: McqQuiz }) {
     return { text };
   };
 
-  const copyQuestion = async () => {
-    const { text } = getQuestionData();
-    await navigator.clipboard.writeText(text);
-  };
-
   const shareQuestion = async () => {
     const { text } = getQuestionData();
     if (navigator.share) {
@@ -168,7 +163,6 @@ export default function QuestionsList({ quiz }: { quiz: McqQuiz }) {
       currentQuestion={currentQuestion}
       currentIndex={currentIndex}
       nextQuestion={nextQuestion}
-      onCopy={copyQuestion}
       onShare={shareQuestion}
       {...rest}
     >
