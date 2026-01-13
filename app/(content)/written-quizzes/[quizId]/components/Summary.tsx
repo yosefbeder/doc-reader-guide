@@ -37,7 +37,7 @@ export default function Summary({
   resetState,
 }: SummaryProps) {
   const [filter, setFilter] = useState<
-    "all" | QuestionState.TRUE | QuestionState.FALSE | QuestionState.UNANSWERED
+    "all" | QuestionState.TRUE | QuestionState.FALSE | "skipped"
   >("all");
 
   const correct =
@@ -116,8 +116,8 @@ export default function Summary({
         ) : null}
         {skipped ? (
           <FilterButton
-            onClick={() => setFilter(QuestionState.UNANSWERED)}
-            active={filter === QuestionState.UNANSWERED}
+            onClick={() => setFilter("skipped")}
+            active={filter === "skipped"}
             color="yellow"
           >
             Skipped ({skipped})
@@ -147,7 +147,7 @@ export default function Summary({
           if (filter !== "all") {
             if (filter === QuestionState.TRUE && !hasCorrect) return null;
             if (filter === QuestionState.FALSE && !hasIncorrect) return null;
-            if (filter === QuestionState.UNANSWERED && !hasSkipped) return null;
+            if (filter === "skipped" && !hasSkipped) return null;
           }
 
           return (
@@ -168,7 +168,13 @@ export default function Summary({
                     {question.tapes
                       .filter(
                         ({ id }) =>
-                          filter === "all" || answers.tapes.get(id) === filter
+                          filter === "all" ||
+                          (filter === "skipped" &&
+                            [
+                              QuestionState.UNANSWERED,
+                              QuestionState.UNSELECTED,
+                            ].includes(answers.tapes.get(id)!)) ||
+                          answers.tapes.get(id) === filter
                       )
                       .map(({ id, x, y, w, h }) => (
                         <div
@@ -190,28 +196,35 @@ export default function Summary({
                 <ol className="col list-decimal list-inside">
                   {question.subQuestions.map(({ id, text, answer }, index) => {
                     const questionState = answers.subQuestions.get(id)!;
-                    if (filter !== "all" && questionState !== filter)
-                      return null;
-                    return (
-                      <li
-                        key={`written-question-${question.id}-sub-question-${id}`}
-                        className="col"
-                      >
-                        <p className="font-bold inline">
-                          {question.subQuestions.length > 1
-                            ? `${index + 1}. ${text}`
-                            : text}
-                        </p>
-                        <div>
-                          <Message
-                            type={subQuestionMessageType.get(questionState)!}
-                          >
-                            {subQuestionText.get(questionState)}
-                          </Message>
-                        </div>
-                        <HtmlContentClient html={answer} />
-                      </li>
-                    );
+                    if (
+                      filter === "all" ||
+                      (filter === "skipped" &&
+                        [
+                          QuestionState.UNANSWERED,
+                          QuestionState.UNSELECTED,
+                        ].includes(answers.subQuestions.get(id)!)) ||
+                      answers.subQuestions.get(id) === filter
+                    )
+                      return (
+                        <li
+                          key={`written-question-${question.id}-sub-question-${id}`}
+                          className="col"
+                        >
+                          <p className="font-bold inline">
+                            {question.subQuestions.length > 1
+                              ? `${index + 1}. ${text}`
+                              : text}
+                          </p>
+                          <div>
+                            <Message
+                              type={subQuestionMessageType.get(questionState)!}
+                            >
+                              {subQuestionText.get(questionState)}
+                            </Message>
+                          </div>
+                          <HtmlContentClient html={answer} />
+                        </li>
+                      );
                   })}
                 </ol>
               </div>

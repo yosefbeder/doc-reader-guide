@@ -40,7 +40,7 @@ export const subQuestionText = new Map([
   [QuestionState.TRUE, "Correct"],
   [QuestionState.FALSE, "Incorrect"],
   [QuestionState.UNANSWERED, "Skipped"],
-  [QuestionState.UNSELECTED, "Not specified"],
+  [QuestionState.UNSELECTED, "Skipped"],
 ]);
 
 export const stateToAction = new Map([
