@@ -4,25 +4,25 @@ import ButtonIcon from "@/components/ButtonIcon";
 import Logo from "@/components/Logo";
 import FilterButton from "@/components/FilterButton";
 import { logEvent } from "@/lib/event-logger";
-import { Action, McqQuestion, Resource } from "@/types";
+import { Action, McqQuestion, McqQuiz, Resource } from "@/types";
 import calcMcqResult from "@/utils/calcMcqResult";
 import isValidURL from "@/utils/isValidURL";
 import { useSearchParams } from "next/navigation";
 import React, { useState, useEffect } from "react";
 import { useReactToPrint } from "react-to-print";
 import ResultPieChart from "@/components/ResultPieChart";
+import { icons } from "@/components/icons";
+import { shareQuestion } from "../utils/shareQuestion";
 
 interface SummaryProps {
-  id: number;
-  title: string;
+  quiz: McqQuiz;
   questions: McqQuestion[];
   answers: Map<number, number>;
   resetState: () => void;
 }
 
 export default function Summary({
-  id,
-  title,
+  quiz,
   questions,
   answers,
   resetState,
@@ -37,7 +37,7 @@ export default function Summary({
   const contentRef = React.useRef<HTMLDivElement>(null);
   const reactToPrintFn = useReactToPrint({
     contentRef,
-    documentTitle: title,
+    documentTitle: quiz.title,
     fonts: [
       {
         family: "Inter",
@@ -71,14 +71,14 @@ export default function Summary({
         <ButtonIcon
           icon="printer"
           onClick={() => {
-            logEvent(Resource.MCQ_QUIZ, id, Action.PRINT_SUMMARY, {});
+            logEvent(Resource.MCQ_QUIZ, quiz.id, Action.PRINT_SUMMARY, {});
             reactToPrintFn();
           }}
         />
         <ButtonIcon
           icon="arrow-path"
           onClick={() => {
-            logEvent(Resource.MCQ_QUIZ, id, Action.RESTART_QUIZ, {});
+            logEvent(Resource.MCQ_QUIZ, quiz.id, Action.RESTART_QUIZ, {});
             resetState();
           }}
         />
@@ -87,7 +87,7 @@ export default function Summary({
         <div className="print-only">
           <Logo />
         </div>
-        <h1 className="h1 my-4 print-only">{title}</h1>
+        <h1 className="h1 my-4 print-only">{quiz.title}</h1>
         <div className="my-4">
           <ResultPieChart
             correct={correct}
@@ -152,9 +152,14 @@ export default function Summary({
                 key={question.id}
                 className="layer-1 p-2 rounded-xl print:shadow-none"
               >
-                <span className="font-bold">
-                  {questionIndex + 1}. {question.text}
-                </span>
+                <div className="flex gap-2">
+                  <span className="font-bold flex-1">
+                    {questionIndex + 1}. {question.text}
+                  </span>
+                  <button onClick={() => shareQuestion(quiz, question)}>
+                    {icons["share"]}
+                  </button>
+                </div>
                 {question.image ? (
                   <img src={question.image} alt="Question associated diagram" />
                 ) : null}
@@ -175,6 +180,12 @@ export default function Summary({
                       })()}`}
                     >
                       {option}
+                      {optionIndex === question.correctOptionIndex
+                        ? " (Correct)"
+                        : answers.has(question.id) &&
+                          answers.get(question.id) === optionIndex
+                        ? " (Incorrect)"
+                        : null}
                     </li>
                   ))}
                 </ol>

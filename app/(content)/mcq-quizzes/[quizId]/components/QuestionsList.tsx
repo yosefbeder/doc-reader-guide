@@ -16,8 +16,8 @@ import { logEvent } from "@/lib/event-logger";
 import buildChatGPTLink from "@/utils/buildChatGPTLink";
 import { icons } from "@/components/icons";
 import QuizNav from "@/components/QuizNav";
-
-const toUppercaseLetter = (index: number) => String.fromCharCode(65 + index);
+import { shareQuestion } from "../utils/shareQuestion";
+import toUppercaseLetter from "../utils/toUppercaseLetter";
 
 export default function QuestionsList({ quiz }: { quiz: McqQuiz }) {
   const {
@@ -111,26 +111,6 @@ export default function QuestionsList({ quiz }: { quiz: McqQuiz }) {
     [currentIndex, orderedQuestions, answers, currentQuestion]
   );
 
-  const getQuestionData = () => {
-    const question = orderedQuestions[currentIndex];
-    const url = new URL(window.location.href);
-    url.searchParams.set("questionId", question.id.toString());
-    const text = `${question.text}\n${question.options
-      .map((opt, i) => `${toUppercaseLetter(i)}. ${opt}`)
-      .join("\n")}\nSolve at: ${url.toString()}`;
-    return { text };
-  };
-
-  const shareQuestion = async () => {
-    const { text } = getQuestionData();
-    if (navigator.share) {
-      await navigator.share({
-        title: quiz.title,
-        text,
-      });
-    }
-  };
-
   if (!isLoaded) return;
 
   if (showingResults) {
@@ -142,8 +122,7 @@ export default function QuestionsList({ quiz }: { quiz: McqQuiz }) {
           lectureId={quiz.lectureData.id}
         />
         <Summary
-          id={quiz.id}
-          title={quiz.title}
+          quiz={quiz}
           questions={orderedQuestions}
           answers={answers}
           resetState={() => {
@@ -163,7 +142,7 @@ export default function QuestionsList({ quiz }: { quiz: McqQuiz }) {
       currentQuestion={currentQuestion}
       currentIndex={currentIndex}
       nextQuestion={nextQuestion}
-      onShare={shareQuestion}
+      onShare={() => shareQuestion(quiz, orderedQuestions[currentIndex])}
       {...rest}
     >
       {orderedQuestions.map((question) => (
