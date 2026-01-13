@@ -20,7 +20,7 @@ export default function useCategories(
     return temp;
   }, [links, mcqQuizzes, writtenQuizzes]);
   const [currentCategory, setCurrentCategory] = useState<number | undefined>(
-    categories.length > 1 ? 0 : undefined
+    categories.length > 0 ? 0 : undefined
   );
 
   return { categories, currentCategory, setCurrentCategory };
