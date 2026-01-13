@@ -9,17 +9,19 @@ export default function useCategories(
 ) {
   const categories = useMemo(() => {
     const temp = [];
-    if (links.find((link) => link.category === "Data")) temp.push("Data");
-    if (links.find((link) => link.category === "College")) temp.push("College");
-    if (links.find((link) => link.category === "Summary")) temp.push("Summary");
     if (
       mcqQuizzes.length + writtenQuizzes.length > 0 ||
       links.find((link) => link.category === "Questions")
     )
       temp.push("Questions");
+    if (links.find((link) => link.category === "College")) temp.push("College");
+    if (links.find((link) => link.category === "Data")) temp.push("Data");
+    if (links.find((link) => link.category === "Summary")) temp.push("Summary");
     return temp;
   }, [links, mcqQuizzes, writtenQuizzes]);
-  const [currentCategory, setCurrentCategory] = useState<number>();
+  const [currentCategory, setCurrentCategory] = useState<number | undefined>(
+    categories.length > 1 ? 0 : undefined
+  );
 
   return { categories, currentCategory, setCurrentCategory };
 }
