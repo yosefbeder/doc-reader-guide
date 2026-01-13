@@ -3,7 +3,12 @@
 import React, { useState } from "react";
 import { AnimatePresence, motion, useDragControls } from "framer-motion";
 
-import { DatabaseTable, Quiz, QuizType } from "@/types";
+import {
+  DatabaseTable,
+  QuestionNavigationMethod,
+  Quiz,
+  QuizType,
+} from "@/types";
 import Button from "./Button";
 import { icons } from "./icons";
 import QuizNav from "./QuizNav";
@@ -13,10 +18,10 @@ interface QuestionWrapperProps<T extends DatabaseTable> {
   quiz: Quiz;
   questions: T[];
   currentQuestion: number;
-  goToQuestion: (id: number) => void;
+  goToQuestion: (id: number, method: QuestionNavigationMethod) => void;
   currentIndex: number;
-  backQuestion: () => void;
-  nextQuestion: () => void;
+  backQuestion: (method: QuestionNavigationMethod) => void;
+  nextQuestion: (method: QuestionNavigationMethod) => void;
   endQuiz: () => void;
   children: React.ReactNode;
   onShare?: () => Promise<void> | void;
@@ -60,7 +65,7 @@ export default function QuizLayout<T extends DatabaseTable>({
           <span className="caption text-base">
             Question{" "}
             <select
-              onChange={(e) => goToQuestion(+e.target.value)}
+              onChange={(e) => goToQuestion(+e.target.value, "select")}
               value={currentQuestion}
             >
               {questions.map(({ id }, index) => (
@@ -106,9 +111,9 @@ export default function QuizLayout<T extends DatabaseTable>({
             onDragEnd={(e, { offset, velocity }) => {
               const swipe = Math.abs(offset.x) * velocity.x;
               if (swipe < -1000) {
-                if (currentIndex < questions.length - 1) nextQuestion();
+                if (currentIndex < questions.length - 1) nextQuestion("swipe");
               } else if (swipe > 1000) {
-                if (currentIndex > 0) backQuestion();
+                if (currentIndex > 0) backQuestion("swipe");
               }
             }}
           >
@@ -118,7 +123,7 @@ export default function QuizLayout<T extends DatabaseTable>({
       </div>
       <div className="w-full quiz-main fixed bottom-0 left-1/2 -translate-x-1/2 flex justify-between items-center bg-white dark:bg-slate-900 max-sm:gap-2">
         <Button
-          onClick={backQuestion}
+          onClick={() => backQuestion("button")}
           color="white"
           className="flex gap-2 items-center max-sm:w-1/2 max-sm:justify-center"
           disabled={currentIndex === 0}
@@ -142,7 +147,7 @@ export default function QuizLayout<T extends DatabaseTable>({
           </Button>
         ) : (
           <Button
-            onClick={nextQuestion}
+            onClick={() => nextQuestion("button")}
             disabled={currentIndex === questions.length - 1}
             className="flex gap-2 items-center max-sm:w-1/2 max-sm:justify-center"
           >

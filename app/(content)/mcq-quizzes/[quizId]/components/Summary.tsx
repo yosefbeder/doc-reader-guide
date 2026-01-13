@@ -156,7 +156,9 @@ export default function Summary({
                   <span className="font-bold flex-1">
                     {questionIndex + 1}. {question.text}
                   </span>
-                  <button onClick={() => shareQuestion(quiz, question)}>
+                  <button
+                    onClick={() => shareQuestion(quiz, question, "summary")}
+                  >
                     {icons["share"]}
                   </button>
                 </div>

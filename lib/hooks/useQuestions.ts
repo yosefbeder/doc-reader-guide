@@ -2,7 +2,14 @@ import { useCallback, useEffect, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { useSearchParams } from "next/navigation";
 
-import { Action, DatabaseTable, Quiz, QuizType, Resource } from "@/types";
+import {
+  Action,
+  DatabaseTable,
+  QuestionNavigationMethod,
+  Quiz,
+  QuizType,
+  Resource,
+} from "@/types";
 import { logEvent } from "../event-logger";
 import calcMcqResult from "@/utils/calcMcqResult";
 import calcWrittenResult from "@/utils/calcWrittenResult";
@@ -42,17 +49,24 @@ export default function useQuestions<T, U extends DatabaseTable>({
   const currentIndex = orderedQuestions.findIndex(
     ({ id }) => id === currentQuestion
   );
-  const goToQuestion = (id: number) => {
+  const goToQuestion = (id: number, method: QuestionNavigationMethod) => {
     setCurrentQuestion(id);
-    logEvent(resource, quiz.id, Action.GO_TO_QUESTION, { id });
+    logEvent(resource, quiz.id, Action.GO_TO_QUESTION, { id, method });
   };
-  const backQuestion = useCallback(() => {
-    if (currentIndex !== 0) goToQuestion(orderedQuestions[currentIndex - 1].id);
-  }, [currentIndex, orderedQuestions]);
-  const nextQuestion = useCallback(() => {
-    if (currentIndex !== orderedQuestions.length - 1)
-      goToQuestion(orderedQuestions[currentIndex + 1].id);
-  }, [currentIndex, orderedQuestions]);
+  const backQuestion = useCallback(
+    (method: QuestionNavigationMethod) => {
+      if (currentIndex !== 0)
+        goToQuestion(orderedQuestions[currentIndex - 1].id, method);
+    },
+    [currentIndex, orderedQuestions]
+  );
+  const nextQuestion = useCallback(
+    (method: QuestionNavigationMethod) => {
+      if (currentIndex !== orderedQuestions.length - 1)
+        goToQuestion(orderedQuestions[currentIndex + 1].id, method);
+    },
+    [currentIndex, orderedQuestions]
+  );
   const resetState = useCallback(() => {
     setShowingResults(false);
     let newCurrentQuestion;
@@ -76,8 +90,8 @@ export default function useQuestions<T, U extends DatabaseTable>({
     });
     setShowingResults(true);
   }, [answers]);
-  useHotkeys("left", backQuestion, [backQuestion]);
-  useHotkeys("right", nextQuestion, [nextQuestion]);
+  useHotkeys("left", () => backQuestion("keyboard"), [backQuestion]);
+  useHotkeys("right", () => nextQuestion("keyboard"), [nextQuestion]);
 
   const searchParams = useSearchParams();
   const questionIdParam = searchParams.get("questionId");

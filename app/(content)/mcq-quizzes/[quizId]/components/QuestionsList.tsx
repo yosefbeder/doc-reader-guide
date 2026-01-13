@@ -56,7 +56,11 @@ export default function QuestionsList({ quiz }: { quiz: McqQuiz }) {
   const playCorrect = useSound("/correct.mp3");
   const playIncorrect = useSound("/incorrect.mp3");
   const answerQuestion = useCallback(
-    (answer: number | undefined, index: number) => {
+    (
+      answer: number | undefined,
+      index: number,
+      method: "keyboard" | "button"
+    ) => {
       if (answer && settings.instantFeedback) return;
       if (settings.sounds) {
         if (!settings.instantFeedback) {
@@ -69,6 +73,7 @@ export default function QuestionsList({ quiz }: { quiz: McqQuiz }) {
       }
       logEvent(Resource.MCQ_QUESTION, currentQuestion, Action.SELECT_OPTION, {
         index,
+        method,
       });
       setAnswers((prev) => {
         const newMap = new Map(prev);
@@ -80,7 +85,7 @@ export default function QuestionsList({ quiz }: { quiz: McqQuiz }) {
         index === orderedQuestions[currentIndex].correctOptionIndex &&
         answer === undefined
       )
-        setTimeout(() => nextQuestion(), 250);
+        setTimeout(() => nextQuestion("auto"), 250);
     },
     [settings, orderedQuestions, currentQuestion]
   );
@@ -106,7 +111,7 @@ export default function QuestionsList({ quiz }: { quiz: McqQuiz }) {
         optionIndex >= 0 &&
         optionIndex < orderedQuestions[currentIndex].options.length
       )
-        answerQuestion(answers.get(currentQuestion), optionIndex);
+        answerQuestion(answers.get(currentQuestion), optionIndex, "keyboard");
     },
     [currentIndex, orderedQuestions, answers, currentQuestion]
   );
@@ -142,7 +147,9 @@ export default function QuestionsList({ quiz }: { quiz: McqQuiz }) {
       currentQuestion={currentQuestion}
       currentIndex={currentIndex}
       nextQuestion={nextQuestion}
-      onShare={() => shareQuestion(quiz, orderedQuestions[currentIndex])}
+      onShare={() =>
+        shareQuestion(quiz, orderedQuestions[currentIndex], "question")
+      }
       {...rest}
     >
       {orderedQuestions.map((question) => (
@@ -177,7 +184,7 @@ export default function QuestionsList({ quiz }: { quiz: McqQuiz }) {
                     return "bg-slate-50 hover:bg-slate-100 border-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 dark:border-slate-600";
                   })()}`}
                   disabled={answer !== undefined && settings.instantFeedback}
-                  onClick={() => answerQuestion(answer, index)}
+                  onClick={() => answerQuestion(answer, index, "button")}
                 >
                   <li className="flex w-full items-center justify-between">
                     <span>

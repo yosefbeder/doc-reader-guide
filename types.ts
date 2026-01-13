@@ -36,6 +36,7 @@ export enum Action {
   PRINT_QUIZ = "PRINT_QUIZ",
   PRINT_SUMMARY = "PRINT_SUMMARY",
   GO_TO_QUESTION = "GO_TO_QUESTION",
+  SHARE_QUESTION = "SHARE_QUESTION",
   SELECT_OPTION = "SELECT_OPTION",
   DICUSS_WITH_CHATGPT = "DICUSS_WITH_CHATGPT",
   SHOW_ANSWER = "SHOW_ANSWER",
@@ -43,6 +44,13 @@ export enum Action {
   FALSE_ANSWER = "FALSE_ANSWER",
   VIEW_NOTE = "VIEW_NOTE",
 }
+
+export type QuestionNavigationMethod =
+  | "keyboard"
+  | "button"
+  | "select"
+  | "swipe"
+  | "auto";
 
 export interface DatabaseTable {
   id: number;
