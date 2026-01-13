@@ -5,6 +5,8 @@ import Dialogue from "./Dialogue";
 import { icons } from "./icons";
 import Button from "./Button";
 import Message from "./Message";
+import { logEvent } from "@/lib/event-logger";
+import { Action } from "@/types";
 
 const Vodafone = () => (
   <svg
@@ -42,7 +44,10 @@ export default function DonateButton({
       <Button
         color="pink"
         className={`flex gap-2 items-center ${className}`}
-        onClick={() => setDialogueOpen(true)}
+        onClick={() => {
+          logEvent(null, null, Action.DONATE_BUTTON_CLICKED, {});
+          setDialogueOpen(true);
+        }}
       >
         <span>{icons["heart"]}</span>
         <span>{isAr ? "تبرع الآن" : "Donate now"}</span>

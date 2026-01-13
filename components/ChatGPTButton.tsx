@@ -4,6 +4,8 @@ import Link from "next/link";
 import buildChatGPTLink from "@/utils/buildChatGPTLink";
 import { icons } from "./icons";
 import Button from "./Button";
+import { Action } from "@/types";
+import { logEvent } from "@/lib/event-logger";
 
 interface ChatGPTButtonProps {
   customGPT: string | null;
@@ -15,6 +17,7 @@ export default function ChatGPTButton({ customGPT }: ChatGPTButtonProps) {
   return (
     <Link
       href={buildChatGPTLink("", customGPT)}
+      onClick={() => logEvent(null, null, Action.ASK_CHATGPT, {})}
       target="_blank"
       className="fixed bottom-4 right-4 z-10"
       aria-label="Ask ChatGPT"
