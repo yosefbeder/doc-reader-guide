@@ -80,12 +80,14 @@ export default function QuestionsList({ quiz }: { quiz: McqQuiz }) {
         newMap.set(currentQuestion, index);
         return newMap;
       });
-      if (
-        settings.autoMove &&
-        index === orderedQuestions[currentIndex].correctOptionIndex &&
-        answer === undefined
-      )
-        setTimeout(() => nextQuestion("auto"), 250);
+      if (settings.autoMove && answer === undefined) {
+        if (
+          (settings.instantFeedback &&
+            index === orderedQuestions[currentIndex].correctOptionIndex) ||
+          !settings.instantFeedback
+        )
+          setTimeout(() => nextQuestion("auto"), 250);
+      }
     },
     [settings, orderedQuestions, currentQuestion]
   );
