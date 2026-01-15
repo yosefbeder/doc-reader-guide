@@ -7,15 +7,25 @@ import { useHotkeys } from "react-hotkeys-hook";
 export default function Dialogue({
   header,
   className,
+  size = "lg",
   onClose,
   children,
 }: {
   header: string;
   className?: string;
+  size?: "sm" | "lg";
   onClose: () => void;
   children: React.ReactNode;
 }) {
   useHotkeys("Escape", onClose, [onClose]);
+  const sizeDialogueClass = {
+    lg: "max-w-lg max-[512px]:m-0 max-[512px]:py-4 max-[512px]:h-screen max-[512px]:max-h-none max-[512px]:rounded-none",
+    sm: "max-w-sm max-[384px]:m-0 max-[384px]:py-4 max-[384px]:h-screen max-[384px]:max-h-none max-[384px]:rounded-none",
+  };
+  const headerClass = {
+    lg: "max-[512px]:flex",
+    sm: "max-[384px]:flex",
+  };
 
   return (
     <>
@@ -24,11 +34,14 @@ export default function Dialogue({
         onClick={onClose}
       />
       <div
-        className={`fixed z-20 inset-0 my-8 mx-auto max-[512px]:m-0 p-2 max-[512px]:py-4 w-full max-w-lg h-max max-h-96 max-[512px]:h-screen max-[512px]:max-h-none overflow-y-scroll max-[512px]:rounded-none 
+        className={`fixed z-20 inset-0 my-8 mx-auto p-2 w-full h-max max-h-96 overflow-y-scroll 
           layer-2
+          ${sizeDialogueClass[size]}
           ${className}`}
       >
-        <div className="hidden max-[512px]:flex w-full items-center justify-between">
+        <div
+          className={`hidden w-full items-center justify-between ${headerClass[size]}`}
+        >
           <h2>{header}</h2>
           <ButtonIcon icon="x-mark" onClick={onClose} />
         </div>

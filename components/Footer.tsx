@@ -194,6 +194,7 @@ export default function Footer({ lang = "en" }: { lang?: "en" | "ar" }) {
 
       {selectedContributor && (
         <Dialogue
+          size="sm"
           header={t.contributorHeader}
           onClose={() => setSelectedContributor(null)}
           className="flex flex-col items-center text-center p-4 gap-4 rounded-3xl"
