@@ -93,8 +93,9 @@ export default function QuizCard({
               return (
                 <div className="caption">
                   {semesterName}
-                  <sup>{getPrefix(semesterName)}</sup> Semester → {moduleName}→{" "}
-                  {subjectName}→ {lectureTitle}
+                  <sup>{getPrefix(semesterName)}</sup> Semester {">"}{" "}
+                  {moduleName} {">"} {subjectName} {">"}{" "}
+                  {formatLectureTitle(lectureTitle)}
                 </div>
               );
             })()}
