@@ -157,6 +157,7 @@ export default function Summary({
                     {questionIndex + 1}. {question.text}
                   </span>
                   <button
+                    className="self-start"
                     onClick={() => shareQuestion(quiz, question, "summary")}
                   >
                     {icons["share"]}
