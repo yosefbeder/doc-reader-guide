@@ -180,7 +180,7 @@ export default function QuestionsList({ quiz }: { quiz: McqQuiz }) {
                           return "bg-red-100 hover:bg-red-200 border-red-600 dark:bg-red-900 dark:hover:bg-red-800 dark:border-red-400";
                       } else {
                         if (answer === index)
-                          return "bg-blue-100 hover:bg-blue-200 border-blue-600 dark:bg-blue-900 dark:hover:bg-blue-800 dark:border-blue-400";
+                          return "bg-cyan-100 hover:bg-cyan-200 border-cyan-600 dark:bg-cyan-900 dark:hover:bg-cyan-800 dark:border-cyan-400";
                       }
                     }
                     return "bg-slate-50 hover:bg-slate-100 border-slate-300 dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-slate-700";
