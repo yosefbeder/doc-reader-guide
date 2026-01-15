@@ -60,7 +60,7 @@ export default function QuizNav({
         </Link>
       </div>
       <div className="max-sm:p-0 px-2">
-        <div className="w-full bg-slate-100 dark:bg-slate-800 h-1">
+        <div className="w-full bg-slate-100 dark:bg-slate-900 h-1">
           <div
             className="bg-cyan-600 dark:bg-cyan-500 h-full transition-all duration-150 ease-out"
             style={{

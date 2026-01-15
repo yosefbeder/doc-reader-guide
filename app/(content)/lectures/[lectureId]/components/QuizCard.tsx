@@ -11,6 +11,7 @@ import ButtonIcon from "@/components/ButtonIcon";
 import { icons } from "@/components/icons";
 import { logEvent } from "@/lib/event-logger";
 import getPrefix from "@/utils/getPrefix";
+import formatLectureTitle from "@/utils/formatLectureTitle";
 
 export default function QuizCard({
   quiz,

@@ -12,7 +12,7 @@ export default function LinksLoadingPage() {
             key={index}
             className="w-full text-left flex items-center gap-2 p-2 
                        bg-slate-50 hover:bg-slate-100 
-                       dark:bg-slate-800 dark:hover:bg-slate-700 
+                       dark:bg-slate-900 dark:hover:bg-slate-800 
                        rounded-xl transition-colors"
           >
             {icons["chevron-right"]}

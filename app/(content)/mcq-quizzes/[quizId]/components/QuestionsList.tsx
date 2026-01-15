@@ -159,7 +159,7 @@ export default function QuestionsList({ quiz }: { quiz: McqQuiz }) {
           key={question.id}
           className={currentQuestion === question.id ? "col" : "hidden"}
         >
-          <h2 className="p-4 text-2xl font-semibold rounded-xl bg-cyan-50 dark:bg-slate-800">
+          <h2 className="p-4 text-2xl font-semibold rounded-xl bg-cyan-50 dark:bg-slate-900">
             {question.text}
           </h2>
           {question.image ? (
@@ -183,7 +183,7 @@ export default function QuestionsList({ quiz }: { quiz: McqQuiz }) {
                           return "bg-blue-100 hover:bg-blue-200 border-blue-600 dark:bg-blue-900 dark:hover:bg-blue-800 dark:border-blue-400";
                       }
                     }
-                    return "bg-slate-50 hover:bg-slate-100 border-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 dark:border-slate-600";
+                    return "bg-slate-50 hover:bg-slate-100 border-slate-300 dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-slate-700";
                   })()}`}
                   disabled={answer !== undefined && settings.instantFeedback}
                   onClick={() => answerQuestion(answer, index, "button")}
@@ -222,7 +222,7 @@ export default function QuestionsList({ quiz }: { quiz: McqQuiz }) {
             </Message>
           ) : null}
           {answers.has(question.id) && (
-            <Button className="self-start">
+            <Button className="self-start max-sm:self-auto">
               <a
                 href={buildChatGPTLink(
                   `${question.text}\n${question.options
@@ -238,7 +238,7 @@ export default function QuestionsList({ quiz }: { quiz: McqQuiz }) {
                     {}
                   )
                 }
-                className="flex gap-2 items-center"
+                className="flex gap-2 items-center justify-center"
                 target="_blank"
               >
                 {icons["open-ai"]}

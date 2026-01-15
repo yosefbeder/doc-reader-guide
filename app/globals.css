@@ -4,7 +4,7 @@
 
 @layer base {
   body {
-    @apply text-lg text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-900;
+    @apply text-lg text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-950;
   }
 
   .print-only {
@@ -119,20 +119,20 @@
   }
 
   .layer-1 {
-    @apply bg-white shadow-md dark:shadow-none dark:bg-slate-800;
+    @apply bg-white shadow-md dark:shadow-none dark:bg-slate-900;
   }
   .layer-1.clickable {
-    @apply hover:shadow-lg dark:hover:shadow-none dark:hover:bg-slate-700 transition-shadow dark:transition-colors;
+    @apply hover:shadow-lg dark:hover:shadow-none dark:hover:bg-slate-800 transition-shadow dark:transition-colors;
   }
   .layer-1-form {
     @apply p-2 layer-1 rounded-xl;
   }
 
   .layer-2 {
-    @apply bg-white shadow-lg dark:shadow-none dark:bg-slate-700;
+    @apply bg-white shadow-lg dark:shadow-none dark:bg-slate-800;
   }
   .layer-2.clickable {
-    @apply hover:shadow-xl dark:hover:shadow-none dark:hover:bg-slate-600 transition-shadow dark:transition-colors;
+    @apply hover:shadow-xl dark:hover:shadow-none dark:hover:bg-slate-700 transition-shadow dark:transition-colors;
   }
 
   .main {

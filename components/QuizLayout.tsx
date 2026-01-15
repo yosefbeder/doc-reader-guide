@@ -121,11 +121,11 @@ export default function QuizLayout<T extends DatabaseTable>({
           </motion.div>
         </AnimatePresence>
       </div>
-      <div className="w-full quiz-main fixed bottom-0 left-1/2 -translate-x-1/2 flex justify-between items-center bg-white dark:bg-slate-900 max-sm:gap-2">
+      <div className="w-full quiz-main fixed bottom-0 left-1/2 -translate-x-1/2 flex justify-between items-center bg-white dark:bg-slate-950 max-sm:gap-2">
         <Button
           onClick={() => backQuestion("button")}
           color="white"
-          className="flex gap-2 items-center max-sm:w-1/2 max-sm:justify-center"
+          className="flex px-4 gap-2 items-center max-sm:w-1/2 max-sm:justify-center"
           disabled={currentIndex === 0}
         >
           {icons["arrow-left"]}
@@ -140,7 +140,7 @@ export default function QuizLayout<T extends DatabaseTable>({
         {currentIndex === questions.length - 1 ? (
           <Button
             onClick={endQuiz}
-            className="flex gap-2 items-center max-sm:w-1/2 max-sm:justify-center"
+            className="flex px-4 gap-2 items-center max-sm:w-1/2 max-sm:justify-center"
           >
             Done
             {icons["chart-pie"]}
@@ -149,7 +149,7 @@ export default function QuizLayout<T extends DatabaseTable>({
           <Button
             onClick={() => nextQuestion("button")}
             disabled={currentIndex === questions.length - 1}
-            className="flex gap-2 items-center max-sm:w-1/2 max-sm:justify-center"
+            className="flex px-4 gap-2 items-center max-sm:w-1/2 max-sm:justify-center"
           >
             Next
             {icons["arrow-right"]}
