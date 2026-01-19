@@ -360,13 +360,13 @@ export default function QuestionsList({
                       </>
                     ) : (
                       <button
-                        className="font-bold text-cyan-600 self-start"
+                        className="link self-start"
                         onClick={() => {
                           updateSubQuestionState(id, QuestionState.UNSELECTED);
                           if (settings.sounds) playClick();
                         }}
                       >
-                        [...]
+                        Show Answer
                       </button>
                     )}
                   </li>
