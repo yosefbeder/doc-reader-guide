@@ -26,7 +26,7 @@ function DateRadio({
   return (
     <button
       type="button"
-      className={`radio p-1 flex items-center gap-1 text-sm ${
+      className={`radio py-1 px-2 flex items-center gap-1 text-sm ${
         dateFilter === value ? "selected" : "normal"
       }`}
       onClick={() => {

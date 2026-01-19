@@ -125,7 +125,7 @@ export default function QuizLayout<T extends DatabaseTable>({
         <Button
           onClick={() => backQuestion("button")}
           color="white"
-          className="flex px-4 gap-2 items-center max-sm:w-1/2 max-sm:justify-center"
+          className="flex gap-2 items-center max-sm:w-1/2 max-sm:justify-center"
           disabled={currentIndex === 0}
         >
           {icons["arrow-left"]}
@@ -149,7 +149,7 @@ export default function QuizLayout<T extends DatabaseTable>({
           <Button
             onClick={() => nextQuestion("button")}
             disabled={currentIndex === questions.length - 1}
-            className="flex px-4 gap-2 items-center max-sm:w-1/2 max-sm:justify-center"
+            className="flex gap-2 items-center max-sm:w-1/2 max-sm:justify-center"
           >
             Next
             {icons["arrow-right"]}
