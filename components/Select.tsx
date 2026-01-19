@@ -5,10 +5,20 @@ import { useState } from "react";
 import { Icon } from "./icons";
 import FormItem from "./FormItem";
 
+interface Option {
+  label: string;
+  value: number | string;
+}
+
+interface OptionGroup {
+  label: string;
+  options: Option[];
+}
+
 interface SelectProps extends React.ComponentProps<"select"> {
   label: string;
   icon: Icon;
-  options: { label: string; value: number | string }[];
+  options: (Option | OptionGroup)[];
 }
 
 export default function Select({
@@ -47,11 +57,21 @@ export default function Select({
         disabled={disabled}
         {...props}
       >
-        {options.map(({ label, value }) => (
-          <option key={value} value={value}>
-            {label}
-          </option>
-        ))}
+        {options.map((item, i) =>
+          "options" in item ? (
+            <optgroup key={i} label={item.label}>
+              {item.options.map(({ label, value }) => (
+                <option key={value} value={value}>
+                  {label}
+                </option>
+              ))}
+            </optgroup>
+          ) : (
+            <option key={item.value} value={item.value}>
+              {item.label}
+            </option>
+          )
+        )}
       </select>
     </FormItem>
   );

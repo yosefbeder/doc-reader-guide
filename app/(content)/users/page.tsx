@@ -8,6 +8,10 @@ import User from "./components/User";
 import { User as UserType } from "@/types";
 import Searchbar from "@/components/Searchbar";
 import { useHotkeys } from "react-hotkeys-hook";
+import getFaculties from "@/utils/getFaculties";
+
+import { ROLES } from "./components/UpdateUserForm";
+import Select from "@/components/Select";
 
 const fetcher = (url: string) =>
   fetch(url, { credentials: "include" }).then((res) => res.json());
@@ -17,11 +21,27 @@ const pageSize = 10;
 export default function UsersPage() {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
+  const [roleId, setRoleId] = useState(-1);
+  const [yearId, setYearId] = useState(-1);
   const [current, setCurrent] = useState(-1);
-  const { data, error, mutate, isLoading } = useSWR(
-    `${process.env.NEXT_PUBLIC_API_URL}/users?page=${page}&search=${search}&size=${pageSize}`,
+  const {
+    data,
+    error: usersError,
+    mutate,
+    isLoading: areUsersLoading,
+  } = useSWR(
+    `${
+      process.env.NEXT_PUBLIC_API_URL
+    }/users?page=${page}&search=${search}&size=${pageSize}${
+      roleId === -1 ? "" : `&roleId=${roleId}`
+    }${yearId === -1 ? "" : `&yearId=${yearId}`}`,
     fetcher
   );
+  const {
+    data: faculties,
+    error: facultiesError,
+    isLoading: areFacultiesLoading,
+  } = useSWR(`${process.env.NEXT_PUBLIC_API_URL}/faculties`, getFaculties);
   const [pagesNumber, setPagesNumber] = useState(0);
   const backPage = useCallback(() => {
     if (page > 1) setPage((p) => p - 1);
@@ -38,12 +58,12 @@ export default function UsersPage() {
 
   useEffect(() => {
     setPage(1);
-  }, [search]);
+  }, [search, roleId, yearId]);
 
-  if (error)
+  if (usersError || facultiesError)
     return (
       <main className="main">
-        <p className="text-red-500">Failed to load users</p>
+        <p className="text-red-500">Failed to load users or faculties</p>
       </main>
     );
 
@@ -57,7 +77,38 @@ export default function UsersPage() {
         autoFocus={false}
       />
 
-      {isLoading ? (
+      <div className="flex gap-2 mb-4">
+        <Select
+          label="Role"
+          icon="lock-closed"
+          options={[
+            { label: "All", value: -1 },
+            ...ROLES.map((role, index) => ({ label: role, value: index })),
+          ]}
+          value={roleId}
+          onChange={(e) => setRoleId(Number(e.target.value))}
+          className="flex-1"
+        />
+        <Select
+          label="Faculty & Year"
+          icon="calendar-outline"
+          options={[
+            { label: "All", value: -1 },
+            ...(faculties || []).map((f) => ({
+              label: `${f.name} - ${f.city}`,
+              options: f.years.map((y) => ({
+                label: y.title,
+                value: y.id,
+              })),
+            })),
+          ]}
+          value={yearId}
+          onChange={(e) => setYearId(Number(e.target.value))}
+          className="flex-1"
+        />
+      </div>
+
+      {areUsersLoading || areFacultiesLoading ? (
         <div>Loading...</div>
       ) : (
         <ul className="space-y-4">
@@ -66,6 +117,9 @@ export default function UsersPage() {
               <User
                 search={search}
                 users={data?.data.users}
+                faculty={
+                  faculties?.find((faculty) => faculty.id === user.facultyId)!
+                }
                 index={index}
                 mutate={mutate}
                 onUpdate={() =>

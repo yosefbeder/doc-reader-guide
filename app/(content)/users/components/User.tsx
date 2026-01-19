@@ -1,5 +1,5 @@
 import ButtonIcon from "@/components/ButtonIcon";
-import { User as UserType } from "@/types";
+import { Faculty as FacultyType, User as UserType } from "@/types";
 import React from "react";
 import { KeyedMutator } from "swr";
 import UpdateUserForm, { ROLES } from "./UpdateUserForm";
@@ -8,6 +8,7 @@ import getHighlightedText from "@/utils/getHighlightedText";
 export default function User({
   search,
   users,
+  faculty,
   index,
   mutate,
   isUpdating,
@@ -16,6 +17,7 @@ export default function User({
   search: string;
   users: UserType[];
   index: number;
+  faculty: FacultyType;
   mutate: KeyedMutator<any>;
   isUpdating: boolean;
   onUpdate: () => void;
@@ -31,7 +33,15 @@ export default function User({
         />
         <div className="flex-1 truncate">
           <div>{getHighlightedText(user.email, search)}</div>
-          {!isUpdating && <p className="caption">{ROLES[user.roleId]}</p>}
+          {!isUpdating && (
+            <>
+              <p className="caption">
+                {faculty.name} {faculty.city} -{" "}
+                {faculty.years.find(({ id }) => id === user.yearId)?.title}
+              </p>
+              <p className="caption">{ROLES[user.roleId]}</p>
+            </>
+          )}
         </div>
         <ButtonIcon
           icon={isUpdating ? "x-mark" : "pencil-square"}
