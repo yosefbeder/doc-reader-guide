@@ -131,12 +131,12 @@ export default function QuizLayout<T extends DatabaseTable>({
           {icons["arrow-left"]}
           Back
         </Button>
-        {currentIndex === 0 ? (
-          <p className="caption max-sm:hidden">
-            Press {type === "mcq" ? "number keys to answer, " : ""}← / → to
-            navigate
-          </p>
-        ) : null}
+        <p
+          className={`caption max-sm:hidden ${currentIndex === 0 ? "opacity-100" : "opacity-0"} transition-opacity`}
+        >
+          Press {type === "mcq" ? "number keys to answer, " : ""}← / → to
+          navigate
+        </p>
         {currentIndex === questions.length - 1 ? (
           <Button
             onClick={endQuiz}
