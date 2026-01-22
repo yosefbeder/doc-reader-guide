@@ -16,6 +16,7 @@ import QuizCard from "../../lectures/[lectureId]/components/QuizCard";
 import { logEvent } from "@/lib/event-logger";
 import { Action, Resource } from "@/types";
 import DonateButton from "@/components/DonateButton";
+import Button from "@/components/Button";
 
 function getLocalStorageItemsByPrefix(prefix: string) {
   if (typeof window === "undefined") return [];
@@ -80,11 +81,7 @@ export default function ModulesPage() {
 
   const [selectedSection, setSelectedSection] = useState<string>();
   useEffect(() => {
-    if (mcqQuizzes.length + writtenQuizzes.length > 0) {
-      setSelectedSection("quizzes");
-    } else {
-      setSelectedSection(data?.currentSemester.toString() || undefined);
-    }
+    setSelectedSection(data?.currentSemester.toString() || undefined);
   }, [data]);
 
   const [hasClass, setHasClass] = useState(false);
@@ -184,6 +181,30 @@ export default function ModulesPage() {
                   </li>
                 );
               })}
+              <li>
+                <Button
+                  className="w-full"
+                  color="yellow"
+                  onClick={() => {
+                    const confirm = window.confirm(
+                      "Are you sure you want to discard all in-progress quizzes?"
+                    );
+                    if (!confirm) return;
+                    mcqQuizzes.forEach(([_, value]) => {
+                      const { quiz } = JSON.parse(value);
+                      localStorage.removeItem(`mcq-quiz-${quiz.id}`);
+                    });
+                    writtenQuizzes.forEach(([_, value]) => {
+                      const { quiz } = JSON.parse(value);
+                      localStorage.removeItem(`written-quiz-${quiz.id}`);
+                    });
+                    setSelectedSection(data?.currentSemester.toString());
+                    setRefreshKey((k) => k + 1);
+                  }}
+                >
+                  Discard All
+                </Button>
+              </li>
             </ul>
           </SummaryDetail.Detail>
         </SummaryDetail>
