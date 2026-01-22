@@ -278,7 +278,9 @@ export default function QuestionsList({
                   const dialoguePosition =
                     targetX * factor + 80 > question.width! * factor
                       ? { right: 0 }
-                      : { left: targetX * factor - 63 };
+                      : targetX * factor < 63
+                        ? { left: 0 }
+                        : { left: targetX * factor - 63 };
                   return (
                     <React.Fragment
                       key={`written-question-${question.id}-tape-${id}`}
