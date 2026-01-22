@@ -69,14 +69,14 @@ export default function ModulesPage() {
   const mcqQuizzes = Object.entries(
     getLocalStorageItemsByPrefix("mcq-quiz-")
   ).filter(([_, value]) => {
-    const { showingResults, quiz } = JSON.parse(value);
-    return !showingResults && quiz;
+    const { showingResults, quiz, answered } = JSON.parse(value);
+    return !showingResults && quiz && answered > 0;
   });
   const writtenQuizzes = Object.entries(
     getLocalStorageItemsByPrefix("written-quiz-")
   ).filter(([_, value]) => {
-    const { showingResults, quiz } = JSON.parse(value);
-    return !showingResults && quiz;
+    const { showingResults, quiz, answered } = JSON.parse(value);
+    return !showingResults && quiz && answered > 0;
   });
 
   const [selectedSection, setSelectedSection] = useState<string>();
@@ -183,7 +183,7 @@ export default function ModulesPage() {
               })}
               <li>
                 <Button
-                  className="w-full"
+                  className="max-sm:w-full"
                   color="yellow"
                   onClick={() => {
                     const confirm = window.confirm(

@@ -102,7 +102,8 @@ export default function QuizCard({
             })()}
           {!showingResults &&
             typeof answered !== "undefined" &&
-            typeof total !== "undefined" && (
+            typeof total !== "undefined" &&
+            answered > 0 && (
               <div className="caption">
                 {answered} / {total} (
                 {Math.round((answered / total) * 10000) / 100}%)
