@@ -21,6 +21,9 @@ import { logEvent } from "@/lib/event-logger";
 import ResultPieChart from "@/components/ResultPieChart";
 import FilterButton from "@/components/FilterButton";
 import { useReactToPrint } from "react-to-print";
+import { useSearchParams } from "next/navigation";
+import { icons } from "@/components/icons";
+import { shareQuestion } from "../utils/shareQuestion";
 import Logo from "@/components/Logo";
 
 const border = new Map([
@@ -90,6 +93,23 @@ export default function Summary({
     window.addEventListener("resize", adjustImages);
     return () => window.removeEventListener("resize", adjustImages);
   }, [calcFactors]);
+
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    const questionIdParam = searchParams.get("questionId");
+    if (questionIdParam) {
+      const element = document.getElementById(`question-${questionIdParam}`);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth", block: "center" });
+        // Add a highlight effect
+        element.classList.add("ring-2", "ring-primary");
+        setTimeout(() => {
+          element.classList.remove("ring-2", "ring-primary");
+        }, 2000);
+      }
+    }
+  }, [searchParams]);
 
   return (
     <main className="quiz-main">
@@ -186,10 +206,19 @@ export default function Summary({
 
             return (
               <li
+                id={`question-${question.id}`}
                 key={`written-question-${question.id}`}
                 className="layer-1 p-2 rounded-xl col"
               >
-                <h2>Question {index + 1}</h2>
+                <div className="flex gap-2">
+                  <h2 className="flex-1">Question {index + 1}</h2>
+                  <button
+                    className="self-start"
+                    onClick={() => shareQuestion(quiz, question, "summary")}
+                  >
+                    {icons["share"]}
+                  </button>
+                </div>
                 <div>
                   {factor && (
                     <div className="relative mb-4">

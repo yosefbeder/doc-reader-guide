@@ -21,6 +21,7 @@ import useSettings from "@/lib/hooks/useSettings";
 import { useSound } from "@/lib/hooks/useSound";
 import { logEvent } from "@/lib/event-logger";
 import QuizNav from "@/components/QuizNav";
+import { shareQuestion } from "../utils/shareQuestion";
 
 const border = new Map([
   [QuestionState.TRUE, "border-green-600"],
@@ -229,6 +230,9 @@ export default function QuestionsList({
       questions={orderedQuestions}
       currentQuestion={currentQuestion}
       currentIndex={currentIndex}
+      onShare={() =>
+        shareQuestion(quiz, orderedQuestions[currentIndex], "question")
+      }
       {...rest}
     >
       {orderedQuestions.map((question, index) => {
