@@ -210,8 +210,7 @@ export default function QuestionsList({
           lectureId={quiz.lectureData.id}
         />
         <Summary
-          id={quiz.id}
-          title={title}
+          quiz={quiz}
           questions={orderedQuestions}
           answers={answers}
           resetState={() => {

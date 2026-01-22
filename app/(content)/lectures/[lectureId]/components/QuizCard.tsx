@@ -119,7 +119,7 @@ export default function QuizCard({
           )}
         </div>
       </NextLink>
-      {printable && <ButtonPrintQuiz id={quiz.id} title={quiz.title} />}
+      <ButtonPrintQuiz id={quiz.id} title={quiz.title} type={type} />
       {updateable && (
         <ButtonIcon
           icon="pencil-square"

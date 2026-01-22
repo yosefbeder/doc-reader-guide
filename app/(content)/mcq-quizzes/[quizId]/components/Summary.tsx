@@ -96,7 +96,7 @@ export default function Summary({
             total={total}
           />
         </div>
-        <div className="flex flex-wrap gap-2 my-4 print:hidden">
+        <div className="flex flex-wrap gap-2 my-4">
           <FilterButton
             onClick={() => setFilter("all")}
             active={filter === "all"}
@@ -186,9 +186,9 @@ export default function Summary({
                       {optionIndex === question.correctOptionIndex
                         ? " (Correct)"
                         : answers.has(question.id) &&
-                          answers.get(question.id) === optionIndex
-                        ? " (Incorrect)"
-                        : null}
+                            answers.get(question.id) === optionIndex
+                          ? " (Incorrect)"
+                          : null}
                     </li>
                   ))}
                 </ol>
