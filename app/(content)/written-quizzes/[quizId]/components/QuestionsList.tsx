@@ -73,6 +73,9 @@ export default function QuestionsList({
     tapes: new Map<number, QuestionState>(),
     subQuestions: new Map<number, QuestionState>(),
   });
+  const [clickPositions, setClickPositions] = useState<
+    Map<number, { x: number; y: number }>
+  >(new Map());
   const onLoad = useCallback(
     (storedAnswersString: string) => {
       if (storedAnswersString) {
@@ -193,6 +196,7 @@ export default function QuestionsList({
       );
     });
     setAnswers(temp);
+    setClickPositions(new Map());
   }, [orderedQuestions]);
 
   if (!isLoaded) return;
@@ -268,10 +272,13 @@ export default function QuestionsList({
                 ))}
                 {question.tapes.map(({ id, x, y, w, h }) => {
                   const questionState = answers.tapes.get(id)!;
+                  const clickPos = clickPositions.get(id);
+                  const targetX = clickPos ? x + clickPos.x : x;
+
                   const dialoguePosition =
-                    x * factor + 80 > question.width! * factor
+                    targetX * factor + 80 > question.width! * factor
                       ? { right: 0 }
-                      : { left: x * factor };
+                      : { left: targetX * factor - 63 };
                   return (
                     <React.Fragment
                       key={`written-question-${question.id}-tape-${id}`}
@@ -306,10 +313,24 @@ export default function QuestionsList({
                           width: w * factor,
                           height: h * factor,
                         }}
-                        onClick={() => {
+                        onClick={(e) => {
                           if (
                             answers.tapes.get(id) === QuestionState.UNANSWERED
                           ) {
+                            const rect =
+                              e.currentTarget.getBoundingClientRect();
+                            if (e.clientX || e.clientY) {
+                              const offsetX = e.clientX - rect.left;
+                              const offsetY = e.clientY - rect.top;
+                              setClickPositions((prev) => {
+                                const next = new Map(prev);
+                                next.set(id, {
+                                  x: offsetX / factor,
+                                  y: offsetY / factor,
+                                });
+                                return next;
+                              });
+                            }
                             updateTapeState(id, QuestionState.UNSELECTED);
                             if (settings.sounds) playClick();
                           }
