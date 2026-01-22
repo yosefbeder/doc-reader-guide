@@ -281,7 +281,7 @@ export default function QuestionsList({
                           style={{
                             position: "absolute",
                             zIndex: 10,
-                            top: y * factor - 30,
+                            top: y * factor - 44,
                             ...dialoguePosition,
                           }}
                           onTrue={() => {

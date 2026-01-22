@@ -14,12 +14,18 @@ export default function SelectAnswerDialogue({
   return (
     <div
       style={style}
-      className={`w-max flex items-center rounded-md overflow-hidden text-sm *:px-1 *:py-0.5 *:text-white *:transition-colors ${className}`}
+      className={`w-max flex items-center rounded-full text-lg overflow-hidden *:py-2 *:text-white *:transition-colors ${className}`}
     >
-      <button className="bg-green-600 hover:bg-green-700" onClick={onTrue}>
+      <button
+        className="bg-green-600 hover:bg-green-700 pl-4 pr-2"
+        onClick={onTrue}
+      >
         True
       </button>
-      <button className="bg-red-600 hover:bg-red-700" onClick={onFalse}>
+      <button
+        className="bg-red-600 hover:bg-red-700 pl-2 pr-4"
+        onClick={onFalse}
+      >
         False
       </button>
     </div>

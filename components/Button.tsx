@@ -25,7 +25,7 @@ export default function Button({
 
   return (
     <button
-      className={`py-1 px-4 border-2 rounded-full transition-colors disabled:cursor-not-allowed overflow-hidden ${colorVariants[color]} ${className}`}
+      className={`py-1.5 px-4 border-2 rounded-full transition-colors disabled:cursor-not-allowed overflow-hidden ${colorVariants[color]} ${className}`}
       disabled={isLoading || disabled}
       {...props}
     >
