@@ -2,6 +2,7 @@
 
 import React, { useRef, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
+import getPrintModeText from "@/utils/getPrintModeText";
 
 export default function PrintMenu({
   anchorRef,
@@ -56,25 +57,31 @@ export default function PrintMenu({
       className="flex flex-col p-2 gap-2 rounded-xl layer-2"
       style={style}
     >
-      <button
-        onClick={() => onPrint("booklet-with-answers")}
-        className="text-left p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors whitespace-nowrap"
-      >
-        Booklet with answers
-      </button>
-      <button
-        onClick={() => onPrint("booklet-without-answers")}
-        className="text-left p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors whitespace-nowrap"
-      >
-        Booklet without answers
-      </button>
-      <button
-        onClick={() => onPrint("study")}
-        className="text-left p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors whitespace-nowrap"
-      >
-        Study mode
-      </button>
+      {(
+        ["booklet-with-answers", "booklet-without-answers", "study"] as const
+      ).map((mode) => (
+        <PrintMenuItem key={mode} mode={mode} onClick={onPrint} />
+      ))}
     </div>,
     document.body
+  );
+}
+
+function PrintMenuItem({
+  mode,
+  onClick,
+}: {
+  mode: "booklet-with-answers" | "booklet-without-answers" | "study";
+  onClick: (
+    mode: "booklet-with-answers" | "booklet-without-answers" | "study"
+  ) => void;
+}) {
+  return (
+    <button
+      onClick={() => onClick(mode)}
+      className="text-left p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors whitespace-nowrap"
+    >
+      {getPrintModeText(mode)}
+    </button>
   );
 }

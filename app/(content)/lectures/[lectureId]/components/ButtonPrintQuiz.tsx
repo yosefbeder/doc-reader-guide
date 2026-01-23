@@ -1,13 +1,14 @@
 "use client";
 
 import React from "react";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { useReactToPrint } from "react-to-print";
 
 import ButtonIcon from "@/components/ButtonIcon";
 import { Action, McqQuiz, WrittenQuiz, Resource, QuizType } from "@/types";
 import { getMcqQuiz, getWrittenQuiz } from "@/utils/getQuizClient";
 import { logEvent } from "@/lib/event-logger";
+import getPrintModeText from "@/utils/getPrintModeText";
 
 import PrintMenu from "./print-quiz/PrintMenu";
 import PrintHeader from "./print-quiz/PrintHeader";
@@ -30,6 +31,7 @@ export default function ButtonPrintQuiz({
   const [printMode, setPrintMode] = useState<
     "booklet-with-answers" | "booklet-without-answers" | "study"
   >("booklet-with-answers");
+  const [isPrinting, setIsPrinting] = useState(false);
 
   const contentRef = useRef<HTMLDivElement>(null);
 
@@ -37,7 +39,7 @@ export default function ButtonPrintQuiz({
 
   const reactToPrintFn = useReactToPrint({
     contentRef,
-    documentTitle: title,
+    documentTitle: `${title} - ${getPrintModeText(printMode)}`,
     fonts: [
       {
         family: "Inter",
@@ -69,8 +71,18 @@ export default function ButtonPrintQuiz({
       Action.PRINT_QUIZ,
       { mode }
     );
-    setTimeout(() => reactToPrintFn(), 500);
+    setIsPrinting(true);
   };
+
+  useEffect(() => {
+    if (isPrinting) {
+      const timer = setTimeout(() => {
+        reactToPrintFn();
+        setIsPrinting(false);
+      }, 500);
+      return () => clearTimeout(timer);
+    }
+  }, [isPrinting, reactToPrintFn]);
 
   return (
     <div className="relative" ref={anchorRef}>
