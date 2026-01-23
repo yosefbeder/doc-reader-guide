@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Logo from "@/public/logo.png";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { Suspense } from "react";
@@ -10,6 +10,7 @@ import GoogleButton from "./GoogleButton";
 import Message from "@/components/Message";
 
 function isInAppBrowser() {
+  if (typeof navigator === "undefined") return false;
   const ua = navigator.userAgent || navigator.vendor;
 
   return (
@@ -31,6 +32,11 @@ function isInAppBrowser() {
 export default function LoginContent() {
   const [scriptLoaded, setScriptLoaded] = useState(false);
   const [scriptError, setScriptError] = useState(false);
+  const [showInAppWarning, setShowInAppWarning] = useState(false);
+
+  useEffect(() => {
+    setShowInAppWarning(isInAppBrowser());
+  }, []);
 
   return (
     <GoogleOAuthProvider
@@ -44,7 +50,7 @@ export default function LoginContent() {
           <span className="text-4xl font-extrabold text-cyan-700 dark:text-cyan-500">
             DocReader Guide
           </span>
-          {isInAppBrowser() && (
+          {showInAppWarning && (
             <Message type="warning">
               Please tap the three dots (⋮) and select &quot;Open in
               Chrome/Safari&quot;. Some in-app browsers block Google.
