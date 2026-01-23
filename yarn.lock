@@ -2624,6 +2624,11 @@ imurmurhash@^0.1.4:
   resolved "https://registry.npmjs.org/imurmurhash/-/imurmurhash-0.1.4.tgz"
   integrity sha512-JmXMZ6wuvDmLiHEml9ykzqO6lwFbof0GG4IkcGaENdCRDDmMVnny7s5HsIgHCbaq0w2MyPhDqkhTUgS2LU2PHA==
 
+inapp-spy@^5.0.8:
+  version "5.0.8"
+  resolved "https://registry.yarnpkg.com/inapp-spy/-/inapp-spy-5.0.8.tgz#b8d490ac3c36b101a2858c10b3c5fd139ba1d22c"
+  integrity sha512-TiE3KL4FkQGHj80KJ1uF179VaW4m983gI6lGSNIMHDNbseDoPKs7OrSfCGKrBFrpnUN+kulvwKe2xAP1krqT6A==
+
 inflight@^1.0.4:
   version "1.0.6"
   resolved "https://registry.npmjs.org/inflight/-/inflight-1.0.6.tgz"

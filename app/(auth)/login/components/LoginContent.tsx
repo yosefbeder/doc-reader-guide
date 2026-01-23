@@ -1,5 +1,6 @@
 "use client";
 
+import InAppSpy from "inapp-spy";
 import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect } from "react";
@@ -9,33 +10,14 @@ import { Suspense } from "react";
 import GoogleButton from "./GoogleButton";
 import Message from "@/components/Message";
 
-function isInAppBrowser() {
-  if (typeof navigator === "undefined") return false;
-  const ua = navigator.userAgent || navigator.vendor;
-
-  return (
-    /Telegram/i.test(ua) ||
-    /FBAN|FBAV/i.test(ua) ||
-    /Instagram/i.test(ua) ||
-    /Twitter/i.test(ua) ||
-    /LinkedIn/i.test(ua) ||
-    /Snapchat/i.test(ua) ||
-    /TikTok/i.test(ua) ||
-    /Line/i.test(ua) ||
-    /WeChat/i.test(ua) ||
-    /WhatsApp/i.test(ua) ||
-    /GSA/i.test(ua) ||
-    /\bwv\b/.test(ua)
-  );
-}
-
 export default function LoginContent() {
   const [scriptLoaded, setScriptLoaded] = useState(false);
   const [scriptError, setScriptError] = useState(false);
   const [showInAppWarning, setShowInAppWarning] = useState(false);
 
   useEffect(() => {
-    setShowInAppWarning(isInAppBrowser());
+    const { isInApp } = InAppSpy();
+    setShowInAppWarning(isInApp);
   }, []);
 
   return (

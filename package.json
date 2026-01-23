@@ -24,6 +24,7 @@
     "framer-motion": "^12.24.10",
     "howler": "^2.2.4",
     "idb": "^8.0.3",
+    "inapp-spy": "^5.0.8",
     "jose": "^5.9.3",
     "js-cookie": "^3.0.5",
     "jsdom": "^26.1.0",
