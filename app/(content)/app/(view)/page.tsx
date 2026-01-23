@@ -14,7 +14,7 @@ import { SummaryDetail } from "@/components/SummaryDetail";
 import SelectClass from "./components/SelectClass";
 import QuizCard from "../../lectures/[lectureId]/components/QuizCard";
 import { logEvent } from "@/lib/event-logger";
-import { Action, Resource } from "@/types";
+import { Action, QuestionState, Resource } from "@/types";
 import DonateButton from "@/components/DonateButton";
 import Button from "@/components/Button";
 
@@ -69,14 +69,29 @@ export default function ModulesPage() {
   const mcqQuizzes = Object.entries(
     getLocalStorageItemsByPrefix("mcq-quiz-")
   ).filter(([_, value]) => {
-    const { showingResults, quiz, answered } = JSON.parse(value);
-    return !showingResults && quiz && answered > 0;
+    const { showingResults, quiz, answers } = JSON.parse(value);
+    return (
+      !showingResults &&
+      typeof answers !== "undefined" &&
+      answers.length > 0 &&
+      typeof quiz !== "undefined"
+    );
   });
   const writtenQuizzes = Object.entries(
     getLocalStorageItemsByPrefix("written-quiz-")
   ).filter(([_, value]) => {
-    const { showingResults, quiz, answered } = JSON.parse(value);
-    return !showingResults && quiz && answered > 0;
+    const { showingResults, quiz, answers } = JSON.parse(value);
+    const parsedAnswers = JSON.parse(answers || "{}");
+    const tapes = new Map(parsedAnswers.tapes);
+    const subQuestions = new Map(parsedAnswers.subQuestions);
+    let counter = 0;
+    tapes.forEach(
+      (value: any) => value !== QuestionState.UNANSWERED && counter++
+    );
+    subQuestions.forEach(
+      (value: any) => value !== QuestionState.UNANSWERED && counter++
+    );
+    return !showingResults && counter > 0 && quiz;
   });
 
   const [selectedSection, setSelectedSection] = useState<string>();
