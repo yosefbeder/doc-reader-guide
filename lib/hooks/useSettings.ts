@@ -14,10 +14,12 @@ export interface Settings {
     autoMove: boolean;
     sounds: boolean;
     instantFeedback: boolean;
+    showStopwatch: boolean;
   };
   writtenQuiz: {
     shuffle: boolean;
     sounds: boolean;
+    showStopwatch: boolean;
   };
 }
 
@@ -29,10 +31,12 @@ export const DEFAULT_SETTINGS: Settings = {
     autoMove: true,
     sounds: true,
     instantFeedback: true,
+    showStopwatch: true,
   },
   writtenQuiz: {
     shuffle: true,
     sounds: true,
+    showStopwatch: true,
   },
 };
 

@@ -19,6 +19,7 @@ interface SummaryProps {
   questions: McqQuestion[];
   answers: Map<number, number>;
   resetState: () => void;
+  stopwatch?: number;
 }
 
 export default function Summary({
@@ -26,6 +27,7 @@ export default function Summary({
   questions,
   answers,
   resetState,
+  stopwatch,
 }: SummaryProps) {
   const { correct, total } = calcMcqResult(questions, answers);
   const [filter, setFilter] = useState<
@@ -88,6 +90,12 @@ export default function Summary({
           <Logo />
         </div>
         <h1 className="h1 my-4 print-only">{quiz.title}</h1>
+        {stopwatch !== undefined && (
+          <div className="caption my-4">
+            Total Time: {Math.floor(stopwatch / 60)}:
+            {(stopwatch % 60).toString().padStart(2, "0")}
+          </div>
+        )}
         <div className="my-4">
           <ResultPieChart
             correct={correct}

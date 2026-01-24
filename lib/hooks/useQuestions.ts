@@ -44,6 +44,7 @@ export default function useQuestions<T, U extends DatabaseTable>({
   const [currentQuestion, setCurrentQuestion] = useState(
     orderedQuestions[0].id
   );
+  const [stopwatch, setStopwatch] = useState(0);
   const [showingResults, setShowingResults] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const currentIndex = orderedQuestions.findIndex(
@@ -80,6 +81,7 @@ export default function useQuestions<T, U extends DatabaseTable>({
       newCurrentQuestion = orderedQuestions[0].id;
     }
     setCurrentQuestion(newCurrentQuestion);
+    setStopwatch(0);
   }, [randomOrder]);
   const endQuiz = useCallback(() => {
     logEvent(resource, quiz.id, Action.END_QUIZ, {
@@ -87,9 +89,10 @@ export default function useQuestions<T, U extends DatabaseTable>({
         ? calcMcqResult(questions as any, answers as any)
         : calcWrittenResult(answers as any)),
       answers: serializeAnswers(answers),
+      time: stopwatch,
     });
     setShowingResults(true);
-  }, [answers]);
+  }, [answers, stopwatch]);
   useHotkeys("left", () => backQuestion("keyboard"), [backQuestion]);
   useHotkeys("right", () => nextQuestion("keyboard"), [nextQuestion]);
 
@@ -141,6 +144,7 @@ export default function useQuestions<T, U extends DatabaseTable>({
         setOrderedQuestions((prev) => prev.toSorted((a, b) => a.id - b.id));
       }
       setShowingResults(quiz.showingResults);
+      setStopwatch(quiz.stopwatch || 0);
       onLoad(quiz.answers);
     } else {
       if (randomOrder) {
@@ -174,9 +178,19 @@ export default function useQuestions<T, U extends DatabaseTable>({
           answers: serializeAnswers(answers),
           showingResults,
           questionsOrder: orderedQuestions.map(({ id }) => id),
+          stopwatch,
         })
       );
-  }, [currentQuestion, answers, showingResults, orderedQuestions]);
+  }, [currentQuestion, answers, showingResults, orderedQuestions, stopwatch]);
+
+  useEffect(() => {
+    if (isLoaded && !showingResults) {
+      const interval = setInterval(() => {
+        setStopwatch((prev) => prev + 1);
+      }, 1000);
+      return () => clearInterval(interval);
+    }
+  }, [isLoaded, showingResults]);
 
   return {
     orderedQuestions,
@@ -189,5 +203,7 @@ export default function useQuestions<T, U extends DatabaseTable>({
     endQuiz,
     isLoaded,
     resetState,
+    stopwatch,
+    setStopwatch,
   };
 }

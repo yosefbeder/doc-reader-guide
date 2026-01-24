@@ -32,6 +32,7 @@ export default function QuestionsList({ quiz }: { quiz: McqQuiz }) {
     isLoaded,
     resetState,
     nextQuestion,
+    stopwatch,
     ...rest
   } = useQuestions({
     options: {
@@ -136,6 +137,7 @@ export default function QuestionsList({ quiz }: { quiz: McqQuiz }) {
             resetState();
             setAnswers(new Map());
           }}
+          stopwatch={stopwatch}
         />
       </>
     );
@@ -152,6 +154,8 @@ export default function QuestionsList({ quiz }: { quiz: McqQuiz }) {
       onShare={() =>
         shareQuestion(quiz, orderedQuestions[currentIndex], "question")
       }
+      showStopwatch={settings.showStopwatch}
+      stopwatch={stopwatch}
       {...rest}
     >
       {orderedQuestions.map((question) => (

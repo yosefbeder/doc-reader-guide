@@ -5,14 +5,6 @@ import Toggle from "@/components/Toggle";
 import useSettings, { Settings as SettingsType } from "@/lib/hooks/useSettings";
 import Select from "@/components/Select";
 
-// const sections: (keyof SettingsType)[] = [
-//   "notifications",
-//   "mcqQuiz",
-//   "writtenQuiz",
-// ];
-
-// const summary = ["Notifications", "MCQ Quiz", "Written Quiz"];
-
 export default function Settings() {
   const [openSection, setOpenSection] = useState<string | undefined>();
   const { settings, updateSetting } = useSettings();
@@ -111,6 +103,17 @@ export default function Settings() {
                 )
               }
             />
+            <Toggle
+              checked={settings.mcqQuiz.showStopwatch}
+              label="Show stopwatch"
+              onClick={() =>
+                updateSetting(
+                  "mcqQuiz",
+                  "showStopwatch",
+                  !settings.mcqQuiz.showStopwatch
+                )
+              }
+            />
           </ul>
         </SummaryDetail.Detail>
       </SummaryDetail>
@@ -146,6 +149,17 @@ export default function Settings() {
                   "writtenQuiz",
                   "sounds",
                   !settings.writtenQuiz.sounds
+                )
+              }
+            />
+            <Toggle
+              checked={settings.writtenQuiz.showStopwatch}
+              label="Show stopwatch"
+              onClick={() =>
+                updateSetting(
+                  "writtenQuiz",
+                  "showStopwatch",
+                  !settings.writtenQuiz.showStopwatch
                 )
               }
             />

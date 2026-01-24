@@ -119,6 +119,7 @@ export default function QuestionsList({
     showingResults,
     isLoaded,
     resetState,
+    stopwatch,
     ...rest
   } = useQuestions({
     options: {
@@ -218,6 +219,7 @@ export default function QuestionsList({
             resetState();
             resetAnswers();
           }}
+          stopwatch={stopwatch}
         />
       </>
     );
@@ -233,6 +235,8 @@ export default function QuestionsList({
       onShare={() =>
         shareQuestion(quiz, orderedQuestions[currentIndex], "question")
       }
+      showStopwatch={settings.showStopwatch}
+      stopwatch={stopwatch}
       {...rest}
     >
       {orderedQuestions.map((question, index) => {

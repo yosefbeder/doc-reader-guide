@@ -25,6 +25,8 @@ interface QuestionWrapperProps<T extends DatabaseTable> {
   endQuiz: () => void;
   children: React.ReactNode;
   onShare?: () => Promise<void> | void;
+  showStopwatch?: boolean;
+  stopwatch?: number;
 }
 
 export default function QuizLayout<T extends DatabaseTable>({
@@ -39,9 +41,17 @@ export default function QuizLayout<T extends DatabaseTable>({
   endQuiz,
   children,
   onShare,
+  showStopwatch,
+  stopwatch,
 }: QuestionWrapperProps<T>) {
   const [tuple, setTuple] = useState([currentIndex, currentIndex]);
   const dragControls = useDragControls();
+
+  const formatTime = (time: number) => {
+    const minutes = Math.floor(time / 60);
+    const seconds = time % 60;
+    return `${minutes}:${seconds.toString().padStart(2, "0")}`;
+  };
 
   if (tuple[1] !== currentIndex) {
     setTuple([tuple[1], currentIndex]);
@@ -61,8 +71,8 @@ export default function QuizLayout<T extends DatabaseTable>({
         className="max-w-2xl mx-auto px-2 pt-4 pb-[72px] col overflow-x-hidden relative touch-pan-y min-h-[calc(100dvh-150px)]"
         onPointerDown={(e) => dragControls.start(e)}
       >
-        <div className="flex justify-between items-center">
-          <span className="caption text-base">
+        <div className="flex items-center gap-4">
+          <span className="caption text-base mr-auto">
             Question{" "}
             <select
               onChange={(e) => goToQuestion(+e.target.value, "select")}
@@ -76,6 +86,15 @@ export default function QuizLayout<T extends DatabaseTable>({
             </select>{" "}
             of {questions.length}
           </span>
+          {showStopwatch && (
+            <div className="flex gap-2 items-center rounded-full text-red-500 bg-red-50 px-4 py-0.5">
+              <span className="relative flex size-3">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-400 opacity-75"></span>
+                <span className="relative inline-flex size-3 rounded-full bg-red-500"></span>
+              </span>
+              {stopwatch !== undefined ? formatTime(stopwatch) : "0:00"}
+            </div>
+          )}
           {onShare && <button onClick={onShare}>{icons["share"]}</button>}
         </div>
         <AnimatePresence mode="popLayout" custom={direction} initial={false}>
