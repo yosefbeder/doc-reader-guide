@@ -39,7 +39,7 @@ export default function QuizCard({
   useEffect(() => {
     if (!localStorage.getItem(`${type}-quiz-${quiz.id}`)) return;
     const stored = JSON.parse(localStorage.getItem(`${type}-quiz-${quiz.id}`)!);
-    setIsCompleted(stored?.isCompleted);
+    setIsCompleted(stored?.showingResults || stored?.isCompleted);
     if (type === "mcq") {
       setTotal(stored?.questionsOrder.length);
       setAnswered(stored?.answers.length);

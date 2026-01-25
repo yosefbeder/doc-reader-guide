@@ -156,9 +156,9 @@ export default function useQuestions<T, U extends DatabaseTable>({
       } else {
         setOrderedQuestions((prev) => prev.toSorted((a, b) => a.id - b.id));
       }
-      setIsCompleted(quiz.isCompleted);
-      setCompletedAt(quiz.completedAt);
-      setStopwatch(quiz.stopwatch || 0);
+      setIsCompleted(quiz?.showingResults || quiz.isCompleted);
+      setCompletedAt(quiz?.completedAt || null);
+      setStopwatch(quiz?.stopwatch || undefined);
       onLoad(quiz.answers);
     } else {
       if (randomOrder) {
