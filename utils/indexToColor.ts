@@ -17,6 +17,15 @@ export default function indexToColor(index: number): {
     { hex: "#db2777", name: "Pink" },
     { hex: "#4f46e5", name: "Indigo" },
     { hex: "#059669", name: "Emerald" },
+    { hex: "#0284c7", name: "Sky" },
+    { hex: "#e11d48", name: "Rose" },
+    { hex: "#d97706", name: "Amber" },
+    { hex: "#65a30d", name: "Lime" },
+    { hex: "#c026d3", name: "Fuchsia" },
+    { hex: "#7c3aed", name: "Violet" },
+    { hex: "#0d9488", name: "Teal" },
+    { hex: "#4b5563", name: "Gray" },
+    { hex: "#000000", name: "Black" },
   ];
 
   return colors[index % colors.length];
