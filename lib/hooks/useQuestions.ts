@@ -76,7 +76,7 @@ export default function useQuestions<T, U extends DatabaseTable>({
       const historyJSON = localStorage.getItem(historyKey);
       const history = historyJSON ? JSON.parse(historyJSON) : [];
       const currentState = JSON.parse(currentQuizJSON);
-      currentState.archivedAt = new Date().toISOString();
+      currentState.archivedAt = Date.now();
       history.push(currentState);
       localStorage.setItem(historyKey, JSON.stringify(history));
     }
