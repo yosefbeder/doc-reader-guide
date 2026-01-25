@@ -137,6 +137,7 @@ export default function QuizCard({
             if (stored) {
               const data = JSON.parse(stored);
               data.isCompleted = true;
+              data.completedAt = Date.now();
               localStorage.setItem(key, JSON.stringify(data));
               setIsCompleted(true);
               if (onDiscard) onDiscard();

@@ -158,7 +158,13 @@ export default function useQuestions<T, U extends DatabaseTable>({
       }
       setIsCompleted(quiz?.showingResults || quiz.isCompleted);
       setCompletedAt(quiz?.completedAt || null);
-      setStopwatch(quiz?.stopwatch || undefined);
+      setStopwatch(
+        typeof quiz?.stopwatch === "number"
+          ? quiz?.stopwatch
+          : quiz.isCompleted
+            ? undefined
+            : 0
+      );
       onLoad(quiz.answers);
     } else {
       if (randomOrder) {

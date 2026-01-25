@@ -208,11 +208,19 @@ export default function ModulesPage() {
                     if (!confirm) return;
                     mcqQuizzes.forEach(([_, value]) => {
                       const { quiz } = JSON.parse(value);
-                      localStorage.removeItem(`mcq-quiz-${quiz.id}`);
+                      localStorage.setItem(`mcq-quiz-${quiz.id}`, {
+                        ...quiz,
+                        isCompleted: true,
+                        completedAt: Date.now(),
+                      });
                     });
                     writtenQuizzes.forEach(([_, value]) => {
                       const { quiz } = JSON.parse(value);
-                      localStorage.removeItem(`written-quiz-${quiz.id}`);
+                      localStorage.setItem(`written-quiz-${quiz.id}`, {
+                        ...quiz,
+                        isCompleted: true,
+                        completedAt: Date.now(),
+                      });
                     });
                     setSelectedSection(data?.currentSemester.toString());
                     setRefreshKey((k) => k + 1);
