@@ -32,7 +32,7 @@ const links = [
     ),
   },
   {
-    link: "mailto:docreaderguide.feedback@gmail.com",
+    link: "mailto:docreaderg@gmail.com",
     color: "hover:text-[#EA4335]",
     icon: (
       <svg
