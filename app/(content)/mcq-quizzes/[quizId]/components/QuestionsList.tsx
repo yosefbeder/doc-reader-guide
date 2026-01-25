@@ -28,7 +28,7 @@ export default function QuestionsList({ quiz }: { quiz: McqQuiz }) {
     orderedQuestions,
     currentQuestion,
     currentIndex,
-    showingResults,
+    isCompleted,
     isLoaded,
     resetState,
     nextQuestion,
@@ -121,7 +121,7 @@ export default function QuestionsList({ quiz }: { quiz: McqQuiz }) {
 
   if (!isLoaded) return;
 
-  if (showingResults) {
+  if (isCompleted) {
     return (
       <>
         <QuizNav

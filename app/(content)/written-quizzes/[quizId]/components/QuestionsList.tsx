@@ -116,7 +116,7 @@ export default function QuestionsList({
     orderedQuestions,
     currentQuestion,
     currentIndex,
-    showingResults,
+    isCompleted,
     isLoaded,
     resetState,
     stopwatch,
@@ -203,7 +203,7 @@ export default function QuestionsList({
 
   if (!isLoaded) return;
 
-  if (showingResults) {
+  if (isCompleted) {
     return (
       <>
         <QuizNav

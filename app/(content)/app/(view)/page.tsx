@@ -69,9 +69,9 @@ export default function ModulesPage() {
   const mcqQuizzes = Object.entries(
     getLocalStorageItemsByPrefix("mcq-quiz-")
   ).filter(([_, value]) => {
-    const { showingResults, quiz, answers } = JSON.parse(value);
+    const { isCompleted, quiz, answers } = JSON.parse(value);
     return (
-      !showingResults &&
+      !isCompleted &&
       typeof answers !== "undefined" &&
       answers.length > 0 &&
       typeof quiz !== "undefined"
@@ -80,7 +80,7 @@ export default function ModulesPage() {
   const writtenQuizzes = Object.entries(
     getLocalStorageItemsByPrefix("written-quiz-")
   ).filter(([_, value]) => {
-    const { showingResults, quiz, answers } = JSON.parse(value);
+    const { isCompleted, quiz, answers } = JSON.parse(value);
     const parsedAnswers = JSON.parse(answers || "{}");
     const tapes = new Map(parsedAnswers.tapes);
     const subQuestions = new Map(parsedAnswers.subQuestions);
@@ -91,7 +91,7 @@ export default function ModulesPage() {
     subQuestions.forEach(
       (value: any) => value !== QuestionState.UNANSWERED && counter++
     );
-    return !showingResults && counter > 0 && quiz;
+    return !isCompleted && counter > 0 && quiz;
   });
 
   const [selectedSection, setSelectedSection] = useState<string>();

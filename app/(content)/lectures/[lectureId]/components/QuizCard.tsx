@@ -32,14 +32,14 @@ export default function QuizCard({
   onUpdate?: () => void;
   onDiscard?: () => void;
 }) {
-  const [showingResults, setShowingResults] = useState(false);
+  const [isCompleted, setIsCompleted] = useState(false);
   const [total, setTotal] = useState<number>();
   const [answered, setAnswered] = useState<number>();
 
   useEffect(() => {
     if (!localStorage.getItem(`${type}-quiz-${quiz.id}`)) return;
     const stored = JSON.parse(localStorage.getItem(`${type}-quiz-${quiz.id}`)!);
-    setShowingResults(stored?.showingResults);
+    setIsCompleted(stored?.isCompleted);
     if (type === "mcq") {
       setTotal(stored?.questionsOrder.length);
       setAnswered(stored?.answers.length);
@@ -77,9 +77,7 @@ export default function QuizCard({
       >
         <span>{type === "mcq" ? icons["queue-list"] : icons["pencil"]}</span>
         <div>
-          <div className={showingResults ? "line-through" : ""}>
-            {quiz.title}
-          </div>
+          <div className={isCompleted ? "line-through" : ""}>{quiz.title}</div>
           {showPath &&
             (() => {
               const {
@@ -100,7 +98,7 @@ export default function QuizCard({
                 </div>
               );
             })()}
-          {!showingResults &&
+          {!isCompleted &&
             typeof answered !== "undefined" &&
             typeof total !== "undefined" &&
             answered > 0 && (
@@ -127,7 +125,7 @@ export default function QuizCard({
           onClick={() => onUpdate && onUpdate()}
         />
       )}
-      {discardable && !showingResults && (
+      {discardable && !isCompleted && (
         <ButtonIcon
           icon="x-mark"
           onClick={(e) => {
@@ -138,9 +136,9 @@ export default function QuizCard({
             const stored = localStorage.getItem(key);
             if (stored) {
               const data = JSON.parse(stored);
-              data.showingResults = true;
+              data.isCompleted = true;
               localStorage.setItem(key, JSON.stringify(data));
-              setShowingResults(true);
+              setIsCompleted(true);
               if (onDiscard) onDiscard();
             }
           }}

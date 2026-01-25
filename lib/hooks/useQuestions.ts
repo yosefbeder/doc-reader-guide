@@ -45,7 +45,8 @@ export default function useQuestions<T, U extends DatabaseTable>({
     orderedQuestions[0].id
   );
   const [stopwatch, setStopwatch] = useState(0);
-  const [showingResults, setShowingResults] = useState(false);
+  const [isCompleted, setIsCompleted] = useState(false);
+  const [completedAt, setCompletedAt] = useState<number | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const currentIndex = orderedQuestions.findIndex(
     ({ id }) => id === currentQuestion
@@ -69,7 +70,17 @@ export default function useQuestions<T, U extends DatabaseTable>({
     [currentIndex, orderedQuestions]
   );
   const resetState = useCallback(() => {
-    setShowingResults(false);
+    const currentQuizJSON = localStorage.getItem(localStorageItem);
+    if (currentQuizJSON) {
+      const historyKey = `${localStorageItem}-history`;
+      const historyJSON = localStorage.getItem(historyKey);
+      const history = historyJSON ? JSON.parse(historyJSON) : [];
+      const currentState = JSON.parse(currentQuizJSON);
+      currentState.archivedAt = new Date().toISOString();
+      history.push(currentState);
+      localStorage.setItem(historyKey, JSON.stringify(history));
+    }
+    setIsCompleted(false);
     let newCurrentQuestion;
     if (randomOrder) {
       const newOrderedQuestions = orderedQuestions.toSorted(
@@ -82,6 +93,7 @@ export default function useQuestions<T, U extends DatabaseTable>({
     }
     setCurrentQuestion(newCurrentQuestion);
     setStopwatch(0);
+    setCompletedAt(null);
   }, [randomOrder]);
   const endQuiz = useCallback(() => {
     logEvent(resource, quiz.id, Action.END_QUIZ, {
@@ -91,7 +103,8 @@ export default function useQuestions<T, U extends DatabaseTable>({
       answers: serializeAnswers(answers),
       time: stopwatch,
     });
-    setShowingResults(true);
+    setIsCompleted(true);
+    setCompletedAt(Date.now());
   }, [answers, stopwatch]);
   useHotkeys("left", () => backQuestion("keyboard"), [backQuestion]);
   useHotkeys("right", () => nextQuestion("keyboard"), [nextQuestion]);
@@ -143,7 +156,8 @@ export default function useQuestions<T, U extends DatabaseTable>({
       } else {
         setOrderedQuestions((prev) => prev.toSorted((a, b) => a.id - b.id));
       }
-      setShowingResults(quiz.showingResults);
+      setIsCompleted(quiz.isCompleted);
+      setCompletedAt(quiz.completedAt);
       setStopwatch(quiz.stopwatch || 0);
       onLoad(quiz.answers);
     } else {
@@ -176,21 +190,29 @@ export default function useQuestions<T, U extends DatabaseTable>({
           currentQuestion,
           currentIndex,
           answers: serializeAnswers(answers),
-          showingResults,
+          isCompleted,
+          completedAt,
           questionsOrder: orderedQuestions.map(({ id }) => id),
           stopwatch,
         })
       );
-  }, [currentQuestion, answers, showingResults, orderedQuestions, stopwatch]);
+  }, [
+    currentQuestion,
+    answers,
+    isCompleted,
+    completedAt,
+    orderedQuestions,
+    stopwatch,
+  ]);
 
   useEffect(() => {
-    if (isLoaded && !showingResults) {
+    if (isLoaded && !isCompleted) {
       const interval = setInterval(() => {
         setStopwatch((prev) => prev + 1);
       }, 1000);
       return () => clearInterval(interval);
     }
-  }, [isLoaded, showingResults]);
+  }, [isLoaded, isCompleted]);
 
   return {
     orderedQuestions,
@@ -199,7 +221,7 @@ export default function useQuestions<T, U extends DatabaseTable>({
     currentIndex,
     backQuestion,
     nextQuestion,
-    showingResults,
+    isCompleted,
     endQuiz,
     isLoaded,
     resetState,
