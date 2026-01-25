@@ -13,7 +13,7 @@ const styles = {
   success:
     "bg-green-100 border-green-700/50 text-green-900 dark:bg-green-950 dark:border-green-800 dark:text-green-100",
   information:
-    "bg-blue-100 border-blue-700/50 text-blue-900 dark:bg-blue-950 dark:border-blue-800 dark:text-blue-100",
+    "bg-cyan-100 border-cyan-700/50 text-cyan-900 dark:bg-cyan-950 dark:border-cyan-800 dark:text-cyan-100",
 };
 
 const icons = {
