@@ -87,12 +87,11 @@ export default function QuizLayout<T extends DatabaseTable>({
             of {questions.length}
           </span>
           {showStopwatch && (
-            <div className="flex gap-2 items-center rounded-full text-red-500 bg-red-50 px-4 py-0.5">
-              <span className="relative flex size-3">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-400 opacity-75"></span>
-                <span className="relative inline-flex size-3 rounded-full bg-red-500"></span>
+            <div className="flex gap-2 items-center rounded-full bg-cyan-50 dark:bg-slate-900 px-4 py-0.5 font-mono text-base">
+              {icons["clock"]}
+              <span>
+                {stopwatch !== undefined ? formatTime(stopwatch) : "0:00"}
               </span>
-              {stopwatch !== undefined ? formatTime(stopwatch) : "0:00"}
             </div>
           )}
           {onShare && <button onClick={onShare}>{icons["share"]}</button>}
