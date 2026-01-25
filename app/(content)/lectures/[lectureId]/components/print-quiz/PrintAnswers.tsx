@@ -17,7 +17,7 @@ export default function PrintAnswers({
     <>
       <h2 className="my-4">Answers</h2>
       <p className="caption my-4">
-        Disclaimer: This quiz was printed on {new Date().toLocaleDateString()}.
+        Disclaimer: This quiz was printed on {new Date().toLocaleString()}.
         Answers may have changed since then.
       </p>
       {type === "mcq" ? (

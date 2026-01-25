@@ -21,8 +21,8 @@ export default function PrintHeader({
       <h1 className="h1 my-4">{title}</h1>
       {printMode === "study" && (
         <p className="caption my-4">
-          Disclaimer: This quiz was printed on {new Date().toLocaleDateString()}
-          . Answers may have changed since then.
+          Disclaimer: This quiz was printed on {new Date().toLocaleString()}.
+          Answers may have changed since then.
         </p>
       )}
       <p>
