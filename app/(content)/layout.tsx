@@ -1,5 +1,5 @@
-import type { Metadata } from "next";
 import { Cairo, Inter } from "next/font/google";
+import ThemeToaster from "@/components/ThemeToaster";
 
 import "../globals.css";
 import NotificationListener from "@/components/NotificationListener";
@@ -23,6 +23,7 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         <SWRWrapper>{children}</SWRWrapper>
         <NotificationListener />
+        <ThemeToaster />
       </body>
     </html>
   );

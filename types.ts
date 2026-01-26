@@ -152,12 +152,15 @@ interface LectureSimple {
   subject: SubjectSimple;
 }
 
+export type LinkType = "Video" | "Record" | "PDF" | "Data";
+export type LinkCategory = "Data" | "College" | "Summary" | "Questions";
+
 export interface Link extends DatabaseTable {
   title: string;
   subTitle: string;
   urls: string[];
-  type: "Video" | "Record" | "PDF" | "Data";
-  category: "Data" | "College" | "Summary" | "Questions";
+  type: LinkType;
+  category: LinkCategory;
   lectureData: LectureSimple;
 }
 

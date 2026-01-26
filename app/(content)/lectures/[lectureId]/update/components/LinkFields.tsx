@@ -1,12 +1,14 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState, ChangeEvent } from "react";
 
 import Input from "@/components/Input";
 import Select from "@/components/Select";
 import { Link } from "@/types";
+import detectLink from "@/utils/detectLink";
 import ButtonIcon from "@/components/ButtonIcon";
 import Checkbox from "@/components/Checkbox";
+import { toast } from "sonner";
 
 export default function LinkFields({
   lectureId,
@@ -33,34 +35,93 @@ export default function LinkFields({
     defaultValues ? defaultValues.urls.length : 1
   );
 
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [isUploading, setIsUploading] = useState(false);
+
+  useEffect(() => {
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      if (isUploading) {
+        e.preventDefault();
+        e.returnValue = "";
+      }
+    };
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, [isUploading]);
+
   useEffect(() => {
     if (defaultValues) return;
-    const documentKeyword =
-      /كتاب|ملف|باور|سبورة|مقالي|ملزمة|مذكرة|book|file|power|whiteboard|written/gi;
-    const externalKeyword =
-      /الشريف|محمد فايز|ناجي|الحسيني|سامح غازي|أحمد عصام|عصام|إيمان نبيل|محمد عادل|محمد الشريف|خنفور|عبد المتعال|عبدالمتعال|محمود علاء|نهى|وجيه|القط|النمر|زهرة|زهره|شرين|شيرين|عبدالله سعد|عبد الله سعد|أحمد فريد|معاذ وهدان|أنس وهدان|أنس الهندي|تاح|الطوخي|زميلتنا|خالد المسلمي|الطويل|زميلنا|osmosis|crash course|ninja nerd|siebert science|mike|medicosis perfectionalis|animation|armando/gi;
-    const summaryKeyword =
-      /summary|notes|vip|important|imp|transcription|comparison|mind map|ملخص|تفريغ|تلخيص|أهم النقاط|اهم النقاط/gi;
-    const questionKeyword =
-      /quiz|mcq|written|department book|exam|bank|notebooklm|كويز|(أ|ا)سئل(ة|ه)|(إ|ا)متحان|كتاب القسم|بنك|مقالي|اختبار|اختياري/gi;
-    if (title.match(externalKeyword)) {
-      setCategory("Data");
-      if (title.match(documentKeyword)) setType("PDF");
-      else setType("Video");
-    } else if (title.match(summaryKeyword)) {
-      setCategory("Summary");
-      setType("PDF");
-    } else if (title.match(questionKeyword)) {
-      setCategory("Questions");
-      if (title.match(/notebooklm/gi)) setType("Data");
-      else if (title.match(documentKeyword)) setType("PDF");
-      else setType("Data");
-    } else {
-      setCategory("College");
-      if (title.match(documentKeyword)) setType("PDF");
-      else setType("Record");
-    }
+    const { category, type } = detectLink(title);
+    setCategory(category);
+    setType(type);
   }, [title]);
+
+  const handleUpload = async (e: ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = e.target.files?.[0];
+    if (!selectedFile) {
+      return;
+    }
+
+    setIsUploading(true);
+    const toastId = toast.loading("Starting upload...");
+
+    try {
+      const presignedRes = await fetch(
+        `/api/r2/presigned-url?file=${encodeURIComponent(
+          selectedFile.name
+        )}&type=${encodeURIComponent(selectedFile.type)}`
+      );
+
+      if (!presignedRes.ok) {
+        throw new Error("Failed to get presigned URL");
+      }
+
+      const { signedUrl, publicUrl } = await presignedRes.json();
+
+      if (!signedUrl || !publicUrl) {
+        throw new Error("Failed to get presigned URL");
+      }
+
+      await new Promise<void>((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.open("PUT", signedUrl);
+        xhr.setRequestHeader("Content-Type", selectedFile.type);
+
+        xhr.upload.onprogress = (event) => {
+          if (event.lengthComputable) {
+            const percentComplete = Math.round(
+              (event.loaded / event.total) * 100
+            );
+            toast.loading(`Uploading... ${percentComplete}%`, {
+              id: toastId,
+            });
+          }
+        };
+
+        xhr.onload = () => {
+          if (xhr.status >= 200 && xhr.status < 300) {
+            resolve();
+          } else {
+            console.error(xhr.responseText);
+            reject(new Error("Upload failed"));
+          }
+        };
+
+        xhr.onerror = () => reject(new Error("Upload failed"));
+        xhr.send(selectedFile);
+      });
+      toast.success("File uploaded successfully", { id: toastId });
+      setUrls((prev) => [...prev, { id: currentCounter, value: publicUrl }]);
+      setCurrentCounter((prev) => prev + 1);
+      e.target.value = ""; // Reset input
+    } catch (error: any) {
+      toast.error(`Error: ${error.message}`, { id: toastId });
+    } finally {
+      setIsUploading(false);
+    }
+  };
 
   return (
     <>
@@ -126,16 +187,32 @@ export default function LinkFields({
           </li>
         ))}
       </ul>
-      <ButtonIcon
-        icon="plus"
-        type="button"
-        className="self-start"
-        onClick={() => {
-          if (currentCounter >= +process.env.NEXT_PUBLIC_OPTIONS_LIMIT!) return;
-          setUrls((prev) => [...prev, { id: currentCounter, value: "" }]);
-          setCurrentCounter((prev) => prev + 1);
-        }}
-      />
+      <div className="flex gap-2">
+        <ButtonIcon
+          icon="plus"
+          type="button"
+          onClick={() => {
+            if (currentCounter >= +process.env.NEXT_PUBLIC_OPTIONS_LIMIT!)
+              return;
+            setUrls((prev) => [...prev, { id: currentCounter, value: "" }]);
+            setCurrentCounter((prev) => prev + 1);
+          }}
+        />
+        <input
+          type="file"
+          id="upload-file"
+          accept=".pdf,audio/*"
+          onChange={handleUpload}
+          ref={fileInputRef}
+          className="hidden"
+        />
+        <ButtonIcon
+          icon="arrow-up-tray"
+          type="button"
+          onClick={() => fileInputRef.current?.click()}
+          disabled={isUploading}
+        />
+      </div>
       <Select
         label="Type"
         icon="document"
