@@ -1,7 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { useFormState } from "react-dom";
+import { useEffect, useRef, useState, useActionState } from "react";
 
 import ButtonSubmit from "@/components/ButtonSubmit";
 import { User } from "@/types";
@@ -25,9 +24,9 @@ export default function UpdateUserForm({
 }) {
   const user = users[index];
   const [roleId, setRoleId] = useState(user.roleId);
-  const [updateFormState, updateFormAction] = useFormState(updateUser, {});
+  const [updateFormState, updateFormAction] = useActionState(updateUser, {});
   const updateFormId = `update-user-${user.id}`;
-  const [deleteFormState, deleteFormAction] = useFormState(deleteUser, {});
+  const [deleteFormState, deleteFormAction] = useActionState(deleteUser, {});
   const formRef = useRef(null);
   const { hideMessage, setHideMessage } = useUpdateDeleteForms(
     updateFormState,

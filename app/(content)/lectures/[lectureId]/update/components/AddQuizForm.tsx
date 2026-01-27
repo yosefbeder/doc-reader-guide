@@ -1,6 +1,6 @@
 "use client";
 
-import { useFormState } from "react-dom";
+import { useActionState } from "react";
 
 import ButtonSubmit from "@/components/ButtonSubmit";
 import QuizFields from "./QuizFields";
@@ -19,7 +19,7 @@ export default function AddQuizForm({
   lectureId: number;
   yearId: number;
 }) {
-  const [formState, formAction] = useFormState(
+  const [formState, formAction] = useActionState(
     type === "mcq" ? addMcqQuiz : addWrittenQuiz,
     {}
   );

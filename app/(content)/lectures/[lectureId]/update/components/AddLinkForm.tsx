@@ -1,6 +1,6 @@
 "use client";
 
-import { useFormState } from "react-dom";
+import { useActionState } from "react";
 
 import ButtonSubmit from "@/components/ButtonSubmit";
 import LinkFields from "./LinkFields";
@@ -15,7 +15,7 @@ export default function AddLinkForm({
   lectureId: number;
   yearId: number;
 }) {
-  const [formState, formAction] = useFormState(addLink, {});
+  const [formState, formAction] = useActionState(addLink, {});
   const { hideMessage, setHideMessage, formKey } = useAddForm(formState);
 
   return (

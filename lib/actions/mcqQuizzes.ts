@@ -22,7 +22,7 @@ export async function addMcqQuestions(
       method: "POST",
       headers: {
         "content-type": "application/json;charset=UTF-8",
-        authorization: `Bearer ${cookies().get("jwt")!.value}`,
+        authorization: `Bearer ${(await cookies()).get("jwt")!.value}`,
       },
       body: JSON.stringify(questions),
     }
@@ -63,7 +63,7 @@ export async function addQuiz(
       method: "POST",
       headers: {
         "content-type": "application/json;charset=UTF-8",
-        authorization: `Bearer ${cookies().get("jwt")!.value}`,
+        authorization: `Bearer ${(await cookies()).get("jwt")!.value}`,
       },
       body: JSON.stringify(data),
     }
@@ -113,7 +113,7 @@ export async function updateQuiz(
       method: "PATCH",
       headers: {
         "content-type": "application/json;charset=UTF-8",
-        authorization: `Bearer ${cookies().get("jwt")!.value}`,
+        authorization: `Bearer ${(await cookies()).get("jwt")!.value}`,
       },
       body: JSON.stringify(data),
     }
@@ -148,7 +148,7 @@ export async function deleteQuiz(
       method: "DELETE",
       headers: {
         "content-type": "application/json;charset=UTF-8",
-        authorization: `Bearer ${cookies().get("jwt")!.value}`,
+        authorization: `Bearer ${(await cookies()).get("jwt")!.value}`,
       },
     }
   );
@@ -193,7 +193,7 @@ export async function addQuestion(
       method: "POST",
       headers: {
         "content-type": "application/json;charset=UTF-8",
-        authorization: `Bearer ${cookies().get("jwt")!.value}`,
+        authorization: `Bearer ${(await cookies()).get("jwt")!.value}`,
       },
       body: JSON.stringify(data),
     }
@@ -239,7 +239,7 @@ export async function updateQuestion(
       method: "PATCH",
       headers: {
         "content-type": "application/json;charset=UTF-8",
-        authorization: `Bearer ${cookies().get("jwt")!.value}`,
+        authorization: `Bearer ${(await cookies()).get("jwt")!.value}`,
       },
       body: JSON.stringify(data),
     }
@@ -270,7 +270,7 @@ export async function deleteQuestion(
       method: "DELETE",
       headers: {
         "content-type": "application/json;charset=UTF-8",
-        authorization: `Bearer ${cookies().get("jwt")!.value}`,
+        authorization: `Bearer ${(await cookies()).get("jwt")!.value}`,
       },
     }
   );

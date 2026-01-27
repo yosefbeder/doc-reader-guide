@@ -6,11 +6,17 @@ import AddSubjectForm from "./components/AddSubjectForm";
 import getUser from "@/utils/getUserServer";
 import QuickAddForm from "./components/QuickAddForm";
 
-export default async function UpdateSubjectsPage({
-  params: { moduleId },
-}: {
-  params: { moduleId: string };
-}) {
+export default async function UpdateSubjectsPage(
+  props: {
+    params: Promise<{ moduleId: string }>;
+  }
+) {
+  const params = await props.params;
+
+  const {
+    moduleId
+  } = params;
+
   const user = await getUser();
   const [myModule, subjects] = await Promise.all([
     getModule(+moduleId),

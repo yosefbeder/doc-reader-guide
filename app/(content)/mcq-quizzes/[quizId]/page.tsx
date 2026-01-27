@@ -8,11 +8,15 @@ import QuizStructuredData from "@/components/QuizStructuredData";
 import buildCanonical from "@/utils/buildCanonical";
 import Layout from "@/components/Layout";
 
-type Props = { params: { quizId: string } };
+type Props = { params: Promise<{ quizId: string }> };
 
-export async function generateMetadata({
-  params: { quizId },
-}: Props): Promise<Metadata> {
+export async function generateMetadata(props: Props): Promise<Metadata> {
+  const params = await props.params;
+
+  const {
+    quizId
+  } = params;
+
   const quiz = await getMcqQuiz(+quizId);
   if (!quiz) return { robots: { index: false, follow: false } };
 
@@ -47,7 +51,13 @@ export async function generateMetadata({
   };
 }
 
-export default async function QuizPage({ params: { quizId } }: Props) {
+export default async function QuizPage(props: Props) {
+  const params = await props.params;
+
+  const {
+    quizId
+  } = params;
+
   const quiz = await getMcqQuiz(+quizId);
 
   return (

@@ -9,7 +9,7 @@ export default function PrintMenu({
   onPrint,
   onClose,
 }: {
-  anchorRef: React.RefObject<HTMLDivElement>;
+  anchorRef: React.RefObject<HTMLDivElement | null>;
   onPrint: (
     mode: "booklet-with-answers" | "booklet-without-answers" | "study"
   ) => void;

@@ -57,8 +57,8 @@ declare module "react-responsive-masonry" {
     style?: CSSProperties;
   }
 
-  export default function Masonry(props: MasonryProps): ReactElement;
+  export default function Masonry(props: MasonryProps): ReactElement<any>;
   export function ResponsiveMasonry(
     props: ResponsiveMasonryProps
-  ): ReactElement;
+  ): ReactElement<any>;
 }

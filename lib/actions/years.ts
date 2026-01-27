@@ -21,7 +21,7 @@ export async function updateYear(
       method: "PATCH",
       headers: {
         "content-type": "application/json;charset=UTF-8",
-        authorization: `Bearer ${cookies().get("jwt")!.value}`,
+        authorization: `Bearer ${(await cookies()).get("jwt")!.value}`,
       },
       body: JSON.stringify(data),
     }

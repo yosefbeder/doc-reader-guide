@@ -16,7 +16,7 @@ export async function addWrittenQuestions(
     return { successCount: 0, failCount: 0 };
   }
 
-  const jwt = cookies().get("jwt")!.value;
+  const jwt = (await cookies()).get("jwt")!.value;
 
   const requests = questions.map(
     async ({ image, width, height, tapes, masks, subQuestions }) => {
@@ -79,7 +79,7 @@ export async function addQuiz(
       method: "POST",
       headers: {
         "content-type": "application/json;charset=UTF-8",
-        authorization: `Bearer ${cookies().get("jwt")!.value}`,
+        authorization: `Bearer ${(await cookies()).get("jwt")!.value}`,
       },
       body: JSON.stringify(data),
     }
@@ -133,7 +133,7 @@ export async function updateQuiz(
       method: "PATCH",
       headers: {
         "content-type": "application/json;charset=UTF-8",
-        authorization: `Bearer ${cookies().get("jwt")!.value}`,
+        authorization: `Bearer ${(await cookies()).get("jwt")!.value}`,
       },
       body: JSON.stringify(data),
     }
@@ -168,7 +168,7 @@ export async function deleteQuiz(
       method: "DELETE",
       headers: {
         "content-type": "application/json;charset=UTF-8",
-        authorization: `Bearer ${cookies().get("jwt")!.value}`,
+        authorization: `Bearer ${(await cookies()).get("jwt")!.value}`,
       },
     }
   );
@@ -198,7 +198,7 @@ export async function addQuestion(
     {
       method: "POST",
       headers: {
-        authorization: `Bearer ${cookies().get("jwt")!.value}`,
+        authorization: `Bearer ${(await cookies()).get("jwt")!.value}`,
       },
       body: formData,
     }
@@ -236,7 +236,7 @@ export async function updateQuestion(
       method: "PATCH",
       headers: {
         "content-type": "application/json;charset=UTF-8",
-        authorization: `Bearer ${cookies().get("jwt")!.value}`,
+        authorization: `Bearer ${(await cookies()).get("jwt")!.value}`,
       },
       body: JSON.stringify(data),
     }
@@ -267,7 +267,7 @@ export async function deleteQuestion(
       method: "DELETE",
       headers: {
         "content-type": "application/json;charset=UTF-8",
-        authorization: `Bearer ${cookies().get("jwt")!.value}`,
+        authorization: `Bearer ${(await cookies()).get("jwt")!.value}`,
       },
     }
   );

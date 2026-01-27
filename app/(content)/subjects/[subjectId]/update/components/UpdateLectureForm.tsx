@@ -1,7 +1,6 @@
 "use client";
 
-import { useFormState } from "react-dom";
-import { useRef } from "react";
+import { useRef, useActionState } from "react";
 
 import ButtonSubmit from "@/components/ButtonSubmit";
 import LectureFields from "./LectureFields";
@@ -21,9 +20,9 @@ export default function UpdateLectureForm({
   subjectId: number;
   lecture: Lecture;
 }) {
-  const [updateFormState, updateFormAction] = useFormState(updateLecture, {});
+  const [updateFormState, updateFormAction] = useActionState(updateLecture, {});
   const updateFormId = `update-lecture-${lecture.id}`;
-  const [deleteFormState, deleteFormAction] = useFormState(deleteLecture, {});
+  const [deleteFormState, deleteFormAction] = useActionState(deleteLecture, {});
   const formRef = useRef<HTMLFormElement>(null);
   const { hideMessage, setHideMessage } = useUpdateDeleteForms(
     updateFormState,

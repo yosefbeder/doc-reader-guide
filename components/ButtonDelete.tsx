@@ -12,7 +12,7 @@ export default function ButtonDelete({
   ...props
 }: {
   confirmationText: string;
-  formRef: RefObject<HTMLFormElement>;
+  formRef: RefObject<HTMLFormElement | null>;
   customLabel?: string;
 } & ButtonProps) {
   return (

@@ -1,7 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
-import { useFormState } from "react-dom";
+import React, { useState, useActionState } from "react";
 import ButtonSubmit from "@/components/ButtonSubmit";
 import { importSources } from "@/lib/actions/lectures";
 import Message from "@/components/Message";
@@ -12,7 +11,7 @@ export default function ImportSourcesForm({
   lectureId: number;
 }) {
   const [input, setInput] = useState("");
-  const [formState, formAction] = useFormState(importSources, {});
+  const [formState, formAction] = useActionState(importSources, {});
 
   return (
     <form action={formAction} className="layer-1-form col">

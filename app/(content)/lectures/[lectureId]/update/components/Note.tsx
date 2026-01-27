@@ -1,7 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
-import { useFormState } from "react-dom";
+import React, { useState, useActionState } from "react";
 
 import LectureFields from "@/app/(content)/subjects/[subjectId]/update/components/LectureFields";
 import ButtonSubmit from "@/components/ButtonSubmit";
@@ -35,7 +34,7 @@ export default function Note({
   lecture: Lecture;
 }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [formState, formAction] = useFormState(updateLecture, {});
+  const [formState, formAction] = useActionState(updateLecture, {});
   const { hideMessage, setHideMessage, formKey } = useAddForm(formState); // To update image src
 
   return (

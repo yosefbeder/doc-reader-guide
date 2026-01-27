@@ -1,6 +1,6 @@
 "use client";
 
-import { useFormState } from "react-dom";
+import { useActionState } from "react";
 
 import ModuleFields from "./ModuleFields";
 import { addModule } from "@/lib/actions/modules";
@@ -9,7 +9,7 @@ import ButtonSubmit from "@/components/ButtonSubmit";
 import { useAddForm } from "@/lib/hooks";
 
 export default function AddModuleForm({ yearId }: { yearId: number }) {
-  const [formState, formAction] = useFormState(addModule, {});
+  const [formState, formAction] = useActionState(addModule, {});
   const { hideMessage, setHideMessage, formKey } = useAddForm(formState);
 
   return (

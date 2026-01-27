@@ -8,6 +8,8 @@ import {
   Spread,
 } from "lexical";
 
+import type { JSX } from "react";
+
 export type SerializedImageNode = Spread<
   {
     src: string;

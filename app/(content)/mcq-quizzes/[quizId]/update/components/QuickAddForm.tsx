@@ -1,7 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { useFormState } from "react-dom";
+import React, { useEffect, useState, useActionState } from "react";
 
 import ButtonSubmit from "@/components/ButtonSubmit";
 import { quickAdd } from "@/lib/actions/mcqQuizzes";
@@ -9,7 +8,7 @@ import Message from "@/components/Message";
 import Checkbox from "@/components/Checkbox";
 
 export default function QuickAddForm({ quizId }: { quizId: number }) {
-  const [formState, formAction] = useFormState(quickAdd, {});
+  const [formState, formAction] = useActionState(quickAdd, {});
   const [questions, setQuestions] = useState("");
 
   useEffect(() => {

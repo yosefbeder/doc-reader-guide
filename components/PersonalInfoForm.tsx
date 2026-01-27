@@ -1,7 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useFormState } from "react-dom";
+import { useEffect, useState, useActionState } from "react";
 import { useSWRConfig } from "swr";
 
 import { updatePersonalInfo } from "@/lib/actions/users";
@@ -21,7 +20,7 @@ export default function PersonalInfoForm({
   faculties: Faculty[];
   buttonLabel: string;
 }) {
-  const [formState, formAction] = useFormState(updatePersonalInfo, {});
+  const [formState, formAction] = useActionState(updatePersonalInfo, {});
   const [facultyId, setFacultyId] = useState(user.facultyId || faculties[0].id);
   const [yearId, setYearId] = useState(
     user.yearId || getFaculty(faculties, facultyId).years[0].id

@@ -24,7 +24,7 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const jwt = cookieStore.get("jwt");
 
   if (!jwt) {

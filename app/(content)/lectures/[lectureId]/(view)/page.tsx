@@ -12,12 +12,16 @@ import formatLectureTitle from "@/utils/formatLectureTitle";
 import LectureNote from "@/components/LectureNote";
 
 interface Props {
-  params: { lectureId: string };
+  params: Promise<{ lectureId: string }>;
 }
 
-export async function generateMetadata({
-  params: { lectureId },
-}: Props): Promise<Metadata> {
+export async function generateMetadata(props: Props): Promise<Metadata> {
+  const params = await props.params;
+
+  const {
+    lectureId
+  } = params;
+
   const lecture = await getLecture(+lectureId);
   if (!lecture) return { robots: { index: false, follow: false } };
 
@@ -50,7 +54,13 @@ export async function generateMetadata({
   };
 }
 
-export default async function LinksPage({ params: { lectureId } }: Props) {
+export default async function LinksPage(props: Props) {
+  const params = await props.params;
+
+  const {
+    lectureId
+  } = params;
+
   const lecture = await getLecture(+lectureId);
 
   return (

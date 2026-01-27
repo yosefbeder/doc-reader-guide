@@ -13,12 +13,16 @@ import ChatGPTButton from "@/components/ChatGPTButton";
 import Layout from "@/components/Layout";
 
 interface Props {
-  params: { subjectId: string };
+  params: Promise<{ subjectId: string }>;
 }
 
-export async function generateMetadata({
-  params: { subjectId },
-}: Props): Promise<Metadata> {
+export async function generateMetadata(props: Props): Promise<Metadata> {
+  const params = await props.params;
+
+  const {
+    subjectId
+  } = params;
+
   const subject = await getSubject(+subjectId);
   if (!subject) return { robots: { index: false, follow: false } };
 
@@ -50,11 +54,17 @@ export async function generateStaticParams() {
   }));
 }
 
-export default async function LecturesPage({
-  params: { subjectId },
-}: {
-  params: { subjectId: string };
-}) {
+export default async function LecturesPage(
+  props: {
+    params: Promise<{ subjectId: string }>;
+  }
+) {
+  const params = await props.params;
+
+  const {
+    subjectId
+  } = params;
+
   const [subject, lectures] = await Promise.all([
     getSubject(+subjectId),
     getLectures(+subjectId),

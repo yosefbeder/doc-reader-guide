@@ -1,7 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
-import { useFormState } from "react-dom";
+import React, { useState, useActionState } from "react";
 
 import ButtonSubmit from "@/components/ButtonSubmit";
 import Message from "@/components/Message";
@@ -25,7 +24,7 @@ export default function UpdateYear({
   const [currentSemester, setCurrentSemester] = useState(
     user.year.currentSemester || -1
   );
-  const [formState, formAction] = useFormState(updateYear, {});
+  const [formState, formAction] = useActionState(updateYear, {});
   const { hideMessage, setHideMessage } = useUpdateForm(formState);
 
   return (

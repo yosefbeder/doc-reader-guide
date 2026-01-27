@@ -4,11 +4,17 @@ import { getMcqQuiz } from "@/utils/getQuizServer";
 import QuestionsList from "./components/QuestionsList";
 import getUser from "@/utils/getUserServer";
 
-export default async function UpdateQuizPage({
-  params: { quizId },
-}: {
-  params: { quizId: string };
-}) {
+export default async function UpdateQuizPage(
+  props: {
+    params: Promise<{ quizId: string }>;
+  }
+) {
+  const params = await props.params;
+
+  const {
+    quizId
+  } = params;
+
   const user = await getUser();
   const quiz = await getMcqQuiz(+quizId);
 

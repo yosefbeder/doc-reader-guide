@@ -1,7 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { useFormState } from "react-dom";
+import React, { useEffect, useState, useActionState } from "react";
 
 import ButtonSubmit from "@/components/ButtonSubmit";
 import { quickAdd } from "@/lib/actions/subjects";
@@ -58,7 +57,7 @@ export default function QuickAddForm(props: {
   disabled?: boolean;
 }) {
   const { moduleId, subjects: presentSubjects = [], disabled } = props;
-  const [formState, formAction] = useFormState(quickAdd, {});
+  const [formState, formAction] = useActionState(quickAdd, {});
   const [subjects, setQuestions] = useState("");
   const [model, setModel] = useState(models[0].value);
 

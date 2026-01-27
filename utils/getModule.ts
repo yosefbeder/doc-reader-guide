@@ -8,7 +8,7 @@ export default async function getModule(moduleId: number): Promise<Module> {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${
-          cookies().get("jwt")?.value || process.env.NEXT_PUBLIC_JWT
+          (await cookies()).get("jwt")?.value || process.env.NEXT_PUBLIC_JWT
         }`,
       },
     }

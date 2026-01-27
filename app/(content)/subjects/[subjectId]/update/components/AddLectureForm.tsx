@@ -1,6 +1,6 @@
 "use client";
 
-import { useFormState } from "react-dom";
+import { useActionState } from "react";
 
 import ButtonSubmit from "@/components/ButtonSubmit";
 import LectureFields from "./LectureFields";
@@ -9,7 +9,7 @@ import Message from "@/components/Message";
 import { useAddForm } from "@/lib/hooks";
 
 export default function AddLectureForm({ subjectId }: { subjectId: number }) {
-  const [formState, formAction] = useFormState(addLecture, {});
+  const [formState, formAction] = useActionState(addLecture, {});
   const { hideMessage, setHideMessage, formKey } = useAddForm(formState);
 
   return (

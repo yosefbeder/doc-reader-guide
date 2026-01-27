@@ -1,7 +1,6 @@
 "use client";
 
-import { useRef } from "react";
-import { useFormState } from "react-dom";
+import { useRef, useActionState } from "react";
 
 import { Lecture } from "@/types";
 import ButtonDelete from "@/components/ButtonDelete";
@@ -17,8 +16,8 @@ export default function DeleteSpecial({
 }) {
   const pdfr = useRef<HTMLFormElement>(null);
   const frdfr = useRef<HTMLFormElement>(null);
-  const [pdfs, pdfa] = useFormState(deleteLecture, {});
-  const [frdfs, frdfa] = useFormState(deleteLecture, {});
+  const [pdfs, pdfa] = useActionState(deleteLecture, {});
+  const [frdfs, frdfa] = useActionState(deleteLecture, {});
 
   return (
     <>

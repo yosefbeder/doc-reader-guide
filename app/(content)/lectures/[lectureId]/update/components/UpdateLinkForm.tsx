@@ -1,7 +1,6 @@
 "use client";
 
-import { useRef } from "react";
-import { useFormState } from "react-dom";
+import { useRef, useActionState } from "react";
 
 import LinkFields from "./LinkFields";
 import { deleteLink, updateLink } from "@/lib/actions/links";
@@ -23,9 +22,9 @@ export default function UpdateLinkForm({
   onClose: () => void;
   yearId: number;
 }) {
-  const [updateFormState, updateFormAction] = useFormState(updateLink, {});
+  const [updateFormState, updateFormAction] = useActionState(updateLink, {});
   const updateFormId = `update-link-${link.id}`;
-  const [deleteFormState, deleteFormAction] = useFormState(deleteLink, {});
+  const [deleteFormState, deleteFormAction] = useActionState(deleteLink, {});
   const formRef = useRef<HTMLFormElement>(null);
   const { hideMessage, setHideMessage } = useUpdateDeleteForms(
     updateFormState,

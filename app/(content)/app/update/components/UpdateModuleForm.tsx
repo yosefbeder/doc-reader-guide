@@ -1,7 +1,6 @@
 "use client";
 
-import { useFormState } from "react-dom";
-import { useRef } from "react";
+import { useRef, useActionState } from "react";
 
 import ModuleFields from "./ModuleFields";
 import { Module, User } from "@/types";
@@ -19,9 +18,9 @@ export default function UpdateModuleForm({
   user: User;
   myModule: Module;
 }) {
-  const [updateFormState, updateFormAction] = useFormState(updateModule, {});
+  const [updateFormState, updateFormAction] = useActionState(updateModule, {});
   const updateFormId = `update-module-${id}`;
-  const [deleteFormState, deleteFormAction] = useFormState(deleteModule, {});
+  const [deleteFormState, deleteFormAction] = useActionState(deleteModule, {});
   const deleteFormRef = useRef(null);
   const { hideMessage, setHideMessage } = useUpdateDeleteForms(
     updateFormState,

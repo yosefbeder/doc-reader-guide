@@ -27,7 +27,7 @@ export async function addLecture(
       method: "POST",
       headers: {
         "content-type": "application/json;charset=UTF-8",
-        authorization: `Bearer ${cookies().get("jwt")!.value}`,
+        authorization: `Bearer ${(await cookies()).get("jwt")!.value}`,
       },
       body: JSON.stringify(data),
     }
@@ -67,7 +67,7 @@ export async function updateLecture(
       method: "PATCH",
       headers: {
         "content-type": "application/json;charset=UTF-8",
-        authorization: `Bearer ${cookies().get("jwt")!.value}`,
+        authorization: `Bearer ${(await cookies()).get("jwt")!.value}`,
       },
       body: JSON.stringify(data),
     }
@@ -100,7 +100,7 @@ export async function deleteLecture(
       method: "DELETE",
       headers: {
         "content-type": "application/json;charset=UTF-8",
-        authorization: `Bearer ${cookies().get("jwt")!.value}`,
+        authorization: `Bearer ${(await cookies()).get("jwt")!.value}`,
       },
     }
   );
@@ -147,7 +147,7 @@ export async function importSources(
           method: "POST",
           headers: {
             "content-type": "application/json;charset=UTF-8",
-            authorization: `Bearer ${cookies().get("jwt")!.value}`,
+            authorization: `Bearer ${(await cookies()).get("jwt")!.value}`,
           },
           body: JSON.stringify(link),
         }
@@ -171,7 +171,7 @@ export async function importSources(
           method: "POST",
           headers: {
             "content-type": "application/json;charset=UTF-8",
-            authorization: `Bearer ${cookies().get("jwt")!.value}`,
+            authorization: `Bearer ${(await cookies()).get("jwt")!.value}`,
           },
           body: JSON.stringify({ title: quiz.title }),
         }
@@ -203,7 +203,7 @@ export async function importSources(
           method: "POST",
           headers: {
             "content-type": "application/json;charset=UTF-8",
-            authorization: `Bearer ${cookies().get("jwt")!.value}`,
+            authorization: `Bearer ${(await cookies()).get("jwt")!.value}`,
           },
           body: JSON.stringify({ title: writtenQuiz.title }),
         }

@@ -47,7 +47,7 @@ export async function quickAdd(
     };
   }
 
-  const token = cookies().get("jwt")?.value;
+  const token = (await cookies()).get("jwt")?.value;
   if (!token) {
     return {
       type: "fail",
@@ -149,7 +149,7 @@ export async function addSubject(
       method: "POST",
       headers: {
         "content-type": "application/json;charset=UTF-8",
-        authorization: `Bearer ${cookies().get("jwt")!.value}`,
+        authorization: `Bearer ${(await cookies()).get("jwt")!.value}`,
       },
       body: JSON.stringify(data),
     }
@@ -187,7 +187,7 @@ export async function updateSubject(
       method: "PATCH",
       headers: {
         "content-type": "application/json;charset=UTF-8",
-        authorization: `Bearer ${cookies().get("jwt")!.value}`,
+        authorization: `Bearer ${(await cookies()).get("jwt")!.value}`,
       },
       body: JSON.stringify(data),
     }
@@ -219,7 +219,7 @@ export async function deleteSubject(
       method: "DELETE",
       headers: {
         "content-type": "application/json;charset=UTF-8",
-        authorization: `Bearer ${cookies().get("jwt")!.value}`,
+        authorization: `Bearer ${(await cookies()).get("jwt")!.value}`,
       },
     }
   );

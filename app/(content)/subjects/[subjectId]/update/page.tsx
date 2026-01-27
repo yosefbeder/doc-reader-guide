@@ -7,11 +7,17 @@ import DeleteSpecial from "./components/DeleteSpecial";
 import getUser from "@/utils/getUserServer";
 import notUpdateable from "@/utils/isUpdateable";
 
-export default async function LecturesPage({
-  params: { subjectId },
-}: {
-  params: { subjectId: string };
-}) {
+export default async function LecturesPage(
+  props: {
+    params: Promise<{ subjectId: string }>;
+  }
+) {
+  const params = await props.params;
+
+  const {
+    subjectId
+  } = params;
+
   const user = await getUser();
   const [subject, lectures] = await Promise.all([
     getSubject(+subjectId),

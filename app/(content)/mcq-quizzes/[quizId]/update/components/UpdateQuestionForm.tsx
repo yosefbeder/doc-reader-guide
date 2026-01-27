@@ -1,7 +1,6 @@
 "use client";
 
-import { useRef } from "react";
-import { useFormState } from "react-dom";
+import { useRef, useActionState } from "react";
 
 import QuestionFields from "./QuestionFields";
 import { deleteQuestion, updateQuestion } from "@/lib/actions/mcqQuizzes";
@@ -21,9 +20,9 @@ export default function UpdateQuestionForm({
   question: McqQuestion;
   quizId: number;
 }) {
-  const [updateFormState, updateFormAction] = useFormState(updateQuestion, {});
+  const [updateFormState, updateFormAction] = useActionState(updateQuestion, {});
   const updateFormId = `update-question-${question.id}`;
-  const [deleteFormState, deleteFormAction] = useFormState(deleteQuestion, {});
+  const [deleteFormState, deleteFormAction] = useActionState(deleteQuestion, {});
   const formRef = useRef<HTMLFormElement>(null);
   const { hideMessage, setHideMessage } = useUpdateDeleteForms(
     updateFormState,

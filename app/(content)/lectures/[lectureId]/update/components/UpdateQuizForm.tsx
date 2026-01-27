@@ -1,7 +1,6 @@
 "use client";
 
-import { useRef } from "react";
-import { useFormState } from "react-dom";
+import { useRef, useActionState } from "react";
 
 import QuizFields from "./QuizFields";
 import {
@@ -32,12 +31,12 @@ export default function UpdateQuizForm({
   onClose: () => void;
   yearId: number;
 }) {
-  const [updateFormState, updateFormAction] = useFormState(
+  const [updateFormState, updateFormAction] = useActionState(
     type === "mcq" ? updateMcqQuiz : updateWrittenQuiz,
     {}
   );
   const updateFormId = `update-${type}-quiz-${quiz.id}`;
-  const [deleteFormState, deleteFormAction] = useFormState(
+  const [deleteFormState, deleteFormAction] = useActionState(
     type === "mcq" ? deleteMcqQuiz : deleteWrittenQuiz,
     {}
   );

@@ -1,7 +1,6 @@
 "use client";
 
-import { useRef } from "react";
-import { useFormState } from "react-dom";
+import { useRef, useActionState } from "react";
 
 import ButtonSubmit from "@/components/ButtonSubmit";
 import SubjectFields from "./SubjectFields";
@@ -19,9 +18,9 @@ export default function UpdateSubjectForm({
   user: User;
   subject: Subject;
 }) {
-  const [updateFormState, updateFormAction] = useFormState(updateSubject, {});
+  const [updateFormState, updateFormAction] = useActionState(updateSubject, {});
   const updateFormId = `update-subject-${id}`;
-  const [deleteFormState, deleteFormAction] = useFormState(deleteSubject, {});
+  const [deleteFormState, deleteFormAction] = useActionState(deleteSubject, {});
   const formRef = useRef(null);
   const { hideMessage, setHideMessage } = useUpdateDeleteForms(
     updateFormState,

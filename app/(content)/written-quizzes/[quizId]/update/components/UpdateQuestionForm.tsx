@@ -1,7 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
-import { useFormState } from "react-dom";
+import React, { useEffect, useRef, useActionState } from "react";
 
 import ButtonDelete from "@/components/ButtonDelete";
 import ButtonSubmit from "@/components/ButtonSubmit";
@@ -22,9 +21,9 @@ export default function UpdateQuestionForm({
   quizId: number;
   question: WrittenQuestion;
 }) {
-  const [updateFormState, updateFormAction] = useFormState(updateQuestion, {});
+  const [updateFormState, updateFormAction] = useActionState(updateQuestion, {});
   const updateFormId = `update-question-${question.id}`;
-  const [deleteFormState, deleteFormAction] = useFormState(deleteQuestion, {});
+  const [deleteFormState, deleteFormAction] = useActionState(deleteQuestion, {});
   const formRef = useRef<HTMLFormElement>(null);
   const { hideMessage, setHideMessage } = useUpdateDeleteForms(
     updateFormState,

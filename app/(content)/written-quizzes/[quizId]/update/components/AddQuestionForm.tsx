@@ -1,7 +1,6 @@
 "use client";
 
-import React from "react";
-import { useFormState } from "react-dom";
+import React, { useActionState } from "react";
 
 import ButtonSubmit from "@/components/ButtonSubmit";
 import Message from "@/components/Message";
@@ -12,7 +11,7 @@ import QuestionFields from "./QuestionFields";
 const formId = "practical-question-new";
 
 export default function AddQuestionForm({ quizId }: { quizId: number }) {
-  const [formState, formAction] = useFormState(addQuestion, {});
+  const [formState, formAction] = useActionState(addQuestion, {});
   const { hideMessage, setHideMessage, formKey } = useAddForm(formState);
 
   return (

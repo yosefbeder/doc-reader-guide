@@ -7,7 +7,7 @@ export default async function getUser(): Promise<User> {
     {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${cookies().get("jwt")!.value}`,
+        Authorization: `Bearer ${(await cookies()).get("jwt")!.value}`,
       },
     }
   );
