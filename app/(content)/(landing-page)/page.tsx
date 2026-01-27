@@ -3,15 +3,25 @@
 import Features from "./components/Features";
 import Hero from "./components/Hero";
 import Nav from "./components/Nav";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Testimonials from "./components/Testimonials";
 import Footer from "@/components/Footer";
 import Stats from "./components/Stats";
 import Sponsership from "./components/Sponsership";
 import UniversityRequest from "./components/UniversityRequest";
 
+import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
+
 export default function LandingPage() {
   const [lang, setLang] = useState<"en" | "ar">("en");
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!Cookies.get("guest")) {
+      router.replace("/app");
+    }
+  }, []);
 
   const toggleLanguage = () => {
     const newLang = lang === "en" ? "ar" : "en";
