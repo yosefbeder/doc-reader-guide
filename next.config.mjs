@@ -18,19 +18,28 @@ export default withPWA({
   disable: process.env.NODE_ENV === "development",
   cacheOnFrontEndNav: true,
   extendDefaultRuntimeCaching: true,
-  workboxOptions: {
-    runtimeCaching: [
-      {
-        urlPattern: "/",
-        handler: "StaleWhileRevalidate",
-        options: {
-          cacheName: "landing-page-cache",
-          expiration: {
-            maxEntries: 1,
-            maxAgeSeconds: 30 * 24 * 60 * 60,
-          },
+  runtimeCaching: [
+    {
+      urlPattern: "/",
+      handler: "StaleWhileRevalidate",
+      options: {
+        cacheName: "landing-page-cache",
+        expiration: {
+          maxEntries: 1,
+          maxAgeSeconds: 30 * 24 * 60 * 60,
         },
       },
-    ],
-  },
+    },
+    {
+      urlPattern: "/app",
+      handler: "StaleWhileRevalidate",
+      options: {
+        cacheName: "app-home-cache",
+        expiration: {
+          maxEntries: 1,
+          maxAgeSeconds: 30 * 24 * 60 * 60,
+        },
+      },
+    },
+  ],
 })(nextConfig);
