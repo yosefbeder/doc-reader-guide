@@ -16,4 +16,20 @@ export default withPWA({
   buildExcludes: [/middleware-manifest\.json$/],
   disable: process.env.NODE_ENV === "development",
   cacheOnFrontEndNav: true,
+  extendDefaultRuntimeCaching: true,
+  workboxOptions: {
+    runtimeCaching: [
+      {
+        urlPattern: "/",
+        handler: "StaleWhileRevalidate",
+        options: {
+          cacheName: "landing-page-cache",
+          expiration: {
+            maxEntries: 1,
+            maxAgeSeconds: 30 * 24 * 60 * 60,
+          },
+        },
+      },
+    ],
+  },
 })(nextConfig);
