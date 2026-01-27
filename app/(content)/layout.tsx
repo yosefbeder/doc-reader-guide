@@ -5,6 +5,7 @@ import "../globals.css";
 import NotificationListener from "@/components/NotificationListener";
 import SWRWrapper from "@/components/SWRWrapper";
 import themeScript from "@/utils/themeScript";
+import { SerwistProvider } from "../serwist";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const cairo = Cairo({
@@ -21,7 +22,9 @@ export default function RootLayout({
     <html>
       <body className={`${inter.variable} ${cairo.variable} font-sans`}>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
-        <SWRWrapper>{children}</SWRWrapper>
+        <SerwistProvider swUrl="/serwist/sw.js">
+          <SWRWrapper>{children}</SWRWrapper>
+        </SerwistProvider>
         <NotificationListener />
         <ThemeToaster />
       </body>
