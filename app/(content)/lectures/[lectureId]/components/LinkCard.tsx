@@ -3,6 +3,7 @@
 import { Action, Link, Resource } from "@/types";
 import { typeIcons } from "./typeIcons";
 import ButtonIcon from "@/components/ButtonIcon";
+import dynamic from "next/dynamic";
 
 import { logEvent } from "@/lib/event-logger";
 import { useState, useRef, useEffect } from "react";
@@ -10,8 +11,12 @@ import { icons } from "@/components/icons";
 import getPrefix from "@/utils/getPrefix";
 import { useOfflineMedia } from "@/lib/hooks/useOfflineMedia";
 import AudioPlayerDialogue from "@/components/AudioPlayerDialogue";
-import PdfViewerDialogue from "@/components/PdfViewerDialogue";
 import DocReaderBadge from "@/components/DocReaderBadge";
+
+const PdfViewerDialogue = dynamic(
+  () => import("@/components/PdfViewerDialogue"),
+  { ssr: false }
+);
 
 const R2_URL = process.env.NEXT_PUBLIC_R2_URL || "";
 
