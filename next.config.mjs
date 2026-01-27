@@ -15,6 +15,7 @@ export default withPWA({
   skipWaiting: true,
   buildExcludes: [/middleware-manifest\.json$/],
   disable: process.env.NODE_ENV === "development",
+  extendDefaultRuntimeCaching: true,
   runtimeCaching: [
     {
       urlPattern: new RegExp(
