@@ -7,6 +7,8 @@ import { Document, Page, pdfjs } from "react-pdf";
 import { useResizeObserver } from "@wojtekmaj/react-hooks";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
+import ButtonIcon from "./ButtonIcon";
+import Link from "next/link";
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   "pdfjs-dist/build/pdf.worker.min.mjs",
@@ -57,6 +59,9 @@ export default function PdfViewerDialogue({
       size="lg"
       className="rounded-xl col"
     >
+      <Link href={activeUrl} target="_blank" download>
+        <ButtonIcon icon="folder" />
+      </Link>
       <div ref={setContainerRef}>
         <Document
           file={activeUrl}

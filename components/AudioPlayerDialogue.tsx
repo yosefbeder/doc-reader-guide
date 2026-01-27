@@ -6,6 +6,7 @@ import Dialogue from "./Dialogue";
 import { useOfflineMedia } from "@/lib/hooks/useOfflineMedia";
 import { icons } from "./icons";
 import ButtonIcon from "./ButtonIcon";
+import Link from "next/link";
 
 function AudioArt() {
   return (
@@ -198,11 +199,9 @@ export default function AudioPlayerDialogue({
           />
           <span className="text-xs">+10s</span>
         </div>
-        <ButtonIcon
-          icon={isDownloaded ? "check" : "arrow-down-tray"}
-          disabled={isDownloaded || isDownloading}
-          onClick={download}
-        />
+        <Link href={activeUrl} target="_blank" download>
+          <ButtonIcon icon="folder" />
+        </Link>
       </div>
     </Dialogue>
   );
