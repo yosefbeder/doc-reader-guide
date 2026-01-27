@@ -16,21 +16,8 @@ export default withPWA({
   buildExcludes: [/middleware-manifest\.json$/],
   disable: process.env.NODE_ENV === "development",
   extendDefaultRuntimeCaching: true,
-  cacheStartUrl: true,
-  dynamicStartUrl: true,
   cacheOnFrontEndNav: true,
   runtimeCaching: [
-    {
-      urlPattern: /\/app/,
-      handler: "StaleWhileRevalidate",
-      options: {
-        cacheName: "app-cache",
-        expiration: {
-          maxEntries: 50,
-          maxAgeSeconds: 7 * 24 * 60 * 60,
-        },
-      },
-    },
     {
       urlPattern: new RegExp(
         `^${(process.env.NEXT_PUBLIC_STATIC_URL || "").replace(
