@@ -16,7 +16,9 @@ export default withPWA({
   buildExcludes: [/middleware-manifest\.json$/],
   disable: process.env.NODE_ENV === "development",
   extendDefaultRuntimeCaching: true,
-  dynamicStartUrl: false,
+  cacheStartUrl: true,
+  dynamicStartUrl: true,
+  cacheOnFrontEndNav: true,
   runtimeCaching: [
     {
       urlPattern: /\/app/,
