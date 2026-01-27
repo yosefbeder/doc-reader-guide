@@ -115,7 +115,9 @@ export default function LinkFields({
       toast.success("File uploaded successfully", { id: toastId });
       setUrls((prev) => [...prev, { id: currentCounter, value: publicUrl }]);
       setCurrentCounter((prev) => prev + 1);
-      e.target.value = ""; // Reset input
+      e.target.value = "";
+      if (formId)
+        (document.getElementById(formId) as HTMLFormElement).requestSubmit();
     } catch (error: any) {
       toast.error(`Error: ${error.message}`, { id: toastId });
     } finally {
