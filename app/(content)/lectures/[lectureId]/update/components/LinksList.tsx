@@ -434,7 +434,6 @@ export default function LinksList({
                             <QuizCard
                               type="mcq"
                               quiz={quiz}
-                              printable
                               updateable={!notUpdateable(user, quiz.creatorId)}
                               onUpdate={() =>
                                 setCurrent({ type: "mcq", id: quiz.id })

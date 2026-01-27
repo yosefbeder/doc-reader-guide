@@ -2,21 +2,19 @@
 
 import { useEffect, useState } from "react";
 import NextLink from "next/link";
-import Image from "next/image";
 
 import { Action, QuestionState, Quiz, QuizType, Resource } from "@/types";
 import ButtonPrintQuiz from "./ButtonPrintQuiz";
-import LogoImage from "@/public/logo.png";
 import ButtonIcon from "@/components/ButtonIcon";
 import { icons } from "@/components/icons";
 import { logEvent } from "@/lib/event-logger";
 import getPrefix from "@/utils/getPrefix";
 import formatLectureTitle from "@/utils/formatLectureTitle";
+import DocReaderBadge from "@/components/DocReaderBadge";
 
 export default function QuizCard({
   quiz,
   type,
-  printable = false,
   updateable = false,
   showPath = false,
   discardable = false,
@@ -25,7 +23,6 @@ export default function QuizCard({
 }: {
   quiz: Quiz;
   type: QuizType;
-  printable?: boolean;
   showPath?: boolean;
   updateable?: boolean;
   discardable?: boolean;
@@ -108,12 +105,8 @@ export default function QuizCard({
               </div>
             )}
           {!showPath && (
-            <div className="flex items-center gap-1 caption">
-              <div>Presented by</div>
-              <Image src={LogoImage} className="w-3" alt="Logo" />
-              <div className="text-cyan-700 dark:text-cyan-500 font-extrabold">
-                DocReader Guide
-              </div>
+            <div className="caption">
+              <DocReaderBadge />
             </div>
           )}
         </div>

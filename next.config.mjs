@@ -1,15 +1,7 @@
 /** @type {import('next').NextConfig} */
+import withPWA from "next-pwa";
+
 const nextConfig = {
-  images: {
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "doc-reader-guide-server.online",
-        port: "8080",
-        pathname: "/image/**",
-      },
-    ],
-  },
   experimental: {
     serverActions: {
       bodySizeLimit: "50mb",
@@ -17,4 +9,29 @@ const nextConfig = {
   },
 };
 
-export default nextConfig;
+export default withPWA({
+  dest: "public",
+  register: true,
+  skipWaiting: true,
+  buildExcludes: [/middleware-manifest\.json$/],
+  disable: process.env.NODE_ENV === "development",
+  runtimeCaching: [
+    {
+      urlPattern: new RegExp(
+        `^${(process.env.NEXT_PUBLIC_STATIC_URL || "").replace(
+          /[.*+?^${}()|[\]\\]/g,
+          "\\$&"
+        )}/image/.*`,
+        "i"
+      ),
+      handler: "CacheFirst",
+      options: {
+        cacheName: "cross-origin-images",
+        expiration: {
+          maxEntries: 64,
+          maxAgeSeconds: 7 * 24 * 60 * 60,
+        },
+      },
+    },
+  ],
+})(nextConfig);

@@ -65,7 +65,7 @@ export default function LinksList({
                   <>
                     {mcqQuizzes.map((quiz) => (
                       <li key={`mcq-quiz-${quiz.id}`}>
-                        <QuizCard type="mcq" quiz={quiz} printable />
+                        <QuizCard type="mcq" quiz={quiz} />
                       </li>
                     ))}
                     {writtenQuizzes.map((quiz) => (

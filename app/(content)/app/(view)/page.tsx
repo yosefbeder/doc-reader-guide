@@ -175,7 +175,6 @@ export default function ModulesPage() {
                     <QuizCard
                       type="mcq"
                       quiz={quiz}
-                      printable
                       showPath
                       discardable
                       onDiscard={() => setRefreshKey((k) => k + 1)}
