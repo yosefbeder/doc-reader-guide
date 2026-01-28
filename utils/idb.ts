@@ -14,7 +14,7 @@ export interface OfflineDB extends DBSchema {
       bytes: number;
       status: "offline" | "downloading" | "error";
       keys: {
-        type: "asset-cache" | "page-cache";
+        type: "asset-cache" | "page-cache" | "api-cache";
         key: string;
       }[];
     };

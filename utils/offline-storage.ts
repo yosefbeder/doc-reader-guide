@@ -99,9 +99,15 @@ export async function saveModuleToOffline(
   );
 
   const db = await initDB();
-  const trackedKeys: { type: "asset-cache" | "page-cache"; key: string }[] = [];
+  const trackedKeys: {
+    type: "asset-cache" | "page-cache" | "api-cache";
+    key: string;
+  }[] = [];
 
-  const addKey = (type: "asset-cache" | "page-cache", key: string) => {
+  const addKey = (
+    type: "asset-cache" | "page-cache" | "api-cache",
+    key: string
+  ) => {
     trackedKeys.push({ type, key });
   };
 
@@ -180,7 +186,14 @@ export async function saveModuleToOffline(
         // MCQ
         for (const quiz of fullLecture.mcqQuizzes || []) {
           const fullQuiz = await getMcqQuiz(quiz.id);
+
+          const quizAPIUrl = `${process.env.NEXT_PUBLIC_API_URL}/mcq-quizzes/${quiz.id}`;
           const quizPageUrl = `/mcq-quizzes/${quiz.id}`;
+
+          downloadedBytes += await cacheAPI(quizAPIUrl, {
+            data: { mcqQuiz: fullQuiz },
+          });
+          addKey("api-cache", quizAPIUrl);
 
           downloadedBytes += await cachePage(quizPageUrl);
           addKey("page-cache", quizPageUrl);
@@ -197,7 +210,14 @@ export async function saveModuleToOffline(
         // Written
         for (const quiz of fullLecture.writtenQuizzes || []) {
           const fullQuiz = await getWrittenQuiz(quiz.id);
+
+          const quizAPIUrl = `${process.env.NEXT_PUBLIC_API_URL}/written-quizzes/${quiz.id}`;
           const quizPageUrl = `/written-quizzes/${quiz.id}`;
+
+          downloadedBytes += await cacheAPI(quizAPIUrl, {
+            data: { writtenQuiz: fullQuiz },
+          });
+          addKey("api-cache", quizAPIUrl);
 
           downloadedBytes += await cachePage(quizPageUrl);
           addKey("page-cache", quizPageUrl);
@@ -260,6 +280,7 @@ export async function removeModuleFromOffline(moduleId: number) {
   if (meta && meta.keys) {
     const cache = await caches.open(ASSETS_CACHE_NAME);
     const pagesCache = await caches.open(PAGES_CACHE_NAME);
+    const apiCache = await caches.open(API_CACHE_NAME);
 
     for (const item of meta.keys) {
       try {
@@ -267,6 +288,8 @@ export async function removeModuleFromOffline(moduleId: number) {
           await cache.delete(item.key);
         } else if (item.type === "page-cache") {
           await pagesCache.delete(item.key);
+        } else if (item.type === "api-cache") {
+          await apiCache.delete(item.key);
         }
       } catch (e) {
         console.warn(`Failed to delete ${item.type} key: ${item.key}`, e);
