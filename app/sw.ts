@@ -3,7 +3,7 @@
 /// <reference lib="webworker" />
 import { defaultCache } from "@serwist/next/worker";
 import type { PrecacheEntry, SerwistGlobalConfig } from "serwist";
-import { NetworkFirst, Serwist, StaleWhileRevalidate } from "serwist";
+import { ExpirationPlugin, NetworkFirst, Serwist } from "serwist";
 
 // This declares the value of `injectionPoint` to TypeScript.
 // `injectionPoint` is the string that will be replaced by the
@@ -27,7 +27,6 @@ const serwist = new Serwist({
   precacheEntries: filteredManifest,
   skipWaiting: true,
   clientsClaim: true,
-  navigationPreload: true,
   runtimeCaching: [
     {
       matcher: ({ request }) => request.mode === "navigate",
@@ -35,31 +34,16 @@ const serwist = new Serwist({
         cacheName: "doc-reader-pages",
         networkTimeoutSeconds: 5,
         plugins: [
-          {
-            cacheWillUpdate: async ({ response }) => {
-              if (response && response.status === 200) {
-                return response;
-              }
-              return null;
-            },
-          },
+          new ExpirationPlugin({
+            maxAgeSeconds: 0,
+          }),
         ],
       }),
     },
     {
       matcher: ({ url }) => url.pathname.includes("/v2/"),
-      handler: new StaleWhileRevalidate({
+      handler: new NetworkFirst({
         cacheName: "doc-reader-api",
-        plugins: [
-          {
-            cacheWillUpdate: async ({ response }) => {
-              if (response && response.status === 200) {
-                return response;
-              }
-              return null;
-            },
-          },
-        ],
       }),
     },
     ...defaultCache,
