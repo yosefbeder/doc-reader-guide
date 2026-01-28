@@ -1,8 +1,8 @@
 import { Metadata } from "next";
 
-import getSubjects from "@/utils/getSubjects";
+import getSubjects from "@/utils/getSubjectsServer";
 import Path from "../components/Path";
-import getModule from "@/utils/getModule";
+import getModule from "@/utils/getModuleServer";
 import Message from "@/components/Message";
 import StructuredData from "../components/StructuredData";
 import buildCanonical from "@/utils/buildCanonical";
@@ -16,9 +16,7 @@ type Props = { params: Promise<{ moduleId: string }> };
 export async function generateMetadata(props: Props): Promise<Metadata> {
   const params = await props.params;
 
-  const {
-    moduleId
-  } = params;
+  const { moduleId } = params;
 
   const myModule = await getModule(+moduleId);
   if (!myModule) return { robots: { index: false, follow: false } };
@@ -54,9 +52,7 @@ export async function generateStaticParams() {
 export default async function SubjectsPage(props: Props) {
   const params = await props.params;
 
-  const {
-    moduleId
-  } = params;
+  const { moduleId } = params;
 
   const [myModule, subjects] = await Promise.all([
     getModule(+moduleId),

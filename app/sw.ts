@@ -3,7 +3,7 @@
 /// <reference lib="webworker" />
 import { defaultCache } from "@serwist/turbopack/worker";
 import type { PrecacheEntry, SerwistGlobalConfig } from "serwist";
-import { Serwist } from "serwist";
+import { Serwist, StaleWhileRevalidate } from "serwist";
 
 // This declares the value of `injectionPoint` to TypeScript.
 // `injectionPoint` is the string that will be replaced by the
@@ -22,7 +22,25 @@ const serwist = new Serwist({
   skipWaiting: true,
   clientsClaim: true,
   navigationPreload: true,
-  runtimeCaching: defaultCache,
+  runtimeCaching: [
+    {
+      matcher: ({ request }) => request.mode === "navigate",
+      handler: new StaleWhileRevalidate({
+        cacheName: "doc-reader-pages",
+        plugins: [
+          {
+            cacheWillUpdate: async ({ response }) => {
+              if (response && response.status === 200) {
+                return response;
+              }
+              return null;
+            },
+          },
+        ],
+      }),
+    },
+    ...defaultCache,
+  ],
 });
 
 serwist.addEventListeners();

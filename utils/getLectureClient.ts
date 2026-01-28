@@ -1,0 +1,29 @@
+import { Lecture } from "@/types";
+
+export default async function getLecture(
+  lectureId: number,
+  withQuestions?: boolean
+): Promise<Lecture> {
+  const res = await fetch(
+    `${
+      process.env.NEXT_PUBLIC_API_URL
+    }/lectures/${lectureId}?include=links,mcqQuizzes${
+      withQuestions
+        ? ",mcqQuizzes.id,mcqQuizzes.title,mcqQuizzes.questions"
+        : ""
+    },writtenQuizzes${
+      withQuestions
+        ? ",writtenQuizzes.id,writtenQuizzes.title,writtenQuizzes.questions,writtenQuizzes.questions.image,writtenQuizzes.questions.width,writtenQuizzes.questions.height,writtenQuizzes.questions.subQuestions,writtenQuizzes.questions.tapes,writtenQuizzes.questions.masks"
+        : ""
+    }`,
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    }
+  );
+  const json = await res.json();
+  if (!res.ok) throw new Error(json.message);
+  return json.data.lecture;
+}

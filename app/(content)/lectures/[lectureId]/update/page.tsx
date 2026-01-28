@@ -1,20 +1,16 @@
 import Path from "../components/Path";
-import getLecture from "@/utils/getLecture";
+import getLecture from "@/utils/getLectureServer";
 import LinksList from "./components/LinksList";
 import AddSection from "./components/AddSection";
 import Note from "./components/Note";
 import getUser from "@/utils/getUserServer";
 
-export default async function UpdateLinksPage(
-  props: {
-    params: Promise<{ lectureId: string }>;
-  }
-) {
+export default async function UpdateLinksPage(props: {
+  params: Promise<{ lectureId: string }>;
+}) {
   const params = await props.params;
 
-  const {
-    lectureId
-  } = params;
+  const { lectureId } = params;
 
   const user = await getUser();
   const lecture = await getLecture(+lectureId, true);

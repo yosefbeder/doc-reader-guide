@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 
-import getLecture from "@/utils/getLecture";
+import getLecture from "@/utils/getLectureServer";
 import LinksList from "../components/LinksList";
 import Path from "../components/Path";
 import HtmlContentServer from "@/components/HtmlContentServer";
@@ -18,9 +18,7 @@ interface Props {
 export async function generateMetadata(props: Props): Promise<Metadata> {
   const params = await props.params;
 
-  const {
-    lectureId
-  } = params;
+  const { lectureId } = params;
 
   const lecture = await getLecture(+lectureId);
   if (!lecture) return { robots: { index: false, follow: false } };
@@ -57,9 +55,7 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 export default async function LinksPage(props: Props) {
   const params = await props.params;
 
-  const {
-    lectureId
-  } = params;
+  const { lectureId } = params;
 
   const lecture = await getLecture(+lectureId);
 

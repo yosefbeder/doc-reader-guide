@@ -3,7 +3,7 @@ import { Metadata } from "next";
 import Path from "../components/Path";
 import getSubject from "@/utils/getSubject";
 import MasonryCardContainer from "@/components/MasonryCardContainer";
-import getLectures from "@/utils/getLectures";
+import getLectures from "@/utils/getLecturesServer";
 import LectureCard from "./components/LectureCard";
 import Message from "@/components/Message";
 import StructuredData from "../components/StructuredData";
@@ -19,9 +19,7 @@ interface Props {
 export async function generateMetadata(props: Props): Promise<Metadata> {
   const params = await props.params;
 
-  const {
-    subjectId
-  } = params;
+  const { subjectId } = params;
 
   const subject = await getSubject(+subjectId);
   if (!subject) return { robots: { index: false, follow: false } };
@@ -54,16 +52,12 @@ export async function generateStaticParams() {
   }));
 }
 
-export default async function LecturesPage(
-  props: {
-    params: Promise<{ subjectId: string }>;
-  }
-) {
+export default async function LecturesPage(props: {
+  params: Promise<{ subjectId: string }>;
+}) {
   const params = await props.params;
 
-  const {
-    subjectId
-  } = params;
+  const { subjectId } = params;
 
   const [subject, lectures] = await Promise.all([
     getSubject(+subjectId),

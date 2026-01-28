@@ -1,21 +1,17 @@
-import getSubjects from "@/utils/getSubjects";
+import getSubjects from "@/utils/getSubjectsServer";
 import Path from "../components/Path";
-import getModule from "@/utils/getModule";
+import getModule from "@/utils/getModuleServer";
 import UpdateSubjectForm from "./components/UpdateSubjectForm";
 import AddSubjectForm from "./components/AddSubjectForm";
 import getUser from "@/utils/getUserServer";
 import QuickAddForm from "./components/QuickAddForm";
 
-export default async function UpdateSubjectsPage(
-  props: {
-    params: Promise<{ moduleId: string }>;
-  }
-) {
+export default async function UpdateSubjectsPage(props: {
+  params: Promise<{ moduleId: string }>;
+}) {
   const params = await props.params;
 
-  const {
-    moduleId
-  } = params;
+  const { moduleId } = params;
 
   const user = await getUser();
   const [myModule, subjects] = await Promise.all([

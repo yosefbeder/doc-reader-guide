@@ -8,7 +8,7 @@ import { addMcqQuestions } from "./mcqQuizzes";
 import getNumber from "@/utils/getNumber";
 import replaceImgSrc from "@/utils/replaceImgSrc";
 import { addWrittenQuestions } from "./writtenQuizzes";
-import getLectures from "@/utils/getLectures";
+import getLectures from "@/utils/getLecturesServer";
 
 export async function addLecture(
   _prevState: FormState,

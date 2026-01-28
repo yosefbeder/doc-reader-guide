@@ -1,22 +1,18 @@
 import Path from "../components/Path";
 import getSubject from "@/utils/getSubject";
-import getLectures from "@/utils/getLectures";
+import getLectures from "@/utils/getLecturesServer";
 import UpdateLectureForm from "./components/UpdateLectureForm";
 import AddLectureForm from "./components/AddLectureForm";
 import DeleteSpecial from "./components/DeleteSpecial";
 import getUser from "@/utils/getUserServer";
 import notUpdateable from "@/utils/isUpdateable";
 
-export default async function LecturesPage(
-  props: {
-    params: Promise<{ subjectId: string }>;
-  }
-) {
+export default async function LecturesPage(props: {
+  params: Promise<{ subjectId: string }>;
+}) {
   const params = await props.params;
 
-  const {
-    subjectId
-  } = params;
+  const { subjectId } = params;
 
   const user = await getUser();
   const [subject, lectures] = await Promise.all([

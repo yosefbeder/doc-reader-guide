@@ -5,7 +5,7 @@ import { revalidatePath } from "next/cache";
 
 import getNumber from "@/utils/getNumber";
 import { FormState } from "@/types";
-import getSubjects from "@/utils/getSubjects";
+import getSubjects from "@/utils/getSubjectsServer";
 
 export async function fetchSubjects(moduleId: number) {
   return await getSubjects(moduleId);

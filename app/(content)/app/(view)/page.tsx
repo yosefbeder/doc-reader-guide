@@ -1,8 +1,6 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
 import useSWR from "swr";
 
 import getPrefix from "@/utils/getPrefix";
@@ -12,9 +10,9 @@ import Message from "@/components/Message";
 import CardPlaceholder from "@/components/CardPlaceholder";
 import { SummaryDetail } from "@/components/SummaryDetail";
 import SelectClass from "./components/SelectClass";
+import ModuleCard from "./components/ModuleCard";
 import QuizCard from "../../lectures/[lectureId]/components/QuizCard";
-import { logEvent } from "@/lib/event-logger";
-import { Action, QuestionState, Resource } from "@/types";
+import { QuestionState } from "@/types";
 import DonateButton from "@/components/DonateButton";
 import Button from "@/components/Button";
 
@@ -259,26 +257,9 @@ export default function ModulesPage() {
               <ul className="card-container p-4">
                 {data.modules
                   .filter((m) => m.semesterName === semesterName)
-                  .map(({ id, name, icon }, index) => (
+                  .map((module, index) => (
                     <li key={index}>
-                      <Link
-                        href={`/modules/${id}`}
-                        className="card layer-1"
-                        onClick={() =>
-                          logEvent(Resource.MODULE, id, Action.NAVIGATE, {})
-                        }
-                      >
-                        <span>
-                          <Image
-                            className="dark:invert dark:brightness-200"
-                            src={icon}
-                            alt={name}
-                            width={48}
-                            height={48}
-                          />
-                        </span>
-                        <h2>{name}</h2>
-                      </Link>
+                      <ModuleCard module={module} />
                     </li>
                   ))}
               </ul>
