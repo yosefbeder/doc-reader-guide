@@ -3,7 +3,7 @@
 /// <reference lib="webworker" />
 import { defaultCache } from "@serwist/next/worker";
 import type { PrecacheEntry, SerwistGlobalConfig } from "serwist";
-import { Serwist, StaleWhileRevalidate } from "serwist";
+import { NetworkFirst, Serwist, StaleWhileRevalidate } from "serwist";
 
 // This declares the value of `injectionPoint` to TypeScript.
 // `injectionPoint` is the string that will be replaced by the
@@ -31,11 +31,9 @@ const serwist = new Serwist({
   runtimeCaching: [
     {
       matcher: ({ request }) => request.mode === "navigate",
-      handler: new StaleWhileRevalidate({
+      handler: new NetworkFirst({
         cacheName: "doc-reader-pages",
-        matchOptions: {
-          ignoreSearch: true,
-        },
+        networkTimeoutSeconds: 5,
         plugins: [
           {
             cacheWillUpdate: async ({ response }) => {
