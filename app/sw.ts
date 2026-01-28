@@ -42,6 +42,22 @@ const serwist = new Serwist({
         ],
       }),
     },
+    {
+      matcher: ({ url }) => url.pathname.includes("/v2/"),
+      handler: new StaleWhileRevalidate({
+        cacheName: "doc-reader-api",
+        plugins: [
+          {
+            cacheWillUpdate: async ({ response }) => {
+              if (response && response.status === 200) {
+                return response;
+              }
+              return null;
+            },
+          },
+        ],
+      }),
+    },
     ...defaultCache,
   ],
 });

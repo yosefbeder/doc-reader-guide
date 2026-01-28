@@ -1,10 +1,18 @@
-import { initDB, ASSETS_CACHE_NAME, PAGES_CACHE_NAME } from "./idb";
+import {
+  initDB,
+  ASSETS_CACHE_NAME,
+  PAGES_CACHE_NAME,
+  API_CACHE_NAME,
+} from "./idb";
 import getSubjects from "./getSubjectsClient";
 import getLectures from "./getLecturesClient";
 import { getMcqQuiz, getWrittenQuiz } from "./getQuizClient";
 import getModule from "./getModuleClient";
 import getLecture from "./getLectureClient";
 import isValidURL from "./isValidURL";
+import getUser from "./getUserClient";
+import getModules from "./getModulesClient";
+import getFaculties from "./getFaculties";
 
 async function cacheAsset(url: string) {
   if (!url) return;
@@ -33,11 +41,42 @@ async function cachePage(url: string) {
   }
 }
 
+async function cacheAPI(url: string, data: any) {
+  try {
+    const cache = await caches.open(API_CACHE_NAME);
+    const response = new Response(JSON.stringify(data), {
+      headers: { "Content-Type": "application/json" },
+    });
+    await cache.put(url, response);
+  } catch (error) {
+    console.error(`Failed to cache API data: ${url}`, error);
+  }
+}
+
 export async function saveModuleToOffline(
   moduleId: number,
   onProgress?: (progress: number) => void,
   signal?: AbortSignal
 ) {
+  // For safety purposes
+  await cachePage("/");
+  await cachePage("/profile");
+  await cachePage("/app");
+  await cachePage("/android-app");
+  const user = (await getUser())!;
+  const modules = await getModules(user.year.id);
+  await cacheAPI(`${process.env.NEXT_PUBLIC_API_URL}/users/me?include=year`, {
+    data: { user },
+  });
+  await cacheAPI(
+    `${process.env.NEXT_PUBLIC_API_URL}/years/${user.year.id}/modules?sort=createdAt`,
+    { data: { modules } }
+  );
+  const faculties = await getFaculties();
+  await cacheAPI(`${process.env.NEXT_PUBLIC_API_URL}/faculties`, {
+    data: { faculties },
+  });
+
   const db = await initDB();
   const trackedKeys: { type: "asset-cache" | "page-cache"; key: string }[] = [];
 

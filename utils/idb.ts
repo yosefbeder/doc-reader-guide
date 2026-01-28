@@ -4,6 +4,7 @@ export const DB_NAME = "doc-reader-offline";
 export const DB_VERSION = 1;
 export const ASSETS_CACHE_NAME = "doc-reader-assets";
 export const PAGES_CACHE_NAME = "doc-reader-pages";
+export const API_CACHE_NAME = "doc-reader-api";
 
 export interface OfflineDB extends DBSchema {
   meta: {
