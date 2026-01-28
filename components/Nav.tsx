@@ -26,10 +26,10 @@ export default function Nav({
     >
       <nav className="main flex items-center justify-between max-sm:flex-col max-sm:gap-4 text-slate-900 dark:text-slate-100">
         <Link
-          href="/"
+          href="/app"
           className="no-underline text-inherit hover:text-inherit shrink-0"
           onClick={() =>
-            pathname !== "/" &&
+            pathname !== "/app" &&
             logEvent(null, null, Action.NAVIGATE_TO_HOME, {})
           }
         >
