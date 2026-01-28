@@ -4,6 +4,7 @@ import getLectures from "./getLecturesClient";
 import { getMcqQuiz, getWrittenQuiz } from "./getQuizClient";
 import getModule from "./getModuleClient";
 import getLecture from "./getLectureClient";
+import isValidURL from "./isValidURL";
 
 async function cacheAsset(url: string) {
   if (!url) return;
@@ -48,8 +49,6 @@ export async function saveModuleToOffline(
     status: "offline" | "downloading" | "error",
     progress: number
   ) => {
-    console.log(progress, trackedKeys);
-
     await db.put(
       "meta",
       {
@@ -157,7 +156,9 @@ export async function saveModuleToOffline(
                 const doc = parser.parseFromString(subQ.answer, "text/html");
                 const images = doc.querySelectorAll("img");
                 images.forEach((img) => {
-                  const imageUrl = `${process.env.NEXT_PUBLIC_STATIC_URL}/${img.src}`;
+                  const imageUrl = isValidURL(img.src)
+                    ? img.src
+                    : `${process.env.NEXT_PUBLIC_STATIC_URL}/${img.src}`;
                   cacheAsset(imageUrl);
                   addKey("asset-cache", imageUrl);
                 });
