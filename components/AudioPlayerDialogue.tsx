@@ -171,9 +171,9 @@ export default function AudioPlayerDialogue({
         <select
           value={speed}
           onChange={(e) => setSpeed(parseFloat(e.target.value))}
-          className="appearance-none text-xs font-bold py-1.5 px-3 bg-cyan-50 dark:bg-cyan-900 text-cyan-600 dark:text-cyan-400 rounded-full border-none focus:outline-none focus:ring-2 focus:ring-cyan-500 text-center"
+          className="appearance-none w-10 text-xs font-bold py-1.5 bg-cyan-50 dark:bg-cyan-900 text-cyan-600 dark:text-cyan-400 rounded-full border-none focus:outline-none focus:ring-2 focus:ring-cyan-500 text-center"
         >
-          {[0.5, 0.75, 1, 1.25, 1.5, 1.75, 2].map((s) => (
+          {[0.5, 0.75, 1, 1.25, 1.5, 1.75, 2, 2.5, 3].map((s) => (
             <option key={s} value={s}>
               {s}x
             </option>
