@@ -11,7 +11,7 @@ export interface OfflineDB extends DBSchema {
     key: number; // moduleId
     value: {
       timestamp: number;
-      progress: number;
+      bytes: number;
       status: "offline" | "downloading" | "error";
       keys: {
         type: "asset-cache" | "page-cache";

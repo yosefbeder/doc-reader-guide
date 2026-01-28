@@ -14,68 +14,89 @@ import getUser from "./getUserClient";
 import getModules from "./getModulesClient";
 import getFaculties from "./getFaculties";
 
-async function cacheAsset(url: string) {
-  if (!url) return;
+async function cacheAsset(url: string): Promise<number> {
+  if (!url) return 0;
   try {
     const cache = await caches.open(ASSETS_CACHE_NAME);
     const match = await cache.match(url);
     if (!match) {
-      await cache.add(url);
+      const response = await fetch(url);
+      if (response.ok) {
+        const blob = await response.blob();
+        await cache.put(url, new Response(blob, { headers: response.headers }));
+        return blob.size;
+      }
     }
+    return 0;
   } catch (error) {
     console.error(`Failed to cache asset: ${url}`, error);
+    return 0;
   }
 }
 
-async function cachePage(url: string) {
+async function cachePage(url: string): Promise<number> {
   try {
     const cache = await caches.open(PAGES_CACHE_NAME);
     const response = await fetch(url);
     if (response.ok) {
-      await cache.put(url, response);
+      const blob = await response.blob();
+      await cache.put(url, new Response(blob, { headers: response.headers }));
+      return blob.size;
     } else {
       console.warn(`Failed to fetch page: ${url}`, response.status);
+      return 0;
     }
   } catch (error) {
     console.error(`Failed to cache page: ${url}`, error);
+    return 0;
   }
 }
 
-async function cacheAPI(url: string, data: any) {
+async function cacheAPI(url: string, data: any): Promise<number> {
   try {
     const cache = await caches.open(API_CACHE_NAME);
-    const response = new Response(JSON.stringify(data), {
+    const jsonString = JSON.stringify(data);
+    const response = new Response(jsonString, {
       headers: { "Content-Type": "application/json" },
     });
     await cache.put(url, response);
+    return new TextEncoder().encode(jsonString).length;
   } catch (error) {
     console.error(`Failed to cache API data: ${url}`, error);
+    return 0;
   }
 }
 
 export async function saveModuleToOffline(
   moduleId: number,
-  onProgress?: (progress: number) => void,
+  onProgress?: (downloadedBytes: number) => void,
   signal?: AbortSignal
 ) {
+  let downloadedBytes = 0;
   // For safety purposes
-  await cachePage("/");
-  await cachePage("/profile");
-  await cachePage("/app");
-  await cachePage("/android-app");
+  downloadedBytes += await cachePage("/");
+  downloadedBytes += await cachePage("/profile");
+  downloadedBytes += await cachePage("/app");
+  downloadedBytes += await cachePage("/android-app");
   const user = (await getUser())!;
   const modules = await getModules(user.year.id);
-  await cacheAPI(`${process.env.NEXT_PUBLIC_API_URL}/users/me?include=year`, {
-    data: { user },
-  });
-  await cacheAPI(
+  downloadedBytes += await cacheAPI(
+    `${process.env.NEXT_PUBLIC_API_URL}/users/me?include=year`,
+    {
+      data: { user },
+    }
+  );
+  downloadedBytes += await cacheAPI(
     `${process.env.NEXT_PUBLIC_API_URL}/years/${user.year.id}/modules?sort=createdAt`,
     { data: { modules } }
   );
   const faculties = await getFaculties();
-  await cacheAPI(`${process.env.NEXT_PUBLIC_API_URL}/faculties`, {
-    data: { faculties },
-  });
+  downloadedBytes += await cacheAPI(
+    `${process.env.NEXT_PUBLIC_API_URL}/faculties`,
+    {
+      data: { faculties },
+    }
+  );
 
   const db = await initDB();
   const trackedKeys: { type: "asset-cache" | "page-cache"; key: string }[] = [];
@@ -86,13 +107,13 @@ export async function saveModuleToOffline(
 
   const updateMeta = async (
     status: "offline" | "downloading" | "error",
-    progress: number
+    bytes: number
   ) => {
     await db.put(
       "meta",
       {
         timestamp: Date.now(),
-        progress,
+        bytes,
         status,
         keys: trackedKeys,
       },
@@ -109,22 +130,22 @@ export async function saveModuleToOffline(
     const moduleData = await getModule(moduleId);
     const modulePageUrl = `/modules/${moduleId}`;
 
-    await cachePage(modulePageUrl);
+    downloadedBytes += await cachePage(modulePageUrl);
     addKey("page-cache", modulePageUrl);
 
     if (moduleData.icon) {
-      await cacheAsset(moduleData.icon);
+      downloadedBytes += await cacheAsset(moduleData.icon);
       addKey("asset-cache", moduleData.icon);
     }
 
-    onProgress?.(5);
+    onProgress?.(downloadedBytes);
     await updateMeta("downloading", 5);
 
     // 2. Fetch Subjects
     const subjects = await getSubjects(moduleId);
     const subjectsPageUrl = `/modules/${moduleId}`;
 
-    await cachePage(subjectsPageUrl);
+    downloadedBytes += await cachePage(subjectsPageUrl);
     addKey("page-cache", subjectsPageUrl);
 
     let totalItems = subjects.length;
@@ -133,7 +154,7 @@ export async function saveModuleToOffline(
     for (const subject of subjects) {
       if (signal?.aborted) throw new Error("Aborted");
       if (subject.icon) {
-        await cacheAsset(subject.icon);
+        downloadedBytes += await cacheAsset(subject.icon);
         addKey("asset-cache", subject.icon);
       }
 
@@ -141,7 +162,7 @@ export async function saveModuleToOffline(
       const lectures = await getLectures(subject.id);
       const lecturesPageUrl = `/subjects/${subject.id}`;
 
-      await cachePage(lecturesPageUrl);
+      downloadedBytes += await cachePage(lecturesPageUrl);
       addKey("page-cache", lecturesPageUrl);
 
       totalItems += lectures.length;
@@ -152,7 +173,7 @@ export async function saveModuleToOffline(
         const fullLecture = await getLecture(lecture.id);
         const lecturePageUrl = `/lectures/${lecture.id}`;
 
-        await cachePage(lecturePageUrl);
+        downloadedBytes += await cachePage(lecturePageUrl);
         addKey("page-cache", lecturePageUrl);
 
         // 4. Fetch Quizzes
@@ -161,13 +182,13 @@ export async function saveModuleToOffline(
           const fullQuiz = await getMcqQuiz(quiz.id);
           const quizPageUrl = `/mcq-quizzes/${quiz.id}`;
 
-          await cachePage(quizPageUrl);
+          downloadedBytes += await cachePage(quizPageUrl);
           addKey("page-cache", quizPageUrl);
 
           // Assets in Questions
           for (const q of fullQuiz.questions) {
             if (q.image) {
-              await cacheAsset(q.image);
+              downloadedBytes += await cacheAsset(q.image);
               addKey("asset-cache", q.image);
             }
           }
@@ -178,14 +199,14 @@ export async function saveModuleToOffline(
           const fullQuiz = await getWrittenQuiz(quiz.id);
           const quizPageUrl = `/written-quizzes/${quiz.id}`;
 
-          await cachePage(quizPageUrl);
+          downloadedBytes += await cachePage(quizPageUrl);
           addKey("page-cache", quizPageUrl);
 
           // Assets in Questions
           for (const q of fullQuiz.questions) {
             if (q.image) {
               const imageUrl = `${process.env.NEXT_PUBLIC_STATIC_URL!}/image/${q.image}`;
-              await cacheAsset(imageUrl);
+              downloadedBytes += await cacheAsset(imageUrl);
               addKey("asset-cache", imageUrl);
             }
             // HTML Answers
@@ -194,39 +215,35 @@ export async function saveModuleToOffline(
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(subQ.answer, "text/html");
                 const images = doc.querySelectorAll("img");
-                images.forEach((img) => {
+                for (const img of images) {
                   const imageUrl = isValidURL(img.src)
                     ? img.src
                     : `${process.env.NEXT_PUBLIC_STATIC_URL}/${img.src}`;
-                  cacheAsset(imageUrl);
+                  downloadedBytes += await cacheAsset(imageUrl);
                   addKey("asset-cache", imageUrl);
-                });
+                }
               }
             }
           }
         }
 
         processedItems++;
-        const currentProgress =
-          5 + Math.round((processedItems / totalItems) * 90);
-        onProgress?.(currentProgress);
-        await updateMeta("downloading", currentProgress);
+        onProgress?.(downloadedBytes);
+        await updateMeta("downloading", downloadedBytes);
       }
 
-      const subjectProgress =
-        5 + Math.round((processedItems / totalItems) * 90);
-      onProgress?.(subjectProgress);
+      onProgress?.(downloadedBytes);
     }
 
-    await updateMeta("offline", 100);
-    onProgress?.(100);
+    await updateMeta("offline", downloadedBytes);
+    onProgress?.(downloadedBytes);
   } catch (error) {
     console.error("Error downloading module:", error);
     await db.put(
       "meta",
       {
         timestamp: Date.now(),
-        progress: 0,
+        bytes: downloadedBytes,
         status: "error",
         keys: trackedKeys, // Save partial keys so we can clean up
       },

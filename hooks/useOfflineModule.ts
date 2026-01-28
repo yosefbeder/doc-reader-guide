@@ -6,11 +6,13 @@ import {
 import { initDB } from "@/utils/idb";
 import { toast } from "sonner";
 
+const toMb = (bytes: number) => (bytes / (1024 * 1024)).toFixed(2);
+
 export default function useOfflineModule(moduleId: number) {
   const [status, setStatus] = useState<
     "offline" | "downloading" | "error" | null
   >(null);
-  const [progress, setProgress] = useState(0);
+  const [bytes, setBytes] = useState(0);
   const abortControllerRef = useRef<AbortController | null>(null);
 
   const checkStatus = useCallback(async () => {
@@ -19,10 +21,10 @@ export default function useOfflineModule(moduleId: number) {
       const meta = await db.get("meta", moduleId);
       if (meta) {
         setStatus(meta.status);
-        setProgress(meta.progress);
+        setBytes(meta.bytes || 0);
       } else {
         setStatus(null);
-        setProgress(0);
+        setBytes(0);
       }
     } catch (e) {
       console.error("Failed to check offline status", e);
@@ -49,7 +51,7 @@ export default function useOfflineModule(moduleId: number) {
   const download = async () => {
     try {
       setStatus("downloading");
-      setProgress(0);
+      setBytes(0);
 
       const controller = new AbortController();
       abortControllerRef.current = controller;
@@ -67,9 +69,9 @@ export default function useOfflineModule(moduleId: number) {
 
       await saveModuleToOffline(
         moduleId,
-        (p) => {
-          setProgress(p);
-          toast.loading(`Downloading module... ${Math.round(p)}%`, {
+        (bytes) => {
+          setBytes(bytes);
+          toast.loading(`Downloading module... ${toMb(bytes)} MB`, {
             id: toastId,
           });
         },
@@ -77,7 +79,7 @@ export default function useOfflineModule(moduleId: number) {
       );
 
       toast.dismiss(toastId);
-      toast.success("Module saved offline successfully!");
+      toast.success(`Module saved offline successfully! (${toMb(bytes)} MB)`);
       checkStatus();
     } catch (error: any) {
       if (error.message === "Aborted") {
@@ -103,7 +105,7 @@ export default function useOfflineModule(moduleId: number) {
       const toastId = toast.loading("Removing offline module...");
       await removeModuleFromOffline(moduleId); // Pass moduleId
       toast.dismiss(toastId);
-      toast.success("Offline module removed.");
+      toast.success(`Offline module removed! (${toMb(bytes)} MB)`);
       checkStatus();
     } catch (error) {
       console.error(error);
@@ -115,7 +117,7 @@ export default function useOfflineModule(moduleId: number) {
     isOffline: status === "offline",
     isDownloading: status === "downloading",
     download,
-    progress,
+    bytes,
     remove,
   };
 }
