@@ -17,8 +17,14 @@ declare global {
 
 declare const self: ServiceWorkerGlobalScope;
 
+const manifest = self.__SW_MANIFEST;
+const filteredManifest = manifest?.filter(
+  (entry) =>
+    typeof entry === "string" || !entry.url.includes("MiddlewareManifest")
+);
+
 const serwist = new Serwist({
-  precacheEntries: self.__SW_MANIFEST,
+  precacheEntries: filteredManifest,
   skipWaiting: true,
   clientsClaim: true,
   navigationPreload: true,
