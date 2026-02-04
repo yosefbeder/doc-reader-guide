@@ -1,12 +1,38 @@
-"use client";
+import Image, { StaticImageData } from "next/image";
 
-import useSettings from "@/lib/hooks/useSettings";
-import { useEffect, useState } from "react";
+// Logos
+import logoAfmg from "@/public/logo-afmg.jpeg";
+import logoAinShams from "@/public/logo-ain-shams.png";
+import logoAzharDamietta from "@/public/logo-azhar-damietta.webp";
+
+// Dark Screenshots
+import afmg58_1_Dark from "@/public/images/testimonials/dark/afmg-58-1.jpeg";
+import afmg58_2_Dark from "@/public/images/testimonials/dark/afmg-58-2.jpeg";
+import afmg59_1_Dark from "@/public/images/testimonials/dark/afmg-59-1.jpeg";
+import afmg59_2_Dark from "@/public/images/testimonials/dark/afmg-59-2.jpeg";
+import afmg60_Dark from "@/public/images/testimonials/dark/afmg-60.jpeg";
+import ainShams78_Dark from "@/public/images/testimonials/dark/ain-shams-78.jpeg";
+import azharDamietta24_1_Dark from "@/public/images/testimonials/dark/azhar-damietta-24-1.jpeg";
+import azharDamietta24_2_Dark from "@/public/images/testimonials/dark/azhar-damietta-24-2.jpeg";
+import azharDamietta25_1_Dark from "@/public/images/testimonials/dark/azhar-damietta-25-1.jpeg";
+import azharDamietta25_2_Dark from "@/public/images/testimonials/dark/azhar-damietta-25-2.jpeg";
+
+// Light Screenshots
+import afmg58_1_Light from "@/public/images/testimonials/light/afmg-58-1.jpeg";
+import afmg58_2_Light from "@/public/images/testimonials/light/afmg-58-2.jpeg";
+import afmg59_1_Light from "@/public/images/testimonials/light/afmg-59-1.jpeg";
+import afmg59_2_Light from "@/public/images/testimonials/light/afmg-59-2.jpeg";
+import afmg60_Light from "@/public/images/testimonials/light/afmg-60.jpeg";
+import ainShams78_Light from "@/public/images/testimonials/light/ain-shams-78.jpeg";
+import azharDamietta24_1_Light from "@/public/images/testimonials/light/azhar-damietta-24-1.jpeg";
+import azharDamietta24_2_Light from "@/public/images/testimonials/light/azhar-damietta-24-2.jpeg";
+import azharDamietta25_1_Light from "@/public/images/testimonials/light/azhar-damietta-25-1.jpeg";
+import azharDamietta25_2_Light from "@/public/images/testimonials/light/azhar-damietta-25-2.jpeg";
 
 interface Testimonial {
-  screenshotDark: string;
-  screenshotLight: string;
-  logo: string;
+  screenshotDark: StaticImageData;
+  screenshotLight: StaticImageData;
+  logo: StaticImageData;
   batch: string;
   universityEn: string;
   universityAr: string;
@@ -14,81 +40,81 @@ interface Testimonial {
 
 const testimonials: Testimonial[] = [
   {
-    screenshotDark: "/images/testimonials/dark/afmg-58-1.jpeg",
-    screenshotLight: "/images/testimonials/light/afmg-58-1.jpeg",
-    logo: "/logo-afmg.jpeg",
+    screenshotDark: afmg58_1_Dark,
+    screenshotLight: afmg58_1_Light,
+    logo: logoAfmg,
     batch: "58",
     universityEn: "AFMG",
     universityAr: "أزهر بنات القاهرة",
   },
   {
-    screenshotDark: "/images/testimonials/dark/afmg-58-2.jpeg",
-    screenshotLight: "/images/testimonials/light/afmg-58-2.jpeg",
-    logo: "/logo-afmg.jpeg",
+    screenshotDark: afmg58_2_Dark,
+    screenshotLight: afmg58_2_Light,
+    logo: logoAfmg,
     batch: "58",
     universityEn: "AFMG",
     universityAr: "أزهر بنات القاهرة",
   },
   {
-    screenshotDark: "/images/testimonials/dark/afmg-59-1.jpeg",
-    screenshotLight: "/images/testimonials/light/afmg-59-1.jpeg",
-    logo: "/logo-afmg.jpeg",
+    screenshotDark: afmg59_1_Dark,
+    screenshotLight: afmg59_1_Light,
+    logo: logoAfmg,
     batch: "59",
     universityEn: "AFMG",
     universityAr: "أزهر بنات القاهرة",
   },
   {
-    screenshotDark: "/images/testimonials/dark/afmg-59-2.jpeg",
-    screenshotLight: "/images/testimonials/light/afmg-59-2.jpeg",
-    logo: "/logo-afmg.jpeg",
+    screenshotDark: afmg59_2_Dark,
+    screenshotLight: afmg59_2_Light,
+    logo: logoAfmg,
     batch: "59",
     universityEn: "AFMG",
     universityAr: "أزهر بنات القاهرة",
   },
   {
-    screenshotDark: "/images/testimonials/dark/afmg-60.jpeg",
-    screenshotLight: "/images/testimonials/light/afmg-60.jpeg",
-    logo: "/logo-afmg.jpeg",
+    screenshotDark: afmg60_Dark,
+    screenshotLight: afmg60_Light,
+    logo: logoAfmg,
     batch: "60",
     universityEn: "AFMG",
     universityAr: "أزهر بنات القاهرة",
   },
   {
-    screenshotDark: "/images/testimonials/dark/ain-shams-78.jpeg",
-    screenshotLight: "/images/testimonials/light/ain-shams-78.jpeg",
-    logo: "/logo-ain-shams.png",
+    screenshotDark: ainShams78_Dark,
+    screenshotLight: ainShams78_Light,
+    logo: logoAinShams,
     batch: "78",
     universityEn: "Ain Shams",
     universityAr: "عين شمس",
   },
   {
-    screenshotDark: "/images/testimonials/dark/azhar-damietta-24-1.jpeg",
-    screenshotLight: "/images/testimonials/light/azhar-damietta-24-1.jpeg",
-    logo: "/logo-azhar-damietta.webp",
+    screenshotDark: azharDamietta24_1_Dark,
+    screenshotLight: azharDamietta24_1_Light,
+    logo: logoAzharDamietta,
     batch: "24",
     universityEn: "Azhar Damietta",
     universityAr: "أزهر دمياط",
   },
   {
-    screenshotDark: "/images/testimonials/dark/azhar-damietta-24-2.jpeg",
-    screenshotLight: "/images/testimonials/light/azhar-damietta-24-2.jpeg",
-    logo: "/logo-azhar-damietta.webp",
+    screenshotDark: azharDamietta24_2_Dark,
+    screenshotLight: azharDamietta24_2_Light,
+    logo: logoAzharDamietta,
     batch: "24",
     universityEn: "Azhar Damietta",
     universityAr: "أزهر دمياط",
   },
   {
-    screenshotDark: "/images/testimonials/dark/azhar-damietta-25-1.jpeg",
-    screenshotLight: "/images/testimonials/light/azhar-damietta-25-1.jpeg",
-    logo: "/logo-azhar-damietta.webp",
+    screenshotDark: azharDamietta25_1_Dark,
+    screenshotLight: azharDamietta25_1_Light,
+    logo: logoAzharDamietta,
     batch: "25",
     universityEn: "Azhar Damietta",
     universityAr: "أزهر دمياط",
   },
   {
-    screenshotDark: "/images/testimonials/dark/azhar-damietta-25-2.jpeg",
-    screenshotLight: "/images/testimonials/light/azhar-damietta-25-2.jpeg",
-    logo: "/logo-azhar-damietta.webp",
+    screenshotDark: azharDamietta25_2_Dark,
+    screenshotLight: azharDamietta25_2_Light,
+    logo: logoAzharDamietta,
     batch: "25",
     universityEn: "Azhar Damietta",
     universityAr: "أزهر دمياط",
@@ -97,14 +123,6 @@ const testimonials: Testimonial[] = [
 
 export default function Testimonials({ lang }: { lang: "en" | "ar" }) {
   const isAr = lang === "ar";
-  const { currentTheme } = useSettings();
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  if (!isMounted) return;
 
   return (
     <section
@@ -126,26 +144,34 @@ export default function Testimonials({ lang }: { lang: "en" | "ar" }) {
 
         <div className="columns-1 md:columns-2 lg:columns-3 gap-4 space-y-4">
           {testimonials.map((item, index) => (
-            <div key={`testimonial-${index}`} className="relative">
-              <img
-                src={
-                  currentTheme === "dark"
-                    ? item.screenshotDark
-                    : item.screenshotLight
-                }
-                alt={`Testimonial from ${
-                  isAr ? item.universityAr : item.universityEn
-                } Batch ${item.batch}`}
-                className="w-full h-auto pt-4 object-cover rounded-xl"
-                loading="lazy"
-              />
+            <div
+              key={`testimonial-${index}`}
+              className="relative break-inside-avoid"
+            >
+              <div className="relative w-full rounded-xl overflow-hidden pt-6">
+                <Image
+                  src={item.screenshotLight}
+                  alt={`Testimonial from ${isAr ? item.universityAr : item.universityEn} Batch ${item.batch}`}
+                  placeholder="blur"
+                  className="w-full h-auto object-cover dark:hidden"
+                />
+                <Image
+                  src={item.screenshotDark}
+                  alt={`Testimonial from ${isAr ? item.universityAr : item.universityEn} Batch ${item.batch}`}
+                  placeholder="blur"
+                  className="w-full h-auto object-cover hidden dark:block"
+                />
+              </div>
 
               <div className="absolute -top-0 -right-4">
-                <img
-                  src={item.logo}
-                  alt={`${isAr ? item.universityAr : item.universityEn} Logo`}
-                  className="size-16 rounded-full bg-white shadow-md p-0.5 object-contain"
-                />
+                <div className="relative size-16">
+                  <Image
+                    src={item.logo}
+                    alt={`${isAr ? item.universityAr : item.universityEn} Logo`}
+                    placeholder="blur"
+                    className="w-full h-auto rounded-full bg-white shadow-md p-0.5 object-contain"
+                  />
+                </div>
               </div>
 
               <div className="absolute bottom-0 left-0">

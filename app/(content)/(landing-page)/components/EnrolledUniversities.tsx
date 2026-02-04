@@ -1,18 +1,28 @@
 import Image from "next/image";
 
+import logoAfmg from "@/public/logo-afmg.jpeg";
+import logoAzharDamietta from "@/public/logo-azhar-damietta.webp";
+import logoAinShams from "@/public/logo-ain-shams.png";
+import logoAzharCairo from "@/public/logo-azhar-cairo-male.png";
+import logoMansouraNational from "@/public/logo-mansoura-national.jpeg";
+import logoMenoufia from "@/public/logo-menoufia.jpeg";
+import logoNewMansoura from "@/public/logo-new-mansora.jpeg";
+import logoSanaa from "@/public/logo-sanaa.png";
+import logo21September from "@/public/logo-21-september.jpeg";
+
 const ENROLLED = [
-  { name: "AFMG", src: "/logo-afmg.jpeg" },
-  { name: "Azhar Damietta", src: "/logo-azhar-damietta.webp" },
+  { name: "AFMG", src: logoAfmg },
+  { name: "Azhar Damietta", src: logoAzharDamietta },
 ];
 
 const COMING_SOON = [
-  { name: "Ain Shams", src: "/logo-ain-shams.png" },
-  { name: "Azhar Cairo", src: "/logo-azhar-cairo-male.png" },
-  { name: "Mansoura National", src: "/logo-mansoura-national.jpeg" },
-  { name: "Menoufia", src: "/logo-menoufia.jpeg" },
-  { name: "New Mansoura", src: "/logo-new-mansora.jpeg" },
-  { name: "Sanaa", src: "/logo-sanaa.png" },
-  { name: "21 September", src: "/logo-21-september.jpeg" },
+  { name: "Ain Shams", src: logoAinShams },
+  { name: "Azhar Cairo", src: logoAzharCairo },
+  { name: "Mansoura National", src: logoMansouraNational },
+  { name: "Menoufia", src: logoMenoufia },
+  { name: "New Mansoura", src: logoNewMansoura },
+  { name: "Sanaa", src: logoSanaa },
+  { name: "21 September", src: logo21September },
 ];
 
 const UNIVERSITIES = [
@@ -51,8 +61,8 @@ export default function EnrolledUniversities({ lang }: { lang: "en" | "ar" }) {
                     src={uni.src}
                     alt={uni.name}
                     fill
+                    placeholder="blur"
                     className="object-contain"
-                    sizes="(max-width: 768px) 80px, 96px"
                   />
                 </div>
               </div>

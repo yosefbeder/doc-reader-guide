@@ -1,14 +1,18 @@
 "use client";
 
-import Features from "./components/Features";
-import Hero from "./components/Hero";
 import Nav from "./components/Nav";
-import Testimonials from "./components/Testimonials";
-import Footer from "@/components/Footer";
+import Hero from "./components/Hero";
 import Stats from "./components/Stats";
-import Sponsership from "./components/Sponsership";
 import EnrolledUniversities from "./components/EnrolledUniversities";
-import UniversityRequest from "./components/UniversityRequest";
+import Footer from "@/components/Footer";
+import dynamic from "next/dynamic";
+
+const Features = dynamic(() => import("./components/Features"));
+const Testimonials = dynamic(() => import("./components/Testimonials"));
+const Sponsership = dynamic(() => import("./components/Sponsership"));
+const UniversityRequest = dynamic(
+  () => import("./components/UniversityRequest")
+);
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";

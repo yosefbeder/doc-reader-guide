@@ -1,7 +1,7 @@
 "use client";
 
 import { icons } from "@/components/icons";
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useEffect, useState, useRef } from "react";
 import useSettings from "@/lib/hooks/useSettings";
 
 interface Feature {
@@ -205,36 +205,68 @@ function FeatureItem({
   isAr,
   isEven,
   resolvedTheme,
-  mounted,
 }: {
   feature: Feature;
   isAr: boolean;
   isEven: boolean;
   resolvedTheme: string | undefined;
-  mounted: boolean;
 }) {
   const descriptions = isAr ? feature.descAr : feature.descEn;
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [shouldLoad, setShouldLoad] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setShouldLoad(true);
+            if (videoRef.current) {
+              videoRef.current.play().catch(() => {});
+            }
+          } else {
+            if (videoRef.current) {
+              videoRef.current.pause();
+            }
+          }
+        });
+      },
+      { rootMargin: "200px 0px" } // Load a bit before it enters view
+    );
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
 
   return (
     <div
+      ref={containerRef}
       className={`flex flex-col items-center gap-8 ${
         !isEven ? "lg:flex-row-reverse" : "lg:flex-row"
       }`}
     >
-      <div className="flex-1 max-w-screen-sm">
-        {mounted ? (
+      <div className="flex-1 max-w-screen-sm w-full">
+        {shouldLoad && resolvedTheme ? (
           <video
+            ref={videoRef}
             src={`${process.env.NEXT_PUBLIC_R2_URL}/landing-page-videos/${
               feature.videoName
             }-${resolvedTheme === "dark" ? "dark" : "light"}.mp4`}
             autoPlay
             loop
             muted
+            playsInline
             className="w-full h-auto rounded-xl"
           />
         ) : (
           <div className="aspect-video bg-slate-50 dark:bg-slate-900 rounded-xl animate-pulse flex items-center justify-center text-slate-400">
-            Video Loading...
+            {shouldLoad ? "Loading..." : ""}
           </div>
         )}
       </div>
@@ -278,11 +310,6 @@ function FeatureItem({
 export default function Features({ lang }: { lang: "en" | "ar" }) {
   const isAr = lang === "ar";
   const { currentTheme } = useSettings();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   return (
     <section
@@ -310,7 +337,6 @@ export default function Features({ lang }: { lang: "en" | "ar" }) {
               isAr={isAr}
               isEven={index % 2 === 0}
               resolvedTheme={currentTheme}
-              mounted={mounted}
             />
           ))}
           <h3

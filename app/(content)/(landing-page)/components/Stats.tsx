@@ -4,25 +4,25 @@ const stats = [
   {
     labelEn: "Active Students",
     labelAr: "طالب وطالبة",
-    value: "5,000+",
+    value: "6,000+",
     icon: "user-group",
   },
   {
     labelEn: "MCQs",
     labelAr: "سؤال اختيار من متعدد",
-    value: "55,000+",
+    value: "66,000+",
     icon: "queue-list",
   },
   {
     labelEn: "Written Qs",
     labelAr: "سؤال مقالي",
-    value: "11,000+",
+    value: "14,000+",
     icon: "pencil",
   },
   {
     labelEn: "Resources",
     labelAr: "مصدر مذاكرة",
-    value: "16,000+",
+    value: "17,000+",
     icon: "building-library",
   },
 ];
