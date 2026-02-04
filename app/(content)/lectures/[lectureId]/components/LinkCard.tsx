@@ -193,6 +193,7 @@ export default function LinkCard({
 
       {viewerUrl && viewerType === "audio" && (
         <AudioPlayerDialogue
+          linkId={id}
           url={viewerUrl}
           title={
             <>
@@ -216,6 +217,7 @@ export default function LinkCard({
       )}
       {viewerUrl && viewerType === "pdf" && (
         <PdfViewerDialogue
+          linkId={id}
           url={viewerUrl}
           title={title}
           onClose={() => {

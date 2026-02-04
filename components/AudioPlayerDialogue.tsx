@@ -34,11 +34,13 @@ export default function AudioPlayerDialogue({
   url,
   title,
   id,
+  linkId,
   onClose,
 }: {
   url: string;
   title: React.ReactNode;
   id: string | number;
+  linkId: number;
   onClose: () => void;
 }) {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -51,7 +53,7 @@ export default function AudioPlayerDialogue({
     isDownloaded,
     isLoading: isDownloading,
     download,
-  } = useOfflineMedia(url);
+  } = useOfflineMedia(url, linkId);
   const activeUrl = resolvedUrl || url;
 
   const storageKey = `audio-${id}`;

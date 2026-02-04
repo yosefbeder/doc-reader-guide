@@ -26,13 +26,15 @@ const resizeObserverOptions = {};
 export default function PdfViewerDialogue({
   url,
   title,
+  linkId,
   onClose,
 }: {
   url: string;
   title: string;
+  linkId: number;
   onClose: () => void;
 }) {
-  const { resolvedUrl } = useOfflineMedia(url);
+  const { resolvedUrl } = useOfflineMedia(url, linkId);
   const activeUrl = resolvedUrl || url;
   const [numPages, setNumPages] = useState<number>();
   const [containerRef, setContainerRef] = useState<HTMLElement | null>(null);
