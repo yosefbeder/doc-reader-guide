@@ -11,7 +11,7 @@ export default function Sponsorship({ lang }: { lang: "en" | "ar" }) {
       }`}
     >
       <div className="main flex flex-col gap-8 items-center">
-        <h2 className="text-center">
+        <h2 className="text-center text-2xl">
           {isAr
             ? "مجاني ١٠٠٪. من الطلاب وللطلاب."
             : "100% Free. Community Driven."}

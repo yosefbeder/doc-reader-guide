@@ -10,7 +10,7 @@ export default function UniversityRequest({ lang }: { lang: "en" | "ar" }) {
       }`}
     >
       <div className="main flex flex-col gap-8 items-center text-center">
-        <h2>
+        <h2 className="text-2xl">
           {isAr ? "كُن المبادر في كليتك" : "Lead the Change at Your Faculty"}
         </h2>
         <p className="max-w-2xl">

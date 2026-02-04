@@ -114,7 +114,7 @@ export default function Testimonials({ lang }: { lang: "en" | "ar" }) {
     >
       <div className="main col">
         <div className="text-center mb-8">
-          <h2 className="mb-2">
+          <h2 className="text-2xl mb-2">
             {isAr ? "ماذا يقول زملاؤك؟" : "Loved by Students"}
           </h2>
           <p>
@@ -136,7 +136,7 @@ export default function Testimonials({ lang }: { lang: "en" | "ar" }) {
                 alt={`Testimonial from ${
                   isAr ? item.universityAr : item.universityEn
                 } Batch ${item.batch}`}
-                className="w-full h-auto object-cover rounded-xl"
+                className="w-full h-auto pb-1 object-cover rounded-xl"
                 loading="lazy"
               />
 
@@ -148,7 +148,7 @@ export default function Testimonials({ lang }: { lang: "en" | "ar" }) {
                 />
               </div>
 
-              <div className="absolute -bottom-3 -left-3">
+              <div className="absolute bottom-0 -left-3">
                 <span className="bg-slate-600/10 dark:bg-cyan-600 border border-slate-600/20 text-xs font-bold px-2 py-0.5 rounded-full backdrop-blur-sm whitespace-nowrap">
                   {isAr ? "دفعة" : "Batch"} {item.batch}
                 </span>
