@@ -34,7 +34,6 @@
     "jsonwebtoken": "^9.0.2",
     "lexical": "^0.34.0",
     "next": "16.1.5",
-    "next-themes": "^0.4.6",
     "react": "19.2.4",
     "react-checkbox-tree": "^1.8.0",
     "react-dom": "19.2.4",
@@ -43,8 +42,7 @@
     "react-responsive-masonry": "2.3.0",
     "react-to-print": "^3.1.1",
     "sonner": "^2.0.7",
-    "swr": "^2.2.5",
-    "vidstack": "^1.12.12"
+    "swr": "^2.2.5"
   },
   "devDependencies": {
     "@serwist/next": "^9.5.0",
