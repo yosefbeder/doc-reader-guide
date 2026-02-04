@@ -170,6 +170,34 @@ const features: Feature[] = [
     ],
     videoName: "print",
   },
+  {
+    icon: "cog-6-tooth",
+    titleEn: "Customization",
+    descEn: ["Dark theme", "Notifications", "Shuffle", "Sounds", "And more..."],
+    titleAr: "الإعدادات",
+    descAr: [
+      "الوضع الليلي",
+      "الإشعارات",
+      "تغيير ترتيب الأسئلة",
+      "الصوت",
+      "و المزيد...",
+    ],
+    videoName: "settings",
+  },
+  {
+    icon: "squares-2x2",
+    titleEn: "AI-powered Admin Dashboard",
+    descEn: [
+      "Convert 80 MCQs from PDF to digital in 5 minutes (literally)",
+      "Add image occlusions with a simple drag and drop interface",
+    ],
+    titleAr: "لوحة التحكم بال AI",
+    descAr: [
+      "تحويل ٨٠ سؤال اختيار من متعدد من ملف ورقي إلى نسخة رقمية في خمس دقائق (حرفيًا)",
+      "إضافة أسئلة عن طريق اخفاء أجزاء من الصورة بسهولة",
+    ],
+    videoName: "admins",
+  },
 ];
 
 function FeatureItem({
@@ -205,7 +233,7 @@ function FeatureItem({
             className="w-full h-auto rounded-xl"
           />
         ) : (
-          <div className="aspect-video bg-slate-100 dark:bg-slate-800 rounded-xl animate-pulse flex items-center justify-center text-slate-400">
+          <div className="aspect-video bg-slate-50 dark:bg-slate-900 rounded-xl animate-pulse flex items-center justify-center text-slate-400">
             Video Loading...
           </div>
         )}
@@ -238,7 +266,7 @@ function FeatureItem({
                   />
                 </svg>
               </div>
-              <p className="text-slate-700 dark:text-slate-300">{desc}</p>
+              <p>{desc}</p>
             </li>
           ))}
         </ul>
@@ -258,7 +286,7 @@ export default function Features({ lang }: { lang: "en" | "ar" }) {
 
   return (
     <section
-      className={`py-16 dark:bg-slate-900/50 border-t border-slate-200 dark:border-slate-800 ${
+      className={`py-16 dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 ${
         isAr ? "font-arabic" : ""
       }`}
     >
@@ -288,7 +316,7 @@ export default function Features({ lang }: { lang: "en" | "ar" }) {
           <h3
             className={`text-cyan-600 dark:text-cyan-400 ${isAr ? "font-bold" : "uppercase"} text-center`}
           >
-            {isAr ? "وأكثر من ذلك..." : "And more..."}
+            {isAr ? "والمزيد..." : "And more..."}
           </h3>
         </div>
       </div>

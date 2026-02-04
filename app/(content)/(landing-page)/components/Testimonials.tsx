@@ -108,7 +108,7 @@ export default function Testimonials({ lang }: { lang: "en" | "ar" }) {
 
   return (
     <section
-      className={`py-8 bg-slate-50 dark:bg-slate-900/50 border-t border-slate-200 dark:border-slate-800 ${
+      className={`py-8 bg-slate-50 dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 ${
         isAr ? "font-arabic" : ""
       }`}
     >
@@ -119,12 +119,12 @@ export default function Testimonials({ lang }: { lang: "en" | "ar" }) {
           </h2>
           <p>
             {isAr
-              ? "آراء حقيقية من طلاب كليات الطب في مصر"
-              : "Real feedback from medical students across Egypt who rely on DocReader Guide daily."}
+              ? "آراء من طلاب يعتمدون على التطبيق بشكل دوري"
+              : "Feedback from medical students who rely on DocReader Guide"}
           </p>
         </div>
 
-        <div className="columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
+        <div className="columns-1 md:columns-2 lg:columns-3 gap-4 space-y-4">
           {testimonials.map((item, index) => (
             <div key={`testimonial-${index}`} className="relative">
               <img
@@ -136,20 +136,20 @@ export default function Testimonials({ lang }: { lang: "en" | "ar" }) {
                 alt={`Testimonial from ${
                   isAr ? item.universityAr : item.universityEn
                 } Batch ${item.batch}`}
-                className="w-full h-auto pb-1 object-cover rounded-xl"
+                className="w-full h-auto pt-4 object-cover rounded-xl"
                 loading="lazy"
               />
 
-              <div className="absolute -top-3 -right-3">
+              <div className="absolute -top-0 -right-4">
                 <img
                   src={item.logo}
                   alt={`${isAr ? item.universityAr : item.universityEn} Logo`}
-                  className="w-10 h-10 rounded-full bg-white shadow-md p-0.5 object-contain"
+                  className="size-16 rounded-full bg-white shadow-md p-0.5 object-contain"
                 />
               </div>
 
-              <div className="absolute bottom-0 -left-3">
-                <span className="bg-slate-600/10 dark:bg-cyan-600 border border-slate-600/20 text-xs font-bold px-2 py-0.5 rounded-full backdrop-blur-sm whitespace-nowrap">
+              <div className="absolute bottom-0 left-0">
+                <span className="bg-cyan-600 text-white text-base px-2 py-0.5 rounded-bl-xl rounded-tr-xl backdrop-blur-sm whitespace-nowrap">
                   {isAr ? "دفعة" : "Batch"} {item.batch}
                 </span>
               </div>

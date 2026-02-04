@@ -29,7 +29,7 @@ export default function EnrolledUniversities({ lang }: { lang: "en" | "ar" }) {
   return (
     <section
       dir="ltr"
-      className={`py-4 border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-hidden ${isAr ? "font-arabic" : ""}`}
+      className={`py-4 border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 overflow-hidden ${isAr ? "font-arabic" : ""}`}
     >
       <div className="w-full">
         <div className="relative w-full flex">
@@ -37,7 +37,7 @@ export default function EnrolledUniversities({ lang }: { lang: "en" | "ar" }) {
             {MARQUEE_ITEMS.map((uni, index) => (
               <div
                 key={`${uni.name}-${index}`}
-                className="group relative flex-shrink-0 size-16 flex items-center justify-center transition-all duration-300 filter grayscale opacity-70 hover:grayscale-0 hover:opacity-100 hover:scale-110"
+                className="group relative flex-shrink-0 size-24 flex items-center justify-center transition-all duration-300 filter grayscale opacity-70 hover:grayscale-0 hover:opacity-100 hover:scale-110"
               >
                 {uni.comingSoon && (
                   <div className="absolute -top-3 -right-3 z-10 transition-opacity duration-300 pointer-events-none">
