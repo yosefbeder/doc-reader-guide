@@ -13,26 +13,33 @@ export default function Hero({ lang }: { lang: "en" | "ar" }) {
         <h1 className="text-3xl md:text-5xl font-black text-slate-900 dark:text-white">
           {isAr ? (
             <>
-              <span className="inline-block mb-2">رفيقك في كلية الطب،</span>
+              كل مصادر <span className="gradient-text">كليتك</span>
               <br />
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-cyan-600 to-blue-600 dark:from-cyan-400 dark:to-blue-400">
-                مصمم لمنهج كليتك.
-              </span>
+              <span className="inline-block">في مكان واحد</span>
             </>
           ) : (
             <>
-              Your Medical Study Companion, <br />
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-cyan-600 to-blue-600 dark:from-cyan-400 dark:to-blue-400">
-                Tailored to Your Faculty.
-              </span>
+              <span className="gradient-text">Your Faculty</span>
+              <br />
+              in Your Pocket
             </>
           )}
         </h1>
 
-        <p className="text-base text-slate-600 dark:text-slate-300 max-w-xl leading-relaxed">
-          {isAr
-            ? "المنصة الشاملة لطلاب الطب في مصر. محاضرات مرتبة، أسئلة، ومساعد شخصي بالذكاء الاصطناعي."
-            : "The all-in-one platform for Egyptian medical students. Organized lectures, Practice Questions, and AI assistance."}
+        <p className="text-xl text-slate-600 dark:text-slate-300 max-w-xl leading-relaxed">
+          {isAr ? (
+            <>
+              يحتوي على جميع أنواع الأسئلة ومصادر المذاكرة الخاصة{" "}
+              <b className="gradient-text">بكليتك</b> بشكل{" "}
+              <b className="gradient-text">مجاني 100%</b>
+            </>
+          ) : (
+            <>
+              The ultimate organizer for{" "}
+              <b className="gradient-text">your faculty</b> practice questions
+              and study materials, <b className="gradient-text">100% free</b>
+            </>
+          )}
         </p>
 
         <div className="flex flex-wrap justify-center gap-3 w-full sm:w-auto">
