@@ -45,6 +45,8 @@ export enum Action {
   TRUE_ANSWER = "TRUE_ANSWER",
   FALSE_ANSWER = "FALSE_ANSWER",
   VIEW_NOTE = "VIEW_NOTE",
+  DOWNLOAD = "DOWNLOAD",
+  DELETE = "DELETE",
 }
 
 export type QuestionNavigationMethod =

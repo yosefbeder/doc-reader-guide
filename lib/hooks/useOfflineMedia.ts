@@ -1,9 +1,11 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { toast } from "sonner";
+import { logEvent } from "../event-logger";
+import { Action, Resource } from "@/types";
 
 const CACHE_NAME = "offline-media-v1";
 
-export function useOfflineMedia(url: string | undefined) {
+export function useOfflineMedia(url: string | undefined, linkId: number) {
   const [isDownloaded, setIsDownloaded] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [blobUrl, setBlobUrl] = useState<string | null>(null);
@@ -57,6 +59,7 @@ export function useOfflineMedia(url: string | undefined) {
 
   const download = async () => {
     if (!url) return;
+    logEvent(Resource.LINK, linkId, Action.DOWNLOAD, {});
     setIsLoading(true);
     const toastId = "download-" + url;
 
@@ -141,6 +144,7 @@ export function useOfflineMedia(url: string | undefined) {
 
   const deleteFile = async () => {
     if (!url) return;
+    logEvent(Resource.LINK, linkId, Action.DELETE, {});
     try {
       if ("caches" in window) {
         const cache = await caches.open(CACHE_NAME);

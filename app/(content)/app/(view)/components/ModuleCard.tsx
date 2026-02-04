@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Action, Module, Resource } from "@/types";
 import { logEvent } from "@/lib/event-logger";
-import useOfflineModule from "@/hooks/useOfflineModule";
+import useOfflineModule from "@/lib/hooks/useOfflineModule";
 import ButtonIcon from "@/components/ButtonIcon";
 
 interface ModuleCardProps {

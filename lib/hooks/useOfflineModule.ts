@@ -5,6 +5,8 @@ import {
 } from "@/utils/offline-storage";
 import { initDB } from "@/utils/idb";
 import { toast } from "sonner";
+import { logEvent } from "@/lib/event-logger";
+import { Action, Resource } from "@/types";
 
 const toMb = (bytes: number) => (bytes / (1024 * 1024)).toFixed(2);
 
@@ -49,6 +51,7 @@ export default function useOfflineModule(moduleId: number) {
   }, [status]);
 
   const download = async () => {
+    logEvent(Resource.MODULE, moduleId, Action.DOWNLOAD, {});
     try {
       setStatus("downloading");
       setBytes(0);
@@ -102,6 +105,7 @@ export default function useOfflineModule(moduleId: number) {
 
   const remove = async () => {
     try {
+      logEvent(Resource.MODULE, moduleId, Action.DELETE, {});
       const toastId = toast.loading("Removing offline module...");
       await removeModuleFromOffline(moduleId); // Pass moduleId
       toast.dismiss(toastId);

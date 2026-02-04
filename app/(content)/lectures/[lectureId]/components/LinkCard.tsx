@@ -20,10 +20,11 @@ const PdfViewerDialogue = dynamic(
 
 const R2_URL = process.env.NEXT_PUBLIC_R2_URL || "";
 
-function SmartLinkAction({ url }: { url: string }) {
+function SmartLinkAction({ url, linkId }: { url: string; linkId: number }) {
   const isR2 = R2_URL && url.includes(R2_URL);
   const { isDownloaded, isLoading, download, deleteFile } = useOfflineMedia(
-    isR2 ? url : undefined
+    isR2 ? url : undefined,
+    linkId
   );
 
   if (!isR2) return <span>{icons["arrow-top-right-on-square"]}</span>;
@@ -144,7 +145,7 @@ export default function LinkCard({
               title
             )}
           </div>
-          {singleUrl && <SmartLinkAction url={singleUrl} />}
+          {singleUrl && <SmartLinkAction url={singleUrl} linkId={id} />}
           {updateable && (
             <ButtonIcon
               icon="pencil-square"
@@ -182,7 +183,7 @@ export default function LinkCard({
                       </div>
                     )}
                   </div>
-                  <SmartLinkAction url={url} />
+                  <SmartLinkAction url={url} linkId={id} />
                 </div>
               );
             })}
