@@ -10,7 +10,7 @@ import { useAddForm } from "@/lib/hooks";
 
 export default function AddLectureForm({ subjectId }: { subjectId: number }) {
   const [formState, formAction] = useActionState(addLecture, {});
-  const { hideMessage, setHideMessage, formKey } = useAddForm(formState);
+  const { hideMessage, setHideMessage, formKey } = useAddForm(formState, false);
 
   return (
     <form
