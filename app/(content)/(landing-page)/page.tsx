@@ -7,6 +7,7 @@ import Testimonials from "./components/Testimonials";
 import Footer from "@/components/Footer";
 import Stats from "./components/Stats";
 import Sponsership from "./components/Sponsership";
+import EnrolledUniversities from "./components/EnrolledUniversities";
 import UniversityRequest from "./components/UniversityRequest";
 
 import { useState, useEffect } from "react";
@@ -35,6 +36,7 @@ export default function LandingPage() {
     <>
       <Nav lang={lang} toggleLanguage={toggleLanguage} />
       <Hero lang={lang} />
+      <EnrolledUniversities lang={lang} />
       <Stats lang={lang} />
       <Features lang={lang} />
       <Testimonials lang={lang} />
