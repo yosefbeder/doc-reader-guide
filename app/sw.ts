@@ -44,6 +44,12 @@ const serwist = new Serwist({
       matcher: ({ url }) => url.pathname.includes("/v2/"),
       handler: new NetworkFirst({
         cacheName: "doc-reader-api",
+        networkTimeoutSeconds: 5,
+        plugins: [
+          new ExpirationPlugin({
+            maxAgeSeconds: 0,
+          }),
+        ],
       }),
     },
     ...defaultCache,
