@@ -1,6 +1,6 @@
 "use client";
 
-import { McqQuestion, McqQuiz, Resource } from "@/types";
+import { Action, McqQuestion, McqQuiz, Resource } from "@/types";
 import calcMcqResult from "@/utils/calcMcqResult";
 import isValidURL from "@/utils/isValidURL";
 import { useSearchParams } from "next/navigation";
@@ -8,6 +8,10 @@ import React, { useState, useEffect } from "react";
 import { icons } from "@/components/icons";
 import { useQuizHistory } from "@/lib/hooks/useQuizHistory";
 import { shareQuestion } from "../utils/shareQuestion";
+import Button from "@/components/Button";
+import { logEvent } from "@/lib/event-logger";
+import buildChatGPTLink from "@/utils/buildChatGPTLink";
+import toUppercaseLetter from "../utils/toUppercaseLetter";
 import QuizSummaryLayout from "@/components/QuizSummaryLayout";
 
 interface SummaryProps {
@@ -135,6 +139,48 @@ export default function Summary({
       onFilterChange={setFilter}
       filterOptions={filterOptions}
     >
+      {incorrect > 0 && (
+        <Button className="self-center mb-4">
+          <a
+            href={buildChatGPTLink(
+              questions
+                .filter((q) => {
+                  const isSkipped = !displayAnswers.has(q.id);
+                  const isCorrect =
+                    !isSkipped &&
+                    displayAnswers.get(q.id) === q.correctOptionIndex;
+                  return !isSkipped && !isCorrect;
+                })
+                .map(
+                  (q) =>
+                    `${q.text}\n${q.options
+                      .map((opt, i) => `${toUppercaseLetter(i)}. ${opt}`)
+                      .join("\n")}`
+                )
+                .join("\n\n---\n\n"),
+              quiz.lectureData.subject.module.customGPT
+            )}
+            onClick={() =>
+              logEvent(Resource.MCQ_QUIZ, quiz.id, Action.DICUSS_WITH_CHATGPT, {
+                questionIds: questions
+                  .filter((q) => {
+                    const isSkipped = !displayAnswers.has(q.id);
+                    const isCorrect =
+                      !isSkipped &&
+                      displayAnswers.get(q.id) === q.correctOptionIndex;
+                    return !isSkipped && !isCorrect;
+                  })
+                  .map((q) => q.id),
+              })
+            }
+            className="flex gap-2 items-center justify-center"
+            target="_blank"
+          >
+            {icons["open-ai"]}
+            Discuss All Incorrects with ChatGPT
+          </a>
+        </Button>
+      )}
       <ol className="col">
         {questions.map((question, questionIndex) => {
           const isSkipped = !displayAnswers.has(question.id);
