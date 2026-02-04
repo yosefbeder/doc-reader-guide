@@ -1,28 +1,110 @@
-import { icons } from "@/components/icons";
+"use client";
 
-const testimonials = [
+import useSettings from "@/lib/hooks/useSettings";
+import { useEffect, useState } from "react";
+
+interface Testimonial {
+  screenshotDark: string;
+  screenshotLight: string;
+  logo: string;
+  batch: string;
+  universityEn: string;
+  universityAr: string;
+}
+
+const testimonials: Testimonial[] = [
   {
-    original:
-      "جزيتم خيرًا جميعا جعله الله في ميزان حسناتكم.. حقيقة كنتم سببا في تيسير الوصول للداتا والملفات وكل ما هو متعلق بجميع المواد.. التطبيق منظم جدا جدا مما ييسر الوصول للفيديو او المحاضرة التي أبحث عنها وأيضا التحديث المستمر والدائم يجعل التطبيق رائع.. جزى الله خيرا كل من عمل عليه وساهم فيه.",
-    translation:
-      "May God reward you all. You truly facilitated access to data and files for all subjects. The app is very organized, making it easy to reach the video or lecture I'm looking for. The continuous updates make the app wonderful.",
+    screenshotDark: "/images/testimonials/dark/afmg-58-1.jpeg",
+    screenshotLight: "/images/testimonials/light/afmg-58-1.jpeg",
+    logo: "/logo-afmg.jpeg",
+    batch: "58",
+    universityEn: "AFMG",
+    universityAr: "أزهر بنات القاهرة",
   },
   {
-    original:
-      "الله يرضى عنكم ويرضيكم.. كنت أكررره الضياع بين القنوات والمصادر والملفات والتسجيلات، يضيع وقتي وأتعب نفسيا، صارت الدنيا كلها بمكان واحد ورتبتوها بشكل يفتح النفس ومريح ويساعد كثير صدق.. الله يوفقكم ويجزيكم خير الجزاء جميعًا.",
-    translation:
-      "May God be pleased with you. I used to hate getting lost between channels, sources, and files... I wasted time and got mentally exhausted. Now everything is in one place, arranged in a way that is encouraging and comfortable. May God grant you success.",
+    screenshotDark: "/images/testimonials/dark/afmg-58-2.jpeg",
+    screenshotLight: "/images/testimonials/light/afmg-58-2.jpeg",
+    logo: "/logo-afmg.jpeg",
+    batch: "58",
+    universityEn: "AFMG",
+    universityAr: "أزهر بنات القاهرة",
   },
   {
-    original:
-      "الابليكشن فكرته جميله ومنظم جدا لما عرفته مبقتش افتح بي دي افات الكليه غير من عليه ربنا يجازيكم خير عنا.",
-    translation:
-      "The app's idea is beautiful and very organized. Since I found it, I haven't opened the college PDFs except through it. May God reward you with good.",
+    screenshotDark: "/images/testimonials/dark/afmg-59-1.jpeg",
+    screenshotLight: "/images/testimonials/light/afmg-59-1.jpeg",
+    logo: "/logo-afmg.jpeg",
+    batch: "59",
+    universityEn: "AFMG",
+    universityAr: "أزهر بنات القاهرة",
+  },
+  {
+    screenshotDark: "/images/testimonials/dark/afmg-59-2.jpeg",
+    screenshotLight: "/images/testimonials/light/afmg-59-2.jpeg",
+    logo: "/logo-afmg.jpeg",
+    batch: "59",
+    universityEn: "AFMG",
+    universityAr: "أزهر بنات القاهرة",
+  },
+  {
+    screenshotDark: "/images/testimonials/dark/afmg-60.jpeg",
+    screenshotLight: "/images/testimonials/light/afmg-60.jpeg",
+    logo: "/logo-afmg.jpeg",
+    batch: "60",
+    universityEn: "AFMG",
+    universityAr: "أزهر بنات القاهرة",
+  },
+  {
+    screenshotDark: "/images/testimonials/dark/ain-shams-78.jpeg",
+    screenshotLight: "/images/testimonials/light/ain-shams-78.jpeg",
+    logo: "/logo-ain-shams.png",
+    batch: "78",
+    universityEn: "Ain Shams",
+    universityAr: "عين شمس",
+  },
+  {
+    screenshotDark: "/images/testimonials/dark/azhar-damietta-24-1.jpeg",
+    screenshotLight: "/images/testimonials/light/azhar-damietta-24-1.jpeg",
+    logo: "/logo-azhar-damietta.webp",
+    batch: "24",
+    universityEn: "Azhar Damietta",
+    universityAr: "أزهر دمياط",
+  },
+  {
+    screenshotDark: "/images/testimonials/dark/azhar-damietta-24-2.jpeg",
+    screenshotLight: "/images/testimonials/light/azhar-damietta-24-2.jpeg",
+    logo: "/logo-azhar-damietta.webp",
+    batch: "24",
+    universityEn: "Azhar Damietta",
+    universityAr: "أزهر دمياط",
+  },
+  {
+    screenshotDark: "/images/testimonials/dark/azhar-damietta-25-1.jpeg",
+    screenshotLight: "/images/testimonials/light/azhar-damietta-25-1.jpeg",
+    logo: "/logo-azhar-damietta.webp",
+    batch: "25",
+    universityEn: "Azhar Damietta",
+    universityAr: "أزهر دمياط",
+  },
+  {
+    screenshotDark: "/images/testimonials/dark/azhar-damietta-25-2.jpeg",
+    screenshotLight: "/images/testimonials/light/azhar-damietta-25-2.jpeg",
+    logo: "/logo-azhar-damietta.webp",
+    batch: "25",
+    universityEn: "Azhar Damietta",
+    universityAr: "أزهر دمياط",
   },
 ];
 
 export default function Testimonials({ lang }: { lang: "en" | "ar" }) {
   const isAr = lang === "ar";
+  const { currentTheme } = useSettings();
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) return;
 
   return (
     <section
@@ -42,30 +124,34 @@ export default function Testimonials({ lang }: { lang: "en" | "ar" }) {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
           {testimonials.map((item, index) => (
-            <div key={index} className="relative card layer-1 clickable h-max">
-              <div
-                className={`flex gap-1 text-amber-400 ${
-                  isAr ? "justify-end" : "justify-start"
-                }`}
-              >
-                {icons.star}
-                {icons.star}
-                {icons.star}
-                {icons.star}
-                {icons.star}
+            <div key={`testimonial-${index}`} className="relative">
+              <img
+                src={
+                  currentTheme === "dark"
+                    ? item.screenshotDark
+                    : item.screenshotLight
+                }
+                alt={`Testimonial from ${
+                  isAr ? item.universityAr : item.universityEn
+                } Batch ${item.batch}`}
+                className="w-full h-auto object-cover rounded-xl"
+                loading="lazy"
+              />
+
+              <div className="absolute -top-3 -right-3">
+                <img
+                  src={item.logo}
+                  alt={`${isAr ? item.universityAr : item.universityEn} Logo`}
+                  className="w-10 h-10 rounded-full bg-white shadow-md p-0.5 object-contain"
+                />
               </div>
-              <p
-                className={`caption text-base leading-relaxed ${
-                  isAr ? "text-right" : "text-left"
-                }`}
-              >
-                {isAr ? item.original : item.translation}
-              </p>
-              <div className="caption flex items-center gap-1">
-                <div className="text-green-500">{icons["check-badge"]}</div>
-                <span>{isAr ? "مستخدم موثق" : "Verified User"}</span>
+
+              <div className="absolute -bottom-3 -left-3">
+                <span className="bg-slate-600/10 dark:bg-cyan-600 border border-slate-600/20 text-xs font-bold px-2 py-0.5 rounded-full backdrop-blur-sm whitespace-nowrap">
+                  {isAr ? "دفعة" : "Batch"} {item.batch}
+                </span>
               </div>
             </div>
           ))}
