@@ -3,9 +3,7 @@ import withSerwistInit from "@serwist/next";
 
 const nextConfig = {
   experimental: {
-    serverActions: {
-      bodySizeLimit: "50mb",
-    },
+    proxyClientMaxBodySize: "50mb",
   },
   serverExternalPackages: ["esbuild-wasm"],
 };
