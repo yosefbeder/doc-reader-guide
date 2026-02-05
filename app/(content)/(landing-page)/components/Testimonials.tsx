@@ -142,29 +142,29 @@ export default function Testimonials({ lang }: { lang: "en" | "ar" }) {
           </p>
         </div>
 
-        <div className="columns-1 md:columns-2 lg:columns-3 gap-4 space-y-4">
+        <div className="columns-1 md:columns-2 lg:columns-3 gap-4 space-y-4 px-2">
           {testimonials.map((item, index) => (
             <div
               key={`testimonial-${index}`}
               className="relative break-inside-avoid"
             >
-              <div className="relative w-full rounded-xl overflow-hidden pt-6">
+              <div className="relative w-full pt-12">
                 <Image
                   src={item.screenshotLight}
                   alt={`Testimonial from ${isAr ? item.universityAr : item.universityEn} Batch ${item.batch}`}
                   placeholder="blur"
-                  className="w-full h-auto object-cover dark:hidden"
+                  className="w-full h-auto object-cover dark:hidden rounded-xl overflow-hidden"
                 />
                 <Image
                   src={item.screenshotDark}
                   alt={`Testimonial from ${isAr ? item.universityAr : item.universityEn} Batch ${item.batch}`}
                   placeholder="blur"
-                  className="w-full h-auto object-cover hidden dark:block"
+                  className="w-full h-auto object-cover hidden dark:block rounded-xl overflow-hidden"
                 />
               </div>
 
-              <div className="absolute -top-0 -right-4">
-                <div className="relative size-16">
+              <div className="absolute top-0 -right-4">
+                <div className="relative size-20">
                   <Image
                     src={item.logo}
                     alt={`${isAr ? item.universityAr : item.universityEn} Logo`}
@@ -174,10 +174,8 @@ export default function Testimonials({ lang }: { lang: "en" | "ar" }) {
                 </div>
               </div>
 
-              <div className="absolute bottom-0 left-0">
-                <span className="bg-cyan-600 text-white text-base px-2 py-0.5 rounded-bl-xl rounded-tr-xl backdrop-blur-sm whitespace-nowrap">
-                  {isAr ? "دفعة" : "Batch"} {item.batch}
-                </span>
+              <div className="absolute top-14 -right-4 size-8 flex items-center justify-center bg-cyan-600 text-white rounded-full">
+                {item.batch}
               </div>
             </div>
           ))}

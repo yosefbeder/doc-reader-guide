@@ -43,7 +43,7 @@ export default function EnrolledUniversities({ lang }: { lang: "en" | "ar" }) {
     >
       <div className="w-full">
         <div className="relative w-full flex">
-          <div className="flex animate-scroll hover:pause gap-16 min-w-full items-center pl-16">
+          <div className="flex animate-scroll gap-16 min-w-full items-center pl-16">
             {MARQUEE_ITEMS.map((uni, index) => (
               <div
                 key={`${uni.name}-${index}`}
