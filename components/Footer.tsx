@@ -179,7 +179,7 @@ const contributers = [
     avatar: OmarAvatar,
     name: { en: "Omar Abdel Aleem", ar: "عمر عبد العليم" },
     contribution: { en: "Android App Developer", ar: "مطور تطبيق الأندرويد" },
-    profile: "https://www.facebook.com/omar.abdelaleem.144",
+    profile: "https://omarabdelaleemcv.vercel.app/",
   },
   {
     avatar: AbdulrahmanAvatar,
