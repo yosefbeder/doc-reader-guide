@@ -1,9 +1,9 @@
 import Image, { StaticImageData } from "next/image";
 
 // Logos
-import logoAfmg from "@/public/logo-afmg.jpeg";
-import logoAinShams from "@/public/logo-ain-shams.png";
-import logoAzharDamietta from "@/public/logo-azhar-damietta.webp";
+import logoAfmg from "@/public/images/logos/afmg.png";
+import logoAinShams from "@/public/images/logos/ain-shams.png";
+import logoAzharDamietta from "@/public/images/logos/azhar-damietta.png";
 
 // Dark Screenshots
 import afmg58_1_Dark from "@/public/images/testimonials/dark/afmg-58-1.jpeg";

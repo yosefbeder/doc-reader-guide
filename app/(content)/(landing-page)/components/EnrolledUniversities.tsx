@@ -1,14 +1,14 @@
 import Image from "next/image";
 
-import logoAfmg from "@/public/logo-afmg.jpeg";
-import logoAzharDamietta from "@/public/logo-azhar-damietta.webp";
-import logoAinShams from "@/public/logo-ain-shams.png";
-import logoAzharCairo from "@/public/logo-azhar-cairo-male.png";
-import logoMansouraNational from "@/public/logo-mansoura-national.jpeg";
-import logoMenoufia from "@/public/logo-menoufia.jpeg";
-import logoNewMansoura from "@/public/logo-new-mansora.jpeg";
-import logoSanaa from "@/public/logo-sanaa.png";
-import logo21September from "@/public/logo-21-september.jpeg";
+import logoAfmg from "@/public/images/logos/afmg.png";
+import logoAzharDamietta from "@/public/images/logos/azhar-damietta.png";
+import logoAinShams from "@/public/images/logos/ain-shams.png";
+import logoAzharCairo from "@/public/images/logos/azhar-cairo-male.png";
+import logoMansouraNational from "@/public/images/logos/mansoura-national.png";
+import logoMenoufia from "@/public/images/logos/menoufia.png";
+import logoNewMansoura from "@/public/images/logos/new-mansora.png";
+import logoSanaa from "@/public/images/logos/sanaa.png";
+import logo21September from "@/public/images/logos/21-september.png";
 
 const ENROLLED = [
   { name: "AFMG", src: logoAfmg },
