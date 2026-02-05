@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import Dialogue from "./Dialogue";
 import { icons } from "./icons";
-import Button from "./Button";
+import Button, { ButtonProps } from "./Button";
 import Message from "./Message";
 import { logEvent } from "@/lib/event-logger";
 import { Action } from "@/types";
@@ -24,10 +24,11 @@ const Vodafone = () => (
 export default function DonateButton({
   lang,
   className,
+  ...props
 }: {
   lang: "en" | "ar";
   className?: string;
-}) {
+} & ButtonProps) {
   const isAr = lang === "ar";
   const [dialogueOpen, setDialogueOpen] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -48,6 +49,7 @@ export default function DonateButton({
           logEvent(null, null, Action.DONATE_BUTTON_CLICKED, {});
           setDialogueOpen(true);
         }}
+        {...props}
       >
         <span>{icons["heart"]}</span>
         <span>{isAr ? "تبرع الآن" : "Donate now"}</span>

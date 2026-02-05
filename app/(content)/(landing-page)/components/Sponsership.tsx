@@ -21,7 +21,7 @@ export default function Sponsorship({ lang }: { lang: "en" | "ar" }) {
             ? "تطبيق DocReader Guide قائم بجهود ذاتية. نعتمد على تبرعاتكم لاستمرار السيرفرات وتطوير المزايا. ساهم معنا في نشر العلم وتسهيله."
             : "DocReader Guide is built by students, for students. We rely on donations to keep servers running and features growing. Help us keep education accessible."}
         </p>
-        <DonateButton lang={lang} className="self-center" />
+        <DonateButton cta lang={lang} className="self-center" />
       </div>
     </section>
   );
