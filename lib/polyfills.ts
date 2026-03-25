@@ -1,3 +1,5 @@
+"use client";
+
 if (typeof Promise.withResolvers === "undefined") {
   Promise.withResolvers = function <T>() {
     let resolve!: (value: T | PromiseLike<T>) => void;
