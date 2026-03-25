@@ -17,3 +17,13 @@ if (!Array.prototype.toSorted) {
     return [...this].sort(compareFn as any);
   };
 }
+
+if (typeof URL !== "undefined" && typeof (URL as any).parse === "undefined") {
+  (URL as any).parse = function (url: string | URL, base?: string | URL) {
+    try {
+      return new URL(url, base);
+    } catch {
+      return null;
+    }
+  };
+}
