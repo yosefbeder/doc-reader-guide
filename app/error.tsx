@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { toast } from "sonner";
 
 export default function ErrorBoundary({
   error,
@@ -32,19 +33,33 @@ export default function ErrorBoundary({
     return JSON.stringify(errorState, null, 2);
   };
 
+  const copyToClipboard = () => {
+    const text = deserializeError(error);
+    navigator.clipboard.writeText(text);
+    toast.success("Error details copied to clipboard!");
+  };
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 p-6 text-slate-800 font-sans">
       <div className="max-w-4xl w-full bg-white shadow-xl rounded-lg overflow-hidden border border-red-100">
-        <div className="bg-red-500 p-4 flex justify-between items-center">
+        <div className="bg-red-500 p-4 flex justify-between items-center flex-wrap gap-4">
           <h2 className="text-lg font-bold text-white">
             Application Crash Report
           </h2>
-          <button
-            onClick={() => reset()}
-            className="px-4 py-2 bg-white text-red-600 font-semibold rounded shadow hover:bg-red-50 transition-colors text-sm"
-          >
-            Attempt Recovery
-          </button>
+          <div className="flex gap-2">
+            <button
+              onClick={copyToClipboard}
+              className="px-4 py-2 bg-red-600 border border-white/30 text-white font-semibold rounded shadow hover:bg-red-700 transition-colors text-sm"
+            >
+              Copy Error
+            </button>
+            <button
+              onClick={() => reset()}
+              className="px-4 py-2 bg-white text-red-600 font-semibold rounded shadow hover:bg-red-50 transition-colors text-sm"
+            >
+              Attempt Recovery
+            </button>
+          </div>
         </div>
 
         <div className="p-6">
