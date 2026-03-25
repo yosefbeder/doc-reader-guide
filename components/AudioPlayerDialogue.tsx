@@ -59,9 +59,23 @@ export default function AudioPlayerDialogue({
   const storageKey = `audio-${id}`;
 
   useEffect(() => {
-    const savedInfo = localStorage.getItem(storageKey);
-    const initialSeek = savedInfo ? JSON.parse(savedInfo).seek : 0;
-    const initialSpeed = savedInfo ? JSON.parse(savedInfo).speed : 1.0;
+    let savedInfo = null;
+    try {
+      savedInfo = localStorage.getItem(storageKey);
+    } catch (e) {
+      console.warn("localStorage access denied", e);
+    }
+    let initialSeek = 0;
+    let initialSpeed = 1.0;
+    if (savedInfo) {
+      try {
+        const parsed = JSON.parse(savedInfo);
+        initialSeek = parsed.seek || 0;
+        initialSpeed = parsed.speed || 1.0;
+      } catch (e) {
+        console.warn("Failed to parse saved media info", e);
+      }
+    }
     soundRef.current = new Howl({
       src: [activeUrl],
       html5: true,
@@ -99,7 +113,11 @@ export default function AudioPlayerDialogue({
         const seek = soundRef.current.seek();
         if (typeof seek === "number") {
           setCurrentTime(seek);
-          localStorage.setItem(storageKey, JSON.stringify({ seek, speed }));
+          try {
+            localStorage.setItem(storageKey, JSON.stringify({ seek, speed }));
+          } catch (e) {
+            // ignore
+          }
         }
       }
       animationFrameId = requestAnimationFrame(update);

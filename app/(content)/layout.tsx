@@ -1,3 +1,4 @@
+import "@/lib/polyfills";
 import { Cairo, Inter } from "next/font/google";
 import ThemeToaster from "@/components/ThemeToaster";
 
