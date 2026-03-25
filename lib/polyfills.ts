@@ -11,3 +11,9 @@ if (typeof Promise.withResolvers === "undefined") {
     return { promise, resolve, reject };
   };
 }
+
+if (!Array.prototype.toSorted) {
+  Array.prototype.toSorted = function (compareFn) {
+    return [...this].sort(compareFn as any);
+  };
+}
