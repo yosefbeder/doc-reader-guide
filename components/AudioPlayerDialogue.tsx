@@ -7,6 +7,7 @@ import { useOfflineMedia } from "@/lib/hooks/useOfflineMedia";
 import { icons } from "./icons";
 import ButtonIcon from "./ButtonIcon";
 import Link from "next/link";
+import Message from "./Message";
 
 function AudioArt() {
   return (
@@ -47,6 +48,7 @@ export default function AudioPlayerDialogue({
   const [duration, setDuration] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
   const [speed, setSpeed] = useState(1.0);
+  const [loadError, setLoadError] = useState<string | null>(null);
   const soundRef = useRef<Howl | null>(null);
   const {
     resolvedUrl,
@@ -81,12 +83,18 @@ export default function AudioPlayerDialogue({
       html5: true,
       rate: initialSpeed,
       onload: () => {
+        setLoadError(null);
         setDuration(soundRef.current?.duration() || 0);
         if (initialSeek > 0) {
           soundRef.current?.seek(initialSeek);
           setCurrentTime(initialSeek);
         }
         setSpeed(initialSpeed);
+      },
+      onloaderror: (_id: number, error: unknown) => {
+        setLoadError(
+          typeof error === "string" ? error : "Failed to load audio"
+        );
       },
       onplay: () => setIsPlaying(true),
       onpause: () => setIsPlaying(false),
@@ -170,59 +178,70 @@ export default function AudioPlayerDialogue({
     >
       <AudioArt />
       <h2>{title}</h2>
-      <div className="w-full space-y-2">
-        <input
-          type="range"
-          min="0"
-          max={duration || 100}
-          value={currentTime}
-          onChange={handleSeek}
-          style={{
-            background: `linear-gradient(to right, #06b6d4 ${calculateProgress()}%, #e2e8f0 ${calculateProgress()}%)`,
-          }}
-          className="w-full h-1.5 bg-slate-200 rounded-lg appearance-none cursor-pointer dark:bg-slate-700 accent-cyan-500"
-        />
-        <div className="flex justify-between caption">
-          <span>{formatTime(currentTime)}</span>
-          <span>{formatTime(duration)}</span>
-        </div>
-      </div>
-      <div className="flex items-center justify-between w-full font-mono">
-        <select
-          value={speed}
-          onChange={(e) => setSpeed(parseFloat(e.target.value))}
-          className="appearance-none w-10 text-xs font-bold py-1.5 bg-cyan-50 dark:bg-cyan-900 text-cyan-600 dark:text-cyan-400 rounded-full border-none focus:outline-none focus:ring-2 focus:ring-cyan-500 text-center"
-        >
-          {[0.5, 0.75, 1, 1.25, 1.5, 1.75, 2, 2.5, 3].map((s) => (
-            <option key={s} value={s}>
-              {s}x
-            </option>
-          ))}
-        </select>
-        <div className="flex flex-col items-center gap-1">
-          <ButtonIcon
-            icon="arrow-uturn-left-large"
-            onClick={() => seekRelative(-10)}
-          />
-          <span className="text-xs">-10s</span>
-        </div>
-        <button
-          onClick={togglePlay}
-          className="size-12 bg-cyan-500 text-white rounded-full flex items-center justify-center hover:scale-105 active:scale-95 transition-transform"
-        >
-          {isPlaying ? icons["pause"] : icons["play"]}
-        </button>
-        <div className="flex flex-col items-center gap-1">
-          <ButtonIcon
-            icon="arrow-uturn-right-large"
-            onClick={() => seekRelative(10)}
-          />
-          <span className="text-xs">+10s</span>
-        </div>
-        <Link href={activeUrl} target="_blank" download>
-          <ButtonIcon icon="folder" />
-        </Link>
-      </div>
+      {loadError ? (
+        <>
+          <Message type="fail">{loadError}</Message>
+          <Link href={activeUrl} target="_blank" download>
+            <ButtonIcon icon="folder" />
+          </Link>
+        </>
+      ) : (
+        <>
+          <div className="w-full space-y-2">
+            <input
+              type="range"
+              min="0"
+              max={duration || 100}
+              value={currentTime}
+              onChange={handleSeek}
+              style={{
+                background: `linear-gradient(to right, #06b6d4 ${calculateProgress()}%, #e2e8f0 ${calculateProgress()}%)`,
+              }}
+              className="w-full h-1.5 bg-slate-200 rounded-lg appearance-none cursor-pointer dark:bg-slate-700 accent-cyan-500"
+            />
+            <div className="flex justify-between caption">
+              <span>{formatTime(currentTime)}</span>
+              <span>{formatTime(duration)}</span>
+            </div>
+          </div>
+          <div className="flex items-center justify-between w-full font-mono">
+            <select
+              value={speed}
+              onChange={(e) => setSpeed(parseFloat(e.target.value))}
+              className="appearance-none w-10 text-xs font-bold py-1.5 bg-cyan-50 dark:bg-cyan-900 text-cyan-600 dark:text-cyan-400 rounded-full border-none focus:outline-none focus:ring-2 focus:ring-cyan-500 text-center"
+            >
+              {[0.5, 0.75, 1, 1.25, 1.5, 1.75, 2, 2.5, 3].map((s) => (
+                <option key={s} value={s}>
+                  {s}x
+                </option>
+              ))}
+            </select>
+            <div className="flex flex-col items-center gap-1">
+              <ButtonIcon
+                icon="arrow-uturn-left-large"
+                onClick={() => seekRelative(-10)}
+              />
+              <span className="text-xs">-10s</span>
+            </div>
+            <button
+              onClick={togglePlay}
+              className="size-12 bg-cyan-500 text-white rounded-full flex items-center justify-center hover:scale-105 active:scale-95 transition-transform"
+            >
+              {isPlaying ? icons["pause"] : icons["play"]}
+            </button>
+            <div className="flex flex-col items-center gap-1">
+              <ButtonIcon
+                icon="arrow-uturn-right-large"
+                onClick={() => seekRelative(10)}
+              />
+              <span className="text-xs">+10s</span>
+            </div>
+            <Link href={activeUrl} target="_blank" download>
+              <ButtonIcon icon="folder" />
+            </Link>
+          </div>
+        </>
+      )}
     </Dialogue>
   );
 }

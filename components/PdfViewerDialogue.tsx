@@ -9,11 +9,18 @@ import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
 import ButtonIcon from "./ButtonIcon";
 import Link from "next/link";
+import Message from "./Message";
 
-pdfjs.GlobalWorkerOptions.workerSrc = new URL(
-  "pdfjs-dist/build/pdf.worker.min.mjs",
-  import.meta.url
-).toString();
+let workerInitError: string | null = null;
+try {
+  pdfjs.GlobalWorkerOptions.workerSrc = new URL(
+    "pdfjs-dist/build/pdf.worker.min.mjs",
+    import.meta.url
+  ).toString();
+} catch (e) {
+  workerInitError =
+    e instanceof Error ? e.message : "Failed to initialize PDF worker";
+}
 
 const options = {
   cMapUrl: "/cmaps/",
@@ -39,6 +46,7 @@ export default function PdfViewerDialogue({
   const [numPages, setNumPages] = useState<number>();
   const [containerRef, setContainerRef] = useState<HTMLElement | null>(null);
   const [containerWidth, setContainerWidth] = useState<number>();
+  const [loadError, setLoadError] = useState<string | null>(workerInitError);
 
   const onResize = useCallback<ResizeObserverCallback>((entries) => {
     const [entry] = entries;
@@ -51,7 +59,12 @@ export default function PdfViewerDialogue({
   useResizeObserver(containerRef, resizeObserverOptions, onResize);
 
   function onDocumentLoadSuccess({ numPages }: { numPages: number }): void {
+    setLoadError(null);
     setNumPages(numPages);
+  }
+
+  function onDocumentLoadError(error: Error): void {
+    setLoadError(error.message || "Failed to load PDF");
   }
 
   return (
@@ -64,21 +77,26 @@ export default function PdfViewerDialogue({
       <Link href={activeUrl} target="_blank" download>
         <ButtonIcon icon="folder" />
       </Link>
-      <div ref={setContainerRef}>
-        <Document
-          file={activeUrl}
-          onLoadSuccess={onDocumentLoadSuccess}
-          options={options}
-        >
-          {Array.from(new Array(numPages), (_el, index) => (
-            <Page
-              key={`page_${index + 1}`}
-              pageNumber={index + 1}
-              width={containerWidth}
-            />
-          ))}
-        </Document>
-      </div>
+      {loadError ? (
+        <Message type="fail">{loadError}</Message>
+      ) : (
+        <div ref={setContainerRef}>
+          <Document
+            file={activeUrl}
+            onLoadSuccess={onDocumentLoadSuccess}
+            onLoadError={onDocumentLoadError}
+            options={options}
+          >
+            {Array.from(new Array(numPages), (_el, index) => (
+              <Page
+                key={`page_${index + 1}`}
+                pageNumber={index + 1}
+                width={containerWidth}
+              />
+            ))}
+          </Document>
+        </div>
+      )}
     </Dialogue>
   );
 }
