@@ -40,9 +40,9 @@ interface CanvasProps {
 export default function Canvas({ formId, init }: CanvasProps) {
   const [reactState, setReactState] = useState<State>();
   const [imageFile, setImageFile] = useState<File | null>(null);
-  const imageSrc = init
-    ? init.imageUrl
-    : imageFile && URL.createObjectURL(imageFile);
+  const imageSrc = imageFile
+    ? URL.createObjectURL(imageFile)
+    : init?.imageUrl;
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const typeSelectRef = useRef<HTMLSelectElement>(null);
   const undoButtonRef = useRef<HTMLButtonElement>(null);
@@ -574,7 +574,7 @@ export default function Canvas({ formId, init }: CanvasProps) {
         accept="image/*"
         name="image"
         id="image"
-        className={init && "hidden"}
+        className={init ? "mb-2 block" : ""}
         onChange={handleImageChange}
         form={formId}
       />

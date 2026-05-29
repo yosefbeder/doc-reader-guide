@@ -224,23 +224,53 @@ export async function updateQuestion(
 ): Promise<FormState> {
   const quizId = getNumber(formData, "quiz-id");
   const questionId = getNumber(formData, "question-id");
-  const data = {
-    tapes: JSON.parse(formData.get("tapes") as string),
-    masks: JSON.parse(formData.get("masks") as string),
-    subQuestions: parseSubQuestions(formData),
-  };
 
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/written-questions/${questionId}`,
-    {
-      method: "PATCH",
-      headers: {
-        "content-type": "application/json;charset=UTF-8",
-        authorization: `Bearer ${(await cookies()).get("jwt")!.value}`,
-      },
-      body: JSON.stringify(data),
-    }
-  );
+  if (formData.get("image") && (formData.get("image") as File).size === 0) {
+    formData.delete("image");
+  }
+
+  const hasImage = formData.has("image");
+  let res;
+
+  if (hasImage) {
+    const newFormData = new FormData();
+    newFormData.append("image", formData.get("image") as Blob);
+    newFormData.append("tapes", formData.get("tapes") as string);
+    newFormData.append("masks", formData.get("masks") as string);
+    newFormData.append(
+      "subQuestions",
+      JSON.stringify(parseSubQuestions(formData))
+    );
+
+    res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/written-questions/${questionId}`,
+      {
+        method: "PATCH",
+        headers: {
+          authorization: `Bearer ${(await cookies()).get("jwt")!.value}`,
+        },
+        body: newFormData,
+      }
+    );
+  } else {
+    const data = {
+      tapes: JSON.parse(formData.get("tapes") as string),
+      masks: JSON.parse(formData.get("masks") as string),
+      subQuestions: parseSubQuestions(formData),
+    };
+
+    res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/written-questions/${questionId}`,
+      {
+        method: "PATCH",
+        headers: {
+          "content-type": "application/json;charset=UTF-8",
+          authorization: `Bearer ${(await cookies()).get("jwt")!.value}`,
+        },
+        body: JSON.stringify(data),
+      }
+    );
+  }
 
   const json = await res.json();
 
