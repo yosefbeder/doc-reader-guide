@@ -5,6 +5,7 @@ import Hero from "./components/Hero";
 import Stats from "./components/Stats";
 import EnrolledUniversities from "./components/EnrolledUniversities";
 import Footer from "@/components/Footer";
+import AskProfButton from "@/components/AskProfButton";
 import dynamic from "next/dynamic";
 
 const Features = dynamic(() => import("./components/Features"));
@@ -47,6 +48,7 @@ export default function LandingPage() {
       <Sponsership lang={lang} />
       <UniversityRequest lang={lang} />
       <Footer lang={lang} />
+      <AskProfButton />
     </>
   );
 }

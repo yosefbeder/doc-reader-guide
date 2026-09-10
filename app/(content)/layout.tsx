@@ -1,5 +1,5 @@
 import "@/lib/polyfills";
-import { Cairo, Inter } from "next/font/google";
+import { Cairo, Inter, Manrope } from "next/font/google";
 import ThemeToaster from "@/components/ThemeToaster";
 
 import "../globals.css";
@@ -12,6 +12,10 @@ const cairo = Cairo({
   subsets: ["arabic"],
   variable: "--font-cairo",
 });
+const manrope = Manrope({
+  subsets: ["latin"],
+  variable: "--font-manrope",
+});
 
 export default function RootLayout({
   children,
@@ -20,7 +24,9 @@ export default function RootLayout({
 }>) {
   return (
     <html>
-      <body className={`${inter.variable} ${cairo.variable} font-sans`}>
+      <body
+        className={`${inter.variable} ${cairo.variable} ${manrope.variable} font-sans`}
+      >
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         <SWRWrapper>{children}</SWRWrapper>
         <NotificationListener />

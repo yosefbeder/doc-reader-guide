@@ -4,6 +4,7 @@ import Logo from "@/public/logo.png";
 import { Suspense } from "react";
 import Button from "@/components/Button";
 import { icons } from "@/components/icons";
+import AskProfButton from "@/components/AskProfButton";
 
 interface ReleaseData {
   latestVersionMetadata: {
@@ -94,6 +95,7 @@ export default async function AndroidAppPage() {
         <Link href="/" className="link">
           ← Back to Home
         </Link>
+        <AskProfButton />
       </main>
     </Suspense>
   );

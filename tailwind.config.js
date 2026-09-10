@@ -24,6 +24,7 @@ module.exports = {
       fontFamily: {
         sans: ["var(--font-inter)"],
         arabic: ["var(--font-cairo)"],
+        manrope: ["var(--font-manrope)"],
       },
       animation: {
         shimmer: "shimmer 3s linear infinite",

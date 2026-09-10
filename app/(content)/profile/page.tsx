@@ -8,6 +8,7 @@ import getUser from "@/utils/getUserClient";
 import getFaculties from "@/utils/getFaculties";
 import Layout from "@/components/Layout";
 import Settings from "./components/Settings";
+import AskProfButton from "@/components/AskProfButton";
 
 export default function ProfilePage() {
   const {
@@ -42,6 +43,7 @@ export default function ProfilePage() {
           {user && <LogoutButton user={user} />}
         </div>
       </main>
+      <AskProfButton />
     </Layout>
   );
 }

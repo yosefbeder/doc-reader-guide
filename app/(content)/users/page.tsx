@@ -12,6 +12,7 @@ import getFaculties from "@/utils/getFaculties";
 
 import { ROLES } from "./components/UpdateUserForm";
 import Select from "@/components/Select";
+import AskProfButton from "@/components/AskProfButton";
 
 const fetcher = (url: string) =>
   fetch(url, { credentials: "include" }).then((res) => res.json());
@@ -157,6 +158,7 @@ export default function UsersPage() {
           </Button>
         </div>
       )}
+      <AskProfButton />
     </main>
   );
 }

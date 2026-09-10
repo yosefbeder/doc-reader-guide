@@ -13,7 +13,7 @@ import SelectClass from "./components/SelectClass";
 import ModuleCard from "./components/ModuleCard";
 import QuizCard from "../../lectures/[lectureId]/components/QuizCard";
 import { QuestionState } from "@/types";
-import DonateButton from "@/components/DonateButton";
+import AskProfButton from "@/components/AskProfButton";
 import Button from "@/components/Button";
 
 function getLocalStorageItemsByPrefix(prefix: string) {
@@ -267,9 +267,7 @@ export default function ModulesPage() {
           </SummaryDetail>
         );
       })}
-      <div className="fixed bottom-4 right-4 z-10">
-        <DonateButton lang="en" />
-      </div>
+      <AskProfButton />
     </main>
   );
 }

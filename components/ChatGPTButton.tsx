@@ -6,13 +6,14 @@ import { icons } from "./icons";
 import Button from "./Button";
 import { Action } from "@/types";
 import { logEvent } from "@/lib/event-logger";
+import AskProfButton from "./AskProfButton";
 
 interface ChatGPTButtonProps {
   customGPT: string | null;
 }
 
 export default function ChatGPTButton({ customGPT }: ChatGPTButtonProps) {
-  if (!customGPT) return null;
+  if (!customGPT) return <AskProfButton />;
 
   return (
     <Link
