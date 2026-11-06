@@ -65,6 +65,33 @@ yarn dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+## Clean up unused images
+
+`scripts/cleanup-unused-images.cjs` checks the backend PostgreSQL tables directly, including MCQ images, written images, question/answer rich text, lecture notes and lecture attachments. It supports both R2 and the backend's `public/image` folder. The database is accessed in read-only mode. It does not delete database records.
+
+Set `DATABASE_URL` to the same database used by the backend. The script loads the working directory's `.env`; environment variables supplied by the shell or Node's `--env-file` take precedence. For R2 it uses `S3_ENDPOINT`, `S3_ACCESS_KEY`, `S3_SECRET_KEY`, `NEXT_PUBLIC_R2_URL` and optionally `S3_BUCKET` (default `drg`). Local cleanup requires `NEXT_PUBLIC_STATIC_URL` and filesystem access to the backend image folder. Run local cleanup on the server that stores those files.
+
+Start with a dry-run:
+
+```sh
+yarn cleanup:images --r2 --dry-run --report /tmp/unused-images.json
+```
+
+R2 scans the app-owned `question-images/` prefix by default. To include every supported image key in the bucket, add `--r2-prefix ''`. Non-image files are left alone. To scan the backend's image folder as well, add `--images-dir /path/to/backend/public/image` (or use that option alone to clean only local files). Symlinks are skipped.
+
+Review the listed candidates and JSON report, then replace `--dry-run` with `--delete` to remove them. The two flags cannot be combined; dry-run also remains the default when neither is provided. Images modified within the last 24 hours are skipped to protect pending imports. Override with `--min-age-hours N` when appropriate; `0` includes recent images. Before deleting, the script rereads references and checks each candidate's metadata; changed or newly referenced files are skipped. Pause imports and edits during deletion because the database and storage do not share a transaction. R2 credentials need list/read access for dry-run and delete access for `--delete`.
+
+```sh
+# After reviewing the dry-run, delete unreferenced images in the selected scope.
+yarn cleanup:images --r2 --report /tmp/unused-images.json --delete
+
+# Inspect all available options.
+yarn cleanup:images --help
+
+# Run cleanup regression tests without connecting to production.
+node --test scripts/test-cleanup-unused-images.cjs
+```
+
 ## Project Structure
 
 - `app/(auth)`: Authentication related routes and components.
