@@ -4,7 +4,8 @@ import { cookies } from "next/headers";
 import { revalidatePath } from "next/cache";
 
 import { FormState, Quiz } from "@/types";
-import { imageFilenames, matchQuestionImages, MAX_QUICK_ADD_BYTES, parseQuickAdd } from "@/utils/quickAddImages";
+import { MAX_QUICK_ADD_BYTES, parseQuickAdd } from "@/utils/quickAddImages";
+import resolveWrittenImages from "@/lib/resolveWrittenImages";
 import getNumber from "@/utils/getNumber";
 import parseSubQuestions from "@/utils/parseSubQuestions";
 import { sendAutoNotification } from "@/utils/sendAutoNotification";
@@ -324,8 +325,8 @@ export async function quickAdd(
   let questions;
   try {
     const parsed = parseQuickAdd(questionsRaw ?? "", "written");
-    const files = formData.getAll("images").filter((entry): entry is File => typeof entry !== "string");
-    const matched = matchQuestionImages(imageFilenames(parsed), files);
+    if (!(await cookies()).get("jwt")) return { type: "fail", message: "Sign in before importing questions." };
+    const matched = await resolveWrittenImages(parsed, formData);
     if (new Blob([questionsRaw ?? ""]).size + [...matched.values()].reduce((sum, file) => sum + file.size, 0) > MAX_QUICK_ADD_BYTES) {
       throw new Error("This import exceeds 45 MB. Split it into smaller batches.");
     }

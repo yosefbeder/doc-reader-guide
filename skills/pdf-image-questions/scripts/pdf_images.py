@@ -15,6 +15,19 @@ def write_json(path, value):
     Path(path).write_text(json.dumps(value, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
+def validate_rectangles(rectangles, width, height, context):
+    if not isinstance(rectangles, list):
+        raise ValueError(f"{context} must be an array")
+    for index, rect in enumerate(rectangles, 1):
+        if not isinstance(rect, dict) or set(rect) != {"x", "y", "w", "h"}:
+            raise ValueError(f"{context} rectangle {index} needs only x, y, w, h")
+        if any(type(rect[key]) not in (int, float) or not math.isfinite(rect[key]) for key in ("x", "y", "w", "h")):
+            raise ValueError(f"{context} rectangle {index} needs finite numeric coordinates")
+        x, y, w, h = (rect[key] for key in ("x", "y", "w", "h"))
+        if x < 0 or y < 0 or w <= 0 or h <= 0 or x + w > width or y + h > height:
+            raise ValueError(f"{context} rectangle {index} is outside the {width}x{height} JPEG or has a nonpositive size")
+
+
 def render(args):
     import fitz
     if args.dpi < 72 or args.dpi > 600:
@@ -82,14 +95,17 @@ def validate(args):
             image.load()
             if image.format != "JPEG" or image.width < 2 or image.height < 2:
                 raise ValueError(f"Invalid JPEG: {name}")
+            width, height = image.size
+        for key, actual in (("width", width), ("height", height)):
+            if key in question and (type(question[key]) not in (int, float) or question[key] != actual):
+                raise ValueError(f"Question {index}: {key} must match the JPEG ({actual})")
         names.add(name)
         if args.kind == "written":
             subs = question.get("subQuestions")
             if not isinstance(subs, list) or not subs or any(not isinstance(q, dict) or not isinstance(q.get("text"), str) or not isinstance(q.get("answer"), str) for q in subs):
                 raise ValueError(f"Question {index}: invalid subQuestions")
             for key in ("tapes", "masks"):
-                if question.get(key, []) != []:
-                    raise ValueError(f"Question {index}: pre-cropped figures should have empty {key}")
+                validate_rectangles(question.get(key, []), width, height, f"Question {index}: {key}")
         else:
             options = question.get("options")
             correct = question.get("correctOptionIndex")

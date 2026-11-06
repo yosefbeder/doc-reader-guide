@@ -59,25 +59,22 @@ export default function QuickAddQuestionsForm({ quizId, kind, action }: {
       for (const [name, file] of matched) dimensions.set(name, await imageDimensions(file));
       const urls = new Map<string, string>();
       for (const [name, file] of matched) {
-        if (kind === "written") {
-          data.append("images", file, name);
-        } else {
-          setProgress(`Uploading ${name}…`);
-          let publicUrl = uploads.get(file);
-          if (!publicUrl) {
-            const extension = { "image/jpeg": "jpeg", "image/png": "png", "image/webp": "webp", "image/gif": "gif" }[file.type];
-            const key = `question-images/${crypto.randomUUID()}.${extension}`;
-            const response = await fetch(`/api/r2/presigned-url?${new URLSearchParams({ file: key, type: file.type })}`);
-            if (!response.ok) throw new Error(`Could not start upload: ${name}.`);
-            const signed = await response.json();
-            const upload = await fetch(signed.signedUrl, { method: "PUT", headers: { "Content-Type": file.type }, body: file });
-            if (!upload.ok) throw new Error(`Upload failed: ${name}. Try again.`);
-            publicUrl = signed.publicUrl as string;
-            uploads.set(file, publicUrl);
-          }
-          urls.set(name, publicUrl);
+        setProgress(`Uploading ${name}…`);
+        let publicUrl = uploads.get(file);
+        if (!publicUrl) {
+          const extension = { "image/jpeg": "jpeg", "image/png": "png", "image/webp": "webp", "image/gif": "gif" }[file.type];
+          const key = `question-images/${crypto.randomUUID()}.${extension}`;
+          const response = await fetch(`/api/r2/presigned-url?${new URLSearchParams({ file: key, type: file.type })}`);
+          if (!response.ok) throw new Error(`Could not start upload: ${name}.`);
+          const signed = await response.json();
+          const upload = await fetch(signed.signedUrl, { method: "PUT", headers: { "Content-Type": file.type }, body: file });
+          if (!upload.ok) throw new Error(`Upload failed: ${name}. Try again.`);
+          publicUrl = signed.publicUrl as string;
+          uploads.set(file, publicUrl);
         }
+        urls.set(name, publicUrl);
       }
+      if (kind === "written") data.set("uploaded-images", JSON.stringify(Object.fromEntries(urls)));
       data.set("questions", JSON.stringify(parsed.map((question) => {
         if (!question.image || !matched.has(question.image)) return question;
         return kind === "written"
