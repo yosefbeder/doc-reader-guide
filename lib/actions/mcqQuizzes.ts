@@ -4,6 +4,7 @@ import { cookies } from "next/headers";
 import { revalidatePath } from "next/cache";
 
 import { FormState, Quiz } from "@/types";
+import { imageFilenames, parseQuickAdd } from "@/utils/quickAddImages";
 import getNumber from "@/utils/getNumber";
 import parseOptions from "@/utils/parseOptions";
 import { sendAutoNotification } from "@/utils/sendAutoNotification";
@@ -293,22 +294,21 @@ export async function quickAdd(
   const questionsRaw = formData.get("questions")?.toString().trim();
   const quizId = getNumber(formData, "quiz-id");
 
-  let questions: any[] = [];
+  let questions;
   try {
-    questions = questionsRaw ? JSON.parse(questionsRaw) : [];
-    if (!Array.isArray(questions)) throw new Error();
-  } catch {
-    return {
-      type: "fail",
-      message: "Quick add failed 😭, invalid JSON format",
-    };
+    questions = parseQuickAdd(questionsRaw ?? "", "mcq");
+    if (imageFilenames(questions).length) {
+      throw new Error("Select the images folder and wait for the uploads before adding questions.");
+    }
+  } catch (error) {
+    return { type: "fail", message: error instanceof Error ? error.message : "Invalid questions." };
   }
 
   const { totalCount, ok } = await addMcqQuestions(quizId, questions);
 
   if (ok) {
-    revalidatePath(`/written-quizzes/${quizId}`);
-    revalidatePath(`/written-quizzes/${quizId}/update`);
+    revalidatePath(`/mcq-quizzes/${quizId}`);
+    revalidatePath(`/mcq-quizzes/${quizId}/update`);
     if (formData.get("notify"))
       sendAutoNotification(getNumber(formData, "year-id"), "mcq", quizId);
   }

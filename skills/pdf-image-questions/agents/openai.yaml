@@ -1,0 +1,3 @@
+interface:
+  display_name: "PDF Image Questions"
+  short_description: "Crop PDF illustrations into JPEGs and quiz JSON"

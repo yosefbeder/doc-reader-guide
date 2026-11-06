@@ -4,6 +4,7 @@ import { cookies } from "next/headers";
 import { revalidatePath } from "next/cache";
 
 import { FormState, Quiz } from "@/types";
+import { imageFilenames, matchQuestionImages, MAX_QUICK_ADD_BYTES, parseQuickAdd } from "@/utils/quickAddImages";
 import getNumber from "@/utils/getNumber";
 import parseSubQuestions from "@/utils/parseSubQuestions";
 import { sendAutoNotification } from "@/utils/sendAutoNotification";
@@ -320,15 +321,24 @@ export async function quickAdd(
   const questionsRaw = formData.get("questions")?.toString().trim();
   const quizId = getNumber(formData, "quiz-id");
 
-  let questions: any[][] = [];
+  let questions;
   try {
-    questions = questionsRaw ? JSON.parse(questionsRaw) : [];
-    if (!Array.isArray(questions)) throw new Error();
-  } catch {
-    return {
-      type: "fail",
-      message: "Quick add failed 😭, invalid JSON format",
-    };
+    const parsed = parseQuickAdd(questionsRaw ?? "", "written");
+    const files = formData.getAll("images").filter((entry): entry is File => typeof entry !== "string");
+    const matched = matchQuestionImages(imageFilenames(parsed), files);
+    if (new Blob([questionsRaw ?? ""]).size + [...matched.values()].reduce((sum, file) => sum + file.size, 0) > MAX_QUICK_ADD_BYTES) {
+      throw new Error("This import exceeds 45 MB. Split it into smaller batches.");
+    }
+    questions = parsed.map((question) => {
+      if (!question.image) return question;
+      if (!Number.isFinite(question.width) || !Number.isFinite(question.height) ||
+          question.width! <= 0 || question.height! <= 0) {
+        throw new Error(`Missing dimensions for image: ${question.image}. Select its folder again.`);
+      }
+      return { ...question, image: matched.get(question.image)! };
+    });
+  } catch (error) {
+    return { type: "fail", message: error instanceof Error ? error.message : "Invalid questions." };
   }
 
   const { successCount, failCount } = await addWrittenQuestions(
@@ -344,8 +354,8 @@ export async function quickAdd(
   }
 
   return {
-    type: successCount > 0 ? "success" : "fail",
-    message: `Added ${successCount} group(s), ${failCount} failed`,
+    type: successCount > 0 && failCount === 0 ? "success" : "fail",
+    message: `Added ${successCount} group(s), ${failCount} failed${successCount > 0 && failCount > 0 ? ". Remove the added groups from the JSON before retrying to avoid duplicates." : ""}`,
     resetKey: Date.now(),
   };
 }
