@@ -125,3 +125,18 @@ test('CLI accepts explicit dry-run and rejects conflicting deletion flags before
   assert.equal(conflict.status, 1);
   assert.match(conflict.stderr, /Use either --dry-run or --delete, not both/);
 });
+
+test('backend env file supplies database credentials while preserving shell overrides and frontend storage settings', async (t) => {
+  const root = await fs.mkdtemp(path.join(os.tmpdir(), 'cleanup-env-'));
+  t.after(() => fs.rm(root, { recursive: true, force: true }));
+  const backend = path.join(root, 'backend.env');
+  const frontend = path.join(root, 'frontend.env');
+  await fs.writeFile(backend, 'DATABASE_URL=postgres://fixture/backend\nS3_BUCKET=backend-bucket\n');
+  await fs.writeFile(frontend, 'DATABASE_URL=postgres://fixture/frontend\nS3_ENDPOINT=https://storage.test\n');
+  const environment = { S3_BUCKET: 'shell-bucket' };
+  cleanup.loadEnvironment(backend, environment, frontend);
+  assert.equal(environment.DATABASE_URL, 'postgres://fixture/backend');
+  assert.equal(environment.S3_BUCKET, 'shell-bucket');
+  assert.equal(environment.S3_ENDPOINT, 'https://storage.test');
+  assert.throws(() => cleanup.loadEnvironment(path.join(root, 'missing.env'), {}, frontend), /Could not load environment file/);
+});

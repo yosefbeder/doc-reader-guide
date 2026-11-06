@@ -69,12 +69,18 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 `scripts/cleanup-unused-images.cjs` checks the backend PostgreSQL tables directly, including MCQ images, written images, question/answer rich text, lecture notes and lecture attachments. It supports both R2 and the backend's `public/image` folder. The database is accessed in read-only mode. It does not delete database records.
 
-Set `DATABASE_URL` to the same database used by the backend. The script loads the working directory's `.env`; environment variables supplied by the shell or Node's `--env-file` take precedence. For R2 it uses `S3_ENDPOINT`, `S3_ACCESS_KEY`, `S3_SECRET_KEY`, `NEXT_PUBLIC_R2_URL` and optionally `S3_BUCKET` (default `drg`). Local cleanup requires `NEXT_PUBLIC_STATIC_URL` and filesystem access to the backend image folder. Run local cleanup on the server that stores those files.
+Set `DATABASE_URL` to the same database used by the backend. Use `--env-file /path/to/backend/.env` to load the backend configuration. Shell variables take precedence, then the specified file, then the working directory's `.env` for remaining values (including frontend R2 settings). For R2 it uses `S3_ENDPOINT`, `S3_ACCESS_KEY`, `S3_SECRET_KEY`, `NEXT_PUBLIC_R2_URL` and optionally `S3_BUCKET` (default `drg`). Local cleanup requires `NEXT_PUBLIC_STATIC_URL` and filesystem access to the backend image folder. Run local cleanup on the server that stores those files.
 
 Start with a dry-run:
 
 ```sh
 yarn cleanup:images --r2 --dry-run --report /tmp/unused-images.json
+```
+
+If `DATABASE_URL` is configured only in the sibling backend project, run:
+
+```sh
+yarn cleanup:images --env-file ../nodejs-docreader-faculty/.env --r2 --dry-run --report /tmp/unused-images.json
 ```
 
 R2 scans the app-owned `question-images/` prefix by default. To include every supported image key in the bucket, add `--r2-prefix ''`. Non-image files are left alone. To scan the backend's image folder as well, add `--images-dir /path/to/backend/public/image` (or use that option alone to clean only local files). Symlinks are skipped.
